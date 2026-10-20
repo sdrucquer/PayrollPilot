@@ -1,3 +1,5 @@
+> Current ownership: **Claude owns final assembly/render; E supports assets/evidence; capture chat owns footage.**
+
 > Mandatory brief update: use demo/mandatory-band-capture.md. e3 must show native Band Desktop per-agent sessions/tokens/estimated cost; app OpenRouter events cannot substitute. R19 is a REQUIRED GAP until valid attribution/view is verified. Preserve the real team/room/plan/board/@handoff/human-decision mapping.
 
 > Current direction: FROZEN light identity in design/DESIGN.md and design/home.html. Product shots must come from the running app, Band, and Cognee views. No mockup or old fixture screenshot may stand in for a recording. Final media remains pending until captured, inspected and mapped. The dedicated automatic capture chat records numbered clips on `cloud/film` under `demo/film/clips/`, due **3:00 PM Pacific**; the owner only supplies C-coordinated phone replies and foregrounds Band. Label earlier takes PLAYBACK, data SYNTHETIC, owner answers TEST REPLY; REAL describes a verified integration.

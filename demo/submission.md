@@ -1,3 +1,5 @@
+> Current ownership: **Claude owns final assembly/render; E supports assets/evidence; capture chat owns footage.**
+
 # PayrollPilot submission copy and owner upload runbook
 
 Date: October 20, 2026. All times Pacific. Copy is ready; the video URL is filled after the owner uploads. This document does not certify missing video evidence or submit an entry.

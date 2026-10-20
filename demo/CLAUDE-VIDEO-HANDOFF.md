@@ -6,7 +6,7 @@
 
 - Existing source: `demo/film/` (Remotion 4.0.537); frozen light identity in `design/DESIGN.md` FROZEN section, reference `design/home.html`. Reference is not product footage.
 - Lead has the local **PayrollPilot-light-draft.mp4** output. It is a review draft with missing product slots: 152.000 seconds, 960×540 H.264/AAC, 4,560 frames, complete decode exit 0, audio mean −20.2 dB / peak −2.9 dB. Title/product/close and revised recall frames inspected. This is not upload-ready footage.
-- Working local runtime with dependencies and generated draft audio/music: `/private/tmp/payrollpilot-lane-e-runtime/demo/film`. Avoid copying its large node_modules into synced Documents; file-provider activity stalled that earlier.
+- Lead has the working nonsynced scratch runtime with dependencies and generated draft audio/music; obtain its local location privately. Avoid copying large node_modules into synced Documents, where file-provider activity stalled the earlier runtime.
 - Preserve the exact close: **“From missing information to payroll-ready. With you in control.”** Claims stay within PRODUCT-STATEMENT.md “It can” and actually evidenced scope.
 
 ## Automatic capture → film mapping

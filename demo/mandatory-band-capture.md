@@ -1,3 +1,5 @@
+> Current ownership: **Claude owns final assembly/render; E supports assets/evidence; capture chat owns footage.**
+
 # Mandatory Band and Cognee capture checklist
 
 The owner’s SF Startup Challenge brief requires a 2–3 minute video showing Band Desktop’s room, moving board, human decision, and **per-agent sessions, tokens and estimated cost**, plus a Cognee recall that changes an agent’s next action across agents or a session boundary. These are required proof, not optional B-roll. Codex-chat coordination and app usage events do not replace Band Desktop evidence.
