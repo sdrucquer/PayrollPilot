@@ -136,3 +136,12 @@
   .h-tiles { grid-template-columns: 1fr; }
   .h-stagelabels .sub { display: none; }
 }
+
+.h-page a.h-btn { text-decoration: none; justify-content: center; box-sizing: border-box; flex-shrink: 0; }
+.h-page :focus-visible { outline: 3px solid #0066D6; outline-offset: 4px; }
+.h-bubble, .h-intro, .h-row .tx { overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  .h-ahead { flex-wrap: wrap; }
+  .h-ahead .h-grow { display: none; }
+  .h-ahead .h-chip { margin-left: 52px; }
+}

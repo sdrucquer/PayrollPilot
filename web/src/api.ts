@@ -65,7 +65,8 @@ function normalize(d: Detail, events: PPEvent[]): Thread {
   const m = d.messages
   const msgs: Record<string, unknown>[] = Array.isArray(m) ? m : []
   const obj = m && !Array.isArray(m) ? m : undefined
-  const batches = d.batches ?? obj?.outbound ?? (msgs.filter((x) => 'text_hash' in x) as unknown as MessageBatch[])
+  const batches = (d.batches ?? obj?.outbound ?? (msgs.filter((x) => 'text_hash' in x) as unknown as MessageBatch[]))
+    .map((b) => ({ ...b, actual_recipient: (b as MessageBatch & { actual_recipient_masked?: string }).actual_recipient_masked ?? b.actual_recipient }))
   const inbound = d.inbound ?? obj?.inbound ?? (msgs.filter((x) => 'raw_text' in x) as unknown as InboundMessage[])
   for (const i of inbound as (InboundMessage & { parsed?: ParsedReply })[]) if (i.parsed) msgs.push({ parsed: i.parsed })
   const nested = msgs.map((m) => m.parsed).filter(Boolean) as ParsedReply[]
@@ -92,7 +93,9 @@ export const api = {
   thread: async (id: string, cycleId: string): Promise<Thread> => {
     if (FX) return sim.thread(id)
     const [d, ev] = await Promise.all([http<Detail>(`/exceptions/${id}`), api.events(cycleId).catch(() => [] as PPEvent[])])
-    return normalize(d, ev)
+    const thread = normalize(d, ev)
+    if (thread.correction) thread.correction = await http<LocalCorrection>(`/corrections/${thread.correction.id}`)
+    return thread
   },
 
   // No workers route exists in CONTRACTS section 5. Fixture mode has them; api mode falls back to the packet.
@@ -108,9 +111,13 @@ export const api = {
 
   // Actions (CONTRACTS section 5).
   draft: (exception_ids: string[]): Promise<MessageBatch> => (FX ? sim.draft(exception_ids) : post('/messages/draft', { exception_ids })),
-  editDraft: (batchId: string, text: string): Promise<void> => {
+  editDraft: async (batchId: string, text: string, targetVersion: string): Promise<void> => {
     if (FX) return sim.editDraft(batchId, text)
-    return Promise.reject(new ApiError(501, 'Editing a draft is not an API route in CONTRACTS v1.1'))
+    await post(`/messages/${batchId}/edit`, { text, target_version: targetVersion })
+  },
+  declineDraft: async (batchId: string, targetVersion: string): Promise<void> => {
+    if (FX) return sim.declineDraft(batchId)
+    await post(`/messages/${batchId}/decline`, { target_version: targetVersion })
   },
   approve: (body: { kind: Approval['kind']; target_id: string; target_version: string; scope_text: string }): Promise<Approval> =>
     FX ? ok(() => sim.approve(body)) : post('/approvals', body),

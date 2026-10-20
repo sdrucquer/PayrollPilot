@@ -4,12 +4,12 @@ Goal: capture clean product clips that drop into the launch film, in under 30 mi
 
 ## Machine setup (5 min, do it at 2:15 PM and again at 2:40 PM)
 
-1. Close everything except: browser (one window, one tab on `http://localhost:5173`), Band Desktop (room "PayrollPilot Cases"), one Terminal window (clean, for the restart beat), QuickTime.
+1. Close everything except: browser (one window, one tab on `http://localhost:5173`), Band Desktop (room "PayrollPilot Cases"), one clean Terminal window for a separate recall process, QuickTime.
 2. Quit Messages on the Mac (it mirrors the phone thread and can show the number). Quit Slack, mail, calendars.
 3. Do Not Disturb on the Mac (Control Center -> Focus -> Do Not Disturb).
 4. Browser: zoom 110% (the app is light-themed), bookmarks bar hidden (Cmd-Shift-B), window sized to 1440x900 (or as large as the display allows at 16:10).
 5. Start the web app in live API mode (`cd web && npm run dev:api`), not fixture mode. Fixture mode's "Simulate test reply" is for rehearsing clicks only.
-6. Check `/api/health` in the UI's header strip shows the intended modes (Messaging: Photon; Memory: Cognee; Band: enabled). If any says fake/null, that beat is labeled or cut, not recorded as live.
+6. Inspect `/api/comms/health` for the active bridge/Cognee/Band CLI adapters. `/api/health` has an older registry and can disagree; ask lane C to interpret a discrepancy without stopping services. Fake or fixture paths never prove live messaging.
 7. Run `demo/redaction-checklist.md`.
 
 ## Phone setup (3 min)
@@ -26,14 +26,14 @@ Goal: capture clean product clips that drop into the launch film, in under 30 mi
 - Record one continuous take of beats 1-7 with the phone recording running at the same time. Clap once on camera at the start (sync point for the two recordings).
 - Save as `demo/film/public/footage/take1-screen.mov` and `take1-phone.mov` (gitignored folder). Lane E cuts them into the named clips in `shot-list.md`.
 - Band beats: either switch to Band Desktop inside the same screen recording (Cmd-Tab), or record Band separately as `s2b-band-room.mov`.
-- Restart beat: in the Terminal window, `clear`, `date`, stop the backend (Ctrl-C), `date`, start it again with the same command `scripts/dev.sh` uses, then trigger the recall in the UI.
+- Cognee beat: use existing cross-process proof, labeled PLAYBACK with the original time, or have lane C provide a separate fresh recall process. Do not stop or restart backend :8000 or bridge :3001. No data reset or memory deletion during recording.
 
 ## Rehearsal checklist (60-second dry run before G1, full run at 2:20 PM)
 
 - [ ] 60 s dry run (before 1:50 PM): open board, open the seeded issue, click Draft, open approval dialog, cancel. Confirms the route and buttons exist. No send.
 - [ ] 2:20 PM full rehearsal: every beat in order with real sends, recorded. This is the PLAYBACK backup for the final.
 - [ ] After the rehearsal: lane E reviews the clip, notes timings and failures, updates `script.md` cuts.
-- [ ] Reset state for the final take: reload the cycle (`POST /api/cycles/load`) so the seeded issue is back in `detected`; confirm Cognee memory from the rehearsal does not pre-empt Beat 6 (lane C decides: clear dataset or use a fresh cycle id).
+- [ ] Coordinate the final synthetic case with lane C. Do not reload the cycle, clear Cognee, or reset the running stack; lane C controls safe case preparation.
 - [ ] Final take at 2:45 PM. Backup take immediately after if time allows.
 - [ ] Hand both files to lane E (drop in the footage folder); lane E renders the film by about 3:05 PM.
 

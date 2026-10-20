@@ -165,16 +165,16 @@ export default function Thread({ id, onChange }: { id: string; onChange: () => v
                   <p className="warn small">Earlier approval invalidated: {invalidated(b)[0].invalidated_reason ?? 'text changed'}. Re-approval required.</p>
                 )}
                 {stale && <p className="warn small">Text changed since approval. Re-approval required.</p>}
-                {b.state !== 'sent' && b.state !== 'delivered' && (
+                {!b.declined_at && b.state !== 'sent' && b.state !== 'delivered' && (
                   <div className="row wrap actions">
                     {editing?.batch === b.id ? (
                       <>
                         <button className="btn" disabled={busy} onClick={() => setEditing(null)}>Cancel</button>
-                        <button className="btn" disabled={busy} onClick={() => act(async () => { await api.editDraft(b.id, editing.text); setEditing(null) })}>Save text</button>
+                        <button className="btn" disabled={busy} onClick={() => act(async () => { await api.editDraft(b.id, editing.text, b.text_hash); setEditing(null) })}>Save text</button>
                       </>
                     ) : (
                       <>
-                        {api.mode === 'fixture' && <button className="btn" disabled={busy} onClick={() => setEditing({ batch: b.id, text: b.text })}>Edit text</button>}
+                        {!b.declined_at && <button className="btn" disabled={busy} onClick={() => setEditing({ batch: b.id, text: b.text })}>Edit text</button>}
                         <button className="btn primary" disabled={busy} onClick={() => openSend(b)}>
                           {a && a.state === 'active' && !stale ? 'Send' : 'Approve + Send'}
                         </button>
