@@ -110,3 +110,14 @@ Blockers: phone-approval deployment/review + optional UI hook; current live capa
 Next: lead review/merge separate C-07 PR, coordinate supported UI hook; preserve current working demo, blockers, and owner decisions for recording.
 Handoff requested: lead runs private denylist; runtime adoption needs separate owner authorization. D uses capability GET and does not expose unsupported phone controls as live.
 ```
+
+```
+LANE C status @ 14:12 Pacific — C-08 essential Band
+Done: failclosed Band for NEW draft/clarify/phone-confirmation paths, persisted handoff proof, new-send reachability guard; applied-only receipt-gated Payroll handoff endpoint; actual room plan attached and owner-applied task#3 completed after real Payroll ACK.
+Changed files: band/cli.py, band/handoff.py, band/PRODUCT-ROOM-PLAN.md, agents/text_approval.py, routes_comms.py, C02/C05/C08 tests, ledger/status; F messaging fixture4-line exception explicitly authorized by lead.
+Tests run: full backend+core292 passed/1 warning; final focused43 passed; diff clean; privacy CLEAN with private denylist skipped in isolated clone.
+Evidence: plan14:07:02; actual Payroll message(native id private), ACK(native id private); board#3 Completed/#4 In progress; User decision(native id private).
+Blockers: generic product peers have no native attributed usage sessions/cost rows; app metrics cannot substitute. Backend guard not adopted in running process; no restart authorized.
+Next: lead review/merge C08; D compatible live UI preflight; E captures actual native room/plan/board/decision and labels missing native cost criterion honestly.
+Handoff requested: lead private denylist and supported native usage investigation; no fake costs/agent relabeling, no changes to existing owner approvals/sends.
+```

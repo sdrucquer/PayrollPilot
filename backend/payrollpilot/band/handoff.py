@@ -58,6 +58,6 @@ def deliver_to_payroll(band, exc: dict, correction: dict, task_uid: str | None, 
     reply_id = None
     if received is not None:
         reply_id = band.reply("pp-payroll", mid, f"[handoff.accepted] payroll recomputing readiness for {exc['id']}.")
-    if task_uid:
+    if task_uid and received is not None and reply_id:
         band.set_status("pp-resolution", task_uid, "completed")
     return {"band_message_id": mid, "reply_message_id": reply_id, "received": received is not None}
