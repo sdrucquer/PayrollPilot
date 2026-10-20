@@ -28,3 +28,14 @@ Mission: a coherent 2-3 minute video and complete submission, prepared while fea
 - Sit with the owner through the recording: run the script, mark takes, note which beats are live vs playback of the earlier successful run (label playback on screen or in narration), export, check audio, hand the file to the owner for upload. Record what was actually done in `demo/evidence-matrix.md`.
 
 ## Status log
+
+```
+LANE E status @ 13:02
+Done: E-01 (acceptance checks passed: every narrated claim maps to a matrix row R01-R20 in demo/script.md "Claim-to-evidence map"; no row says captured; narration 379 words = ~146s speech in a 2:55 cut)
+Changed files: demo/script.md, demo/shot-list.md, demo/evidence-matrix.md
+Tests run: word-count/timing check (awk over demo/script.md) -> 379 words, 145.8s at 2.6 words/s. No code tests (docs only).
+Evidence: none captured yet; all rows pending.
+Blockers: none. DEMO-PLAN.md absent on main, so demo/script.md is the baseline.
+Next: E-02 (reply script, redaction checklist, recording setup); launch-film build in demo/film/ (owner direction 12:40 PM: Remotion, ~40% story / 60% real product)
+Handoff requested: D: palette/font for a shared identity (asked directly). C: screenshots of Band room/board/ask/usage and the Cognee recall log when proven.
+```
