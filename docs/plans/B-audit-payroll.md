@@ -50,3 +50,14 @@ Blockers: none. Lead decision requested: bless fixture extensions TimeEntry.sche
 Next: B-02 audit, B-03 calc/readiness
 Handoff requested: A, D, F consume docs/contracts/fixtures/*.json (cycle id cyc_synth_v1)
 ```
+
+```
+LANE B status @ 12:43
+Done: B-02 (acceptance checks passed: output equals expected_exceptions_v1 set-wise and by id/stage_impact/respondent; identical ids on rerun; no trimming or assumed breaks (input unchanged); T02 allocation-only with stage1 none; T03 long shift flagged; T07 shared cost reconciles, mismatch -> cost_conflict; T13 coverage gap; T23 bank+Jobber same cost counted once; T27 out-of-cycle entries excluded and reported, both boundaries)
+Changed files: core/payrollpilot_core/audit.py, core/tests/test_audit.py
+Tests run: core/.venv/bin/pytest -q tests/test_audit.py -> 16 passed; full core suite -> 51 passed
+Evidence: run_audit(cycle_synthetic_v1) -> 15 exceptions with stable ids exc_<10hex>
+Blockers: none. Open decision: out-of-cycle entries (T27) use category unassigned_time (no dedicated category in CONTRACTS); respondent owner.
+Next: B-03 calc + readiness
+Handoff requested: A wires POST /api/cycles/{id}/audit -> payrollpilot_core.audit.run_audit(snapshot, now=None); F runs expected-exceptions contract test
+```
