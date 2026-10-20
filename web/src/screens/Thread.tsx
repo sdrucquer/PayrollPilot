@@ -82,8 +82,8 @@ export default function Thread({ id, onChange }: { id: string; onChange: () => v
   }
 
   async function openCorrectionApproval(c: LocalCorrection) {
-    // CONTRACTS v1.1 gives LocalCorrection no version hash; use one if the API adds it, else hash the proposal.
-    const version = (c as LocalCorrection & { version_hash?: string }).version_hash
+    // Backend (A-04) puts target_version on the correction; fixture mode hashes the proposal.
+    const version = (c as LocalCorrection & { target_version?: string }).target_version
       ?? await sha256(JSON.stringify({ id: c.id, kind: c.kind, before: c.before, after: c.after }))
     setDialog({
       title: 'Approve local correction', kind: 'local_correction', targetId: c.id, targetVersion: version,

@@ -47,14 +47,19 @@ export interface Thread {
 // GET /api/exceptions/{id} returns Exception + messages + resolution + correction. "messages" is not
 // pinned in CONTRACTS, so accept batches and inbound mixed in one array, plus optional parsed/approvals.
 type Detail = PayrollException & {
-  messages?: Record<string, unknown>[]; batches?: MessageBatch[]; inbound?: InboundMessage[]
+  messages?: Record<string, unknown>[] | { outbound?: MessageBatch[]; inbound?: InboundMessage[] }
+  batches?: MessageBatch[]; inbound?: InboundMessage[]
   parsed?: ParsedReply[]; parsed_replies?: ParsedReply[]; approvals?: Approval[]
   resolution?: Resolution | null; correction?: LocalCorrection | null
 }
 function normalize(d: Detail, events: PPEvent[]): Thread {
-  const msgs = d.messages ?? []
-  const batches = d.batches ?? (msgs.filter((m) => 'text_hash' in m) as unknown as MessageBatch[])
-  const inbound = d.inbound ?? (msgs.filter((m) => 'raw_text' in m) as unknown as InboundMessage[])
+  // Backend (A-02) returns messages: {outbound: [MessageBatch], inbound: [InboundMessage]}.
+  const m = d.messages
+  const msgs: Record<string, unknown>[] = Array.isArray(m) ? m : []
+  const obj = m && !Array.isArray(m) ? m : undefined
+  const batches = d.batches ?? obj?.outbound ?? (msgs.filter((x) => 'text_hash' in x) as unknown as MessageBatch[])
+  const inbound = d.inbound ?? obj?.inbound ?? (msgs.filter((x) => 'raw_text' in x) as unknown as InboundMessage[])
+  for (const i of inbound as (InboundMessage & { parsed?: ParsedReply })[]) if (i.parsed) msgs.push({ parsed: i.parsed })
   const nested = msgs.map((m) => m.parsed).filter(Boolean) as ParsedReply[]
   const parsed = d.parsed ?? d.parsed_replies ?? nested
   const blockedInboundIds = events.filter((e) => e.type === 'blocked.unauthorized_instruction')
