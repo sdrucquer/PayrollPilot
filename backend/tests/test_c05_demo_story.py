@@ -33,7 +33,7 @@ def _stub(body, headers):
 
 def test_demo_story(settings, monkeypatch):
     monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
-    settings = dataclasses.replace(settings, bridge_token="tok", fixtures_dir=FIX)
+    settings = dataclasses.replace(settings, bridge_token="tok", fixtures_dir=FIX, band_mode="null", memory_mode="inmemory")
     c = TestClient(create_app(settings))
     cyc = c.post("/api/cycles/load", json={"source": "fixture", "name": "cycle_synthetic_v1"})
     assert cyc.status_code == 200, cyc.text

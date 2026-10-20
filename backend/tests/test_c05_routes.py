@@ -57,7 +57,7 @@ def client(settings, monkeypatch):
     monkeypatch.setattr(core_bridge, "_run_audit", _mini_rules)
     monkeypatch.setattr(core_bridge, "AUDIT_MODE", "test_stub")
     monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
-    settings = dataclasses.replace(settings, bridge_token="tok")
+    settings = dataclasses.replace(settings, bridge_token="tok", band_mode="null", memory_mode="inmemory")
     c = TestClient(create_app(settings))
     c.post("/api/cycles/load", json={"source": "fixture", "name": "cycle_mini_v1"}).raise_for_status()
     c.post(f"/api/cycles/{CYC}/audit").raise_for_status()
