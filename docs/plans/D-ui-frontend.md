@@ -99,3 +99,12 @@ Runtime adoption: narrow HMR patch applied to original PayrollPilot-d/web api.ts
 Limit: frontend preflight only. It uses existing endpoint behavior and persisted ownership; it does not deploy C-08's stronger backend guard, decision-post persistence or fresh Band reachability checks for already-owned cases. Direct API clients still need C-08 backend adoption. Text approvals remain unavailable on the current live backend.
 Next: lead review/merge D-06; C owns backend guard adoption.
 ```
+
+```
+LANE D status @ 14:32
+Done: D-07 capture-blocker display fix. Pending message selection is global across unique batch ids, newest server created_at first (message.drafted event fallback). The Home message card exposes a nonvisible data-batch-id for strict capture checks. An older UNAPPROVED draft is display-suppressed only when a strictly newer nonfailed/nondeclined batch has identical text_hash, exception-id set, respondent role and channel; this includes a newer sent batch so the obsolete duplicate cannot obscure the subsequent reply/correction. Existing approved messages are never duplicate-suppressed. No records, approvals or sends are changed by selection.
+Changed files: web/src/{pending-message.ts,home-state.ts,screens/Home.tsx}; web/scripts/check-pending-message.ts; own Status log. The same pure helper/attribute was HMR-adopted into original PayrollPilot-d/web without overwriting earlier patches.
+Tests run: check-pending-message.ts passed (global newest, thread dedupe, sent duplicate suppression, approval preservation, distinct scope/text/role, failed and unknown ordering, event fallback, record immutability); check-home-state.ts passed; branch and original live API-mode builds clean. Capture independently confirmed clip02 safely sent only the agreed newest batch; D did not click an owner action. Earlier pending-id browser wait timed out after capture had already sent that batch; post-send read-only verification follows separately in the PR.
+Runtime constraints: no backend/bridge restart; no decline/delete or state mutation to either duplicate. Strict capture attributes remain invisible to users. No claimed deployment of stronger server guards.
+Next: lead review/merge D-07; capture continues with its existing approval/send interceptors.
+```

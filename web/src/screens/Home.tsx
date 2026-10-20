@@ -181,7 +181,7 @@ export default function Home() {
           const roleName = ROLE[b.intended_respondent_role] ?? b.intended_respondent_label
           const isEditing = editing !== null
           return (
-            <section className="h-card h-approve">
+            <section className="h-card h-approve" data-batch-id={b.id}>
               <div className="h-ahead">
                 <div className="h-avatar"><Logo s={18} /></div>
                 <div><div className="h-atitle">Pilot needs your approval</div><div className="h-meta">Message to the {roleName} · {plural(b.exception_ids.length, 'question')}</div></div>
