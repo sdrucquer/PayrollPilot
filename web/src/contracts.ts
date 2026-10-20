@@ -1,4 +1,4 @@
-// Mirror of docs/contracts/CONTRACTS.md v1 (sections 0-5). Lane D keeps this in sync.
+// Mirror of docs/contracts/CONTRACTS.md v1.1 (sections 0-5). Lane D keeps this in sync.
 // The UI never computes money: every *_cents value is rendered as given, null renders as a dash.
 import { z } from 'zod'
 
@@ -124,6 +124,7 @@ export const PayrollException = z.object({
     time_entry_ids: z.array(z.string()).optional(),
     job_ids: z.array(z.string()).optional(),
     cost_ids: z.array(z.string()).optional(),
+    coverage: z.array(z.string()).optional(), // v1.1, for coverage_gap
   }),
   stage_impact: z.object({
     stage1_wages: z.enum(['none', 'blocks_worker', 'blocks_item']),
