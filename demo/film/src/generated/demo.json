@@ -254,13 +254,25 @@
     },
     "02-approve-and-send.mp4": {
       "kind": "video",
-      "dur": 17.04,
+      "dur": 40.32,
       "w": 1920,
       "h": 1080
     },
     "02-approve-and-send.webm": {
       "kind": "video",
-      "dur": 17.04,
+      "dur": 40.32,
+      "w": 1920,
+      "h": 1080
+    },
+    "07-ready-summary.mp4": {
+      "kind": "video",
+      "dur": 15.76,
+      "w": 1920,
+      "h": 1080
+    },
+    "07-ready-summary.webm": {
+      "kind": "video",
+      "dur": 15.76,
       "w": 1920,
       "h": 1080
     },

@@ -467,7 +467,7 @@ const APP_CROP = {x: 560, y: 0, w: 800, h: 1080};
 const LOOP: {id: string; clip?: string; clipPan?: [number, number]; startAt?: number; mock: string; pan: [number, number]; zoom: [number, number]; head: string; kicker: string; labels: ('live' | 'synthetic' | 'test' | 'mockup' | 'earlier')[]}[] = [
   {id: '05', clip: '01-home-in-progress.mp4', clipPan: [0, 0.3], mock: 'mock-home.png', pan: [0, 0.12], zoom: [1, 1.04], kicker: 'Step 3 · Ask', head: 'One grouped question, drafted for you.', labels: ['live', 'synthetic']},
   {id: '06', clip: '02-approve-and-send.mp4', clipPan: [0.35, 1], mock: 'mock-home.png', pan: [0.14, 0.16], zoom: [1.04, 1.16], kicker: 'Step 3 · Approve', head: 'You approve the exact text.', labels: ['live']},
-  {id: '07', clip: '02-approve-and-send.mp4', clipPan: [1, 1], startAt: 13, mock: 'mock-home.png', pan: [0.16, 0.16], zoom: [1.1, 1.1], kicker: 'Step 4 · Message', head: 'A real iMessage to the person who knows.', labels: ['live', 'test']},
+  {id: '07', clip: '02-approve-and-send.mp4', clipPan: [0.9, 0.9], startAt: 30, mock: 'mock-home.png', pan: [0.16, 0.16], zoom: [1.1, 1.1], kicker: 'Step 4 · Message', head: 'A real iMessage to the person who knows.', labels: ['live', 'test']},
   {id: '08', clip: '03-reply-ambiguous.mp4', mock: 'mock-home.png', pan: [0.16, 0.3], zoom: [1.06, 1], kicker: 'Step 4 · Clarify', head: '“yes” isn’t an answer.', labels: ['live', 'test']},
   {id: '09', clip: '04-clarify-approve.mp4', mock: 'mock-home.png', pan: [0.3, 0.36], zoom: [1, 1], kicker: 'Step 4 · Answer', head: 'A clear answer comes back.', labels: ['live', 'test']},
   {id: '10', clip: '05-answer-and-correction.mp4', mock: 'mock-home.png', pan: [0.4, 0.45], zoom: [1, 1], kicker: 'Step 5 · Correct', head: 'The fix, with its impact.', labels: ['live', 'synthetic']},
@@ -736,28 +736,45 @@ export const Memory: React.FC<P> = ({dur}) => {
 /* ---------- 16 RECAP ---------- */
 export const Recap: React.FC<P> = ({dur}) => {
   const c = D.clips['07-ready-summary.mp4'];
-  const callouts = [
-    {at: 1.4, t: 'Stage 1 · Employee wages', s: 'verified for every worker', c: K.green},
-    {at: 2.4, t: 'Stage 2 · each item on its own', s: 'commission · tips · manager pool', c: K.blue},
-    {at: 3.6, t: 'Gusto: not prepared', s: 'you confirm the draft · submitting stays with you', c: K.orange},
-  ];
   const f = useCurrentFrame();
   const t = f / FPS;
+  const swap = c ? dur * 0.45 : 0; // real current state first, then the ready-state design
+  const real = c && t < swap;
+  const fade = c ? ci(t, swap - 0.3, swap + 0.3) : 1;
+  const callouts = real
+    ? [
+        {at: 0.8, t: 'Stage 1 · Employee wages', s: 'ready for 1 of 4 workers · 7 answers needed', c: K.orange},
+        {at: 1.6, t: 'Stage 2 · each item on its own', s: 'commission · tips · manager pool, with named blockers', c: K.blue},
+        {at: 2.4, t: 'Gusto: not prepared', s: 'nothing is submitted', c: K.orange},
+      ]
+    : [
+        {at: swap + 0.6, t: 'Stage 1 · Employee wages', s: 'verified, separate from Stage 2', c: K.green},
+        {at: swap + 1.3, t: 'Stage 2 · each item on its own', s: 'commission · tips · manager pool', c: K.blue},
+        {at: swap + 2.0, t: 'Approve this draft', s: 'you confirm · submitting stays with you · Gusto: not prepared', c: K.blue},
+      ];
+  const mock = (
+    <Media src="a/mock-ready.png" w={D.files['mock-ready.png']?.w ?? 2560} h={D.files['mock-ready.png']?.h ?? 3000} boxW={1100} boxH={736} dur={dur} pan={[0, 0.25]} zoom={[1, 1.06]} />
+  );
   return (
     <AbsoluteFill>
       <Background />
-      <Headline kicker="Step 6 · Recap" title="One recap. You confirm." x={90} y={40} size={44} delay={0} />
+      <Headline kicker="Step 6 · Recap" title={real ? 'Exactly where payroll stands.' : 'One recap. You confirm.'} x={90} y={40} size={44} delay={0} />
       <Window x={70} y={170} w={1100} h={780} title="PayrollPilot · Pilot Co" tilt={-0.6}>
         {c ? (
-          <Media src="a/clips/07-ready-summary.mp4" w={c.w ?? 1920} h={c.h ?? 1080} boxW={1100} boxH={736} dur={dur} video clipDur={c.dur} />
+          <>
+            <div style={{position: 'absolute', inset: 0, opacity: 1 - fade}}>
+              <Media src="a/clips/07-ready-summary.mp4" w={c.w ?? 1920} h={c.h ?? 1080} boxW={1100} boxH={736} dur={swap} video clipDur={c.dur} crop={{x: 560, y: 0, w: 800, h: 1080}} pan={[0, 0.2]} />
+            </div>
+            <div style={{position: 'absolute', inset: 0, opacity: fade}}>{mock}</div>
+          </>
         ) : (
-          <Media src="a/mock-ready.png" w={D.files['mock-ready.png']?.w ?? 2560} h={D.files['mock-ready.png']?.h ?? 3000} boxW={1100} boxH={736} dur={dur} pan={[0, 0.25]} zoom={[1, 1.06]} />
+          mock
         )}
       </Window>
-      {callouts.map((k) => {
+      {callouts.map((k, i) => {
         const a = ci(t, k.at, k.at + 0.45);
         return (
-          <Card key={k.t} style={{position: 'absolute', left: 1230, top: 240 + callouts.indexOf(k) * 200, width: 610, padding: '24px 28px', opacity: a, transform: `translateX(${(1 - a) * 60}px)`, borderRadius: 22}}>
+          <Card key={k.t + i + (real ? 'r' : 'm')} style={{position: 'absolute', left: 1230, top: 240 + i * 200, width: 610, padding: '24px 28px', opacity: a, transform: `translateX(${(1 - a) * 60}px)`, borderRadius: 22}}>
             <div style={{display: 'flex', alignItems: 'center', gap: 12}}>
               <span style={{width: 14, height: 14, borderRadius: 14, background: k.c}} />
               <span style={{fontSize: 28, fontWeight: 700, letterSpacing: '-0.02em'}}>{k.t}</span>
@@ -766,7 +783,7 @@ export const Recap: React.FC<P> = ({dur}) => {
           </Card>
         );
       })}
-      <Label kinds={c ? ['live', 'synthetic'] : ['mockup', 'synthetic']} x={1240} y={40} />
+      <Label key={real ? 'r' : 'm'} kinds={real ? ['live', 'synthetic'] : ['mockup', 'synthetic']} x={1240} y={40} note={real ? 'current real state' : 'ready state, design'} />
     </AbsoluteFill>
   );
 };
