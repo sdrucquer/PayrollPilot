@@ -96,7 +96,7 @@ def chime(rng):
 
 
 SFX = {
-    "ding": lambda r: bell(r, 1760 * r.uniform(0.97, 1.03), 0.35),
+    "ding": lambda r: bell(r, 1320 * r.uniform(0.97, 1.03), 0.22),
     "chime": chime,
     "success": lambda r: bell(r, 1318, 0.5) + np.pad(bell(r, 1975, 0.6), (int(SR * 0.11), 0))[: int(SR * 1.25)],
     "pop": lambda r: pop(r, 900 * r.uniform(0.9, 1.15)),
@@ -170,12 +170,16 @@ def cues():
     return [x for x in c if 0 <= x["t"] < TOTAL]
 
 
+# Per-sound trim: dings and whooshes sit well under the voice (owner feedback).
+TRIM = {"ding": 0.4, "whoosh": 0.4, "swish": 0.4, "reverse": 0.4, "riser": 0.5}
+
+
 def place(cs):
     n = int(SR * (TOTAL + 2))
     L = np.zeros(n)
     R = np.zeros(n)
     for i, q in enumerate(cs):
-        y = SFX[q["sfx"]](np.random.default_rng(1000 + i)) * q["gain"]
+        y = SFX[q["sfx"]](np.random.default_rng(1000 + i)) * q["gain"] * TRIM.get(q["sfx"], 1.0)
         s = int(q["t"] * SR)
         e = min(n, s + len(y))
         y = y[: e - s]
