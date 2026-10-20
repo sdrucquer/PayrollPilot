@@ -12,7 +12,7 @@ Built in one day at the AI Startup Challenge, San Francisco, October 20, 2026.
 
 | Part | Status in the demo |
 |---|---|
-| Pay-period data | **Synthetic**, de-identified fixture (Pilot Co, Worker A-D, Job 01-03), labeled on every card. A read-only real snapshot is supported but shown only if proven. |
+| Pay-period data | **Synthetic**, de-identified fixture (Pilot Co, Worker A-D, Job 01-03), labeled on every card. Real Jobber read has partial coverage; it does not establish a complete pay period. |
 | Seeded issues | Labeled **seeded issue** (for example, an already-paid shift logged to the wrong job). |
 | Owner replies | Sent from the owner's real phone, labeled **test reply** (the owner answers on behalf of the intended respondent, "Ops lead"). |
 | Audit rules, calculations, readiness, workbook | Real deterministic code in `core/` with tests. Money in integer cents, time in minutes, unknown is null, never zero. |
@@ -40,15 +40,20 @@ phone (iMessage) <-> Photon <-> bridge/ (Bun, :3001) <-> backend/ (FastAPI, :800
 web/ (Vite + React, :5173) --/api--> backend
 ```
 
-## Integration status (from INTEGRATION-FINDINGS.md, 1:05 PM)
+## Integration status (latest dated main notes, 27b40ae)
 
-| Integration | Status | What was proven |
-|---|---|---|
-| Cognee | **tested** | A resolution written in one process was recalled by a fresh process; the recall changed the case's next action from "ask ops lead which job" to "propose allocation, pending owner approval", and created no approval. With memory disabled the case stays "insufficient evidence". Local CHUNKS search; LLM-backed graph extraction not yet tested. |
-| Band (product handoff) | **tested** (handoff + board); owner decision pending | Three product agents and the owner in one room; Audit's case card accepted by Resolution; Payroll Prep received the delivery; board task moved to completed. `band ask` is unsupported for these agents, so the owner decides by replying in the room. |
-| Photon iMessage | bridge built; live round trip **not yet proven** | Allowlisted send, inbound dedupe, and refusal of any other recipient are unit-tested in the bridge. |
-| OpenRouter agents | in progress | Model catalog checked; live calls pending a key. |
-| Browser Use (real Jobber read) | not proven | Demo uses the synthetic fixture. |
+[Sanitized live-flow evidence](demo/evidence/logs/live-flow-main27b.txt), copied from main by Lane E, not rerun. The film still has 14 missing product clips and pending final voice.
+
+| Integration | Proven scope and remaining gap |
+|---|---|
+| Band | Handoff and board tested at 12:47; owner room `approve <batch_id>` produced version-bound approval at 1:32. `band ask` unsupported for generic peers. Desktop footage pending; product usage comes from app events. |
+| Cognee | Cross-process CHUNKS recall changed next action without granting approval; local GLiNER, no graph-completion claim. Live memory write reported 1:33. Earlier proof must be PLAYBACK; no live backend restart. |
+| Photon | Real allowlisted round trip at 1:12–1:14; owner-approved batch and correlated TEST REPLY/live parse at 1:32. Phone/app footage pending. |
+| OpenRouter | Live strict-schema parse at 1:09 and 1:32 with usage events; vague/injected replies guarded. Final usage clip pending. |
+| Jobber / Browser Use | Real read, **partial coverage**: 58 time entries, 10 workers, 13 jobs. Totals, source ids and approval state unverified; rates/payroll/payments/expenses not read. Film uses synthetic data. |
+| Gusto draft / source writes / submission | Unavailable; Gusto: not prepared. |
+
+Use `/api/comms/health` for active adapters; `/api/health` has an older registry and can disagree. Leave lane C's backend :8000 and bridge :3001 running; lane C controls safe case setup. [Findings](INTEGRATION-FINDINGS.md) dated notes supersede its earlier table entries.
 
 ## Run it
 

@@ -19,11 +19,13 @@ PayrollPilot prepares the payroll instead of guessing it. It loads one pay perio
 
 A plain-code coordinator owns every state change and permission. Agents hand cases to each other in a Band Desktop room, and confirmed facts are stored in Cognee so a restarted agent recalls them and proposes the known answer instead of asking again. Nothing writes to source systems and nothing submits payroll: the destination reads "Gusto: not prepared".
 
-## Sponsor usage (worded exactly to what was proven; lane E updates from INTEGRATION-FINDINGS.md before submission)
+## Sponsor usage (main 27b40ae evidence; final footage pending)
 
-- **Band**: The Audit, Resolution, and Payroll Prep agents join one Band room with the owner. Audit posts the case, Resolution accepts it, Payroll Prep receives the result, and the shared board task moves to completed. The owner's approval is a reply in that room. *(Proven via CLI run 12:47 PM; Band Desktop screenshot and owner reply pending. Do not claim `band ask` or per-agent Band usage: neither works for these agents.)*
-- **Cognee**: Resolution stores each confirmed fact in Cognee. After a restart, a fresh Payroll Prep process recalls it, validates the referenced records, and changes its next action from asking again to proposing the allocation for owner approval. Memory never creates an approval. *(Proven cross-process 12:40-12:43 PM with local search; LLM-backed graph extraction not used.)*
-- **Photon** *(if proven)*: Approved questions arrive as real iMessages on the owner's phone and replies flow back into the right case. *(Not yet proven at 1:02 PM. Remove this line if it is not proven.)*
+- **Band:** Audit, Resolution and Payroll Prep share a room and board; existing CLI proof shows the dependent handoff. Main reports the owner's `approve <batch_id>` room reply produced version-bound approval at 1:32. `band ask` is unsupported; no per-product-agent Band usage claim. Desktop footage pending.
+- **Cognee:** A fact was written and recalled by a fresh process using CHUNKS search; validated recall changed the proposal without granting approval. Main also reports a live memory write at 1:33. No graph-completion claim. Use earlier proof as PLAYBACK; no live stack restart.
+- **Photon:** Main reports a real allowlisted send/reply at 1:12–1:14 and a 1:32 owner-approved batch with correlated TEST REPLY and live parsing. Phone/app clips remain pending; fixture simulation does not prove iMessage.
+
+[Sanitized evidence](evidence/logs/live-flow-main27b.txt), [matrix](evidence-matrix.md). Real Jobber read is partial: 58 entries, 10 workers, 13 jobs; totals, ids, source approval unverified, rates/payroll/payments/expenses not read. The film uses synthetic data. Final voice and all 14 product clips remain pending.
 
 ## Links
 - Repo: https://github.com/sdrucquer/PayrollPilot (public; verify before submitting)
