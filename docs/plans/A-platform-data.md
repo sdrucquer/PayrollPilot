@@ -70,7 +70,7 @@ Correction: the A-01 block above originally said 12:58; the actual time was abou
 ```
 
 ```
-LANE A status @ 13:05
+LANE A status @ 12:47
 Done: A-04 lane A parts (acceptance checks passed: apply refused without approval (403) and with a stale version (409); approved job_allocation applies as a local overlay, source snapshot unchanged, audit re-run on corrected view drops the missing_job case, events correction.proposed/approval.granted/correction.applied/recalc.completed; T16: changing the time entry version_hash in the source after approval invalidates the approval and the correction (approval.invalidated event) and apply returns 403; a correction applies once). Lane C hooks: guarded routes_comms include + coordinator.transition (in #9).
 NOT done: T02 numbers (wages delta 0, job cost delta) and readiness/packet/workbook outputs — need lane B's propose_correction, readiness, packet, workbook. Those routes return 501 {"reason": "core not merged"}; tested.
 Changed files: backend/payrollpilot/{corrections,core_bridge,cycles,permissions,contracts,app}.py, routes/{payroll,health}.py, backend/tests/test_a04_apply.py
