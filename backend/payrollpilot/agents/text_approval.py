@@ -8,7 +8,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from zoneinfo import ZoneInfo
-from typing import Any
+from typing import Any, Callable
 import re
 import secrets
 
@@ -81,7 +81,7 @@ def _exceptions(st: Any, target: dict) -> list[str]:
     return list(dict.fromkeys(ids))
 
 
-def _batch(st: Any, req: dict, *, followup: bool = False) -> dict:
+def _batch(st: Any, req: dict, *, publish: Callable[[dict], None], followup: bool = False) -> dict:
     text = ("Please confirm the specific proposal; your previous reply did not approve anything.\n" if followup else "PayrollPilot owner approval request:\n")
     text += req["summary"] + "\n"
     excs = [st.db.get_record(kinds.EXCEPTION, i) for i in req["exception_ids"]]
@@ -95,6 +95,7 @@ def _batch(st: Any, req: dict, *, followup: bool = False) -> dict:
              "channel": "imessage", "text": text, "text_hash": text_hash(text), "approval_id": None, "state": "draft",
              "provider_message_id": None, "sent_at": None, "provider_status": None, "provenance": "synthetic" if st.messaging.mode == "fake" else "real",
              "wording": "template", "parent_batch_id": req.get("review_batch_id"), "created_at": now_iso(), "text_approval_request_id": req["id"]}
+    publish(batch)  # Band coordination must succeed before any new request/follow-up is persisted.
     st.db.put_record(kinds.MESSAGE_BATCH, batch)
     emit(st.db, type="message.drafted", actor="resolution", cycle_id=req["cycle_id"],
          summary="Drafted owner phone confirmation; normal send approval is still required",
@@ -102,7 +103,7 @@ def _batch(st: Any, req: dict, *, followup: bool = False) -> dict:
     return batch
 
 
-def draft_request(st: Any, kind: str, target_id: str) -> dict:
+def draft_request(st: Any, kind: str, target_id: str, *, publish: Callable[[dict], None]) -> dict:
     check_recipient(st.settings.test_recipient, st.settings.allowlist)
     target, version = _target(st, kind, target_id)
     code = secrets.token_hex(4).upper()
@@ -111,7 +112,7 @@ def draft_request(st: Any, kind: str, target_id: str) -> dict:
     req = {"id": "tap_" + code, "code": code, "kind": kind, "target_id": target_id, "target_version": version,
            "cycle_id": target["cycle_id"], "exception_ids": _exceptions(st, target), "summary": _summary(kind, target),
            "state": "pending", "created_at": now_iso(), "expires_at": (datetime.now(timezone.utc) + timedelta(minutes=30)).isoformat()}
-    batch = _batch(st, req)
+    batch = _batch(st, req, publish=publish)
     req.update(review_batch_id=batch["id"], review_text_hash=batch_version(batch))
     st.db.put_record(REQUEST_KIND, req)
     return batch
@@ -122,7 +123,7 @@ def command_request(db: Any, text: str) -> dict | None:
     return db.get_record(REQUEST_KIND, "tap_" + match[2].upper()) if match else None
 
 
-def handle_reply(st: Any, inbound: dict, batch: dict | None) -> dict | None:
+def handle_reply(st: Any, inbound: dict, batch: dict | None, *, publish: Callable[[dict], None]) -> dict | None:
     """Return None for ordinary factual replies; an approval-like reply never reaches an LLM."""
     raw = inbound["raw_text"]
     req = command_request(st.db, raw)
@@ -157,7 +158,7 @@ def handle_reply(st: Any, inbound: dict, batch: dict | None) -> dict | None:
     match = COMMAND.fullmatch(raw)
     if not match or match[2].upper() != req["code"]:
         prior = st.db.get_record(kinds.MESSAGE_BATCH, req.get("followup_batch_id")) if req.get("followup_batch_id") else None
-        followup = prior or _batch(st, req, followup=True)
+        followup = prior or _batch(st, req, publish=publish, followup=True)
         if not prior:
             _update(st.db, REQUEST_KIND, req, followup_batch_id=followup["id"])
         emit(st.db, type="clarification.needed", actor="resolution", cycle_id=req["cycle_id"],

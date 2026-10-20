@@ -149,3 +149,20 @@ def test_old_band_decision_cannot_approve_an_edited_new_draft(client):
     r=client.post(f"/api/messages/{b['id']}/band-decision")
     assert r.status_code==409 and r.json()['error']=='band_decision_stale'
     assert client.app.state.pp.db.approvals_for_target(b['id'])==[]
+
+
+def test_phone_request_and_vague_followup_cannot_bypass_band(client):
+    from .test_c07_text_approval import _request, _send, _reply
+    comms=_with_band(client);target=draft(client).json()
+    db=client.app.state.pp.db
+    before=len(db.list_records('message_batch'))
+    comms['band']=NullBand()
+    r=client.post('/api/text-approvals/draft',json={'kind':'message_send','target_id':target['id']})
+    assert r.status_code==503 and len(db.list_records('message_batch'))==before
+    comms['band']=FakeBand()
+    request,code=_request(client,target);_send(client,request)
+    count=len(db.list_records('message_batch'))
+    comms['band']=NullBand()
+    assert _reply(client,'yes').status_code==503
+    assert len(db.list_records('message_batch'))==count
+    assert db.approvals_for_target(target['id'])==[]

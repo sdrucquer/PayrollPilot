@@ -119,7 +119,7 @@ def phone_approval_draft(body: PhoneApprovalDraft, request: Request):
         if (r := _stopped(st.db)):
             return r
         try:
-            batch = draft_phone_request(st, body.kind, body.target_id)
+            batch = draft_phone_request(st, body.kind, body.target_id, publish=lambda batch: _publish_phone_batch(request, batch))
             return _public_batch(batch)
         except (TextApprovalError, approvals.ApprovalError) as e:
             return _err(e.status, e.code, e.detail)
@@ -159,7 +159,7 @@ def handoff(exception_id: str, request: Request):
     return {"event": ev, "exception": _strip(exc), "band": out}
 
 
-def _coordinate_new_cases(request: Request, excs: list[dict]):
+def _coordinate_new_cases(request: Request, excs: list[dict]) -> JSONResponse | None:
     """Home can start at Draft: acquire the same real Band handoff first.
 
     New case ownership is persisted only after room delivery, acknowledgement,
@@ -193,7 +193,7 @@ def _coordinate_new_cases(request: Request, excs: list[dict]):
     return None
 
 
-def _publish_new_batch(request: Request, batch: dict):
+def _publish_new_batch(request: Request, batch: dict) -> JSONResponse | None:
     """No persisted/sendable draft when Band cannot publish its owner decision."""
     st = request.app.state.pp
     band = _comms(request)["band"]
@@ -209,6 +209,20 @@ def _publish_new_batch(request: Request, batch: dict):
     batch.update(band_coordination_required=True, band_decision_message_id=mid, band_room_id=band.room_id,
                  band_decision_version=batch["text_hash"])
     return None
+
+
+def _publish_phone_batch(request: Request, batch: dict) -> None:
+    """The optional phone-request path uses the same required Band gates."""
+    db = request.app.state.pp.db
+    excs = [db.get_record(kinds.EXCEPTION, i) for i in batch["exception_ids"]]
+    if not excs or any(exc is None for exc in excs):
+        raise TextApprovalError(409, "handoff_case_unknown", "Phone approval needs its evidenced case")
+    error = _coordinate_new_cases(request, excs)
+    if error is None:
+        error = _publish_new_batch(request, batch)
+    if error is not None:
+        raise TextApprovalError(error.status_code, "band_required" if error.status_code == 503 else "band_coordination_failed",
+                                "Band coordination failed; no phone request or confirmation was drafted")
 
 
 @router.post("/api/corrections/{correction_id}/payroll-handoff")
@@ -511,7 +525,7 @@ def inbound(body: dict, request: Request, background: BackgroundTasks,
         try:
             if (r := _stopped(st.db)):
                 return r
-            phone_out = handle_phone_reply(st, rec, batch)
+            phone_out = handle_phone_reply(st, rec, batch, publish=lambda draft: _publish_phone_batch(request, draft))
             if phone_out is not None:
                 return {"duplicate": False, "inbound_id": inbound_id, "parsed": None, **phone_out}
         except (TextApprovalError, approvals.ApprovalError) as e:
