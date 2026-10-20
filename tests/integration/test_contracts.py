@@ -108,8 +108,6 @@ def test_fixture_provenance_is_never_real():
                 assert v != "real", name
 
 
-@pytest.mark.xfail(strict=False, reason="CONTRACTS v1.1 Receipt has no provenance field (AGENTS.md says every record "
-                                        "carries provenance). Lead decision requested; see F-01 PR.")
 def test_receipts_carry_provenance():
     assert all("provenance" in r for r in load("cycle_synthetic_v1.json")["receipts"])
 
