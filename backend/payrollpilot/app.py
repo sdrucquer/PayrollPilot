@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse
 
 from .db import Database
 from .permissions import PermissionDenied
-from .routes import cycles, health, ops
+from .routes import cycles, health, ops, payroll
 from .settings import Settings, load_settings
 from .state import build_state
 
@@ -46,6 +46,7 @@ def create_app(settings: Settings | None = None, db: Database | None = None) -> 
     app.include_router(health.router)
     app.include_router(cycles.router)
     app.include_router(ops.router)
+    app.include_router(payroll.router)
     app.state.comms_routes = _include_comms(app)
     return app
 

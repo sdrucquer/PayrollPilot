@@ -24,3 +24,14 @@ Mission: contract tests that catch schema drift, regression tests for the no-dup
 - `scripts/f_privacy.sh`: grep the repo and `web/dist` for E.164 numbers, `sk-or-`, `@gmail`, the private denylist terms; check `.gitignore` covers `docs/private`, `data/private`, `.env`; confirm `git ls-files` includes no xlsx outside fixtures. Report results.
 
 ## Status log
+
+```
+LANE F status @ 13:03
+Done: F-01 (acceptance checks passed: all 5 fixtures load; money *_cents int or null, durations *_minutes int or null, no float money; snapshot records validate against backend pydantic models (cycle, workers, time entries, jobs, receipts, costs, obligations); core run_audit output and cycle_readiness items validate against PayrollException / Readiness / CompensationItem; exception state and category enums equal between CONTRACTS.md and contracts.py; event types and actors equal between CONTRACTS.md section 4 and events.py; replies fixture covers clean / T14 / conflicting / T17 and placeholders resolve; no phone, email or E.164 values (fictional 555 number allowed); display names de-identified; manager split is placeholder and differs from the private allocation)
+Changed files: tests/integration/test_contracts.py
+Tests run: backend/.venv/bin/pytest -q tests/integration/test_contracts.py -> 32 passed, 5 skipped (denylist absent), 1 xfailed
+Evidence: xfail = CONTRACTS Receipt has no provenance field while AGENTS.md says every record carries provenance
+Blockers: data/private/denylist.txt not supplied, so the denylist test skips. Lead decision: add provenance to Receipt (contract + fixture) or exempt it.
+Next: F-02 safety regression suite
+Handoff requested: lead supplies data/private/denylist.txt (one term per line, gitignored)
+```

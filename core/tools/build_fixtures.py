@@ -236,7 +236,7 @@ POLICIES = {
     "marketing": {"decision_id": "O04", "status": "job_specific_only", "job_rules": {}},
     "overhead_allocation": {"decision_id": "O05", "status": "unresolved"},
     "manager_split": {"decision_id": "O06", "status": "placeholder",
-                      "split_percent": {"retained": 50, "mgr_a": 10, "mgr_b": 20, "owner": 20},
+                      "split_percent": {"retained": 40, "mgr_a": 15, "mgr_b": 25, "owner": 20},
                       "requires_resolution": ["gross_net_intent", "employer_costs", "losses_reserves_rounding"]},
     "tip_rule": {"decision_id": "O07", "status": "unresolved"},
     "labor_revenue_threshold": {"decision_id": "O06", "status": "unresolved"},
@@ -423,27 +423,34 @@ def readiness(state, scope, blockers, unknown_amount):
             "calculation_version": "calc_v1", "last_computed_at": None}
 
 
+COV_EXP = blocker("coverage:expenses", "quickbooks/expenses incomplete (permission)", ids["coverage_gap"])
+
 WORKERS_BEFORE = {
     "wkr_01": readiness("ready", "Worker A: 2 workweeks, 4770 min (2400 + 2370), rate verified", [], False),
     "wkr_02": readiness("blocked", "Worker B: open timer (unknown minutes), possible duplicate",
                         [exc_blocker("open_timer", "Open timer 2026-10-09"), exc_blocker("duplicate_time", "Duplicate entries 2026-10-06")], True),
     "wkr_03": readiness("blocked", "Worker C: rate unconfirmed, overlapping entries",
                         [exc_blocker("rate_unconfirmed", "Rate and route unconfirmed"), exc_blocker("overlap", "Overlap 2026-10-07")], True),
+    # unknown_amount true: hours on a duplicate profile may not be in this snapshot until identity is reconciled
     "wkr_04": readiness("blocked", "Worker D: duplicate profiles, long shift, schedule mismatch",
                         [exc_blocker("identity", "Duplicate profiles"), exc_blocker("long_shift", "Long shift 2026-09-30"),
-                         exc_blocker("schedule_mismatch", "Schedule mismatch 2026-10-08")], False),
+                         exc_blocker("schedule_mismatch", "Schedule mismatch 2026-10-08")], True),
 }
 STAGE1_BEFORE = readiness("partial", "review-ready for 1 of 4 workers; 3 unresolved; 1 out-of-cycle entry excluded",
                           [b for w in ("wkr_02", "wkr_03", "wkr_04") for b in WORKERS_BEFORE[w]["blockers"]], True)
 
 ITEMS_BEFORE = {
-    "ci_quote_job_01": readiness("pending", "Job 01; quoter unconfirmed; costs incomplete",
+    "ci_quote_job_01": readiness("pending", "Job 01; quoter unconfirmed; costs and labor incomplete",
                                  [exc_blocker("quote_attribution", "Quoter unconfirmed (salesperson field only)"),
                                   exc_blocker("already_paid_allocation", "Job 01 labor allocation questioned (te_0014)"),
                                   exc_blocker("cost_conflict", "Unallocated conflicting cost may belong to Job 01"),
                                   exc_blocker("unmatched_cost", "Unallocated cost may belong to Job 01"),
                                   exc_blocker("offsite_link", "Off-site Job 03 may roll up to Job 01"),
-                                  blocker("coverage:expenses", "quickbooks/expenses incomplete (permission)"),
+                                  exc_blocker("missing_job", "Unassigned labor (te_0022) may belong to Job 01"),
+                                  exc_blocker("overlap", "Overlapping labor on Job 01 (te_0027)"),
+                                  exc_blocker("rate_unconfirmed", "Worker C labor on Job 01 has no verified rate"),
+                                  exc_blocker("identity", "Worker D labor on Job 01: identity unreconciled"),
+                                  COV_EXP,
                                   blocker("coverage:historical_labor", "Labor before this cycle not in snapshot")], True),
     "ci_quote_job_02": readiness("not_meaningful", "Job 02 in progress; deposit only; no final payment",
                                  [blocker("policy_missing:final_payment", "Final payment not verified (SOP rule)")], True),
@@ -455,24 +462,29 @@ ITEMS_BEFORE = {
     "ci_manager_pool": readiness("blocked", "Cycle pool provisional; distributions blocked",
                                  [blocker("policy_missing:O05", "Overhead allocation method unresolved (O05)"),
                                   blocker("policy_missing:O06", "Gross/net intent, employer costs, reserves unresolved (O06)"),
-                                  blocker("coverage:expenses", "quickbooks/expenses incomplete (permission)"),
+                                  COV_EXP,
                                   blocker("stage1_exposure", "3 workers have unresolved wage exposure"),
-                                  blocker("allocation_provisional:rcpt_01", "Receipt allocation to prior cycle proposed, not finalized (T19)")], True),
+                                  blocker("allocation_provisional:rcpt_01", "Receipt allocation to prior cycle proposed, not finalized (T19)"),
+                                  blocker("commissions_pending", "Commission amounts not final")]
+                                 + [exc_blocker(c, f"Open cost-affecting issue: {c}") for c in
+                                    ("missing_job", "open_timer", "overlap", "duplicate_time", "already_paid_allocation",
+                                     "unmatched_cost", "cost_conflict", "offsite_link", "quote_attribution")], True),
 }
 
 import copy  # noqa: E402
 
 ITEMS_AFTER = copy.deepcopy(ITEMS_BEFORE)
-ITEMS_AFTER["ci_quote_job_01"]["blockers"] = [b for b in ITEMS_AFTER["ci_quote_job_01"]["blockers"]
-                                              if b["code"] != f"exception:{ids['already_paid_allocation']}"]
-ITEMS_AFTER["ci_quote_job_01"]["scope"] = "Job 01; quoter unconfirmed; costs incomplete; te_0014 reallocated to Job 02"
+for _k in ("ci_quote_job_01", "ci_manager_pool"):
+    ITEMS_AFTER[_k]["blockers"] = [b for b in ITEMS_AFTER[_k]["blockers"]
+                                   if b["code"] != f"exception:{ids['already_paid_allocation']}"]
+ITEMS_AFTER["ci_quote_job_01"]["scope"] = "Job 01; quoter unconfirmed; costs and labor incomplete; te_0014 reallocated to Job 02"
 
 READINESS_MATRIX = {
     "_comment": "Expected Readiness for cycle_synthetic_v1 before and after the T02 correction "
                 "(te_0014 job_01 -> job_02, approved). Stage 1 wages are unchanged by that correction; only Job 01/02 "
                 "labor costing and the quote-commission blocker list change. Blocker codes: exception:<exc_id>, "
                 "policy_missing:<O-id or policy key>, coverage:<dataset>, plus readiness-only codes "
-                "(stage1_exposure, prior_payment_unknown, allocation_provisional:<rcpt_id>). last_computed_at is "
+                "(stage1_exposure, prior_payment_unknown, allocation_provisional:<rcpt_id>, commissions_pending). last_computed_at is "
                 "runtime-filled and ignored in comparisons.",
     "cycle_id": CYCLE_ID,
     "before": {"stage1": STAGE1_BEFORE, "workers": WORKERS_BEFORE, "items": ITEMS_BEFORE,

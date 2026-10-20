@@ -35,3 +35,8 @@ export function formatTime(ts: string | null | undefined): string {
   if (Number.isNaN(d.getTime())) return ts
   return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
 }
+
+// Masks phone-number-like sequences inside free text (e.g. an inbound reply that includes a number).
+export function maskText(t: string): string {
+  return t.replace(/\+?\d[\d\s().-]{7,}\d/g, (m) => maskHandle(m))
+}

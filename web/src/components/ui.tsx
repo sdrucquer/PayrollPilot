@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import type { Blocker, Provenance, Readiness } from '../contracts'
 import { humanize } from '../format'
@@ -6,8 +7,8 @@ export function ProvenanceTag({ value }: { value: Provenance }) {
   return <span className={`tag prov prov-${value}`} title="provenance">{humanize(value)}</span>
 }
 
-export function StateTag({ value, kind = 'state' }: { value: string; kind?: string }) {
-  return <span className={`tag ${kind}-${value}`}>{humanize(value)}</span>
+export function StateTag({ value, kind = 'state', label }: { value: string; kind?: string; label?: string }) {
+  return <span className={`tag ${kind}-${value}`}>{label ?? humanize(value)}</span>
 }
 
 export function BlockerList({ blockers }: { blockers: Blocker[] }) {
@@ -17,7 +18,7 @@ export function BlockerList({ blockers }: { blockers: Blocker[] }) {
       {blockers.map((b) => (
         <li key={`${b.code}-${b.exception_id ?? ''}`}>
           <code>{b.code}</code> {b.label}
-          {b.exception_id && <> · <a href={`/inbox/${b.exception_id}`}>{b.exception_id}</a></>}
+          {b.exception_id && <> · <Link to={`/e/${b.exception_id}`}>{b.exception_id}</Link></>}
         </li>
       ))}
     </ul>

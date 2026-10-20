@@ -1,0 +1,90 @@
+# PayrollPilot UI design notes (lane G)
+
+Static mockups for lane D (production UI) and lane E (video). Visual reference only, not a spec to rebuild pixel-for-pixel.
+
+- `command-center.html` — cycle overview: Stage 1 wages, Stage 2 reconciliation (quote commission, tips, manager pool as separate cards), agents, open exceptions, questions awaiting replies, next actions, "Gusto: not prepared".
+- `exceptions-inbox.html` — list + detail: observed/expected, evidence refs, stage impact, respondent as a role with masked recipient, thread with agent messages and `test_reply` labels, parsed answers, T17 blocked instruction, proposed correction with before/after and version-bound approval.
+- `screenshots/*-1280.png` — rendered at 1280px.
+
+Direction: clean, Apple-like. Soft gray page, white cards with large radii and very soft shadows, almost no borders, pill controls, iOS blue as the single accent, status colors only for readiness. All data is synthetic (Worker A–D, Ops lead, Pilot Co).
+
+## Color tokens (light)
+
+| Token | Value | Use |
+|---|---|---|
+| `--bg-0` | `#F2F2F7` | page background, sidebar |
+| `--bg-1` | `#FFFFFF` | cards, panels |
+| `--bg-2` | `#F5F5F8` | insets inside cards (tables, tiles) |
+| `--bg-3` | `#ECECF1` | chips, segmented controls, table headers |
+| `--bg-hover` | `#E8E8EE` | hover on neutral buttons |
+| `--line-1/2/3` | `rgba(0,0,0,.05/.08/.14)` | hairlines only; most cards have no border |
+| `--fg-0` | `#1C1C1E` | primary text |
+| `--fg-1` | `#3A3A3C` | secondary emphasis |
+| `--fg-2` | `#6E6E73` | body/secondary |
+| `--fg-3` | `#8E8E93` | labels, meta, ids |
+| `--accent` | `#0A7AFF` | primary actions, selected state, agent bubbles |
+| `--accent-strong` | `#0066D6` | hover |
+| `--accent-dim` | `rgba(10,122,255,.10)` | approval panel background, accent pills |
+| `--ready` / `--ready-dim` | `#2DA44E` / `rgba(52,199,89,.13)` | Readiness `ready` |
+| `--partial` / `--partial-dim` | `#D97A00` / `rgba(255,159,10,.14)` | Readiness `partial`, awaiting reply, seeded issue, test mode |
+| `--pending` / `--pending-dim` | `#8E8E93` / `rgba(142,142,147,.14)` | Readiness `pending`, detected/investigating |
+| `--blocked` / `--blocked-dim` | `#E0323F` / `rgba(255,59,48,.10)` | Readiness `blocked`, escalated, blocked instruction |
+| `--info` / `--info-dim` | `#5E5CE6` / `rgba(94,92,230,.10)` | synthetic/fixture provenance, cost category |
+
+Readiness state → color is the only semantic color mapping in the UI. Never use green for anything that is not `ready`. Copy rules from docs/PRODUCT-STATEMENT.md: no "payroll complete", no "automatic"; every send and correction shows an owner approval; unknown stays `—` and is a blocker.
+
+Provenance (dot + label, always visible, low contrast): `real` green, `cached` gray, `synthetic` indigo, `seeded_issue` orange, `test_reply` blue, `playback` gray (replayed scripted replies). Test mode is an orange outlined pill in the top bar on every screen.
+
+## Type
+
+Font: `-apple-system, "SF Pro Text", Inter, system-ui`. Mono: `ui-monospace, "SF Mono", JetBrains Mono` for money, minutes, ids, hashes. Tabular numerals on.
+
+| Role | Size / weight / tracking |
+|---|---|
+| Page title (cycle, exception title) | 24px / 700 / -0.022em |
+| Stat value | 20px / 700 / -0.02em (mono for money) |
+| Card title | 13px / 600 |
+| Section label (S1 EMPLOYEE WAGES, OBSERVED) | 10.5–11px / 600 / +0.07em uppercase, `--fg-3` |
+| Body | 13.5px / 400, 1.45 line height |
+| Secondary / meta | 11.5–12px, `--fg-2` or `--fg-3` |
+| Mono values | 12–12.5px |
+
+Money: `$1,848.00`, unknown is `—` in `--fg-3`, never `$0`. Minutes shown as integers in tables (`5,040`) and as `2h 14m` in prose.
+
+## Spacing and shape
+
+- Base unit 4px. Card padding 16px (hero 18–20px). Grid gap 18px. Content gutter 24px.
+- Radii: `--r-sm` 10px (inputs, small boxes), `--r-md` 14px (inset tiles, rows), `--r-lg` 20px (cards), pills 999px.
+- Shadows: `--shadow-1` `0 1px 1px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.05)` (chips, selected nav, dest badge); `--shadow-2` `0 1px 2px rgba(0,0,0,.03), 0 10px 30px -14px rgba(20,20,40,.14)` (cards).
+- Sidebar 224px on overview screens; 64px icon rail on the inbox so list (336px) + detail fit 1280.
+- Desktop target 1280px; app shell is `grid-template-columns: 224px 1fr`.
+
+## Components
+
+- **Top bar**: breadcrumb, test-mode pill, provenance pill, destination badge (`Gusto: not prepared` with lock), stop-run ghost button, primary action.
+- **Pill** (`.pill`, `.mini`): status with dot; variants ready/partial/pending/blocked/accent/info/test.
+- **Provenance label** (`.prov`): dot + lowercase text.
+- **Stat tile**: label, value, sub line.
+- **Coverage chip**: dot (ok/warn) + system + dataset + mono count/method.
+- **Next actions**: numbered blue circle, title, one-line why, chevron. Disabled "Submit payroll · unavailable" with lock.
+- **Stage card**: `S1`/`S2` key + uppercase label, status pill, one-line summary listing each item separately, body, 3 indicator footers (wage correctness / labor-revenue / cash confirmation; never the word "complete").
+- **Worker readiness table**: avatar, name + rate status, minutes, gross (mono, `—` when null), readiness pill; progress bar under it.
+- **Compensation item card** (quote commission, tips, manager pool): colored left rail by readiness, title + pill, scope, amount (right, mono, `—` + "unknown amount"), blocker list with `code` chips (`policy_missing:overhead`).
+- **Agent card**: icon, name, one-line progress, live dot (green pulse = working, orange = waiting, gray = done), progress bar, usage row (model, in/out tokens, cost) or "no LLM".
+- **Exception row**: category square (orange wages, indigo costs, red blocked), title, subtitle with category · entity · respondent role · masked recipient, dollars + impact, state pill, chevron.
+- **Inbox list**: search, filter chips (selected = black pill), groups (Needs you / Awaiting reply / Investigating / Blocked input / Resolved), selected row white with blue left edge.
+- **Observed / Expected** boxes; **impact tiles** (dollars, stage 1, stage 2); key-value list; **evidence rows** (system badge J/G/Q, label, mono ref, link or "no link").
+- **Thread**: system lines (handoff, memory recalled/applied), agent bubbles blue with tail, human bubbles gray, draft bubbles dashed, blocked bubble red inset ring with `<mark>` on the instruction and a "blocked instruction" explanation row; parsed-answer rows (answered / partial / ambiguous / unaddressed + confidence).
+- **Correction**: before/after columns (after has green border), deltas list, approval panel (lock icon, kind, scope text with target version hash, Approve & apply / Ask again / Reject, note that data changes invalidate the approval).
+
+## Animation (keep subtle)
+
+- Cards: fade + 6px rise, 550ms `cubic-bezier(.2,.7,.2,1)`, staggered 50–70ms. Implemented as `body.anim .card` and removed after 1.2s so the settled page has no animation state (safe for screenshots and video freeze-frames).
+- Progress bars: width transition 1.1s same easing, set from `--w` after first paint.
+- Live agent dot: 1.6s ping ring; waiting dot slower (2.4s); test-mode dot gentle 1.8s opacity pulse.
+- Hover: 150ms background/border only; buttons translate 1px on press.
+- `prefers-reduced-motion`: all animation off, bars at final width.
+
+## Adoption tips for lane D
+
+Copy the `:root` block as CSS variables (or Tailwind theme colors) and the `.pill`, `.btn`, `.card`, `.item`, `.exc` rules; they are plain CSS with no dependencies. Both files share the same head, so diff them to see only inbox-specific rules.

@@ -47,7 +47,7 @@ function readiness(side) {
 }
 
 const exceptions = expected.exceptions.map((e) => ({
-  cycle_id: cycle.id, observed: e.note ?? e.title, expected: '—', evidence: [], dollars_affected_cents: null,
+  cycle_id: cycle.id, observed: e.note && e.note.length > 12 ? e.note : e.title, expected: '—', evidence: [], dollars_affected_cents: null,
   state: 'detected', next_action: `ask ${e.intended_respondent_role.replace('_', ' ')}`, owner_agent: 'audit',
   message_ids: [], resolution_id: null, provenance: 'seeded_issue', created_at: at, updated_at: at,
   ...e,

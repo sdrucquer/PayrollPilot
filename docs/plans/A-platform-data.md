@@ -68,3 +68,35 @@ Next: A-04 route shells (501 until B-03/B-04), then A-03 when the owner supplies
 Handoff requested: B: push core/payrollpilot_core/audit.py (run_audit(snapshot) -> list[dict]) and fixtures to main; then `backend/.venv/bin/pip install -e core` makes health show audit: "core". C: record kinds in backend/payrollpilot/kinds.py (message_batch, inbound, resolution); coordinator.transition_exception owns state changes. D: routes per CONTRACTS section 5; filters stage=stage1|stage2, category, state are server-side.
 Correction: the A-01 block above originally said 12:58; the actual time was about 12:40.
 ```
+
+```
+LANE A status @ 12:47
+Done: A-04 lane A parts (acceptance checks passed: apply refused without approval (403) and with a stale version (409); approved job_allocation applies as a local overlay, source snapshot unchanged, audit re-run on corrected view drops the missing_job case, events correction.proposed/approval.granted/correction.applied/recalc.completed; T16: changing the time entry version_hash in the source after approval invalidates the approval and the correction (approval.invalidated event) and apply returns 403; a correction applies once). Lane C hooks: guarded routes_comms include + coordinator.transition (in #9).
+NOT done: T02 numbers (wages delta 0, job cost delta) and readiness/packet/workbook outputs — need lane B's propose_correction, readiness, packet, workbook. Those routes return 501 {"reason": "core not merged"}; tested.
+Changed files: backend/payrollpilot/{corrections,core_bridge,cycles,permissions,contracts,app}.py, routes/{payroll,health}.py, backend/tests/test_a04_apply.py
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> 34 passed, 1 skipped (expected-exceptions: needs payrollpilot_core.audit), 0 failed. Lane B fixture load test ran against a local uncommitted copy of origin/lane/b-core fixtures and passed.
+Evidence: tests above; /api/health now shows core: {audit, corrections, readiness, packet, workbook} modes
+Blockers: lane B core modules; A-03 still needs BROWSER_USE_API_KEY + cycle dates in backend/.env
+Next: wire real core signatures when B pushes; A-03 when unblocked; A-05 after
+Handoff requested: C/D: message approval target_version = batch text_hash = permissions.text_hash(text) (CONTRACTS); correction approval target_version = the `target_version` field returned by POST /api/corrections and GET /api/corrections/{id}.
+```
+
+```
+LANE A status @ 12:58
+Done: readiness route rewired to lane B's cycle_readiness(view, exceptions, policies) per B's request; private policy overrides read from data/private/policy.json (PP_POLICY_FILE) when present, else None. Integration check with lane B PR #11 core installed temporarily into backend/.venv (from origin/lane/b-03): A-02 expected-exceptions acceptance now PASSES (15 of 15 by category + entity refs, all with evidence + provenance).
+Tests run: with lane B core: cd backend && .venv/bin/pytest -q tests/ -> 36 passed, 0 skipped, 0 failed. Without core (uninstalled after): 34 passed, 2 skipped, 0 failed.
+Evidence: live uvicorn + scripts/smoke.sh cycle_synthetic_v1 with core -> 15 exceptions, 15 exception.detected events; GET /readiness -> stage1 partial "review-ready for 1 of 4 workers; 3 unresolved; 1 out-of-cycle entry excluded"; quote job_01 pending (exception blockers), quote job_02 not_meaningful, marketing pending policy_missing:O04, tip pending policy_missing:O07 + prior_payment_unknown, manager_pool blocked policy_missing:O05/O06 + coverage:expenses.
+Blockers: B-04/B-05 (packet, workbook, propose_correction) for the rest of A-04; A-03 needs backend/.env key + dates.
+Next: wire propose_correction/packet/workbook when B pushes; then A-03/A-05.
+```
+
+```
+LANE A status @ 13:02
+Done: A-04 complete against lane B core (acceptance checks passed: T02 end to end through routes on cycle_synthetic_v1 with real core from main — te_0014 job_01 -> job_02 gives stage1_wages_delta_cents 0, job_01/job_02 labor deltas equal and opposite, approval -> apply -> stage1 readiness unchanged and equal to readiness_matrix_v1 after_t02_correction; T16 approval invalidation; packet + workbook routes with lane B PR #15 installed temporarily: 12 ledgers + Sources, verified_totals, original_updated false, workbook.generated + workbook.verified events; WorkbookVerificationError -> 500, no success events; lane B CorrectionError codes map to HTTP: stale_before/allocation_mismatch 409, target_not_found 404, others incl. unsupported:* 422)
+Changed files: backend/payrollpilot/corrections.py, backend/payrollpilot/routes/payroll.py, backend/tests/test_a04_apply.py, docs/plans/A-platform-data.md
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> with main core: 56 passed, 1 skipped (packet/workbook: B-04 not on main), 0 failed; with lane B PR #15 core installed temporarily: 57 passed, 0 failed
+Evidence: live workbook wb_40f0f25c89 draft_c8074d1db110 (private, data/private/workbooks): sheets Review..Carry-forward + Sources; verified_totals stage1_gross_ready_cents 174900, stage1_gross_all_cents null, cycle_profit_cents null (unknown stays null)
+Blockers: none for A-04 once lane B PR #15 merges. A-03 still needs BROWSER_USE_API_KEY + cycle dates in backend/.env.
+Next: A-03 when unblocked; else A-05 owner-export importers
+Handoff requested: lead merges this, then lane B PR #15; after both, packet/workbook test runs unskipped. D: POST /api/corrections returns target_version + blockers; workbook path is private, do not render it.
+```

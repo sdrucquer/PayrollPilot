@@ -39,6 +39,7 @@ class Settings:
     band_room: str
     browser_use_key_present: bool
     company_label: str
+    policy_file: Path
     business_tz: str
     allowlist: tuple[str, ...] = field(default_factory=tuple)
 
@@ -65,6 +66,7 @@ def load_settings() -> Settings:
         band_room=_env("PP_BAND_ROOM", "PayrollPilot Cases"),
         browser_use_key_present=bool(_env("BROWSER_USE_API_KEY")),
         company_label=_env("PP_COMPANY_LABEL", "Pilot Co"),
+        policy_file=Path(_env("PP_POLICY_FILE", str(REPO_ROOT / "data" / "private" / "policy.json"))),
         business_tz=_env("PP_BUSINESS_TZ", "America/New_York"),
         allowlist=allowlist,
     )
@@ -76,3 +78,15 @@ def mask_handle(handle: str) -> str:
         return ""
     tail = handle[-2:]
     return f"***-**{tail}"
+
+
+def load_private_policies(settings: "Settings") -> dict | None:
+    """Private policy overrides (named allocations etc.), gitignored. None when
+    absent: core then uses the snapshot's placeholder policies and keeps
+    unresolved policy as a blocker. Never invented here."""
+    import json
+
+    path = settings.policy_file
+    if not path.is_file():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
