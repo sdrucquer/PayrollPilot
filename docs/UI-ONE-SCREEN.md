@@ -32,4 +32,4 @@ Owner refinement (1:25 PM): most blockers are missing information from the crew,
 Separate /activity, /review, /inbox routes as destinations. Activity becomes the strip's last-action text plus a collapsible log under zone 1. Review packet becomes the Stage 1 expansion. The workbook panel becomes the header button and a toast with the artifact summary.
 
 ## Visual register
-docs/DESIGN-DIRECTION.md: black/violet canvas, glass cards, the progress strip is the single glowing focal element, quiet chips for honesty labels, tabular numerals, 1280px first.
+docs/DESIGN-DIRECTION.md: clean, light, Apple-like; white canvas, rounded cards, calm progress strip with one soft gradient accent, quiet chips for honesty labels, tabular numerals, 1280px first.

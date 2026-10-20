@@ -1,4 +1,8 @@
-# Design direction (owner-supplied references, 1:10 PM)
+# Design direction (owner-supplied references; updated 1:35 PM)
+
+**Current register (owner to lane G, 1:35 PM): "super clean, Apple-like."** References: Opal-style iOS screens and Apple HIG apps: white/near-white background, large rounded cards with soft shadows, generous whitespace, SF-style system type (SF Pro / -apple-system), one soft gradient accent per screen, pill buttons, muted secondary text, no neon, no glass-on-black. Progress is shown as calm rings/segmented bars, not dashboards. This supersedes the dark/violet register below; keep the layout decisions in docs/UI-ONE-SCREEN.md unchanged.
+
+Earlier references (kept for context; the dark register is no longer the target):
 
 Visual references the owner shared (described, not committed; do not reproduce the source art):
 1. **Apple "Wonderlust" key art**: near-black background, a single hero mark rendered as fine particles/grain with a cool-to-warm gradient (steel blue to sand), particles dissolving off one edge, one word of quiet sans-serif type below. Takeaway: one luminous focal object on black, grain texture, restraint.
@@ -12,6 +16,6 @@ Visual references the owner shared (described, not committed; do not reproduce t
    Centerpiece: the transition from AI detecting a problem, to a human answering it, to payroll becoming ready.
 
 ## How lanes use this
-- **Lane G (mockups)**: Command Center first, in this register: black/violet canvas, glass cards, one glowing focal element (the cycle readiness), grain only in hero/title areas, thin large headline, tabular numerals. Keep the required honesty elements (provenance badges, "Gusto: not prepared", masked test recipient) styled as quiet chips, never hidden.
+- **Lane G (mockups)**: the single screen from docs/UI-ONE-SCREEN.md in the clean Apple-like register: white canvas, rounded cards, the cycle progress strip as a calm segmented bar with one soft gradient, SF-style type, tabular numerals. Keep the required honesty elements (provenance badges, "Gusto: not prepared", masked test recipient) styled as quiet chips, never hidden.
 - **Lane D (implementation)**: adopt tokens (canvas, card, border, accent, text scale) from design/DESIGN.md when it lands; keep the four routes already planned, mapping the owner's five screens as: Command Center = `/`, Exceptions Inbox + AI Conversations = `/inbox` and `/inbox/:id`, Agent Activity = `/activity`, Payroll Review = `/review`. Do not rebuild; restyle.
-- **Lane E (film)**: title card and transitions in the Wonderlust register (particle mark on black, one word), product sections in the Linear register. "Overall readiness" in narration must still be stated per stage and per item, never as one "complete" number.
+- **Lane E (film)**: title card can stay minimal on black (one word), but product sections are the light, clean app; avoid mixing a dark product look into the cut. "Overall readiness" in narration must still be stated per stage and per item, never as one "complete" number.
