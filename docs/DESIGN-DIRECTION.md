@@ -1,6 +1,6 @@
-# Design direction (owner-supplied references; updated 1:35 PM)
+# Design direction (owner-supplied references; updated 12:53 PM)
 
-**Current register (owner to lane G, 1:35 PM): "super clean, Apple-like."** References: Opal-style iOS screens and Apple HIG apps: white/near-white background, large rounded cards with soft shadows, generous whitespace, SF-style system type (SF Pro / -apple-system), one soft gradient accent per screen, pill buttons, muted secondary text, no neon, no glass-on-black. Progress is shown as calm rings/segmented bars, not dashboards. This supersedes the dark/violet register below; keep the layout decisions in docs/UI-ONE-SCREEN.md unchanged.
+**Current register (owner to lane G, 12:53 PM): "super clean, Apple-like."** References: Opal-style iOS screens and Apple HIG apps: white/near-white background, large rounded cards with soft shadows, generous whitespace, SF-style system type (SF Pro / -apple-system), one soft gradient accent per screen, pill buttons, muted secondary text, no neon, no glass-on-black. Progress is shown as calm rings/segmented bars, not dashboards. This supersedes the dark/violet register below; keep the layout decisions in docs/UI-ONE-SCREEN.md unchanged.
 
 Earlier references (kept for context; the dark register is no longer the target):
 

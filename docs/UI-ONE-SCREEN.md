@@ -1,4 +1,4 @@
-# UI decision (owner, 1:20 PM): one screen, three zones
+# UI decision (owner, 12:48 PM): one screen, three zones
 
 Supersedes the four-route plan in docs/plans/D-ui-frontend.md for what ships today. Lane D keeps anything already built that maps onto a zone; nothing else gets built. Lane G mocks exactly this screen. Lane E films one evolving frame.
 
@@ -13,7 +13,7 @@ Question the screen answers: **where are the agents in this payroll cycle, and w
 - Header actions: Export workbook (`POST /api/cycles/{id}/workbook`, shows draft version and "original not updated"), Stop (`POST /api/run/stop`).
 
 ## Zone 2: What's limiting payroll = who we're waiting on (left, main list)
-Owner refinement (1:25 PM): most blockers are missing information from the crew, chiefly the operations lead (job manager). The list is organized by **respondent**, not by exception category.
+Owner refinement (12:50 PM): most blockers are missing information from the crew, chiefly the operations lead (job manager). The list is organized by **respondent**, not by exception category.
 - Groups in order, each with a count and a one-line summary:
   1. **Ops lead** (intended_respondent_role ops_lead): the bulk. "4 questions, 1 message awaiting reply since 1:32 PM". Rows are the questions in plain language ("Which job was the 8h14m shift on 10/02?"), with the evidence ref, what it blocks (wages for Worker B / job costing on Job 02), and state (draft / sent, awaiting reply / answered / needs clarification / resolved).
   2. **Workers** (role worker): identity or onboarding facts, usually few.
