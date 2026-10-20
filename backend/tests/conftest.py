@@ -22,4 +22,5 @@ def settings(tmp_path):
         allowlist=("+15550000012",),
         messaging_mode="fake",
         browser_use_key_present=False,
+        policy_file=tmp_path / "policy.json",
     )

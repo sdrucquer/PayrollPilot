@@ -4,7 +4,7 @@
 Expected signatures (docs/plans/B-audit-payroll.md):
   audit.run_audit(snapshot) -> list[Exception dict]
   corrections.propose_correction(kind, before, after, snapshot) -> LocalCorrection dict
-  readiness.readiness_for(item, exceptions, policies) -> Readiness ; readiness.stage1_readiness(workers, exceptions)
+  readiness.cycle_readiness(snapshot, exceptions, policies=None) -> {stage1, workers, items, items_by_id, stage2_summary}
   packet.build_packet(cycle, workers, entries, items, exceptions, corrections) -> dict
   workbook.build_workbook(packet, path) -> WorkbookArtifact dict
 """
@@ -28,8 +28,7 @@ _run_audit = _load("audit", "run_audit")
 AUDIT_MODE = "core" if _run_audit else "stub"
 
 propose_correction = _load("corrections", "propose_correction")
-readiness_for = _load("readiness", "readiness_for")
-stage1_readiness = _load("readiness", "stage1_readiness")
+cycle_readiness = _load("readiness", "cycle_readiness")
 build_packet = _load("packet", "build_packet")
 build_workbook = _load("workbook", "build_workbook")
 
@@ -44,7 +43,7 @@ def modes() -> dict[str, str]:
     return {
         "audit": AUDIT_MODE,
         "corrections": "core" if propose_correction else "missing",
-        "readiness": "core" if readiness_for else "missing",
+        "readiness": "core" if cycle_readiness else "missing",
         "packet": "core" if build_packet else "missing",
         "workbook": "core" if build_workbook else "missing",
     }

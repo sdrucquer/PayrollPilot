@@ -55,8 +55,10 @@ def _approve(c, corr, version=None):
                                           "scope_text": "Allocate te_0002 to job_01 locally"})
 
 
-def test_core_dependent_routes_return_501_until_lane_b(env):
+def test_core_dependent_routes_return_501_until_lane_b(env, monkeypatch):
     c, _ = env
+    for name in ("propose_correction", "cycle_readiness", "build_packet", "build_workbook"):
+        monkeypatch.setattr(core_bridge, name, None)
     r = c.post("/api/corrections", json={"kind": "job_allocation", "cycle_id": "cyc_mini_v1",
                                          "after": {"time_entry_id": "te_0002", "job_id": "job_01"}})
     assert r.status_code == 501 and r.json()["reason"]
@@ -108,3 +110,23 @@ def test_source_change_after_approval_invalidates_it(env, monkeypatch):
     assert any(e["type"] == "approval.invalidated" and e["refs"]["approval_id"] == appr["id"] for e in events)
     r = c.post(f"/api/corrections/{corr['id']}/apply")
     assert r.status_code == 403
+
+
+SYNTH = Path(__file__).resolve().parents[2] / "docs" / "contracts" / "fixtures" / "cycle_synthetic_v1.json"
+
+
+@pytest.mark.skipif(core_bridge.cycle_readiness is None or not SYNTH.exists(),
+                    reason="needs payrollpilot_core.readiness.cycle_readiness + lane B fixture")
+def test_readiness_route_uses_core_on_synthetic_cycle(settings, tmp_path):
+    shutil.copy(SYNTH, tmp_path / SYNTH.name)
+    c = TestClient(create_app(dataclasses.replace(settings, fixtures_dir=tmp_path)))
+    c.post("/api/cycles/load", json={"source": "fixture", "name": "cycle_synthetic_v1"})
+    c.post("/api/cycles/cyc_synth_v1/audit")
+    body = c.get("/api/cycles/cyc_synth_v1/readiness").json()
+    assert body["stage1"]["state"] in {"ready", "partial", "pending", "blocked", "not_meaningful"}
+    kinds_seen = {i["kind"] for i in body["items"]}
+    assert "manager_pool" in kinds_seen
+    for item in body["items"]:
+        assert item["readiness"]["state"] in {"ready", "partial", "pending", "blocked", "not_meaningful"}
+        if item["readiness"]["state"] != "ready":
+            assert item["readiness"]["blockers"] or item["readiness"]["state"] == "not_meaningful", item["id"]
