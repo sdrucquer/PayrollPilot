@@ -28,27 +28,31 @@ function assert(label: string, cond: boolean) {
   if (!cond) { failures++; console.error(`FAIL ${label}`) } else console.log(`ok   ${label}`)
 }
 
-const bundlePath = join(here, '../src/fixtures/placeholder_bundle.json')
+const bundlePath = join(here, '../src/fixtures/bundle.json')
 const bundle = JSON.parse(readFileSync(bundlePath, 'utf8'))
 check('bundle.health', C.Health, bundle.health)
 check('bundle.cycle', C.PayrollCycle, bundle.cycle)
 check('bundle.workers', z.array(C.Worker), bundle.workers)
 check('bundle.readiness', C.ReadinessResponse, bundle.readiness)
+check('bundle.readiness_after_t02', C.ReadinessResponse, bundle.readiness_after_t02)
 check('bundle.exceptions', z.array(C.PayrollException), bundle.exceptions)
 check('bundle.events', z.array(C.PPEvent), bundle.events)
 
 // Lane B fixtures (shapes per CONTRACTS section 6). Validate the parts that are contract records.
-const fxDir = join(here, '../../docs/contracts/fixtures')
+for (const fxDir of [join(here, '../../docs/contracts/fixtures'), join(here, '../src/fixtures/laneb')]) {
 if (existsSync(fxDir)) {
   for (const f of readdirSync(fxDir).filter((n) => n.endsWith('.json'))) {
     const data = JSON.parse(readFileSync(join(fxDir, f), 'utf8'))
-    if (data && typeof data === 'object' && 'cycle' in data) check(`${f}: cycle`, C.PayrollCycle, data.cycle)
+    if (data && typeof data === 'object' && 'cycle' in data) check(`${fxDir.split('/').slice(-2).join('/')}/${f}: cycle`, C.PayrollCycle, data.cycle)
     if (data && typeof data === 'object' && 'workers' in data) check(`${f}: workers`, z.array(C.Worker), data.workers)
     if (data && typeof data === 'object' && 'exceptions' in data && Array.isArray(data.exceptions)
-        && data.exceptions[0] && 'title' in data.exceptions[0]) check(`${f}: exceptions`, z.array(C.PayrollException), data.exceptions)
+        && data.exceptions[0]) check(`${f}: exceptions (expected subset)`, z.array(C.PayrollException.pick({
+          id: true, category: true, entity_refs: true, stage_impact: true, intended_respondent_role: true, title: true,
+        })), data.exceptions)
     if (!('cycle' in data) && !('workers' in data) && !('exceptions' in data)) console.log(`skip ${f} (no recognized contract record at top level)`)
   }
-} else console.log('skip docs/contracts/fixtures (not present yet)')
+} else console.log(`skip ${fxDir} (not present yet)`)
+}
 
 assert('formatCents(null) is a dash', formatCents(null) === '—')
 assert('formatCents(0) is $0.00, not a dash', formatCents(0) === '$0.00')

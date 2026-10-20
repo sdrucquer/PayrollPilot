@@ -8,8 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "check:contracts": "tsx scripts/check-contracts.ts",
-    "dev:api": "VITE_DATA_MODE=api vite"
+    "check:contracts": "node scripts/build-fixtures.mjs && tsx scripts/check-contracts.ts",
+    "dev:api": "VITE_DATA_MODE=api vite",
+    "fixtures": "node scripts/build-fixtures.mjs"
   },
   "dependencies": {
     "react": "^19.3.1",
