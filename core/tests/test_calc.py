@@ -91,13 +91,13 @@ def test_t22_labor_revenue_ratios():
     assert labor_revenue_ratios(200000, None, 400000)["total_ratio"] is None  # missing employer cost stays unknown
 
 
-APPROVED_SPLIT = {"status": "approved", "split_percent": {"retained": 50, "mgr_a": 10, "mgr_b": 20, "owner": 20},
+APPROVED_SPLIT = {"status": "approved", "split_percent": {"retained": 40, "mgr_a": 15, "mgr_b": 25, "owner": 20},
                   "requires_resolution": []}
 
 
 def test_manager_pool_uses_policy_split_only():
     out = manager_pool(100000, APPROVED_SPLIT)
-    assert out["allocations"] == {"retained": 50000, "mgr_a": 10000, "mgr_b": 20000, "owner": 20000}
+    assert out["allocations"] == {"retained": 40000, "mgr_a": 15000, "mgr_b": 25000, "owner": 20000}
 
 
 def test_manager_pool_refusals():
