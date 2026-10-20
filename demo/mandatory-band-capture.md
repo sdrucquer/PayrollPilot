@@ -12,6 +12,8 @@ Band’s installed CLI describes usage as coding-agent, ccusage-backed **catalog
 
 C also reported four shared-board tasks and initially no room plan. C is attaching a truthful plan and collecting the exact board, routed handoff and human-decision references; treat plan capture as pending until that message is identified.
 
+Read-only supported-path investigation and exact owner sponsor question: [native usage research](band-native-usage-research.md). No verified generic/OpenRouter → native cost-view ingestion path found; SDK `Emit.USAGE` timeline events do not yet close R19.
+
 ## Capture in this order (owner records; Lane C validates state)
 
 | Check | Exact evidence in Band Desktop | Accept only when |
