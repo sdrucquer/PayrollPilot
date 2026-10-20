@@ -11,8 +11,9 @@ from fastapi.responses import JSONResponse
 from .. import core_bridge, corrections, cycles, kinds
 from ..contracts import CorrectionRequest
 from ..coordinator import is_stopped
+from ..db import now_iso
 from ..events import emit, new_id
-from ..settings import REPO_ROOT, load_private_policies
+from ..settings import load_private_policies
 
 router = APIRouter()
 
@@ -63,14 +64,14 @@ def readiness(cycle_id: str, request: Request):
     return {"stage1": r["stage1"], "items": r["items"], "workers": r.get("workers"), "stage2_summary": r.get("stage2_summary")}
 
 
-def _packet(db, cycle_id: str):
+def _packet(db, cycle_id: str, policies=None):
     view = cycles.corrected_snapshot(db, cycle_id)
     if view is None:
         raise HTTPException(404, f"cycle {cycle_id} not found")
-    corrs = [c for c in db.list_records(kinds.CORRECTION, cycle_id=cycle_id)]
+    corrs = [{k: v for k, v in c.items() if k != "_version"} for c in db.list_records(kinds.CORRECTION, cycle_id=cycle_id)]
     return core_bridge.build_packet(
-        cycles.get_cycle(db, cycle_id), view.get("workers") or [], view.get("time_entries") or [],
-        (corrections.readiness_view(db, cycle_id) or {}).get("items") or [], cycles.list_exceptions(db, cycle_id), corrs,
+        snapshot=view, exceptions=cycles.list_exceptions(db, cycle_id), corrections=corrs,
+        policies=policies, now=now_iso(),
     )
 
 
@@ -80,7 +81,8 @@ def packet(cycle_id: str, request: Request):
         if cycles.get_cycle(request.app.state.pp.db, cycle_id) is None:
             raise HTTPException(404, f"cycle {cycle_id} not found")
         return _501("payrollpilot_core.packet.build_packet")
-    return _packet(request.app.state.pp.db, cycle_id)
+    st = request.app.state.pp
+    return _packet(st.db, cycle_id, load_private_policies(st.settings))
 
 
 @router.post("/api/cycles/{cycle_id}/workbook")
@@ -90,12 +92,19 @@ def workbook(cycle_id: str, request: Request):
         raise HTTPException(404, f"cycle {cycle_id} not found")
     if core_bridge.build_packet is None or core_bridge.build_workbook is None:
         return _501("payrollpilot_core.packet.build_packet + workbook.build_workbook")
-    pkt = _packet(db, cycle_id)
+    st = request.app.state.pp
+    pkt = _packet(db, cycle_id, load_private_policies(st.settings))
     wb_id = new_id("wb")
-    out_dir = REPO_ROOT / "data" / "private" / "workbooks"
+    out_dir = st.settings.private_snapshots_dir.parent / "workbooks"  # data/private/workbooks (gitignored)
     out_dir.mkdir(parents=True, exist_ok=True)
     path: Path = out_dir / f"{cycle_id}_{wb_id}.xlsx"
-    artifact = dict(core_bridge.build_workbook(pkt, str(path)) or {})
+    try:
+        artifact = dict(core_bridge.build_workbook(pkt, str(path)) or {})
+    except Exception as exc:
+        if type(exc).__name__ != "WorkbookVerificationError":
+            raise
+        # The workbook did not reopen with matching totals: not a success.
+        return JSONResponse(status_code=500, content={"error": "workbook_verification_failed", "detail": str(exc)})
     artifact.setdefault("id", wb_id)
     artifact.setdefault("path", str(path))
     artifact["original_updated"] = False  # never updates the owner's designated workbook in this pilot
