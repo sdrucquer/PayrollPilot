@@ -1,4 +1,4 @@
-"""Pydantic v2 mirror of docs/contracts/CONTRACTS.md sections 1-3 (contract_version "1").
+"""Pydantic v2 mirror of docs/contracts/CONTRACTS.md v1.1 sections 1-3 (contract_version "1").
 
 Lead-owned after lane A's first PR. Field names are identical to CONTRACTS.md.
 Models use ``extra="allow"`` so fixture fields not yet mirrored are preserved,
@@ -111,6 +111,7 @@ class TimeEntry(_Model):
     scheduled_minutes: Optional[int] = None
     paid_status: Literal["paid_prior_cycle", "unpaid", "unknown"] = "unknown"
     paid_ref: Optional[SourceRef] = None
+    scheduled_job_id: Optional[str] = None  # v1.1: schedule evidence only
     source_ref: SourceRef
     version_hash: Optional[str] = None
     provenance: Provenance
@@ -216,6 +217,7 @@ class EntityRefs(_Model):
     time_entry_ids: list[str] = Field(default_factory=list)
     job_ids: list[str] = Field(default_factory=list)
     cost_ids: list[str] = Field(default_factory=list)
+    coverage: list[str] = Field(default_factory=list)  # v1.1, e.g. "quickbooks:expenses" for coverage_gap
 
 
 class StageImpact(_Model):

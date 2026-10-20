@@ -68,3 +68,15 @@ Next: A-04 route shells (501 until B-03/B-04), then A-03 when the owner supplies
 Handoff requested: B: push core/payrollpilot_core/audit.py (run_audit(snapshot) -> list[dict]) and fixtures to main; then `backend/.venv/bin/pip install -e core` makes health show audit: "core". C: record kinds in backend/payrollpilot/kinds.py (message_batch, inbound, resolution); coordinator.transition_exception owns state changes. D: routes per CONTRACTS section 5; filters stage=stage1|stage2, category, state are server-side.
 Correction: the A-01 block above originally said 12:58; the actual time was about 12:40.
 ```
+
+```
+LANE A status @ 13:05
+Done: A-04 lane A parts (acceptance checks passed: apply refused without approval (403) and with a stale version (409); approved job_allocation applies as a local overlay, source snapshot unchanged, audit re-run on corrected view drops the missing_job case, events correction.proposed/approval.granted/correction.applied/recalc.completed; T16: changing the time entry version_hash in the source after approval invalidates the approval and the correction (approval.invalidated event) and apply returns 403; a correction applies once). Lane C hooks: guarded routes_comms include + coordinator.transition (in #9).
+NOT done: T02 numbers (wages delta 0, job cost delta) and readiness/packet/workbook outputs — need lane B's propose_correction, readiness, packet, workbook. Those routes return 501 {"reason": "core not merged"}; tested.
+Changed files: backend/payrollpilot/{corrections,core_bridge,cycles,permissions,contracts,app}.py, routes/{payroll,health}.py, backend/tests/test_a04_apply.py
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> 34 passed, 1 skipped (expected-exceptions: needs payrollpilot_core.audit), 0 failed. Lane B fixture load test ran against a local uncommitted copy of origin/lane/b-core fixtures and passed.
+Evidence: tests above; /api/health now shows core: {audit, corrections, readiness, packet, workbook} modes
+Blockers: lane B core modules; A-03 still needs BROWSER_USE_API_KEY + cycle dates in backend/.env
+Next: wire real core signatures when B pushes; A-03 when unblocked; A-05 after
+Handoff requested: C/D: message approval target_version = batch text_hash = permissions.text_hash(text) (CONTRACTS); correction approval target_version = the `target_version` field returned by POST /api/corrections and GET /api/corrections/{id}.
+```
