@@ -1447,9 +1447,9 @@
       "decision_id": "O06",
       "status": "placeholder",
       "split_percent": {
-        "retained": 50,
-        "mgr_a": 10,
-        "mgr_b": 20,
+        "retained": 40,
+        "mgr_a": 15,
+        "mgr_b": 25,
         "owner": 20
       },
       "requires_resolution": [
