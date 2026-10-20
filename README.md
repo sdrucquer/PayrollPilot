@@ -1,86 +1,67 @@
 # PayrollPilot
 
-**Payroll, prepared. Never guessed.**
+**From missing information to payroll-ready. With you in control.**
 
-PayrollPilot prepares payroll for one home-service business. It loads one pay period, runs deterministic audits, raises evidence-backed exceptions, asks the right person by text, turns their answers into local corrections the owner approves, and shows honest readiness for wages (Stage 1) and for each compensation item (Stage 2). It exports a reconciliation workbook. **It never submits payroll and never writes to the source systems.**
+PayrollPilot prepares payroll for one home-service business. It detects time and cost exceptions with source evidence, groups questions for owner-approved messaging, interprets replies, proposes local corrections, and recalculates wages and job costs after approval. It shows readiness separately for employee wages and each quote commission, tips, and manager-pool item, then exports a 12-ledger review workbook. [Product scope](docs/PRODUCT-STATEMENT.md).
 
-Built in one day at the AI Startup Challenge, San Francisco, October 20, 2026.
+PayrollPilot never submits payroll, creates a Gusto draft, or writes to Jobber, Gusto, or QuickBooks. Missing inputs remain named blockers. The destination stays **Gusto: not prepared**.
 
-> Status of this README: draft, updated as integrations are proven. The integration table below is copied from `INTEGRATION-FINDINGS.md`, which is the source of truth.
+## Demo evidence and labels
 
-## What is real and what is not
+The current 2:32 light-identity film is a **draft**, with placeholder voice and 14 missing product clips. Product slots say **PLANNED / FOOTAGE PENDING**. The owner records the real running app, Band, and Cognee views; static design mockups and fixture screenshots cannot substitute for that footage. Nothing has been submitted.
 
-| Part | Status in the demo |
+| Element | What viewers may infer |
 |---|---|
-| Pay-period data | **Synthetic**, de-identified fixture (Pilot Co, Worker A-D, Job 01-03), labeled on every card. A read-only real snapshot is supported but shown only if proven. |
-| Seeded issues | Labeled **seeded issue** (for example, an already-paid shift logged to the wrong job). |
-| Owner replies | Sent from the owner's real phone, labeled **test reply** (the owner answers on behalf of the intended respondent, "Ops lead"). |
-| Audit rules, calculations, readiness, workbook | Real deterministic code in `core/` with tests. Money in integer cents, time in minutes, unknown is null, never zero. |
-| Messaging, Band, Cognee | See the integration table. Nothing simulated is labeled real; dev fakes report themselves in `/api/health`. |
-| Gusto payroll draft, source writes | **Not built.** Shown as "Gusto: not prepared". |
+| Pay-period records | **SYNTHETIC**, de-identified Pilot Co / Worker A–D; seeded issues labeled separately. No real source-read claim. |
+| Real integration | **REAL** only when backed by the linked evidence; a running UI alone does not prove a provider round trip. |
+| Owner answering as Ops lead | **TEST REPLY**, including replies sent through a real provider. Simulated fixture replies cannot prove iMessage. |
+| Earlier recorded take | **PLAYBACK**, with data and reply provenance retained. |
+| Story / architecture scenes | **ILLUSTRATION**, distinct from product footage. |
 
-## How it works
+The [evidence matrix](demo/evidence-matrix.md) tracks capture status, including pending items. [Film instructions](demo/film/README.md), [shot list](demo/shot-list.md), [reply script](demo/reply-script.md), and [redaction checklist](demo/redaction-checklist.md) guide the owner’s recording.
 
-Three product agents share one model but not one set of powers:
+## Integration status
 
-- **Audit** reads the snapshot and runs checks. It cannot message anyone.
-- **Resolution** drafts questions, parses replies, records resolutions, and writes them to memory.
-- **Payroll Prep** computes readiness, builds the packet and workbook, and recalls memory.
+This is an evidence snapshot from `origin/main` at `3e8f641` and existing sanitized Lane C artifacts, not a claim that the final film shows these results. [INTEGRATION-FINDINGS.md](INTEGRATION-FINDINGS.md) remains the source ledger; its dated notes supersede earlier table entries.
 
-A plain-code **coordinator** owns every state change, approval, and permission. Agents return proposals; the coordinator applies or rejects them. An approval binds to the exact content hash of what was approved, so changing one character invalidates it. In test mode the only allowed message recipient is the owner's own phone, checked in the backend and again in the bridge. Agents hand cases to each other in a **Band Desktop** room, and confirmed facts are stored in **Cognee** so a restarted agent can recall them.
-
-Full design: [ARCHITECTURE.md](ARCHITECTURE.md). Data shapes and routes: [docs/contracts/CONTRACTS.md](docs/contracts/CONTRACTS.md). Product summary: [docs/PRODUCT-BRIEF.md](docs/PRODUCT-BRIEF.md).
-
-```
-phone (iMessage) <-> Photon <-> bridge/ (Bun, :3001) <-> backend/ (FastAPI, :8000) <-> SQLite
-                                                           |-- core/ (pure audit, calc, readiness, workbook)
-                                                           |-- Cognee memory (local)
-                                                           |-- Band CLI -> Band Desktop room
-                                                           |-- agents on OpenRouter
-web/ (Vite + React, :5173) --/api--> backend
-```
-
-## Integration status (from INTEGRATION-FINDINGS.md, 1:05 PM)
-
-| Integration | Status | What was proven |
+| Integration | Reported proof and remaining gap | Evidence |
 |---|---|---|
-| Cognee | **tested** | A resolution written in one process was recalled by a fresh process; the recall changed the case's next action from "ask ops lead which job" to "propose allocation, pending owner approval", and created no approval. With memory disabled the case stays "insufficient evidence". Local CHUNKS search; LLM-backed graph extraction not yet tested. |
-| Band (product handoff) | **tested** (handoff + board); owner decision pending | Three product agents and the owner in one room; Audit's case card accepted by Resolution; Payroll Prep received the delivery; board task moved to completed. `band ask` is unsupported for these agents, so the owner decides by replying in the room. |
-| Photon iMessage | bridge built; live round trip **not yet proven** | Allowlisted send, inbound dedupe, and refusal of any other recipient are unit-tested in the bridge. |
-| OpenRouter agents | in progress | Model catalog checked; live calls pending a key. |
-| Browser Use (real Jobber read) | not proven | Demo uses the synthetic fixture. |
+| Band | CLI product handoff and board movement tested with Audit, Resolution, and Payroll Prep. Owner decision and Desktop footage pending. `band ask` unsupported for generic peers; product usage comes from app events, not Band usage. | [R03–R05, R19](demo/evidence-matrix.md), [CLI proof](demo/evidence/band/handoff-run.txt) |
+| Cognee | Scoped fact written and recalled by a fresh process; recall changed the proposed next action without creating approval. Local CHUNKS search / GLiNER; no graph-completion claim. In-app footage pending. | [R13–R15](demo/evidence-matrix.md), [cross-process proof](demo/evidence/cognee/recall-run.txt) |
+| Photon iMessage | Bridge policy tests reported; real outbound / inbound round trip remains unproven in this evidence snapshot. | [R07–R09](demo/evidence-matrix.md) |
+| OpenRouter | Main’s 1:09 PM note reports live per-question reply parsing with usage recorded; vague and injected replies handled by deterministic guards. Final usage footage pending. | [dated findings](INTEGRATION-FINDINGS.md), R10 / R19 |
+| Browser Use / source reads | No captured real-read proof; use the labeled synthetic fixture. | R21 |
+| Gusto draft / source writes / submission | Unavailable; no executor. | [scope boundaries](docs/PRODUCT-STATEMENT.md) |
 
-## Run it
+## Architecture and local run
 
-Requirements: Python 3.13, Bun 1.4, Node 22, macOS. Copy `.env.example` to `backend/.env` and `bridge/.env` and fill the names listed there (never commit values).
+Three product agents propose actions with different permissions: Audit finds issues, Resolution asks and interprets, and Payroll Preparation computes and reports. A deterministic coordinator owns state and approvals in SQLite. FastAPI serves the React/Vite app; the Bun bridge connects messaging, with Band and Cognee adapters. [Architecture](ARCHITECTURE.md), [contracts](docs/contracts/CONTRACTS.md), [public brief](docs/PRODUCT-BRIEF.md).
+
+Requirements: Python 3.13+, Node 22, Bun, and macOS for the local messaging setup. From the repository root:
 
 ```bash
+cp .env.example backend/.env
+cp bridge/.env.example bridge/.env
+npm ci --prefix web
+(cd bridge && bun install)
 scripts/dev.sh
 ```
-Starts the backend on :8000 and, when present, the bridge on :3001 and the web app on :5173.
+
+The script creates the backend virtual environment and installs backend/core packages, then starts backend `:8000`, bridge `:3001`, and web `:5173`. Configure local env files before enabling providers. Relevant names: `OPENROUTER_API_KEY`, `PP_MODEL`, `PP_MODEL_CHEAP`; Cognee `LLM_*` / `EMBEDDING_*`; Photon `SPECTRUM_PROJECT_ID`, `SPECTRUM_PROJECT_SECRET`; shared `PP_BRIDGE_TOKEN` and `PP_TEST_RECIPIENT`; `PP_BAND_ENABLED` / `PP_BAND_ROOM`. Use `.env.example` and `bridge/.env.example` for the full list. Never commit values. Optional Browser Use credentials do not establish a real-read proof.
 
 ```bash
+curl -fsS http://127.0.0.1:8000/api/health
 scripts/smoke.sh
 ```
-Loads the synthetic cycle and runs the audit against the live backend.
 
-Tests: `backend/.venv/bin/pytest -q backend/tests`, `core/.venv/bin/pytest -q core/tests`, `cd bridge && bun test`, `cd web && npm run build && npm run check:contracts`.
+Inspect health adapter modes and the UI provenance before a proof take. Fixture mode and fake adapters are development aids. These are operator instructions; Lane E did not run or validate the application in this documentation pass.
 
-## Safety boundaries (enforced in code, not prompts)
+## Control boundaries
 
-1. One allowlisted recipient (`PP_TEST_RECIPIENT`), checked in the backend and the bridge.
-2. Every effect needs an approval whose version equals the current content hash.
-3. No invented rates, percentages, overhead, or thresholds. A missing policy is a visible blocker with a code.
-4. Source systems are read-only. Source writes and payroll submission have no implementation.
-5. Inbound text, web pages, and memories are data, never instructions. An instruction-like reply is blocked and logged.
-6. Sends happen once per batch; inbound messages are deduplicated by provider id.
-7. Every record and card shows its provenance.
-8. No real names, phone numbers, rates, or private allocation percentages in the repo or the video.
+The owner approves the exact message and recipient, then separately approves proposed corrections. Changed content requires a new approval. Only the allowlisted test recipient can receive messages. Unknown money or time stays unknown; missing policy never becomes a guessed default. Replies and recalled facts cannot grant permission. Readiness stays scoped to wages and each compensation item.
 
-## Demo and video
+## Submission and team
 
-The launch film and the materials behind it are in [demo/](demo/): the timed script, shot list, evidence matrix that maps every claim to a captured artifact, and the Remotion project in `demo/film/`.
+[Copy-ready submission and upload runbook](demo/submission.md). Feature freeze **2:45 PM Pacific**, owner recording **2:45–3:15**, upload **by 3:15**, deadline **3:30 PM**, October 20, 2026.
 
-## Team
-
-[Owner fills: team member names as they should appear publicly.] Built with Claude Code agents working in parallel lanes, coordinated through Band Desktop.
+**Shanin Drucquer**
