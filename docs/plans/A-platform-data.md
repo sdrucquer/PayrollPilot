@@ -111,3 +111,15 @@ Blockers: none. A-03 still needs BROWSER_USE_API_KEY + cycle dates in backend/.e
 Next: A-03 when unblocked, else A-05
 Handoff requested: F removes the xfail marker on test_t02_apply_clears_the_fixed_exception_from_readiness after this merges.
 ```
+
+```
+LANE A status @ 13:14
+Done: A-03 prep (acceptance so far: key verified with one GET /profiles -> 200; profile payrollpilot-jobber-readonly created; plain login browser session opened on it (no agent), live link in data/private/browser_use/login_link.txt (gitignored, 0600), session timeout 13:42 PT; read command built: read-only task prompt, JSON-schema structured output, de-identified snapshot -> data/private/snapshots/jobber_<start>_<end>.json, coverage complete only when all pages viewed and counts match, unknown durations null, second read dedupes by Jobber id, private snapshot loads + audits through the routes)
+NOT done: the real read. Waiting on (1) owner Jobber login in the live browser, (2) owner-confirmed pay-period dates. Timebox 45 min starts when dates arrive.
+Changed files: backend/payrollpilot/adapters/browser_use.py, backend/tests/test_a03_browser_use.py, docs/plans/A-platform-data.md
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> 74 passed, 0 failed (A-03: 5 passed, no network)
+Evidence: profile c3993dee-fbab-4ab8-b294-04179dcbdf29, login session 3b7b9253-7bd4-45a1-9c79-e30399926ffd; dry run prints task + schema, no API call
+Blockers: owner login + dates
+Next: on "logged in": stop session (saves cookies), confirm jobber cookie domain; on dates: read, load via POST /api/cycles/load {source: private_snapshot}
+Handoff requested: lead relays the owner's "logged in" and the dates
+```
