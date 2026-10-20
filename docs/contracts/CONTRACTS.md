@@ -1,4 +1,6 @@
-# PayrollPilot canonical contracts (v1, 2026-10-20)
+# PayrollPilot canonical contracts (v1.1, 2026-10-20 12:45 PM)
+
+Change log: v1.1 blessed lane B fixture extensions: `TimeEntry.scheduled_job_id`, snapshot `policies` and `obligations`, `entity_refs.coverage`. `contract_version` stays "1".
 
 **This file is the single source of truth for shared data shapes, event names, state machines, and API routes.** Every plan references it; none redefines it. Changes go through the lead (integrator) in a PR that bumps `contract_version` and lists affected tests. Private policy details (named allocations, real rates, phone numbers) never appear here; use fixture placeholders.
 
@@ -56,7 +58,7 @@ Implementation mirrors: `backend/payrollpilot/contracts.py` (pydantic v2, lead-o
 {"id": "te_0001", "worker_id": "wkr_01", "job_id": "job_01"|null, "date": "2026-10-01",
  "start": "2026-10-01T07:58:00-04:00"|null, "end": "2026-10-01T16:12:00-04:00"|null, "duration_minutes": 494,
  "approved_in_source": true, "open_timer": false, "scheduled_minutes": 480|null,
- "paid_status": "paid_prior_cycle"|"unpaid"|"unknown", "paid_ref": SourceRef|null,
+ "paid_status": "paid_prior_cycle"|"unpaid"|"unknown", "paid_ref": SourceRef|null, "scheduled_job_id": "job_02"|null,   // v1.1: schedule evidence only
  "source_ref": SourceRef, "version_hash": "sha256:...", "provenance": "real"|"synthetic"|"seeded_issue"}
 
 // Job
@@ -86,6 +88,10 @@ Implementation mirrors: `backend/payrollpilot/contracts.py` (pydantic v2, lead-o
  "balance_cents": 0|null}
 ```
 
+// Snapshot envelope (v1.1): {"snapshot_id", "captured_at", "provenance", "cycle": PayrollCycle, "workers": [], "jobs": [], "time_entries": [],
+//   "receipts": [], "costs": [], "obligations": [Obligation], "policies": {<policy_key>: {"decision_id": "O0x", "status": "approved"|"proposed"|"placeholder"|"unresolved"|"sop_rule"|"job_specific_only", ...}}}
+// Policy statuses drive PolicyMissing blockers. Committed fixtures carry PLACEHOLDER percentages only; real named assignments live in a private policy file read at runtime (data/private/policies.json).
+
 ## 2. Exceptions, messages, resolutions, approvals
 
 ```jsonc
@@ -94,7 +100,7 @@ Implementation mirrors: `backend/payrollpilot/contracts.py` (pydantic v2, lead-o
    "schedule_mismatch"|"identity"|"rate_unconfirmed"|"already_paid_allocation"|"unmatched_cost"|"cost_conflict"|"offsite_link"|
    "quote_attribution"|"policy_missing"|"coverage_gap",
  "title": "Shift on 10/02 has no job assigned", "observed": "8h14m logged, job empty", "expected": "every paid shift maps to a job",
- "evidence": [SourceRef], "entity_refs": {"worker_id": "wkr_01", "time_entry_ids": ["te_0001"], "job_ids": [], "cost_ids": []},
+ "evidence": [SourceRef], "entity_refs": {"worker_id": "wkr_01", "time_entry_ids": ["te_0001"], "job_ids": [], "cost_ids": [], "coverage": ["quickbooks:expenses"]},   // coverage: v1.1, for coverage_gap
  "stage_impact": {"stage1_wages": "none"|"blocks_worker"|"blocks_item", "stage2_costs": "none"|"job_costing"|"commission"|"manager_pool"},
  "dollars_affected_cents": null, "intended_respondent_role": "ops_lead"|"owner"|"worker"|"quoter"|"accountant",
  "state": "detected"|"investigating"|"awaiting_reply"|"answer_received"|"needs_approval"|"needs_source_verification"|"resolved"|"conflicting"|"insufficient_evidence"|"escalated",
