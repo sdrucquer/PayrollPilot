@@ -1,6 +1,6 @@
 # PayrollPilot launch film + demo: timed script (v1, 2026-10-20 12:50 PM)
 
-Owner direction (12:40 PM): a launch-film look (Apple/Linear), roughly 40% story and 60% genuine product and technical demonstration, under three minutes, every illustrative sequence visibly distinct from verified functionality. This script is the baseline (no `DEMO-PLAN.md` on main). Changes go through lane E.
+Owner direction (12:40 PM): a launch-film look (Apple/Linear), roughly 40% story and 60% genuine product and technical demonstration, under three minutes, every illustrative sequence visibly distinct from verified functionality. This script extends the lead's baseline in `DEMO-PLAN.md` (same seven product beats, same order, same labels). Differences from the baseline: a launch-film opening and close are added per the owner's direction, and narration is a generated voiceover instead of the owner speaking (owner can still record their own voice over the same timings).
 
 Runtime target **2:55** (hard cap 3:00). Narration ~395 words at ~156 wpm (2.6 words/s), timed per line below. Voiceover: ElevenLabs if the owner supplies a key before 2:15 PM, otherwise a labeled placeholder voice (see `demo/film/README.md`). Every on-screen clip carries one of the labels **REAL**, **CACHED**, **SYNTHETIC**, **SEEDED ISSUE**, **TEST REPLY**, **PLAYBACK** (genuine earlier run), or **ILLUSTRATION** (motion graphics, not the product).
 
@@ -15,12 +15,12 @@ Label rule: illustrative sequences use the film's dark gradient and a persistent
 | 0:32-0:50 | How it works | Three cards (Audit, Resolution, Payroll Prep) with their tool lists; a solid bar under them, "Deterministic coordinator: state, permissions, approvals"; handoff arrows; an owner-decision marker at each effect; "Band Desktop" and "Cognee" tags on the arrows and the memory store. | 05 | ILLUSTRATION |
 | 0:50-0:51 | Transition | Coordinator bar morphs into the real app header; product footage fades up beneath. | - | - |
 | 0:51-1:05 | Beat 1: Cycle board | REAL UI `/`: Pilot Co, period, coverage chips, Stage 1 card, three separate Stage 2 cards with readiness and blocker codes, destination badge. | 06 | SYNTHETIC fixture (or REAL · Browser Use read if A-03 landed) |
-| 1:05-1:23 | Beat 2: Audit -> Band handoff | REAL UI `/inbox/:id` seeded issue "Shift on 10/02 has no job assigned"; click Hand off. Band Desktop: room "PayrollPilot Cases" with pp-audit, pp-resolution, pp-payroll; case card; board item moves; `band ask` decision answered by the owner. | 07 | REAL · Band Desktop · SEEDED ISSUE |
-| 1:23-1:40 | Beat 3: Approve -> real iMessage | REAL UI: drafted text; approval dialog with exact text, masked recipient, linked issue ids, hash; Approve + Send. Phone: message arrives. | 08 | REAL · Photon iMessage |
+| 1:05-1:23 | Beat 2: Audit -> Band handoff | REAL UI `/inbox/:id` seeded issue "Already-paid shift on 2026-10-01 is on Job 01 but scheduled on Job 02" (stage impact: wages none, job costing); click Hand off. Band Desktop: room "PayrollPilot Cases" with pp-audit, pp-resolution, pp-payroll; case card; board item moves; `band ask` decision answered by the owner. | 07 | REAL · Band Desktop · SEEDED ISSUE |
+| 1:23-1:40 | Beat 3: Approve -> real iMessage | REAL UI: drafted batch of two questions (the Oct 1 shift's job; which job the Job 03 off-site disposal run belongs to); approval dialog with exact text, masked recipient, linked issue ids, hash; Approve + Send. Phone: message arrives. | 08 | REAL · Photon iMessage |
 | 1:40-1:55 | Beat 4: Reply -> parse -> clarify | Phone: vague "yes". UI: TEST REPLY inbound, both questions "ambiguous", Clarify; re-approve, send. Phone: clear answer. UI: "answered", extracted job, quote. | 09 | REAL transport · TEST REPLY |
-| 1:55-2:09 | Beat 5: Correction -> recalc | UI: correction before/after; impact "Stage 1 wages delta $0.00", Job 02 labor delta; approve (second approval); apply; only the affected card changes; `readiness.changed` for that item. | 10 | REAL calc · SYNTHETIC data |
-| 2:09-2:26 | Beat 6: Restart -> Cognee recall | Terminal: backend stop and start, timestamps visible. UI `/activity`: `memory.recalled`, `memory.applied` by Payroll Prep; next action before vs after; hit text with evidence refs. | 11 | REAL · Cognee |
-| 2:26-2:40 | Beat 7: Packet, workbook, honest destination | UI `/review`: packet; Generate workbook -> sheets, verified totals, `original_updated: false`; Stage 2 cards: commission ready (scope), tips pending, manager pool blocked `policy_missing:*`; "Gusto: not prepared". 2s cut of the xlsx with pending tabs. | 12 | REAL workbook · SYNTHETIC data |
+| 1:55-2:09 | Beat 5: Correction -> recalc | UI: correction before/after; impact "Stage 1 wages delta $0.00", labor moves from Job 01 to Job 02; approve (second approval); apply; only the affected card changes; `readiness.changed` for that item. | 10 | REAL calc · SYNTHETIC data |
+| 2:09-2:26 | Beat 6: Restart -> Cognee recall | Terminal: backend stop and start, timestamps visible. UI `/activity`: `memory.recalled`, `memory.applied` by Payroll Prep for a later disposal cost on Job 03; next action before ("ask ops lead which job") vs after ("propose allocation to Job 02, needs owner approval"); hit text with evidence refs. Exact strings come from lane C's run. | 11 | REAL · Cognee |
+| 2:26-2:40 | Beat 7: Packet, workbook, honest destination | UI `/review`: packet; Generate workbook -> sheets, verified totals, `original_updated: false`; Stage 2 cards: quote commission ready (synthetic case $1,000 -> $50 -> $25/$25), tips pending, manager pool blocked `policy_missing:*`; "Gusto: not prepared". 2s cut of the xlsx with pending tabs. | 12 | REAL workbook · SYNTHETIC data |
 | 2:40-2:48 | Status card | "What you just saw": one row per integration with its actual label, from the evidence matrix; Band usage tokens/cost per agent if captured. | 13 | ILLUSTRATION card, values from evidence |
 | 2:48-2:55 | Close | Wordmark, repo URL, "Built in one day at the AI Startup Challenge, SF". Music resolves. | 14 | ILLUSTRATION |
 
@@ -36,8 +36,8 @@ Numbered lines match `demo/film/public/vo/NN.mp3`. Seconds are at 2.6 words/s.
 04. (2s) PayrollPilot. Payroll, prepared. Never guessed.
 05. (17s) Three agents share one model, not one set of powers. Audit finds issues. Resolution asks people. Payroll Prep assembles the result. Plain code owns every approval, so no agent, message or memory can grant itself permission. They hand off in Band Desktop, and remember with Cognee.
 06. (13s) A real pay period, loaded from a synthetic snapshot, every record labeled. Wages are Stage 1. Commissions, tips and the manager pool are Stage 2, each with its own state. Nothing rolls up to complete.
-07. (17s) The audit agent found a shift with no job. It can't ask anyone, so it hands the case to Resolution in a Band Desktop room shared by all three agents and the owner. The board moves. The human decision is a real Band prompt.
-08. (16s) Resolution drafts one question for the ops lead. The owner approves the exact text and recipient; change a character and the approval dies. In test mode, only the owner's phone is allowed. And here it is: a real iMessage, through Photon.
+07. (18s) The audit agent found an already-paid shift logged to the wrong job. It can't ask anyone, so it hands the case to Resolution in a Band Desktop room shared by all three agents and the owner. The board moves. The human decision is a real Band prompt.
+08. (16s) Resolution drafts two questions for the ops lead. The owner approves the exact text and recipient; change a character and the approval dies. In test mode, only the owner's phone is allowed. And here it is: a real iMessage, through Photon.
 09. (14s) A vague yes to two questions isn't an answer. Both are marked ambiguous, and a bounded clarification goes out: same person, same issues, new approval. The clear reply lands in the right case, quote attached.
 10. (13s) The confirmed fact becomes a local correction, never a source write, approved separately. Wages don't move; that shift was already paid. Job costing does, and only the readiness that depends on it changes.
 11. (15s) Now the process restarts. A different agent, Payroll Prep, meets a disposal receipt on that same off-site job. It recalls the earlier resolution from Cognee, checks the references still exist, and proposes instead of re-asking. Memory never creates an approval.
@@ -53,6 +53,7 @@ Line 06 says "synthetic snapshot". If A-03 lands a real read and the owner recor
 |---|---|
 | Separate Stage 1 / Stage 2 states, no roll-up | R01 |
 | Audit cannot message; Resolution can (tool allowlists) | R02 |
+| Already-paid shift on the wrong job detected with evidence (seeded issue) | R11 |
 | Band room with three agents, board move, human decision | R03, R04, R05 |
 | Approval bound to exact text and recipient; change invalidates | R06 |
 | Only the owner's phone is an allowed recipient | R07 |
