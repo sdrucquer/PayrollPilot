@@ -10,7 +10,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <header className="topbar">
-        <h1>PayrollPilot</h1>
+        <h1>Payroll<b>Pilot</b></h1>
         <nav>
           <NavLink to="/" end>Command Center</NavLink>
           <NavLink to="/inbox">Inbox</NavLink>
