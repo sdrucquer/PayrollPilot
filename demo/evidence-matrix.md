@@ -24,10 +24,10 @@ Requirement sources: PRD FR-29 (product agents coordinate through Band with a hu
 | R16 | Review packet + workbook (12 ledgers + Sources), totals verified, `original_updated: false` | FR-22, FR-28, T28 | `demo/evidence/screens/workbook-panel.png`, `demo/evidence/screens/workbook-tabs.png` (no real names) | pending | B, D | 7 |
 | R17 | Per-item Stage 2 blockers with codes (policy missing shown, not guessed) | FR-17 to FR-21, T09, T11 | `demo/evidence/screens/stage2-cards.png` | pending | B, D | 7 |
 | R18 | Honest destination "Gusto: not prepared"; nothing submitted | safety 4, PRD | `demo/evidence/screens/destination.png` | pending | D | 7 |
-| R19 | Per-agent tokens/cost (product agents: from app usage events, not Band) | Band brief | `demo/evidence/band/handoff-run.txt`; `demo/evidence/band/usage.png` | changed: Band usage covers coding sessions only; product-agent cost must come from app usage events | C | status card |
+| R19 | REQUIRED: Band Desktop per-agent sessions, tokens and estimated cost for the actual participating team | Mandatory brief visibility | `demo/evidence/band/native-usage-status.txt`; `demo/mandatory-band-capture.md` | REQUIRED GAP: only unattributed usage found; no product-agent session rows; app events do not substitute | C validates native bindings; owner captures Desktop | e3 native Band cost view |
 | R20 | Every on-screen element labeled real/cached/synthetic/seeded/test/playback/illustration | FR-30, safety 7 | the film itself + `demo/redaction-checklist.md` pass recorded in this file | pending | E, owner | all |
 | R21 | Synthetic film; real Jobber read has partial coverage | A-03 | `demo/evidence/logs/live-flow-main27b.txt` | partial real read report; no complete coverage or final footage claim | A report / E labels | 1 |
-| R22 | Development lanes coordinated through Band Desktop (dev agents, not product agents) | Band brief (optional) | `demo/evidence/band/dev-room.png` | pending | lead / owner | not in film unless captured |
+| R22 | Shared room lead plan, claimed board work, routed @handoff and human Band decision, tied to actual participating team | Mandatory Band brief | `demo/mandatory-band-capture.md`; existing handoff/live-flow notes | partial: C reports real plan/board/handoff/decision; redacted capture guide `demo/evidence/band/mandatory-capture-references.md`; exact internal identifiers stay private; Desktop footage/mention-chip checks pending | C/lead facts; owner footage | m2/e2 |
 
 ## Capture log (append, newest last)
 
@@ -40,3 +40,11 @@ Requirement sources: PRD FR-29 (product agents coordinate through Band with a hu
 ## Light draft refresh (2026-10-20)
 
 The 152-second draft uses the frozen light identity. No screen recording was made. All 14 unique product clips remain pending; static screenshot fallbacks were removed. The draft retains PLANNED / FOOTAGE PENDING labels, a draft watermark, placeholder voice and pending integration rows. CLI evidence does not establish that product footage was captured. Owner must supply real running-app, Band and Cognee views; prior takes must say PLAYBACK.
+
+## Mandatory brief correction
+
+The cost/session/token view is required Band Desktop evidence. R19 is a REQUIRED GAP, not optional or satisfied by app OpenRouter events. Use `demo/mandatory-band-capture.md` B1–B6/C1–C4 acceptance and capture order. Codex chat coordination alone does not establish Band team coordination.
+
+## Automatic capture and completed current-flow update
+
+Owner superseded human recording: dedicated capture chat owns numbered `demo/film/clips/` on `cloud/film`, committed by **3:00 PM Pacific**. Owner only phone replies/foregrounding Band; Claude assembles/renders; E supports assets/evidence. Current-flow behavior-changing recall, owner application and verified workbook are now evidenced by main C-07; full-response/cross-process evidence is tracked in PR #38. The identical-baseline-query timeout/500 attempts are not claimed successful. Media capture remains distinct from runtime proof. R19 native cost attribution remains REQUIRED GAP.
