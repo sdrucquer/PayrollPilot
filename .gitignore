@@ -1,0 +1,24 @@
+# Secrets and private pilot data: never commit
+.env
+.env.*
+!.env.example
+docs/private/
+data/private/
+*.xlsx
+!data/fixtures/*.xlsx
+# Runtime stores
+backend/.cognee*
+backend/*.db
+backend/data/
+.cognee_system/
+.data_storage/
+# Toolchains
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+dist/
+.pytest_cache/
+.DS_Store
+# Recordings / evidence (private)
+demo/evidence/private/
