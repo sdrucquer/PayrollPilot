@@ -82,8 +82,8 @@ export default function Thread({ id, onChange }: { id: string; onChange: () => v
   }
 
   async function openCorrectionApproval(c: LocalCorrection) {
-    // CONTRACTS v1.1 gives LocalCorrection no version hash; use one if the API adds it, else hash the proposal.
-    const version = (c as LocalCorrection & { version_hash?: string }).version_hash
+    // Backend (A-04) puts target_version on the correction; fixture mode hashes the proposal.
+    const version = (c as LocalCorrection & { target_version?: string }).target_version
       ?? await sha256(JSON.stringify({ id: c.id, kind: c.kind, before: c.before, after: c.after }))
     setDialog({
       title: 'Approve local correction', kind: 'local_correction', targetId: c.id, targetVersion: version,
@@ -103,7 +103,7 @@ export default function Thread({ id, onChange }: { id: string; onChange: () => v
   return (
     <section className="thread">
       <header className="thread-head">
-        <Link to="/inbox" className="back small">All exceptions</Link>
+        <Link to="/" className="back small">All blockers</Link>
         <div className="row wrap">
           <StateTag value={e.state} kind="exc" />
           <span className="muted small">{humanize(e.category)}</span>
@@ -245,7 +245,10 @@ export default function Thread({ id, onChange }: { id: string; onChange: () => v
 
       {err != null && <ErrorBox error={err} />}
       <div className="row wrap actions sticky-actions">
-        {!hasOpenDraft && e.state !== 'resolved' && !needsClarify && (
+        {e.intended_respondent_role === 'owner' && e.state !== 'resolved' && (
+          <p className="muted small">This is your decision, not a question to send. Next: {e.next_action}.</p>
+        )}
+        {!hasOpenDraft && e.state !== 'resolved' && !needsClarify && e.intended_respondent_role !== 'owner' && (
           <button className="btn primary" disabled={busy} onClick={() => act(() => api.draft([e.id]))}>Draft question</button>
         )}
         {needsClarify && e.state !== 'resolved' && !hasOpenDraft && (
