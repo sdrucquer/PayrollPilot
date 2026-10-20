@@ -1,0 +1,665 @@
+{
+  "_comment": "Expected Readiness for cycle_synthetic_v1 before and after the T02 correction (te_0014 job_01 -> job_02, approved). Stage 1 wages are unchanged by that correction; only Job 01/02 labor costing and the quote-commission blocker list change. Blocker codes: exception:<exc_id>, policy_missing:<O-id or policy key>, coverage:<dataset>, plus readiness-only codes (stage1_exposure, prior_payment_unknown, allocation_provisional:<rcpt_id>, commissions_pending). last_computed_at is runtime-filled and ignored in comparisons.",
+  "cycle_id": "cyc_synth_v1",
+  "before": {
+    "stage1": {
+      "state": "partial",
+      "scope": "review-ready for 1 of 4 workers; 3 unresolved; 1 out-of-cycle entry excluded",
+      "blockers": [
+        {
+          "code": "exception:exc_56598c0c4f",
+          "label": "Open timer 2026-10-09",
+          "exception_id": "exc_56598c0c4f"
+        },
+        {
+          "code": "exception:exc_098d5893a2",
+          "label": "Duplicate entries 2026-10-06",
+          "exception_id": "exc_098d5893a2"
+        },
+        {
+          "code": "exception:exc_fea97c8640",
+          "label": "Rate and route unconfirmed",
+          "exception_id": "exc_fea97c8640"
+        },
+        {
+          "code": "exception:exc_4cd900abf0",
+          "label": "Overlap 2026-10-07",
+          "exception_id": "exc_4cd900abf0"
+        },
+        {
+          "code": "exception:exc_93d1ad0169",
+          "label": "Duplicate profiles",
+          "exception_id": "exc_93d1ad0169"
+        },
+        {
+          "code": "exception:exc_3c90fa0e74",
+          "label": "Long shift 2026-09-30",
+          "exception_id": "exc_3c90fa0e74"
+        },
+        {
+          "code": "exception:exc_802ac6361d",
+          "label": "Schedule mismatch 2026-10-08",
+          "exception_id": "exc_802ac6361d"
+        }
+      ],
+      "unknown_amount": true,
+      "calculation_version": "calc_v1",
+      "last_computed_at": null
+    },
+    "workers": {
+      "wkr_01": {
+        "state": "ready",
+        "scope": "Worker A: 2 workweeks, 4770 min (2400 + 2370), rate verified",
+        "blockers": [],
+        "unknown_amount": false,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "wkr_02": {
+        "state": "blocked",
+        "scope": "Worker B: open timer (unknown minutes), possible duplicate",
+        "blockers": [
+          {
+            "code": "exception:exc_56598c0c4f",
+            "label": "Open timer 2026-10-09",
+            "exception_id": "exc_56598c0c4f"
+          },
+          {
+            "code": "exception:exc_098d5893a2",
+            "label": "Duplicate entries 2026-10-06",
+            "exception_id": "exc_098d5893a2"
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "wkr_03": {
+        "state": "blocked",
+        "scope": "Worker C: rate unconfirmed, overlapping entries",
+        "blockers": [
+          {
+            "code": "exception:exc_fea97c8640",
+            "label": "Rate and route unconfirmed",
+            "exception_id": "exc_fea97c8640"
+          },
+          {
+            "code": "exception:exc_4cd900abf0",
+            "label": "Overlap 2026-10-07",
+            "exception_id": "exc_4cd900abf0"
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "wkr_04": {
+        "state": "blocked",
+        "scope": "Worker D: duplicate profiles, long shift, schedule mismatch",
+        "blockers": [
+          {
+            "code": "exception:exc_93d1ad0169",
+            "label": "Duplicate profiles",
+            "exception_id": "exc_93d1ad0169"
+          },
+          {
+            "code": "exception:exc_3c90fa0e74",
+            "label": "Long shift 2026-09-30",
+            "exception_id": "exc_3c90fa0e74"
+          },
+          {
+            "code": "exception:exc_802ac6361d",
+            "label": "Schedule mismatch 2026-10-08",
+            "exception_id": "exc_802ac6361d"
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      }
+    },
+    "items": {
+      "ci_quote_job_01": {
+        "state": "pending",
+        "scope": "Job 01; quoter unconfirmed; costs and labor incomplete",
+        "blockers": [
+          {
+            "code": "exception:exc_4afa02c5e6",
+            "label": "Quoter unconfirmed (salesperson field only)",
+            "exception_id": "exc_4afa02c5e6"
+          },
+          {
+            "code": "exception:exc_611be6d68e",
+            "label": "Job 01 labor allocation questioned (te_0014)",
+            "exception_id": "exc_611be6d68e"
+          },
+          {
+            "code": "exception:exc_b178c840ca",
+            "label": "Unallocated conflicting cost may belong to Job 01",
+            "exception_id": "exc_b178c840ca"
+          },
+          {
+            "code": "exception:exc_2c344f9c27",
+            "label": "Unallocated cost may belong to Job 01",
+            "exception_id": "exc_2c344f9c27"
+          },
+          {
+            "code": "exception:exc_d06fba51f7",
+            "label": "Off-site Job 03 may roll up to Job 01",
+            "exception_id": "exc_d06fba51f7"
+          },
+          {
+            "code": "exception:exc_20054a0d67",
+            "label": "Unassigned labor (te_0022) may belong to Job 01",
+            "exception_id": "exc_20054a0d67"
+          },
+          {
+            "code": "exception:exc_4cd900abf0",
+            "label": "Overlapping labor on Job 01 (te_0027)",
+            "exception_id": "exc_4cd900abf0"
+          },
+          {
+            "code": "exception:exc_fea97c8640",
+            "label": "Worker C labor on Job 01 has no verified rate",
+            "exception_id": "exc_fea97c8640"
+          },
+          {
+            "code": "exception:exc_93d1ad0169",
+            "label": "Worker D labor on Job 01: identity unreconciled",
+            "exception_id": "exc_93d1ad0169"
+          },
+          {
+            "code": "coverage:expenses",
+            "label": "quickbooks/expenses incomplete (permission)",
+            "exception_id": "exc_f6fead68cd"
+          },
+          {
+            "code": "coverage:historical_labor",
+            "label": "Labor before this cycle not in snapshot",
+            "exception_id": null
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "ci_quote_job_02": {
+        "state": "not_meaningful",
+        "scope": "Job 02 in progress; deposit only; no final payment",
+        "blockers": [
+          {
+            "code": "policy_missing:final_payment",
+            "label": "Final payment not verified (SOP rule)",
+            "exception_id": null
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "ci_marketing_job_01": {
+        "state": "pending",
+        "scope": "Job 01; no job-specific marketing rule documented",
+        "blockers": [
+          {
+            "code": "policy_missing:O04",
+            "label": "Marketing rule absent for this job (O04)",
+            "exception_id": null
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "ci_tip_rcpt_04": {
+        "state": "pending",
+        "scope": "Tip 5000 on Job 01; recipients and prior payment unresolved",
+        "blockers": [
+          {
+            "code": "policy_missing:O07",
+            "label": "Tip eligibility rule unresolved (O07)",
+            "exception_id": null
+          },
+          {
+            "code": "prior_payment_unknown",
+            "label": "Prior tip payout not verified",
+            "exception_id": null
+          }
+        ],
+        "unknown_amount": false,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "ci_manager_pool": {
+        "state": "blocked",
+        "scope": "Cycle pool provisional; distributions blocked",
+        "blockers": [
+          {
+            "code": "policy_missing:O05",
+            "label": "Overhead allocation method unresolved (O05)",
+            "exception_id": null
+          },
+          {
+            "code": "policy_missing:O06",
+            "label": "Gross/net intent, employer costs, reserves unresolved (O06)",
+            "exception_id": null
+          },
+          {
+            "code": "coverage:expenses",
+            "label": "quickbooks/expenses incomplete (permission)",
+            "exception_id": "exc_f6fead68cd"
+          },
+          {
+            "code": "stage1_exposure",
+            "label": "3 workers have unresolved wage exposure",
+            "exception_id": null
+          },
+          {
+            "code": "allocation_provisional:rcpt_01",
+            "label": "Receipt allocation to prior cycle proposed, not finalized (T19)",
+            "exception_id": null
+          },
+          {
+            "code": "commissions_pending",
+            "label": "Commission amounts not final",
+            "exception_id": null
+          },
+          {
+            "code": "exception:exc_20054a0d67",
+            "label": "Open cost-affecting issue: missing_job",
+            "exception_id": "exc_20054a0d67"
+          },
+          {
+            "code": "exception:exc_56598c0c4f",
+            "label": "Open cost-affecting issue: open_timer",
+            "exception_id": "exc_56598c0c4f"
+          },
+          {
+            "code": "exception:exc_4cd900abf0",
+            "label": "Open cost-affecting issue: overlap",
+            "exception_id": "exc_4cd900abf0"
+          },
+          {
+            "code": "exception:exc_098d5893a2",
+            "label": "Open cost-affecting issue: duplicate_time",
+            "exception_id": "exc_098d5893a2"
+          },
+          {
+            "code": "exception:exc_611be6d68e",
+            "label": "Open cost-affecting issue: already_paid_allocation",
+            "exception_id": "exc_611be6d68e"
+          },
+          {
+            "code": "exception:exc_2c344f9c27",
+            "label": "Open cost-affecting issue: unmatched_cost",
+            "exception_id": "exc_2c344f9c27"
+          },
+          {
+            "code": "exception:exc_b178c840ca",
+            "label": "Open cost-affecting issue: cost_conflict",
+            "exception_id": "exc_b178c840ca"
+          },
+          {
+            "code": "exception:exc_d06fba51f7",
+            "label": "Open cost-affecting issue: offsite_link",
+            "exception_id": "exc_d06fba51f7"
+          },
+          {
+            "code": "exception:exc_4afa02c5e6",
+            "label": "Open cost-affecting issue: quote_attribution",
+            "exception_id": "exc_4afa02c5e6"
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      }
+    },
+    "stage1_gross_new_cents": {
+      "wkr_01": 174900,
+      "wkr_02": null,
+      "wkr_03": null,
+      "wkr_04": null
+    },
+    "job_labor_cents": {
+      "job_01": null,
+      "job_02": null,
+      "job_03": null
+    }
+  },
+  "after_t02_correction": {
+    "stage1": {
+      "state": "partial",
+      "scope": "review-ready for 1 of 4 workers; 3 unresolved; 1 out-of-cycle entry excluded",
+      "blockers": [
+        {
+          "code": "exception:exc_56598c0c4f",
+          "label": "Open timer 2026-10-09",
+          "exception_id": "exc_56598c0c4f"
+        },
+        {
+          "code": "exception:exc_098d5893a2",
+          "label": "Duplicate entries 2026-10-06",
+          "exception_id": "exc_098d5893a2"
+        },
+        {
+          "code": "exception:exc_fea97c8640",
+          "label": "Rate and route unconfirmed",
+          "exception_id": "exc_fea97c8640"
+        },
+        {
+          "code": "exception:exc_4cd900abf0",
+          "label": "Overlap 2026-10-07",
+          "exception_id": "exc_4cd900abf0"
+        },
+        {
+          "code": "exception:exc_93d1ad0169",
+          "label": "Duplicate profiles",
+          "exception_id": "exc_93d1ad0169"
+        },
+        {
+          "code": "exception:exc_3c90fa0e74",
+          "label": "Long shift 2026-09-30",
+          "exception_id": "exc_3c90fa0e74"
+        },
+        {
+          "code": "exception:exc_802ac6361d",
+          "label": "Schedule mismatch 2026-10-08",
+          "exception_id": "exc_802ac6361d"
+        }
+      ],
+      "unknown_amount": true,
+      "calculation_version": "calc_v1",
+      "last_computed_at": null
+    },
+    "workers": {
+      "wkr_01": {
+        "state": "ready",
+        "scope": "Worker A: 2 workweeks, 4770 min (2400 + 2370), rate verified",
+        "blockers": [],
+        "unknown_amount": false,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "wkr_02": {
+        "state": "blocked",
+        "scope": "Worker B: open timer (unknown minutes), possible duplicate",
+        "blockers": [
+          {
+            "code": "exception:exc_56598c0c4f",
+            "label": "Open timer 2026-10-09",
+            "exception_id": "exc_56598c0c4f"
+          },
+          {
+            "code": "exception:exc_098d5893a2",
+            "label": "Duplicate entries 2026-10-06",
+            "exception_id": "exc_098d5893a2"
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "wkr_03": {
+        "state": "blocked",
+        "scope": "Worker C: rate unconfirmed, overlapping entries",
+        "blockers": [
+          {
+            "code": "exception:exc_fea97c8640",
+            "label": "Rate and route unconfirmed",
+            "exception_id": "exc_fea97c8640"
+          },
+          {
+            "code": "exception:exc_4cd900abf0",
+            "label": "Overlap 2026-10-07",
+            "exception_id": "exc_4cd900abf0"
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "wkr_04": {
+        "state": "blocked",
+        "scope": "Worker D: duplicate profiles, long shift, schedule mismatch",
+        "blockers": [
+          {
+            "code": "exception:exc_93d1ad0169",
+            "label": "Duplicate profiles",
+            "exception_id": "exc_93d1ad0169"
+          },
+          {
+            "code": "exception:exc_3c90fa0e74",
+            "label": "Long shift 2026-09-30",
+            "exception_id": "exc_3c90fa0e74"
+          },
+          {
+            "code": "exception:exc_802ac6361d",
+            "label": "Schedule mismatch 2026-10-08",
+            "exception_id": "exc_802ac6361d"
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      }
+    },
+    "items": {
+      "ci_quote_job_01": {
+        "state": "pending",
+        "scope": "Job 01; quoter unconfirmed; costs and labor incomplete; te_0014 reallocated to Job 02",
+        "blockers": [
+          {
+            "code": "exception:exc_4afa02c5e6",
+            "label": "Quoter unconfirmed (salesperson field only)",
+            "exception_id": "exc_4afa02c5e6"
+          },
+          {
+            "code": "exception:exc_b178c840ca",
+            "label": "Unallocated conflicting cost may belong to Job 01",
+            "exception_id": "exc_b178c840ca"
+          },
+          {
+            "code": "exception:exc_2c344f9c27",
+            "label": "Unallocated cost may belong to Job 01",
+            "exception_id": "exc_2c344f9c27"
+          },
+          {
+            "code": "exception:exc_d06fba51f7",
+            "label": "Off-site Job 03 may roll up to Job 01",
+            "exception_id": "exc_d06fba51f7"
+          },
+          {
+            "code": "exception:exc_20054a0d67",
+            "label": "Unassigned labor (te_0022) may belong to Job 01",
+            "exception_id": "exc_20054a0d67"
+          },
+          {
+            "code": "exception:exc_4cd900abf0",
+            "label": "Overlapping labor on Job 01 (te_0027)",
+            "exception_id": "exc_4cd900abf0"
+          },
+          {
+            "code": "exception:exc_fea97c8640",
+            "label": "Worker C labor on Job 01 has no verified rate",
+            "exception_id": "exc_fea97c8640"
+          },
+          {
+            "code": "exception:exc_93d1ad0169",
+            "label": "Worker D labor on Job 01: identity unreconciled",
+            "exception_id": "exc_93d1ad0169"
+          },
+          {
+            "code": "coverage:expenses",
+            "label": "quickbooks/expenses incomplete (permission)",
+            "exception_id": "exc_f6fead68cd"
+          },
+          {
+            "code": "coverage:historical_labor",
+            "label": "Labor before this cycle not in snapshot",
+            "exception_id": null
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "ci_quote_job_02": {
+        "state": "not_meaningful",
+        "scope": "Job 02 in progress; deposit only; no final payment",
+        "blockers": [
+          {
+            "code": "policy_missing:final_payment",
+            "label": "Final payment not verified (SOP rule)",
+            "exception_id": null
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "ci_marketing_job_01": {
+        "state": "pending",
+        "scope": "Job 01; no job-specific marketing rule documented",
+        "blockers": [
+          {
+            "code": "policy_missing:O04",
+            "label": "Marketing rule absent for this job (O04)",
+            "exception_id": null
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "ci_tip_rcpt_04": {
+        "state": "pending",
+        "scope": "Tip 5000 on Job 01; recipients and prior payment unresolved",
+        "blockers": [
+          {
+            "code": "policy_missing:O07",
+            "label": "Tip eligibility rule unresolved (O07)",
+            "exception_id": null
+          },
+          {
+            "code": "prior_payment_unknown",
+            "label": "Prior tip payout not verified",
+            "exception_id": null
+          }
+        ],
+        "unknown_amount": false,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      },
+      "ci_manager_pool": {
+        "state": "blocked",
+        "scope": "Cycle pool provisional; distributions blocked",
+        "blockers": [
+          {
+            "code": "policy_missing:O05",
+            "label": "Overhead allocation method unresolved (O05)",
+            "exception_id": null
+          },
+          {
+            "code": "policy_missing:O06",
+            "label": "Gross/net intent, employer costs, reserves unresolved (O06)",
+            "exception_id": null
+          },
+          {
+            "code": "coverage:expenses",
+            "label": "quickbooks/expenses incomplete (permission)",
+            "exception_id": "exc_f6fead68cd"
+          },
+          {
+            "code": "stage1_exposure",
+            "label": "3 workers have unresolved wage exposure",
+            "exception_id": null
+          },
+          {
+            "code": "allocation_provisional:rcpt_01",
+            "label": "Receipt allocation to prior cycle proposed, not finalized (T19)",
+            "exception_id": null
+          },
+          {
+            "code": "commissions_pending",
+            "label": "Commission amounts not final",
+            "exception_id": null
+          },
+          {
+            "code": "exception:exc_20054a0d67",
+            "label": "Open cost-affecting issue: missing_job",
+            "exception_id": "exc_20054a0d67"
+          },
+          {
+            "code": "exception:exc_56598c0c4f",
+            "label": "Open cost-affecting issue: open_timer",
+            "exception_id": "exc_56598c0c4f"
+          },
+          {
+            "code": "exception:exc_4cd900abf0",
+            "label": "Open cost-affecting issue: overlap",
+            "exception_id": "exc_4cd900abf0"
+          },
+          {
+            "code": "exception:exc_098d5893a2",
+            "label": "Open cost-affecting issue: duplicate_time",
+            "exception_id": "exc_098d5893a2"
+          },
+          {
+            "code": "exception:exc_2c344f9c27",
+            "label": "Open cost-affecting issue: unmatched_cost",
+            "exception_id": "exc_2c344f9c27"
+          },
+          {
+            "code": "exception:exc_b178c840ca",
+            "label": "Open cost-affecting issue: cost_conflict",
+            "exception_id": "exc_b178c840ca"
+          },
+          {
+            "code": "exception:exc_d06fba51f7",
+            "label": "Open cost-affecting issue: offsite_link",
+            "exception_id": "exc_d06fba51f7"
+          },
+          {
+            "code": "exception:exc_4afa02c5e6",
+            "label": "Open cost-affecting issue: quote_attribution",
+            "exception_id": "exc_4afa02c5e6"
+          }
+        ],
+        "unknown_amount": true,
+        "calculation_version": "calc_v1",
+        "last_computed_at": null
+      }
+    },
+    "stage1_gross_new_cents": {
+      "wkr_01": 174900,
+      "wkr_02": null,
+      "wkr_03": null,
+      "wkr_04": null
+    },
+    "correction": {
+      "kind": "job_allocation",
+      "before": {
+        "time_entry_id": "te_0014",
+        "job_id": "job_01"
+      },
+      "after": {
+        "time_entry_id": "te_0014",
+        "job_id": "job_02"
+      },
+      "calculation_impact": {
+        "stage1_wages_delta_cents": 0,
+        "job_costing_delta": [
+          {
+            "job_id": "job_01",
+            "labor_delta_cents": -20000
+          },
+          {
+            "job_id": "job_02",
+            "labor_delta_cents": 20000
+          }
+        ]
+      }
+    }
+  }
+}

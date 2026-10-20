@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PayrollPilot home, payroll ready for review</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#F2F2F7;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",system-ui,sans-serif;color:#1C1C1E;-webkit-font-smoothing:antialiased}
+a{color:#0A7AFF}a:hover{color:#0066D6}
+button{font:inherit;cursor:pointer;transition:transform .12s ease,filter .12s ease}
+button:hover{filter:brightness(.97)}
+button:active{transform:scale(.98)}
+@keyframes pp-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pp-pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+@keyframes pp-ring{from{stroke-dashoffset:302}to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+</style>
+</helmet>
+<div layer-name="Page" style="min-height:100vh;background:linear-gradient(180deg,#F5F5F8 0%,#EEEEF3 100%);display:flex;flex-direction:column;align-items:stretch;font-size:15px;line-height:1.45">
+
+  <div layer-name="Top bar" style="display:flex;align-items:center;gap:12px;padding:14px 32px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div aria-hidden="true" style="width:30px;height:30px;border-radius:10px;background:linear-gradient(160deg,#4DA3FF,{{accent}});display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px -4px rgba(10,122,255,.6)"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5 8 3l5 9.5"></path><path d="M5.5 9.5h5"></path></svg></div>
+      <div style="font-weight:700;font-size:16px;letter-spacing:-.01em">PayrollPilot</div>
+      <div style="color:#6E6E73;font-size:14px">Pilot Co</div>
+    </div>
+    <div style="flex:1 1 40px"></div>
+    <div style="display:flex;align-items:center;gap:6px;height:28px;padding:0 11px;border-radius:999px;background:#FFF4E5;color:#9A4D00;font-size:12.5px;font-weight:600"><span aria-hidden="true" style="width:6px;height:6px;border-radius:50%;background:#D97A00"></span>Test mode · texts go to your phone</div>
+    <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 13px 0 9px;border-radius:999px;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.03);font-size:13px;font-weight:600;color:#3A3A3C"><span aria-hidden="true" style="width:16px;height:16px;border-radius:4px;background:#F45D48;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center">G</span>Gusto:<span style="color:#6E6E73;font-weight:500">not prepared</span></div>
+    <button type="button" style="height:32px;padding:0 13px;border-radius:999px;border:0;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.03);color:#3A3A3C;font-size:13px;font-weight:600">Pause</button>
+  </div>
+
+  <div layer-name="Content" style="display:flex;flex-direction:column;gap:22px;width:100%;max-width:720px;box-sizing:border-box;padding:24px 24px 64px;align-self:center">
+
+    <!-- HERO -->
+    <div layer-name="Hero" style="background:#FFFFFF;border-radius:28px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 20px 48px -28px rgba(20,20,40,.25),0 0 0 1px rgba(0,0,0,.03);padding:28px 30px 26px;display:flex;align-items:center;gap:28px;animation:pp-rise .55s cubic-bezier(.2,.7,.2,1) both;position:relative;overflow:hidden">
+      <div aria-hidden="true" style="position:absolute;right:-80px;top:-100px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(31,138,59,.12),rgba(31,138,59,0) 65%)"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;flex:1 1 0;min-width:0;position:relative">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <div style="font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73">Sep 28 – Oct 11 · payday Fri Oct 17</div>
+          <span style="height:22px;padding:0 9px;border-radius:999px;background:#E6F6EA;color:#1F8A3B;font-size:12px;font-weight:600;display:flex;align-items:center">Ready for review</span>
+        </div>
+        <div style="font-size:13px;font-weight:600;color:#6E6E73">Total payroll draft</div>
+        <div style="font-size:48px;font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums">$7,570<span style="font-size:26px;color:#8E8E93;font-weight:600">.00</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:15px;color:#3A3A3C;padding-top:4px">
+          <div style="display:flex;align-items:center;gap:9px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#1F8A3B;flex-shrink:0"></span><span><strong style="font-weight:600;color:#1C1C1E">Wages</strong> verified for all 4 workers.</span></div>
+          <div style="display:flex;align-items:center;gap:9px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#D97A00;flex-shrink:0"></span><span><strong style="font-weight:600;color:#1C1C1E">2 items left out</strong> until you make one decision.</span></div>
+        </div>
+      </div>
+      <div layer-name="Ring" style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;position:relative">
+        <div style="position:relative;width:112px;height:112px">
+          <svg aria-hidden="true" width="112" height="112" viewBox="0 0 112 112" style="transform:rotate(-90deg)"><circle cx="56" cy="56" r="48" fill="none" stroke="#ECECF1" stroke-width="10"></circle><circle cx="56" cy="56" r="48" fill="none" stroke="#1F8A3B" stroke-width="10" stroke-linecap="round" stroke-dasharray="302" stroke-dashoffset="0" style="animation:pp-ring 1.4s cubic-bezier(.2,.7,.2,1) both"></circle></svg>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="width:44px;height:44px;border-radius:50%;background:#1F8A3B;display:flex;align-items:center;justify-content:center;animation:pp-pop .5s cubic-bezier(.2,.7,.2,1) 1s both"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5 7-8"></path></svg></span></div>
+        </div>
+        <div style="font-size:12.5px;color:#6E6E73;font-weight:500">6 of 6 · 51 min</div>
+      </div>
+    </div>
+
+    <!-- SUMMARY + APPROVAL -->
+    <div layer-name="Payroll summary" style="background:linear-gradient(180deg,#F3FBF5 0%,#FFFFFF 34%);border-radius:28px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 20px 48px -28px rgba(31,138,59,.35),0 0 0 1.5px rgba(31,138,59,.30);padding:24px 28px 22px;display:flex;flex-direction:column;gap:18px;animation:pp-rise .55s cubic-bezier(.2,.7,.2,1) .08s both">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div aria-hidden="true" style="width:40px;height:40px;border-radius:50%;background:linear-gradient(160deg,#4DA3FF,{{accent}});display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -6px rgba(10,122,255,.7)"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5 8 3l5 9.5"></path><path d="M5.5 9.5h5"></path></svg></div>
+        <div style="display:flex;flex-direction:column;gap:1px"><div style="font-size:17px;font-weight:700;letter-spacing:-.01em">Pilot has a draft for you</div><div style="font-size:13px;color:#6E6E73">Draft 3 · workbook totals match this screen · 1:32 PM</div></div>
+      </div>
+
+      <div layer-name="Totals" style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:10px">
+        <div style="background:#FFFFFF;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:3px;box-shadow:0 0 0 1px rgba(0,0,0,.05)"><div style="font-size:13px;color:#6E6E73">Employee wages</div><div style="font-size:24px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums">$7,480.00</div><div style="font-size:12.5px;color:#1F8A3B;font-weight:600">4 of 4 verified</div></div>
+        <div style="background:#FFFFFF;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:3px;box-shadow:0 0 0 1px rgba(0,0,0,.05)"><div style="font-size:13px;color:#6E6E73">Commissions &amp; tips</div><div style="font-size:24px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums">$90.00</div><div style="font-size:12.5px;color:#9A4D00;font-weight:600">1 commission waiting</div></div>
+        <div style="background:#FFFFFF;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:3px;box-shadow:0 0 0 1px rgba(0,0,0,.05)"><div style="font-size:13px;color:#6E6E73">Manager pool</div><div style="font-size:24px;font-weight:700;letter-spacing:-.03em;color:#8E8E93">—</div><div style="font-size:12.5px;color:#9A4D00;font-weight:600">Needs your decision</div></div>
+      </div>
+
+      <div layer-name="Verified" style="display:flex;flex-direction:column;gap:0">
+        <div style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73;padding:0 0 6px 2px">Verified</div>
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 2px;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;color:#3A3A3C">A</span><div style="flex:1 1 0;font-size:15px">Worker A <span style="color:#6E6E73">· 84h 00m · hourly rate confirmed</span></div><div style="font-size:15px;font-weight:600;font-variant-numeric:tabular-nums">$1,848.00</div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 2px;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;color:#3A3A3C">B</span><div style="flex:1 1 0;font-size:15px">Worker B <span style="color:#6E6E73">· 82h 00m · team leader rate confirmed</span></div><div style="font-size:15px;font-weight:600;font-variant-numeric:tabular-nums">$2,296.00</div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 2px;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;color:#3A3A3C">C</span><div style="flex:1 1 0;font-size:15px">Worker C <span style="color:#6E6E73">· 77h 48m · rate you confirmed today</span></div><div style="font-size:15px;font-weight:600;font-variant-numeric:tabular-nums">$1,712.00</div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 2px;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;color:#3A3A3C">D</span><div style="flex:1 1 0;font-size:15px">Worker D <span style="color:#6E6E73">· 74h 54m · open timer closed by the Ops lead</span></div><div style="font-size:15px;font-weight:600;font-variant-numeric:tabular-nums">$1,624.00</div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 2px"><span aria-hidden="true" style="width:28px;height:28px;border-radius:50%;background:#E6F6EA;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#1F8A3B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5 7-8"></path></svg></span><div style="flex:1 1 0;font-size:15px">Job 01 commission <span style="color:#6E6E73">· split between 2 quoters · plus the Job 03 tip to the crew</span></div><div style="font-size:15px;font-weight:600;font-variant-numeric:tabular-nums">$90.00</div></div>
+      </div>
+
+      <div layer-name="Unresolved" style="display:flex;flex-direction:column;gap:0">
+        <div style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73;padding:0 0 6px 2px">Left out until you decide</div>
+        <sc-if value="{{deciding}}" hint-placeholder-val="{{ false }}">
+        <div layer-name="Decide sheet" style="background:#FFFFFF;border-radius:20px;padding:16px 18px;box-shadow:0 0 0 2px {{accent}};display:flex;flex-direction:column;gap:12px;animation:pp-rise .35s cubic-bezier(.2,.7,.2,1) both">
+          <div style="font-size:16px;font-weight:700;letter-spacing:-.01em">How should overhead be allocated to Job 02 this period?</div>
+          <div style="font-size:14px;color:#6E6E73">This unlocks the Job 02 commission and the manager pool. I won't pick a method or a percentage for you.</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#F5F5F8;cursor:pointer"><input type="radio" name="overhead" value="hours" style="width:18px;height:18px;margin:0;accent-color:{{accent}}"><span style="flex:1 1 0;font-size:15px">By labor hours on each job</span></label>
+            <label style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#F5F5F8;cursor:pointer"><input type="radio" name="overhead" value="revenue" style="width:18px;height:18px;margin:0;accent-color:{{accent}}"><span style="flex:1 1 0;font-size:15px">By each job's share of revenue</span></label>
+            <label style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#F5F5F8;cursor:pointer"><input type="radio" name="overhead" value="none" style="width:18px;height:18px;margin:0;accent-color:{{accent}}"><span style="flex:1 1 0;font-size:15px">Don't allocate overhead this period</span></label>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <button type="button" onClick="{{closeDecide}}" style="height:44px;padding:0 20px;border-radius:999px;border:0;background:{{accent}};color:#fff;font-size:15px;font-weight:600;box-shadow:0 8px 20px -8px rgba(10,122,255,.8)">Confirm</button>
+            <button type="button" onClick="{{closeDecide}}" style="height:44px;padding:0 18px;border-radius:999px;border:0;background:#FFFFFF;box-shadow:0 0 0 1px rgba(0,0,0,.08);color:#1C1C1E;font-size:15px;font-weight:600">Not now</button>
+            <div style="flex:1 1 8px"></div>
+            <div style="font-size:12.5px;color:#6E6E73;text-align:right;max-width:240px">Recalculates the two items. You review them before approving.</div>
+          </div>
+        </div>
+        </sc-if>
+        <sc-if value="{{notDeciding}}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 2px;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:28px;height:28px;border-radius:50%;background:#FFF4E5;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:7px;height:7px;border-radius:50%;background:#D97A00"></span></span><div style="flex:1 1 0;font-size:15px">Job 02 commission <span style="color:#6E6E73">· waiting on your overhead decision</span></div><button type="button" onClick="{{openDecide}}" style="height:32px;padding:0 13px;border-radius:999px;border:0;background:#1C1C1E;color:#fff;font-size:13px;font-weight:600">Decide</button></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 2px"><span aria-hidden="true" style="width:28px;height:28px;border-radius:50%;background:#FFF4E5;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:7px;height:7px;border-radius:50%;background:#D97A00"></span></span><div style="flex:1 1 0;font-size:15px">Manager pool <span style="color:#6E6E73">· same decision, and QuickBooks expenses are still incomplete</span></div><button type="button" onClick="{{openDecide}}" style="height:32px;padding:0 13px;border-radius:999px;border:0;background:#1C1C1E;color:#fff;font-size:13px;font-weight:600">Decide</button></div>
+        </sc-if>
+      </div>
+
+      <div layer-name="Approve" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-top:14px;border-top:1px solid rgba(0,0,0,.06)">
+        <button type="button" style="height:48px;padding:0 22px;border-radius:999px;border:0;background:{{accent}};color:#fff;font-size:16px;font-weight:600;box-shadow:0 8px 20px -8px rgba(10,122,255,.8);display:flex;align-items:center;gap:9px"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8.5l3.5 3.5 7.5-8"></path></svg>Approve this draft</button>
+        <button type="button" style="height:48px;padding:0 20px;border-radius:999px;border:0;background:#FFFFFF;box-shadow:0 0 0 1px rgba(0,0,0,.08);color:#1C1C1E;font-size:16px;font-weight:600">Download workbook</button>
+        <div style="flex:1 1 8px"></div>
+        <div style="font-size:12.5px;color:#6E6E73;text-align:right;max-width:250px">Locks these numbers for your records. Gusto stays "not prepared"; submitting is your separate step.</div>
+      </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div layer-name="Progress" style="background:#FFFFFF;border-radius:28px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 20px 48px -28px rgba(20,20,40,.22),0 0 0 1px rgba(0,0,0,.03);padding:24px 28px;display:flex;flex-direction:column;gap:14px;animation:pp-rise .55s cubic-bezier(.2,.7,.2,1) .16s both">
+      <div style="display:flex;align-items:baseline;gap:10px">
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.015em">Progress</div>
+        <div style="font-size:13px;color:#6E6E73">All 6 steps done · 51 minutes</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <div aria-hidden="true" style="flex:1 1 0;height:8px;border-radius:999px;background:#1F8A3B"></div>
+        <div aria-hidden="true" style="flex:1 1 0;height:8px;border-radius:999px;background:#1F8A3B"></div>
+        <div aria-hidden="true" style="flex:1 1 0;height:8px;border-radius:999px;background:#1F8A3B"></div>
+        <div aria-hidden="true" style="flex:1 1 0;height:8px;border-radius:999px;background:#1F8A3B"></div>
+        <div aria-hidden="true" style="width:1px;height:16px;background:#C7C7CC;flex-shrink:0"></div>
+        <div aria-hidden="true" style="flex:1 1 0;height:8px;border-radius:999px;background:#1F8A3B"></div>
+        <div aria-hidden="true" style="flex:1 1 0;height:8px;border-radius:999px;background:#1F8A3B"></div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:flex-start;font-size:12px;color:#6E6E73">
+        <div style="flex:4 1 0;display:flex;flex-direction:column;gap:2px"><div style="font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:#3A3A3C">Stage 1 · Employee wages</div><div>Gather · Audit · Resolve · Prepare</div></div>
+        <div style="width:1px;flex-shrink:0"></div>
+        <div style="flex:2 1 0;display:flex;flex-direction:column;gap:2px"><div style="font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:#3A3A3C">Stage 2 · Financial reconciliation</div><div>Reconcile <span style="color:#9A4D00;font-weight:600">· 2 items waiting</span> · <span style="color:#1F8A3B;font-weight:600">Ready for review</span></div></div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div layer-name="Activity" style="background:#FFFFFF;border-radius:28px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 20px 48px -28px rgba(20,20,40,.22),0 0 0 1px rgba(0,0,0,.03);padding:24px 28px;display:flex;flex-direction:column;gap:14px;animation:pp-rise .55s cubic-bezier(.2,.7,.2,1) .24s both">
+      <div style="display:flex;align-items:baseline;gap:10px">
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.015em">What Pilot did today</div>
+        <div style="flex:1 1 8px"></div>
+        <a href="#details" style="font-size:13.5px;font-weight:600;text-decoration:none">Details</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:30px;height:30px;border-radius:10px;background:#E6F6EA;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#1F8A3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5 7-8"></path></svg></span><div style="flex:1 1 0;font-size:15px">Payroll ready for your review. Workbook draft 3 totals match this screen.</div><div style="font-size:13px;color:#8E8E93">1:32</div></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:30px;height:30px;border-radius:10px;background:#E6F6EA;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#1F8A3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5 7-8"></path></svg></span><div style="flex:1 1 0;font-size:15px">Employee wages ready for review. All 4 rates confirmed.</div><div style="font-size:13px;color:#8E8E93">1:20</div></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:30px;height:30px;border-radius:10px;background:#F2F2F7;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;color:#3A3A3C">O</span><div style="flex:1 1 0;font-size:15px">Ops lead replied: the open timer ended at 4:30 PM<span style="margin-left:8px;font-size:11.5px;color:#9A4D00;background:#FFF4E5;border-radius:999px;padding:2px 8px;font-weight:600">test reply</span></div><div style="font-size:13px;color:#8E8E93">1:12</div></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:30px;height:30px;border-radius:10px;background:#E8F1FF;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#0066D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l12-5-3 11-3-4.5L2 8z"></path></svg></span><div style="flex:1 1 0;font-size:15px">Sent your approved question to the Ops lead</div><div style="font-size:13px;color:#8E8E93">1:02</div></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:10px 0"><span aria-hidden="true" style="width:30px;height:30px;border-radius:10px;background:#E6F6EA;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#1F8A3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5 7-8"></path></svg></span><div style="flex:1 1 0;font-size:15px">Verified the correction: Worker A's Friday shift now counts toward Job 02</div><div style="font-size:13px;color:#8E8E93">12:51</div></div>
+      </div>
+    </div>
+
+    <div layer-name="Footer" style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;padding:4px 6px;font-size:12.5px;color:#8E8E93">
+      <span>Test mode: texts go to your phone</span><span aria-hidden="true">·</span><span>Synthetic data</span><span aria-hidden="true">·</span><span>Nothing is submitted to Gusto.</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#0A7AFF","options":["#0A7AFF","#5E5CE6","#1F8A3B","#1C1C1E"],"section":"Theme"},"$preview":{"width":1280,"height":1480}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { deciding: false };
+  }
+  renderVals() {
+    return {
+      accent: this.props.accent ?? '#0A7AFF',
+      deciding: this.state.deciding,
+      notDeciding: !this.state.deciding,
+      openDecide: () => this.setState({ deciding: true }),
+      closeDecide: () => this.setState({ deciding: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

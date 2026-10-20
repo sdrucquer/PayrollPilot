@@ -34,3 +34,35 @@ Fixture-first rule: `web/src/fixtures/` loads `docs/contracts/fixtures/*.json` (
 - Loading/error states (integration errors show as errors, not success), stop control (POST /run/stop) visible, dark text contrast, no phone numbers anywhere (mask helper everywhere a recipient appears).
 
 ## Status log
+
+```
+LANE D status @ 12:43
+Done: D-01 (acceptance checks passed: placeholder fixture renders; blockers display with codes; null money renders as a dash; Stage 2 summary lists items separately and never says "complete"; 1280px and 375px layouts checked, no horizontal overflow at 375px)
+Changed files: web/ (new: Vite + React 19 + TS strict, src/contracts.ts zod mirror of CONTRACTS v1.1, src/api.ts data layer with VITE_DATA_MODE=fixture|api, src/fixtures/placeholder_bundle.json, src/screens/Board.tsx, scripts/check-contracts.ts, screenshots/)
+Tests run: cd web && npm install && npm run build -> exit 0; npm run check:contracts -> 15/15 checks passed
+Evidence: web/screenshots/d01-board-1280.png, web/screenshots/d01-board-phone-375.jpg
+Blockers: lane B fixtures not yet in docs/contracts/fixtures/ on main; board uses the lane D placeholder bundle (labeled synthetic). Band setup check: OK (CLI v0.4.16, Claude Code integration v0.5.33, session reachable).
+Next: D-02 inbox + thread
+Handoff requested: A: no GET route for workers/display names (board falls back to /packet identities, else worker_id); no API field for labor/revenue review or cash confirmation (UI shows "not reviewed" / "not confirmed"). E: screenshots above.
+```
+```
+LANE D status @ 12:54
+Done: D-02 (acceptance checks passed in fixture mode, driven in the browser: T14 vague "yes" to 3 grouped questions shows 3x ambiguous + Clarify; T17 injection reply shows "Blocked instruction" badge and the number in the reply is masked; approval dialog shows exact text, masked recipient, linked issue ids, version; editing text after "Approve only" invalidates the approval and requires re-approval; T02 flow draft, approve+send, conflicting reply, clarify, confirmed follow-up, resolution, propose, approve, apply changes board readiness: T02 blocker leaves the quote commission card, open exceptions 15 to 14)
+Also: fixture mode now renders lane B fixtures (build-fixtures converter), shared film tokens adopted from lane E.
+Changed files: web/src/screens/Inbox.tsx, Thread.tsx, components/ApprovalDialog.tsx, src/sim.ts, src/api.ts, src/format.ts, src/index.css, scripts/build-fixtures.mjs, scripts/check-contracts.ts, screenshots/d02-*
+Tests run: cd web && npm run build -> exit 0; npm run check:contracts -> 19/19 checks passed. Not run: D-02 against the live API (A-02 not on main yet).
+Evidence: web/screenshots/d02-approval-dialog.jpg, d02-thread-clarify-resolve.jpg, d02-inbox-t17-blocked.jpg, d02-inbox-t14-grouped-1280.jpg
+Blockers: none for fixture mode. Live API untested.
+Next: D-03 activity, review, workbook panel
+Handoff requested: A/C: GET /api/exceptions/{id} "messages" shape is unpinned (UI accepts batches and inbound mixed, plus parsed/approvals arrays); LocalCorrection has no version hash for approval target_version (UI uses version_hash if present, else a client hash); no route to edit a draft; T17 blocked flag is read from blocked.unauthorized_instruction events whose refs name the inbound id. Lead: PRODUCT-STATEMENT lists a "playback" provenance that CONTRACTS does not have.
+```
+```
+LANE D status @ 13:04
+Done: D-03, rebuilt as the owner's one-screen decision (docs/UI-ONE-SCREEN.md) in the light register (docs/DESIGN-DIRECTION.md, lane G tokens). Acceptance checks passed in fixture mode, driven in the browser: zone 1 pipeline Collect/Audit/Resolve/Prepare/Review shows each agent's last event; Stage 1 and Stage 2 rows never merge and never say "complete"; Stage 2 chips list each item state with blocker counts; activity log is collapsible with actor filter and highlights handoff, memory.applied and blocked events; zone 2 groups blockers by respondent (Ops lead, Workers, Owner, Resolved) with "Draft one message"; owner rows are decisions, not texts; zone 3 is the D-02 thread. T02 flow end to end on one screen: quote commission 8 to 7 blockers, open 15 to 14, every pipeline step lit. Workbook toast states "Original workbook not updated" and shows draft version, sheets and verified totals; Stop run posts /api/run/stop. Phone width 375px: no horizontal overflow.
+Changed files: web/src/screens/CommandCenter.tsx (new), Board.tsx and Inbox.tsx removed (folded in), Thread.tsx, App.tsx, api.ts, sim.ts, components/ui.tsx, index.css, screenshots/d03-*
+Tests run: cd web && npm run build -> exit 0; npm run check:contracts -> 19/19 checks passed. Not run: live API mode (no backend on :8000 in this session). Workbook export only renders an error toast in fixture mode by design.
+Evidence: web/screenshots/d03-command-center-1280.jpg, d03-zones-thread-1280.jpg, d03-after-correction-1280.jpg, d03-command-center-phone-375.jpg
+Blockers: none for fixture mode. Live API smoke test still owed.
+Next: D-04 polish; live API smoke test once a backend is running
+Handoff requested: A: packet route returns 501 until build_packet lands, so per-worker minutes show a dash; data layer already reads A-02 exception detail (messages.outbound/inbound) and A-04 correction target_version. A/C: no route for an owner decision (policy_missing, rate confirmation), so owner rows show the decision text only. E: light-register screenshots above.
+```
