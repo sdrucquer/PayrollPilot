@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import importlib
+
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
@@ -10,6 +12,22 @@ from .permissions import PermissionDenied
 from .routes import cycles, health, ops
 from .settings import Settings, load_settings
 from .state import build_state
+
+
+def _include_comms(app: FastAPI) -> str:
+    """Lane C owns ``payrollpilot/routes_comms.py``. Absent -> "absent"; a
+    broken module must not take the whole backend down, so its error is
+    reported in /api/health instead of being raised."""
+    try:
+        routes_comms = importlib.import_module(f"{__package__}.routes_comms")
+    except ModuleNotFoundError as exc:
+        if exc.name == f"{__package__}.routes_comms":
+            return "absent"
+        return f"error: {exc!r}"
+    except Exception as exc:  # noqa: BLE001
+        return f"error: {exc!r}"
+    app.include_router(routes_comms.router)
+    return "loaded"
 
 
 def create_app(settings: Settings | None = None, db: Database | None = None) -> FastAPI:
@@ -28,6 +46,7 @@ def create_app(settings: Settings | None = None, db: Database | None = None) -> 
     app.include_router(health.router)
     app.include_router(cycles.router)
     app.include_router(ops.router)
+    app.state.comms_routes = _include_comms(app)
     return app
 
 

@@ -69,5 +69,21 @@ def transition_exception(
     return stored
 
 
+def transition(
+    db: Database,
+    exception: dict[str, Any] | str,
+    new_state: str,
+    actor: str,
+    *,
+    reason: str = "",
+    next_action: str | None = None,
+) -> dict[str, Any]:
+    """Public entry point for lane C. ``exception`` is the record dict or its id.
+    Raises ``TransitionRejected`` if CONTRACTS section 2 forbids the move, or
+    ``KeyError`` if the exception does not exist. Emits exception.state_changed."""
+    exception_id = exception if isinstance(exception, str) else exception["id"]
+    return transition_exception(db, exception_id, new_state, actor=actor, reason=reason or "requested", next_action=next_action)
+
+
 def is_stopped(db: Database) -> bool:
     return db.get_flag("run_stopped") == "1"
