@@ -56,3 +56,13 @@ Blockers: none for fixture mode. Live API untested.
 Next: D-03 activity, review, workbook panel
 Handoff requested: A/C: GET /api/exceptions/{id} "messages" shape is unpinned (UI accepts batches and inbound mixed, plus parsed/approvals arrays); LocalCorrection has no version hash for approval target_version (UI uses version_hash if present, else a client hash); no route to edit a draft; T17 blocked flag is read from blocked.unauthorized_instruction events whose refs name the inbound id. Lead: PRODUCT-STATEMENT lists a "playback" provenance that CONTRACTS does not have.
 ```
+```
+LANE D status @ 13:04
+Done: D-03, rebuilt as the owner's one-screen decision (docs/UI-ONE-SCREEN.md) in the light register (docs/DESIGN-DIRECTION.md, lane G tokens). Acceptance checks passed in fixture mode, driven in the browser: zone 1 pipeline Collect/Audit/Resolve/Prepare/Review shows each agent's last event; Stage 1 and Stage 2 rows never merge and never say "complete"; Stage 2 chips list each item state with blocker counts; activity log is collapsible with actor filter and highlights handoff, memory.applied and blocked events; zone 2 groups blockers by respondent (Ops lead, Workers, Owner, Resolved) with "Draft one message"; owner rows are decisions, not texts; zone 3 is the D-02 thread. T02 flow end to end on one screen: quote commission 8 to 7 blockers, open 15 to 14, every pipeline step lit. Workbook toast states "Original workbook not updated" and shows draft version, sheets and verified totals; Stop run posts /api/run/stop. Phone width 375px: no horizontal overflow.
+Changed files: web/src/screens/CommandCenter.tsx (new), Board.tsx and Inbox.tsx removed (folded in), Thread.tsx, App.tsx, api.ts, sim.ts, components/ui.tsx, index.css, screenshots/d03-*
+Tests run: cd web && npm run build -> exit 0; npm run check:contracts -> 19/19 checks passed. Not run: live API mode (no backend on :8000 in this session). Workbook export only renders an error toast in fixture mode by design.
+Evidence: web/screenshots/d03-command-center-1280.jpg, d03-zones-thread-1280.jpg, d03-after-correction-1280.jpg, d03-command-center-phone-375.jpg
+Blockers: none for fixture mode. Live API smoke test still owed.
+Next: D-04 polish; live API smoke test once a backend is running
+Handoff requested: A: packet route returns 501 until build_packet lands, so per-worker minutes show a dash; data layer already reads A-02 exception detail (messages.outbound/inbound) and A-04 correction target_version. A/C: no route for an owner decision (policy_missing, rate confirmation), so owner rows show the decision text only. E: light-register screenshots above.
+```
