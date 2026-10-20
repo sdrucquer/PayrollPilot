@@ -206,6 +206,11 @@ export const sim = {
     }
   },
 
+  stop() {
+    emit('owner', 'run.stopped', 'Owner stopped the run; new actions cancelled, pending approvals kept', { pending_approvals_kept: true })
+    return { stopped: true }
+  },
+
   proposeCorrection(resolutionId: string, kind: LocalCorrection['kind'], after: Record<string, unknown>): LocalCorrection {
     const r = S.resolutions.find((x) => x.id === resolutionId)
     if (!r) throw new Error('resolution not found')

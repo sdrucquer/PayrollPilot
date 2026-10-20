@@ -7,8 +7,8 @@ export function ProvenanceTag({ value }: { value: Provenance }) {
   return <span className={`tag prov prov-${value}`} title="provenance">{humanize(value)}</span>
 }
 
-export function StateTag({ value, kind = 'state' }: { value: string; kind?: string }) {
-  return <span className={`tag ${kind}-${value}`}>{humanize(value)}</span>
+export function StateTag({ value, kind = 'state', label }: { value: string; kind?: string; label?: string }) {
+  return <span className={`tag ${kind}-${value}`}>{label ?? humanize(value)}</span>
 }
 
 export function BlockerList({ blockers }: { blockers: Blocker[] }) {
@@ -18,7 +18,7 @@ export function BlockerList({ blockers }: { blockers: Blocker[] }) {
       {blockers.map((b) => (
         <li key={`${b.code}-${b.exception_id ?? ''}`}>
           <code>{b.code}</code> {b.label}
-          {b.exception_id && <> · <Link to={`/inbox/${b.exception_id}`}>{b.exception_id}</Link></>}
+          {b.exception_id && <> · <Link to={`/e/${b.exception_id}`}>{b.exception_id}</Link></>}
         </li>
       ))}
     </ul>

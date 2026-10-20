@@ -89,3 +89,14 @@ Evidence: live uvicorn + scripts/smoke.sh cycle_synthetic_v1 with core -> 15 exc
 Blockers: B-04/B-05 (packet, workbook, propose_correction) for the rest of A-04; A-03 needs backend/.env key + dates.
 Next: wire propose_correction/packet/workbook when B pushes; then A-03/A-05.
 ```
+
+```
+LANE A status @ 13:02
+Done: A-04 complete against lane B core (acceptance checks passed: T02 end to end through routes on cycle_synthetic_v1 with real core from main — te_0014 job_01 -> job_02 gives stage1_wages_delta_cents 0, job_01/job_02 labor deltas equal and opposite, approval -> apply -> stage1 readiness unchanged and equal to readiness_matrix_v1 after_t02_correction; T16 approval invalidation; packet + workbook routes with lane B PR #15 installed temporarily: 12 ledgers + Sources, verified_totals, original_updated false, workbook.generated + workbook.verified events; WorkbookVerificationError -> 500, no success events; lane B CorrectionError codes map to HTTP: stale_before/allocation_mismatch 409, target_not_found 404, others incl. unsupported:* 422)
+Changed files: backend/payrollpilot/corrections.py, backend/payrollpilot/routes/payroll.py, backend/tests/test_a04_apply.py, docs/plans/A-platform-data.md
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> with main core: 56 passed, 1 skipped (packet/workbook: B-04 not on main), 0 failed; with lane B PR #15 core installed temporarily: 57 passed, 0 failed
+Evidence: live workbook wb_40f0f25c89 draft_c8074d1db110 (private, data/private/workbooks): sheets Review..Carry-forward + Sources; verified_totals stage1_gross_ready_cents 174900, stage1_gross_all_cents null, cycle_profit_cents null (unknown stays null)
+Blockers: none for A-04 once lane B PR #15 merges. A-03 still needs BROWSER_USE_API_KEY + cycle dates in backend/.env.
+Next: A-03 when unblocked; else A-05 owner-export importers
+Handoff requested: lead merges this, then lane B PR #15; after both, packet/workbook test runs unskipped. D: POST /api/corrections returns target_version + blockers; workbook path is private, do not render it.
+```
