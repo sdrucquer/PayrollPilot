@@ -67,7 +67,7 @@ Handoff requested: A: backend startup calls band.ensure_peers(os.getpid()) when 
 ```
 
 ```
-LANE C status @ 13:05
+LANE C status @ 12:55
 Done: C-03 (merged #8), C-02 agent handoff (PR #12), C-04 agents (tests with stub transport; live call pending key), C-05 routes (tests with fake messaging + fake band)
 Changed files: backend/payrollpilot/agents/*, backend/payrollpilot/routes_comms.py, backend/tests/test_c04_agents.py, backend/tests/test_c05_routes.py
 Tests run: backend/.venv/bin/python -m pytest -q -> 61 passed, 1 skipped, 1 failed (lane A test_health_reports_comms_routes_absent now sees "loaded"); bridge bun test -> 9 pass
