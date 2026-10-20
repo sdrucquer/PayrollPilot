@@ -31,9 +31,9 @@ Direction: clean, Apple-like. Soft gray page, white cards with large radii and v
 | `--blocked` / `--blocked-dim` | `#E0323F` / `rgba(255,59,48,.10)` | Readiness `blocked`, escalated, blocked instruction |
 | `--info` / `--info-dim` | `#5E5CE6` / `rgba(94,92,230,.10)` | synthetic/fixture provenance, cost category |
 
-Readiness state → color is the only semantic color mapping in the UI. Never use green for anything that is not `ready`.
+Readiness state → color is the only semantic color mapping in the UI. Never use green for anything that is not `ready`. Copy rules from docs/PRODUCT-STATEMENT.md: no "payroll complete", no "automatic"; every send and correction shows an owner approval; unknown stays `—` and is a blocker.
 
-Provenance (dot + label, always visible, low contrast): `real` green, `cached` gray, `synthetic` indigo, `seeded_issue` orange, `test_reply` blue. Test mode is an orange outlined pill in the top bar on every screen.
+Provenance (dot + label, always visible, low contrast): `real` green, `cached` gray, `synthetic` indigo, `seeded_issue` orange, `test_reply` blue, `playback` gray (replayed scripted replies). Test mode is an orange outlined pill in the top bar on every screen.
 
 ## Type
 
