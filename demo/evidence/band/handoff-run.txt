@@ -1,0 +1,16 @@
+Band product handoff (lane C, C-02), copied from INTEGRATION-FINDINGS.md on main at 1:03 PM 2026-10-20. Synthetic ids only.
+
+Status: tested for agent handoff + board (12:40-12:48 PM). Human decision: pending owner reply. `band ask`: unsupported for generic peers.
+
+Participants: pp-audit, pp-resolution, pp-payroll (band onboard --host generic, live host pid, pull receiver) + the owner, in one room
+(room a55619f6-19f6-4504-881f-a6d5b5d2ce4d; title stays the Band default because a rename by the human returned HTTP 403).
+Run 12:47 PM (python -m payrollpilot.band.demo_handoff):
+  case card 58f9bce9 (pp-audit) -> accepted reply 605962ae (pp-resolution); work task #2 taken
+  payroll delivery 913bb709 -> reply f242719e (pp-payroll); board task #2 Completed (pending -> in_progress -> completed)
+Human decision path: `band ask` prints null and posts nothing, so the decision is a room message "[decision.requested]" and the owner's reply,
+  parsed from pp-resolution's inbox (User sender only, exact target id). Owner reply "approve msg_batch_spike02" still pending at 12:50 PM.
+Usage: `band usage agents` covers coding-agent sessions only (unattributed). Product-agent tokens/cost come from PayrollPilot's own OpenRouter usage events, not Band.
+Tests: backend/.venv/bin/python -m pytest -q backend/tests/test_c02_band.py -> 7 passed (lane C report).
+Delete test (from plan): PP_BAND_ENABLED=0 -> handoff returns 503 band_required (NullBand refuses).
+
+Not yet captured: a screenshot or screen clip of the room and board in Band Desktop (needed for film Beat 2).

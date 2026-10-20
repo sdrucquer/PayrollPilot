@@ -39,3 +39,51 @@ Blockers: none. DEMO-PLAN.md absent on main, so demo/script.md is the baseline.
 Next: E-02 (reply script, redaction checklist, recording setup); launch-film build in demo/film/ (owner direction 12:40 PM: Remotion, ~40% story / 60% real product)
 Handoff requested: D: palette/font for a shared identity (asked directly). C: screenshots of Band room/board/ask/usage and the Cognee recall log when proven.
 ```
+
+```
+LANE E status @ 13:14
+Done: E-02 (acceptance: reply-script gives exact texts, cues, expected UI result, and fallbacks; recording-setup covers machine, phone, capture, rehearsal, post-render steps; redaction checklist covers recipient, names, rates, allocations, env, dashboards, Band room, evidence files, film labels)
+Also: demo/script.md + shot-list.md aligned with DEMO-PLAN.md (merged from main) and the B-01 fixture: audit beat is the already-paid Oct 1 shift on Job 01 scheduled on Job 02; question batch adds the Job 03 off-site link that Beat 6's recall depends on.
+Changed files: demo/reply-script.md, demo/redaction-checklist.md, demo/recording-setup.md, demo/script.md, demo/shot-list.md
+Tests run: none applicable (docs). Fixture entities checked against origin/lane/b-core fd57ea2.
+Evidence: none captured yet.
+Blockers: none.
+Next: launch film build (demo/film, Remotion), then E-03 evidence sweep every 15 min, E-04 by 14:30.
+Handoff requested: C: confirm the demo batch = [already_paid_allocation te_0014, offsite_link job_03] and the exact next_action strings for the recall beat.
+```
+
+Correction (12:58): the two entries above are stamped 13:02 and 13:14; the actual times were about 12:44 and 12:47 (checked with `date`). Later entries use `date`.
+
+```
+LANE E status @ 12:55
+Done: E-06 launch film v1 (owner direction: Apple/Linear launch film, ~40% story / 60% real product, Remotion). First full render passed checks: h264 1920x1080 + aac, 175.0 s, mean -19.9 dB / peak -3.3 dB. Product segments render a labeled FOOTAGE PENDING frame and a grey PLANNED chip until real clips exist; closing status card rows are "pending verification"; draft watermark on. Voice is the macOS placeholder (no ElevenLabs key present). Music and transitions are synthesized in code (no samples).
+E-03 sweep: Cognee R13-R15 captured as CLI proof (demo/evidence/cognee/recall-run.txt, from INTEGRATION-FINDINGS on main); R01 partial (lane D placeholder board screenshot). Script and shot list moved to the one-screen UI (docs/UI-ONE-SCREEN.md) and the design register (docs/DESIGN-DIRECTION.md); film adopted lane D's palette and a particle title mark.
+Changed files: demo/film/** (new), demo/evidence/**, demo/evidence-matrix.md, demo/script.md, demo/shot-list.md
+Tests run: npx tsc -p demo/film -> 0 errors; node scripts/manifest.mjs -> every VO line ends 0.6-5.1 s before the next starts; ffprobe on the render (above).
+Evidence: demo/film/out/payrollpilot-film-draft.mp4 (local, gitignored; not committed)
+Blockers: ElevenLabs key not provided (placeholder voice until it is). Photon round trip and Band product handoff not yet proven, so Beats 2-4 stay PLANNED.
+Next: E-03 sweep every 15 min; draft 2 render; E-04 README/brief/submission by 14:30.
+Handoff requested: owner: ELEVENLABS_API_KEY into demo/film/.env (gitignored) if you want the professional voice. C: Band room/board/ask/usage screenshots and the iMessage round trip when proven.
+```
+
+```
+LANE E status @ 13:11
+Done: film v3 on the owner's cut (lead relay 13:05): hook 15 s, reveal 10 s, product 75 s, under the hood 35 s, result + close 17 s; 2:32 total. Close states the boundary from docs/PRODUCT-STATEMENT.md. Theme is back to the shared tokens lane D adopted. Lane G's light mockups are not used (they would clash with the dark running app); the DESIGN MOCKUP chip exists if needed.
+Also: demo/script.md v3 (claim map rebuilt), demo/shot-list.md v3 (14 named clips), demo/vo-read-script.md (ElevenLabs and owner-voice paths), reply-script updated with lane C's confirmed batch (exc_611be6d68e + exc_d06fba51f7) and the Band "approve <batch_id>" decision step.
+Changed files: demo/film/**, demo/script.md, demo/shot-list.md, demo/reply-script.md, demo/vo-read-script.md
+Tests run: npx tsc -p demo/film -> 0 errors; scripts/manifest.mjs -> no VO overlaps (min slack 0.9 s); render draft 3 -> h264 1920x1080 + aac, 152.0 s, mean -20.2 dB / peak -2.8 dB
+Evidence: no new proofs since 13:00 (Photon still blocked on credentials; no OpenRouter key)
+Blockers: Photon credentials + phone; OpenRouter key (metering line and "patio" parsing); ElevenLabs key optional
+Next: E-03 sweep, E-04 final at 14:30
+Handoff requested: owner: Photon phone/credentials, OPENROUTER_API_KEY, optional ELEVENLABS_API_KEY
+```
+
+```
+LANE E status @ 13:18
+Done: film draft 4: product windows switched to lane D's light register (D-03, 13:12) on the film's dark stage; lane D's real d03 screenshots used as labeled interim stills for m1, m6, c1; all other product slots still FOOTAGE PENDING. Shot list v4 and recording setup now require live API mode for proof beats (fixture mode's "Simulate test reply" never cut in as iMessage).
+Changed files: demo/film/**, demo/shot-list.md, demo/recording-setup.md
+Tests run: npx tsc -p demo/film -> 0 errors; render draft 4 -> 152.0 s h264 1920x1080 + aac
+Evidence: none new (Photon still blocked).
+Blockers: Photon credentials + phone; OpenRouter key.
+Next: E-03 sweep; E-04 final 14:30.
+```

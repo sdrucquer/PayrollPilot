@@ -1,0 +1,20 @@
+Cognee write + cross-process recall (lane C, C-03), copied from INTEGRATION-FINDINGS.md on main at 12:58 PM 2026-10-20.
+Synthetic ids only. No keys, names, or numbers.
+
+Status: tested, 12:40-12:43 PM, lane C.
+Package: cognee 1.6.5 in backend/.venv; storage backend/.cognee_system + .cognee_data (gitignored).
+Embeddings: fastembed BAAI/bge-small-en-v1.5 (local).
+Graph extraction: local GLiNER extractor (no LLM key was set); OpenRouter-backed extraction and GRAPH_COMPLETION search NOT yet tested.
+
+Process 1 (pid 15644): python -m payrollpilot.memory.demo_recall write
+  -> wrote resolution res_01 to dataset pilotco_cases in 118.9 s, exited.
+Process 2 (pid 17143, fresh): cognee.recall(..., SearchType.CHUNKS, datasets=["pilotco_cases"])
+  -> 1 hit citing res_01 / te_0001 / job_02
+  -> apply_recall validated ids + company scope + parent job
+  -> exc_0007 next_action: "ask ops lead which job" -> "propose allocation to job_02 pending owner approval"
+  -> approval_created: false
+Control (pid 17251, --no-memory): 0 hits, case stays insufficient_evidence.
+
+Tests: backend/.venv/bin/python -m pytest -q backend/tests/test_c03_memory.py -> 7 passed (lane C report).
+
+What this does NOT yet show: the recall inside the running app after a live reply (film Beat 6 in-app clip). Until that exists, Beat 6 may use a terminal recording of this exact write/restart/recall sequence, labeled REAL · Cognee (CLI).
