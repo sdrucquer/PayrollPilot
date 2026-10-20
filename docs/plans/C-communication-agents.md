@@ -65,3 +65,14 @@ Blockers: band ask unsupported for generic peers (fallback: room message + inbox
 Next: C-04 agents (template path now, live OpenRouter once key lands)
 Handoff requested: A: backend startup calls band.ensure_peers(os.getpid()) when PP_BAND_ENABLED=1; env PP_BAND_ROOM_ID
 ```
+
+```
+LANE C status @ 12:55
+Done: C-03 (merged #8), C-02 agent handoff (PR #12), C-04 agents (tests with stub transport; live call pending key), C-05 routes (tests with fake messaging + fake band)
+Changed files: backend/payrollpilot/agents/*, backend/payrollpilot/routes_comms.py, backend/tests/test_c04_agents.py, backend/tests/test_c05_routes.py
+Tests run: backend/.venv/bin/python -m pytest -q -> 61 passed, 1 skipped, 1 failed (lane A test_health_reports_comms_routes_absent now sees "loaded"); bridge bun test -> 9 pass
+Evidence: INTEGRATION-FINDINGS lane C notes 1:05 PM
+Blockers: Photon credentials + PP_TEST_RECIPIENT (C-01 live), OPENROUTER_API_KEY (C-04 live), owner reply in Band room (human decision)
+Next: live C-01 round trip and G1 run as soon as credentials land
+Handoff requested: A: update test_health_reports_comms_routes_absent to "loaded"; state.py use payrollpilot.memory.cognee_memory.CogneeMemory when PP_MEMORY=cognee and payrollpilot.band.CliBand when PP_BAND_ENABLED=1 (routes_comms already does this itself); health integrations photon/band/cognee from INTEGRATION-FINDINGS
+```
