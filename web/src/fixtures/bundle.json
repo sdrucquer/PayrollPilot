@@ -1226,7 +1226,7 @@
   },
   {
    "cycle_id": "cyc_synth_v1",
-   "observed": "T04",
+   "observed": "Worker D has duplicate profiles; identity must be reconciled before merging hours",
    "expected": "—",
    "evidence": [],
    "dollars_affected_cents": null,
@@ -1255,7 +1255,7 @@
   },
   {
    "cycle_id": "cyc_synth_v1",
-   "observed": "T01",
+   "observed": "Worker C rate and payment route unconfirmed",
    "expected": "—",
    "evidence": [],
    "dollars_affected_cents": null,
@@ -1318,7 +1318,7 @@
   },
   {
    "cycle_id": "cyc_synth_v1",
-   "observed": "T07",
+   "observed": "Hardware store purchase (2026-10-07) has no job or category",
    "expected": "—",
    "evidence": [],
    "dollars_affected_cents": null,
@@ -1380,7 +1380,7 @@
   },
   {
    "cycle_id": "cyc_synth_v1",
-   "observed": "T06/T15",
+   "observed": "Job 03 (off-site disposal) has no parent job link",
    "expected": "—",
    "evidence": [],
    "dollars_affected_cents": null,
@@ -1411,7 +1411,7 @@
   },
   {
    "cycle_id": "cyc_synth_v1",
-   "observed": "T25",
+   "observed": "Job 01 quoter is only the salesperson field; confirm actual quoter(s)",
    "expected": "—",
    "evidence": [],
    "dollars_affected_cents": null,
@@ -1442,7 +1442,7 @@
   },
   {
    "cycle_id": "cyc_synth_v1",
-   "observed": "T13",
+   "observed": "quickbooks/expenses coverage incomplete (permission): pending bank-feed items not visible",
    "expected": "—",
    "evidence": [],
    "dollars_affected_cents": null,

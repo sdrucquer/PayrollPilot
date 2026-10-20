@@ -1,6 +1,7 @@
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
 import { api } from './api'
 import Board from './screens/Board'
+import Inbox from './screens/Inbox'
 
 function Placeholder({ name }: { name: string }) {
   return <p className="muted">{name} screen arrives in a later task.</p>
@@ -19,10 +20,14 @@ export default function App() {
         </nav>
         <span className={`tag mode-${api.mode}`}>{api.mode === 'fixture' ? 'Fixture data (synthetic)' : 'Live API'}</span>
       </header>
+      {api.mode === 'fixture' && (
+        <div className="simbar">Fixture simulation: synthetic data, no messages leave this browser, replies are scripted test replies.</div>
+      )}
       <main className="page">
         <Routes>
           <Route path="/" element={<Board />} />
-          <Route path="/inbox/*" element={<Placeholder name="Inbox" />} />
+          <Route path="/inbox" element={<Inbox />} />
+          <Route path="/inbox/:id" element={<Inbox />} />
           <Route path="/activity" element={<Placeholder name="Activity" />} />
           <Route path="/review" element={<Placeholder name="Review" />} />
         </Routes>

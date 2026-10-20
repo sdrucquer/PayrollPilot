@@ -45,3 +45,14 @@ Blockers: lane B fixtures not yet in docs/contracts/fixtures/ on main; board use
 Next: D-02 inbox + thread
 Handoff requested: A: no GET route for workers/display names (board falls back to /packet identities, else worker_id); no API field for labor/revenue review or cash confirmation (UI shows "not reviewed" / "not confirmed"). E: screenshots above.
 ```
+```
+LANE D status @ 12:54
+Done: D-02 (acceptance checks passed in fixture mode, driven in the browser: T14 vague "yes" to 3 grouped questions shows 3x ambiguous + Clarify; T17 injection reply shows "Blocked instruction" badge and the number in the reply is masked; approval dialog shows exact text, masked recipient, linked issue ids, version; editing text after "Approve only" invalidates the approval and requires re-approval; T02 flow draft, approve+send, conflicting reply, clarify, confirmed follow-up, resolution, propose, approve, apply changes board readiness: T02 blocker leaves the quote commission card, open exceptions 15 to 14)
+Also: fixture mode now renders lane B fixtures (build-fixtures converter), shared film tokens adopted from lane E.
+Changed files: web/src/screens/Inbox.tsx, Thread.tsx, components/ApprovalDialog.tsx, src/sim.ts, src/api.ts, src/format.ts, src/index.css, scripts/build-fixtures.mjs, scripts/check-contracts.ts, screenshots/d02-*
+Tests run: cd web && npm run build -> exit 0; npm run check:contracts -> 19/19 checks passed. Not run: D-02 against the live API (A-02 not on main yet).
+Evidence: web/screenshots/d02-approval-dialog.jpg, d02-thread-clarify-resolve.jpg, d02-inbox-t17-blocked.jpg, d02-inbox-t14-grouped-1280.jpg
+Blockers: none for fixture mode. Live API untested.
+Next: D-03 activity, review, workbook panel
+Handoff requested: A/C: GET /api/exceptions/{id} "messages" shape is unpinned (UI accepts batches and inbound mixed, plus parsed/approvals arrays); LocalCorrection has no version hash for approval target_version (UI uses version_hash if present, else a client hash); no route to edit a draft; T17 blocked flag is read from blocked.unauthorized_instruction events whose refs name the inbound id. Lead: PRODUCT-STATEMENT lists a "playback" provenance that CONTRACTS does not have.
+```
