@@ -11,9 +11,13 @@ The owner asked for an aggressive simplification. PayrollPilot should feel like 
 
 Removed from the main interface: multi-column layouts, exception tables, record ids and hashes, evidence panels, raw agent logs, filters and categories, per-agent pages. That detail can live behind "Show everything" or a secondary screen for the pilot team, never on the owner's home.
 
-Sources: `design/claude-design/Main.dc.html` (in progress) and `Ready.dc.html` (ready state), built natively in Claude Design; canvas: https://claude.ai/artifact/55usfvGbaCVYAWY2piYaeC (private until shared). Names stay as roles (Ops lead); no personal names in committed files.
+Sources: `design/claude-design/Main.dc.html` (approval pending, interactive: Approve & send transitions to a Sent state and adds an activity line), `Ready.dc.html` (ready state), `Phone.dc.html` (390px, the owner approves from a phone), built natively in Claude Design; canvas: https://claude.ai/artifact/55usfvGbaCVYAWY2piYaeC (private until shared). Names stay as roles (Ops lead); no personal names in committed files.
 
 Visual language for this direction: page `#F2F2F7`, white cards radius 22px with a very soft shadow, body 15px, titles 32px/700, uppercase 12px section labels in `#6E6E73`, iOS blue `#0A7AFF` for the single primary action and the current step, green `#1F8A3B` for done/verified, orange `#B35C00` for waiting/test labels, `—` for unknown money. Buttons are 44–46px pills; the primary one is the only filled blue element on screen.
+
+Motion in this direction: cards rise 8px / fade in over 500ms with a 80ms stagger; the current step and the approval dot carry a slow 2s pulse ring; the Sent check pops in (scale .6 to 1); new activity lines rise in. All off under prefers-reduced-motion.
+
+Other screens still to mock (not yet built): the approval sheet opened by Edit (exact text, masked recipient, re-approve), the decision sheet for a policy question (overhead allocation), the idle state ("Nothing needs you. Next payroll starts Oct 13"), the Details view (lane D's existing detailed screen), and a reply-arrived state on the phone.
 
 ## Earlier exploration (superseded for the owner's home; still useful for the pilot team's detail views)
 

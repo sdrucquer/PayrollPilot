@@ -12,6 +12,12 @@
 body{margin:0;background:#F2F2F7;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;color:#1C1C1E;-webkit-font-smoothing:antialiased}
 a{color:#0A7AFF}a:hover{color:#0066D6}
 button{font:inherit;cursor:pointer}
+button:hover{filter:brightness(.96)}
+button:active{transform:translateY(1px)}
+@keyframes pp-rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pp-pulse{0%{box-shadow:0 0 0 0 rgba(10,122,255,.35)}70%{box-shadow:0 0 0 10px rgba(10,122,255,0)}100%{box-shadow:0 0 0 0 rgba(10,122,255,0)}}
+@keyframes pp-pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
 </style>
 </helmet>
 <div layer-name="Page" style="min-height:100vh;background:#F2F2F7;display:flex;flex-direction:column;align-items:stretch;font-size:15px;line-height:1.45">
@@ -23,22 +29,31 @@ button{font:inherit;cursor:pointer}
       <div style="color:#6E6E73;font-size:14px">Pilot Co</div>
     </div>
     <div style="flex:1 1 40px"></div>
-    <div style="display:flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;background:#FFFFFF;border:1px solid rgba(179,92,0,.3);color:#B35C00;font-size:12px;font-weight:600"><span aria-hidden="true" style="width:6px;height:6px;border-radius:50%;background:#B35C00"></span>Test mode · messages go to your phone only</div>
-    <div style="display:flex;align-items:center;gap:8px;height:30px;padding:0 12px 0 8px;border-radius:999px;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.05);font-size:13px;font-weight:600;color:#3A3A3C"><span aria-hidden="true" style="width:16px;height:16px;border-radius:4px;background:#F45D48;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center">G</span>Gusto<span style="color:#6E6E73;font-weight:500">not submitted</span></div>
+    <div style="display:flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;background:#FFFFFF;border:1px solid rgba(179,92,0,.3);color:#B35C00;font-size:12px;font-weight:600"><span aria-hidden="true" style="width:6px;height:6px;border-radius:50%;background:#B35C00"></span>Test mode · texts go to your phone</div>
+    <div style="display:flex;align-items:center;gap:8px;height:30px;padding:0 12px 0 8px;border-radius:999px;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.05);font-size:13px;font-weight:600;color:#3A3A3C"><span aria-hidden="true" style="width:16px;height:16px;border-radius:4px;background:#F45D48;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center">G</span>Gusto:<span style="color:#6E6E73;font-weight:500">not prepared</span></div>
     <button type="button" style="height:30px;padding:0 12px;border-radius:999px;border:0;background:transparent;color:#6E6E73;font-size:13px;font-weight:600">Pause</button>
   </div>
 
   <div layer-name="Content" style="display:flex;flex-direction:column;gap:20px;width:100%;max-width:760px;box-sizing:border-box;padding:36px 24px 56px;align-self:center">
 
-    <div layer-name="Header" style="display:flex;flex-direction:column;gap:6px;padding:0 4px">
-      <div style="font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73">Payroll · Sep 28 – Oct 11</div>
-      <h1 style="margin:0;font-size:32px;font-weight:700;letter-spacing:-.025em;line-height:1.15">Working on payroll. One thing needs you.</h1>
-      <div style="font-size:15px;color:#6E6E73">Payday Friday, Oct 17 · 4 employees · 3 jobs · Nothing is sent to Gusto without you.</div>
+    <div layer-name="Header" style="display:flex;flex-direction:column;gap:10px;padding:0 4px;animation:pp-rise .5s cubic-bezier(.2,.7,.2,1) both">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div style="font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73">Payroll · Sep 28 – Oct 11 · payday Fri Oct 17</div><span style="height:22px;padding:0 9px;border-radius:999px;background:#E8F1FF;color:#0066D6;font-size:12px;font-weight:600;display:flex;align-items:center">Due Wed, 4:00 PM</span></div>
+      <sc-if value="{{pending}}" hint-placeholder-val="{{ true }}">
+        <h1 style="margin:0;font-size:32px;font-weight:700;letter-spacing:-.025em;line-height:1.15">Working on payroll. One thing needs you.</h1>
+      </sc-if>
+      <sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+        <h1 style="margin:0;font-size:32px;font-weight:700;letter-spacing:-.025em;line-height:1.15">Working on payroll. Nothing needs you right now.</h1>
+      </sc-if>
+      <div layer-name="Readiness" style="display:flex;flex-direction:column;gap:4px;font-size:15px;color:#3A3A3C">
+        <div><strong style="font-weight:600;color:#1C1C1E">Employee wages:</strong> ready for 3 of 4 workers. Worker C needs 1 answer.</div>
+        <div><strong style="font-weight:600;color:#1C1C1E">Job costs and bonuses:</strong> 1 commission ready. Tips and manager pool waiting on 2 answers and 1 decision from you.</div>
+      </div>
     </div>
 
-    <div layer-name="Needs your approval" style="background:#FFFFFF;border-radius:22px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -18px rgba(20,20,40,.18);padding:22px 24px 20px;display:flex;flex-direction:column;gap:16px;border:1.5px solid rgba(10,122,255,.35)">
+    <sc-if value="{{pending}}" hint-placeholder-val="{{ true }}">
+    <div layer-name="Needs your approval" style="background:#FFFFFF;border-radius:22px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -18px rgba(20,20,40,.18);padding:22px 24px 20px;display:flex;flex-direction:column;gap:16px;border:1.5px solid rgba(10,122,255,.35);animation:pp-rise .5s cubic-bezier(.2,.7,.2,1) .08s both">
       <div style="display:flex;align-items:center;gap:10px">
-        <span aria-hidden="true" style="width:10px;height:10px;border-radius:50%;background:{{accent}};box-shadow:0 0 0 4px rgba(10,122,255,.15)"></span>
+        <span aria-hidden="true" style="width:10px;height:10px;border-radius:50%;background:{{accent}};animation:pp-pulse 2s infinite"></span>
         <div style="font-size:17px;font-weight:700;letter-spacing:-.01em">Needs your approval</div>
         <div style="flex:1 1 8px"></div>
         <div style="font-size:13px;color:#6E6E73">1 of 1</div>
@@ -49,18 +64,29 @@ button{font:inherit;cursor:pointer}
         <div style="background:#F5F5F8;border-radius:18px;padding:14px 16px;font-size:15px;line-height:1.5;color:#1C1C1E">Hi! Two quick payroll checks for last period: (1) Worker A's Friday 10/02 shift (2h 14m) has no job on it. Which job was that? (2) The $40 tip on Job 03, was that for one person or the whole crew? Thanks!</div>
       </div>
       <div layer-name="Actions" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <button type="button" style="height:44px;padding:0 20px;border-radius:999px;border:0;background:{{accent}};color:#fff;font-size:15px;font-weight:600;box-shadow:0 6px 16px -8px rgba(10,122,255,.7);display:flex;align-items:center;gap:8px"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8.5l3.5 3.5 7.5-8"></path></svg>Approve &amp; send</button>
+        <button type="button" onClick="{{approve}}" style="height:44px;padding:0 20px;border-radius:999px;border:0;background:{{accent}};color:#fff;font-size:15px;font-weight:600;box-shadow:0 6px 16px -8px rgba(10,122,255,.7);display:flex;align-items:center;gap:8px"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8.5l3.5 3.5 7.5-8"></path></svg>Approve &amp; send</button>
         <button type="button" style="height:44px;padding:0 18px;border-radius:999px;border:0;background:#ECECF1;color:#1C1C1E;font-size:15px;font-weight:600">Edit</button>
         <button type="button" style="height:44px;padding:0 18px;border-radius:999px;border:0;background:transparent;color:#6E6E73;font-size:15px;font-weight:600">Decline</button>
         <div style="flex:1 1 8px"></div>
         <div style="font-size:12.5px;color:#6E6E73;text-align:right;max-width:240px">Sends this exact text to this one person. Editing it asks you to approve again.</div>
       </div>
     </div>
+    </sc-if>
 
-    <div layer-name="Progress" style="background:#FFFFFF;border-radius:22px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -18px rgba(20,20,40,.14);padding:22px 24px;display:flex;flex-direction:column;gap:18px">
+    <sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+    <div layer-name="Sent" style="background:#FFFFFF;border-radius:22px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -18px rgba(20,20,40,.14);padding:18px 24px;display:flex;align-items:center;gap:14px;animation:pp-rise .45s cubic-bezier(.2,.7,.2,1) both">
+      <span aria-hidden="true" style="width:28px;height:28px;border-radius:50%;background:#1F8A3B;display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:pp-pop .5s cubic-bezier(.2,.7,.2,1) both"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5 7-8"></path></svg></span>
+      <div style="display:flex;flex-direction:column;gap:2px;flex:1 1 0"><div style="font-size:16px;font-weight:600">Sent to the Ops lead · 1:14 PM</div><div style="font-size:14px;color:#6E6E73">I'll read the reply, check it against the timesheets, and only come back to you if something needs a decision.</div></div>
+      <button type="button" onClick="{{reset}}" style="height:32px;padding:0 12px;border-radius:999px;border:0;background:#ECECF1;color:#1C1C1E;font-size:13px;font-weight:600">View message</button>
+    </div>
+    </sc-if>
+
+    <div layer-name="Progress" style="background:#FFFFFF;border-radius:22px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -18px rgba(20,20,40,.14);padding:22px 24px;display:flex;flex-direction:column;gap:18px;animation:pp-rise .5s cubic-bezier(.2,.7,.2,1) .16s both">
       <div style="display:flex;align-items:baseline;gap:10px">
         <div style="font-size:17px;font-weight:700;letter-spacing:-.01em">Progress</div>
         <div style="font-size:13px;color:#6E6E73">Step 3 of 6 · started 12:41 today</div>
+        <div style="flex:1 1 8px"></div>
+        <div style="font-size:13px;color:#6E6E73">Audit finished 12:41 · Resolution is waiting on the ops lead · Payroll prep paused until answers arrive</div>
       </div>
 
       <div layer-name="Stage 1" style="display:flex;flex-direction:column;gap:0">
@@ -82,8 +108,11 @@ button{font:inherit;cursor:pointer}
 
         <div layer-name="Step current" style="display:flex;align-items:flex-start;gap:14px;padding:0 0 18px;position:relative">
           <div aria-hidden="true" style="position:absolute;left:11px;top:24px;bottom:-2px;width:2px;background:#C7C7CC"></div>
-          <div aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#FFFFFF;border:2.5px solid {{accent}};box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:8px;height:8px;border-radius:50%;background:{{accent}}"></span></div>
-          <div style="display:flex;flex-direction:column;gap:2px;flex:1 1 0"><div style="font-size:15px;font-weight:600;color:#0066D6">Resolving missing information</div><div style="font-size:13.5px;color:#6E6E73">Waiting on your approval to text the Ops lead · 1 of 3 already answered</div></div>
+          <div aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#FFFFFF;border:2.5px solid {{accent}};box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:pp-pulse 2.4s infinite"><span style="width:8px;height:8px;border-radius:50%;background:{{accent}}"></span></div>
+          <div style="display:flex;flex-direction:column;gap:2px;flex:1 1 0"><div style="font-size:15px;font-weight:600;color:#0066D6">Resolving missing information</div>
+            <sc-if value="{{pending}}" hint-placeholder-val="{{ true }}"><div style="font-size:13.5px;color:#6E6E73">Waiting on your approval to text the Ops lead · 1 of 3 already answered</div></sc-if>
+            <sc-if value="{{sent}}" hint-placeholder-val="{{ false }}"><div style="font-size:13.5px;color:#6E6E73">Waiting for the Ops lead to reply · 1 of 3 already answered</div></sc-if>
+          </div>
           <div style="font-size:13px;font-weight:600;color:#0066D6;padding-top:3px">Now</div>
         </div>
 
@@ -106,17 +135,20 @@ button{font:inherit;cursor:pointer}
 
         <div layer-name="Step upcoming" style="display:flex;align-items:flex-start;gap:14px;padding:0;position:relative">
           <div aria-hidden="true" style="width:24px;height:24px;border-radius:50%;border:2px solid #C7C7CC;box-sizing:border-box;flex-shrink:0"></div>
-          <div style="display:flex;flex-direction:column;gap:2px;flex:1 1 0"><div style="font-size:15px;font-weight:600;color:#6E6E73">Payroll ready for your review</div><div style="font-size:13.5px;color:#8E8E93">You approve the draft here. Submitting to Gusto is a separate step you do yourself.</div></div>
+          <div style="display:flex;flex-direction:column;gap:2px;flex:1 1 0"><div style="font-size:15px;font-weight:600;color:#6E6E73">Payroll ready for your review</div><div style="font-size:13.5px;color:#8E8E93">You approve the draft here. Gusto stays "not prepared" until you submit it yourself.</div></div>
         </div>
       </div>
     </div>
 
-    <div layer-name="Activity" style="background:#FFFFFF;border-radius:22px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -18px rgba(20,20,40,.14);padding:22px 24px;display:flex;flex-direction:column;gap:14px">
+    <div layer-name="Activity" style="background:#FFFFFF;border-radius:22px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -18px rgba(20,20,40,.14);padding:22px 24px;display:flex;flex-direction:column;gap:14px;animation:pp-rise .5s cubic-bezier(.2,.7,.2,1) .24s both">
       <div style="display:flex;align-items:baseline;gap:10px">
         <div style="font-size:17px;font-weight:700;letter-spacing:-.01em">Activity</div>
         <div style="font-size:13px;color:#6E6E73">Today</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0">
+        <sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05);animation:pp-rise .4s cubic-bezier(.2,.7,.2,1) both"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#1F8A3B;flex-shrink:0"></span><div style="flex:1 1 0;font-size:15px">Sent your approved question to the Ops lead</div><div style="font-size:13px;color:#6E6E73">1:14</div></div>
+        </sc-if>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:{{accent}};flex-shrink:0"></span><div style="flex:1 1 0;font-size:15px">Drafted a question for the Ops lead about 2 shifts</div><div style="font-size:13px;color:#6E6E73">12:58</div></div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#1F8A3B;flex-shrink:0"></span><div style="flex:1 1 0;font-size:15px">Verified the correction: Worker A's Friday shift now counts toward Job 02</div><div style="font-size:13px;color:#6E6E73">12:51</div></div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#1F8A3B;flex-shrink:0"></span><div style="flex:1 1 0;font-size:15px">Ops lead replied: "job 2 was the lawn install"<span style="margin-left:8px;font-size:12px;color:#B35C00;background:#FFF1E0;border-radius:999px;padding:2px 8px;font-weight:600">test reply</span></div><div style="font-size:13px;color:#6E6E73">12:49</div></div>
@@ -124,19 +156,29 @@ button{font:inherit;cursor:pointer}
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#C7C7CC;flex-shrink:0"></span><div style="flex:1 1 0;font-size:15px">Found 3 missing job assignments, 1 open timer, and 1 rate to confirm</div><div style="font-size:13px;color:#6E6E73">12:43</div></div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 0"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#C7C7CC;flex-shrink:0"></span><div style="flex:1 1 0;font-size:15px">Checked 42 timesheets</div><div style="font-size:13px;color:#6E6E73">12:41</div></div>
       </div>
-      <a href="#activity" style="font-size:14px;font-weight:600;text-decoration:none;align-self:flex-start">Show everything</a>
+      <a href="#details" style="font-size:14px;font-weight:600;text-decoration:none;align-self:flex-start">Details</a>
     </div>
 
     <div layer-name="Footer" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:4px 6px;font-size:12.5px;color:#6E6E73">
-      <span>Sample data for this demo</span><span aria-hidden="true">·</span><span>Replies come from your own test phone</span><span aria-hidden="true">·</span><span>Reads only. Never writes to Jobber, QuickBooks, or Gusto.</span>
+      <span>Test mode: texts go to your phone</span><span aria-hidden="true">·</span><span>Synthetic data</span><span aria-hidden="true">·</span><span>Nothing is submitted to Gusto.</span>
     </div>
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#0A7AFF","options":["#0A7AFF","#5E5CE6","#1F8A3B","#1C1C1E"],"section":"Theme"},"$preview":{"width":1280,"height":1380}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#0A7AFF","options":["#0A7AFF","#5E5CE6","#1F8A3B","#1C1C1E"],"section":"Theme"},"$preview":{"width":1280,"height":1420}}'>
 class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sent: false };
+  }
   renderVals() {
-    return { accent: this.props.accent ?? '#0A7AFF' };
+    return {
+      accent: this.props.accent ?? '#0A7AFF',
+      pending: !this.state.sent,
+      sent: this.state.sent,
+      approve: () => this.setState({ sent: true }),
+      reset: () => this.setState({ sent: false })
+    };
   }
 }
 </script>

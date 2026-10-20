@@ -5,12 +5,13 @@
   "launch": {"view": "canvas"},
   "pages": [],
   "boards": {
-    "Main.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1380, "title": "Home · payroll in progress", "expand": "fill"},
-    "Ready.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 1380, "title": "Home · payroll ready for review", "expand": "fill"}
+    "Main.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1420, "title": "Home · approval pending (interactive)", "expand": "fill", "is_interactive": true},
+    "Ready.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 1380, "title": "Home · payroll ready for review", "expand": "fill"},
+    "Phone.dc.html": {"x": 2720, "y": 0, "w": 390, "h": 1180, "title": "Phone · approval pending"}
   },
-  "order": ["Main.dc.html", "Ready.dc.html"],
+  "order": ["Main.dc.html", "Ready.dc.html", "Phone.dc.html"],
   "notes": {
-    "t1": {"x": 0, "y": -300, "text": "PayrollPilot · one screen for the owner", "kind": "title1", "maxW": 2640}
+    "t1": {"x": 0, "y": -300, "text": "PayrollPilot · one screen for the owner", "kind": "title1", "maxW": 3110}
   },
   "designSystems": []
 }
