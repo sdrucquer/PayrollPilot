@@ -1,5 +1,63 @@
 # PayrollPilot UI design notes (lane G)
 
+## FROZEN 1:40 PM · what lane D builds
+
+Files: `design/home.html` (in progress, approval pending), `design/ready.html` (payroll ready), `design/idle.html` (between payrolls). Static exports, open in any browser, no runtime. Live versions with working Edit / Approve / Decide states: `design/claude-design/*.dc.html` and the canvas https://claude.ai/artifact/HUHEVg4NwowgudNWyK4djG.
+
+### Layout
+Single centered column, `max-width: 720px`, 24px side padding, 22px gap between cards. Top bar: logo + company, test-mode pill, "Gusto: not prepared" badge, Pause. Then in order: Hero card (headline + readiness lines + progress ring), the one approval/summary card (tinted, the only card with a colored ring), Progress card (stepper + current step), Activity card, one-line footer. No sidebar, no tables, no ids.
+
+### Final tokens
+| Token | Value |
+|---|---|
+| Page background | `linear-gradient(180deg,#F5F5F8,#EEEEF3)` (fallback `#F2F2F7`) |
+| Card | `#FFFFFF`, radius `28px`, shadow `0 1px 2px rgba(0,0,0,.03), 0 20px 48px -28px rgba(20,20,40,.22), 0 0 0 1px rgba(0,0,0,.03)` |
+| Inset tile | `#F5F5F8`, radius `18px`; current-step panel `#F5F8FF` |
+| Approval card | background `linear-gradient(180deg,#F3F8FF,#FFFFFF 38%)`, ring `0 0 0 1.5px rgba(10,122,255,.30)`; ready variant uses green `#F3FBF5` / `rgba(31,138,59,.30)` |
+| Text | primary `#1C1C1E`, secondary `#3A3A3C`, muted `#6E6E73`, faint `#8E8E93` (only at 12px+ meta) |
+| Accent | `#0A7AFF`, hover `#0066D6`, tint `#E8F1FF` |
+| Ready / verified | `#1F8A3B`, tint `#E6F6EA` |
+| Waiting / test | `#D97A00` dot, text `#9A4D00`, tint `#FFF4E5` |
+| Blocked | `#E0323F`, tint `#FDE8EA` (not used on the home page) |
+| Neutral stepper segment | `#E5E5EA`; hairline `rgba(0,0,0,.05)` |
+
+### Type (font: -apple-system, "SF Pro Display"/"SF Pro Text", Inter fallback)
+Hero headline 36/700/-0.03em · hero money 48/700/-0.04em (cents 26px `#8E8E93`) · card title 18/700/-0.015em · section label 11.5–12.5/600–700/+0.06em uppercase `#6E6E73` · body 15/400 · meta 13 `#6E6E73` · timestamps 12.5–13 `#8E8E93` · tabular numerals for money.
+
+### Buttons
+All pills (`border-radius: 999px`). Primary: 48px tall, `#0A7AFF`, white 16/600, shadow `0 8px 20px -8px rgba(10,122,255,.8)`, one per screen. Secondary: 48px, white, `0 0 0 1px rgba(0,0,0,.08)`. Tertiary: transparent, `#6E6E73`. Small: 32–34px, `#1C1C1E` on dark "Decide", `#F2F2F7` on neutral. Press: `scale(.98)`.
+
+### Components
+Hero ring: 112px SVG, r=48, stroke 10, track `#ECECF1`, done arc green, current arc blue. Stepper: 6 segments 8px tall, gap 6px, a 1px divider between Stage 1 (4 segments) and Stage 2 (2); current segment pulses opacity. Message preview: contact row (28px circle initial, name, "iMessage · •••-••12") + blue bubble `border-radius: 20px 20px 6px 20px`. Activity row: 30px icon chip radius 10 (blue send/chat, green check, orange search, gray contact), text 15, time right. Test-reply tag: orange pill 11.5/600.
+
+### Motion
+Cards rise 10px/fade 550ms `cubic-bezier(.2,.7,.2,1)`, stagger 80ms. Ring draws in 1.2s. Approval avatar and current-step dot: 2.4s pulse ring. Waiting spinner: 14px ring 1s. All off under prefers-reduced-motion.
+
+---
+
+## Current direction (owner decision, 1:10 PM): one calm screen
+
+The owner asked for an aggressive simplification. PayrollPilot should feel like an AI employee doing payroll in the background and only asking for approval when necessary. The primary interface is a single centered column (max 760px) with four parts, in this order:
+
+1. **Needs your approval** (only when something is waiting): the exact drafted message, the respondent as a role with a masked number, and three buttons: Approve & send, Edit, Decline. These map to the existing contracts (POST /api/approvals with the text hash as target_version, then POST /api/messages/{batch}/send; Edit invalidates the approval and requires re-approval). Never bypass them.
+2. **Progress**: six plain-English steps with completed / current / upcoming states, grouped so Stage 1 (Employee wages) and Stage 2 (Financial reconciliation) stay distinguishable: Gathering employee hours, Auditing hours, Resolving missing information, Preparing employee wages, Reconciling job expenses and commissions, Payroll ready for your review.
+3. **Activity**: plain-English lines with times ("Checked 42 timesheets", "Found 3 missing job assignments", "Drafted a question for the Ops lead", "Ops lead replied", "Verified the correction", "Employee wages ready for review"). Test replies carry a small "test reply" tag.
+4. **Payroll summary** (ready state): totals per item (wages, commissions & tips, manager pool), what is verified, what is left out until resolved with a Decide button, and ONE action: "Approve this draft". Copy says explicitly that this does not submit to Gusto; the top bar badge reads "Gusto · not submitted".
+
+Removed from the main interface: multi-column layouts, exception tables, record ids and hashes, evidence panels, raw agent logs, filters and categories, per-agent pages. That detail can live behind "Show everything" or a secondary screen for the pilot team, never on the owner's home.
+
+Sources: `design/claude-design/Main.dc.html` (approval pending, interactive: Approve & send transitions to a Sent state and adds an activity line), `Ready.dc.html` (ready state), `Phone.dc.html` (390px, the owner approves from a phone), built natively in Claude Design; canvas: https://claude.ai/artifact/55usfvGbaCVYAWY2piYaeC (private until shared). Names stay as roles (Ops lead); no personal names in committed files.
+
+Visual language for this direction: page `#F2F2F7`, white cards radius 22px with a very soft shadow, body 15px, titles 32px/700, uppercase 12px section labels in `#6E6E73`, iOS blue `#0A7AFF` for the single primary action and the current step, green `#1F8A3B` for done/verified, orange `#B35C00` for waiting/test labels, `—` for unknown money. Buttons are 44–46px pills; the primary one is the only filled blue element on screen.
+
+Visual system v2 (after owner feedback that v1 looked generic): a hero card anchors each screen (big status headline or the total payroll figure at 48px, plus a progress ring); progress is a horizontal 6-segment stepper with Stage 1 and Stage 2 labels and only the current step expanded; the approval is presented as a message preview from a named agent persona ("Pilot") with an avatar, the recipient shown as an iMessage contact row, and the draft as a blue bubble; the activity feed uses 30px rounded icon chips instead of dots; cards are 28px radius with a layered shadow and a 1px hairline ring; page background is a faint top-to-bottom gradient. Interactive states: Edit opens an inline edit sheet (any change creates a new version to approve); Decide opens an inline option sheet with three plain methods and no percentages.
+
+Motion in this direction: cards rise 8px / fade in over 500ms with a 80ms stagger; the current step and the approval dot carry a slow 2s pulse ring; the Sent check pops in (scale .6 to 1); new activity lines rise in. All off under prefers-reduced-motion.
+
+Other screens still to mock (not yet built): the approval sheet opened by Edit (exact text, masked recipient, re-approve), the decision sheet for a policy question (overhead allocation), the idle state ("Nothing needs you. Next payroll starts Oct 13"), the Details view (lane D's existing detailed screen), and a reply-arrived state on the phone.
+
+## Earlier exploration (superseded for the owner's home; still useful for the pilot team's detail views)
+
 Static mockups for lane D (production UI) and lane E (video). Visual reference only, not a spec to rebuild pixel-for-pixel.
 
 - `command-center.html` — cycle overview: Stage 1 wages, Stage 2 reconciliation (quote commission, tips, manager pool as separate cards), agents, open exceptions, questions awaiting replies, next actions, "Gusto: not prepared".
