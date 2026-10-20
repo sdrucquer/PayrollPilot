@@ -54,3 +54,14 @@ Blockers: Photon phone + project credentials in bridge/.env; PP_TEST_RECIPIENT; 
 Next: C-02 Band product handoff
 Handoff requested: A adds app.include_router(routes_comms.router) and cognee/fastembed/python-dotenv to backend deps
 ```
+
+```
+LANE C status @ 12:50
+Done: C-03; C-02 agent handoff + board (acceptance: 3 agent participants, audit->resolution->payroll messages, task #2 pending->in_progress->completed). Human decision posted, owner reply pending.
+Changed files: backend/payrollpilot/band/*, backend/tests/test_c02_band.py, INTEGRATION-FINDINGS.md
+Tests run: backend/.venv/bin/python -m pytest -q backend/tests/test_c02_band.py -> 7 passed
+Evidence: INTEGRATION-FINDINGS Band (product handoff) row; room a55619f6-19f6-4504-881f-a6d5b5d2ce4d
+Blockers: band ask unsupported for generic peers (fallback: room message + inbox reply); owner must reply "approve msg_batch_spike02" in the room
+Next: C-04 agents (template path now, live OpenRouter once key lands)
+Handoff requested: A: backend startup calls band.ensure_peers(os.getpid()) when PP_BAND_ENABLED=1; env PP_BAND_ROOM_ID
+```
