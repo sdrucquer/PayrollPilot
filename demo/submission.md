@@ -1,55 +1,71 @@
-# Submission (draft, 1:02 PM; final by 2:30 PM, values refreshed at 3:05 PM after the render)
+# PayrollPilot submission copy and owner upload runbook
 
-Fields follow `DEMO-PLAN.md` "Submission fields". Confirm the organizer's exact field list with the owner; anything marked [OWNER] needs the owner.
+Date: October 20, 2026. All times Pacific. Copy is ready; the video URL is filled after the owner uploads. This document does not certify missing video evidence or submit an entry.
 
-## Project name
-PayrollPilot
+## Paste-ready fields
 
-## Tagline (one line)
-Payroll, prepared. Never guessed.
+**Project:** PayrollPilot
 
-## One-line description
-AI agents that audit a small business's pay period, ask the right person by text, and prepare payroll the owner can trust, without ever submitting it.
+**Team:** Shanin Drucquer
 
-## Description (~230 words)
+**Tagline:** From missing information to payroll-ready. With you in control.
 
-Small home-service businesses run payroll from tools that disagree: time and jobs in one app, payroll in another, costs in the books and the bank. Every two weeks the owner reconciles them by hand, and the usual fixes are guesses.
+**One line:** Payroll preparation that turns evidence-backed exceptions into owner-approved corrections and separate readiness for wages and compensation items.
 
-PayrollPilot prepares the payroll instead of guessing it. It loads one pay period, runs deterministic audits, and raises exceptions with evidence: a paid shift on the wrong job, an open timer, a receipt nobody can place. Three agents share one model but not one set of powers. Audit finds issues and cannot message anyone. Resolution drafts one question for the right person, and it is sent only after the owner approves the exact text; change a character and the approval is void. Replies are parsed per question, a vague "yes" triggers a bounded clarification, and confirmed facts become local corrections the owner approves. Payroll Prep shows readiness separately for wages and for each commission, tip, and manager-pool item, with blocker codes instead of defaults, and exports a verified reconciliation workbook.
+**Repository:** https://github.com/sdrucquer/PayrollPilot
 
-A plain-code coordinator owns every state change and permission. Agents hand cases to each other in a Band Desktop room, and confirmed facts are stored in Cognee so a restarted agent recalls them and proposes the known answer instead of asking again. Nothing writes to source systems and nothing submits payroll: the destination reads "Gusto: not prepared".
+**Video:** OWNER: paste the uploaded, playable video URL here.
 
-## Sponsor usage (main 27b40ae evidence; final footage pending)
+**Description (150–300 words):**
 
-- **Band:** Audit, Resolution and Payroll Prep share a room and board; existing CLI proof shows the dependent handoff. Main reports the owner's `approve <batch_id>` room reply produced version-bound approval at 1:32. `band ask` is unsupported; no per-product-agent Band usage claim. Desktop footage pending.
-- **Cognee:** A fact was written and recalled by a fresh process using CHUNKS search; validated recall changed the proposal without granting approval. Main also reports a live memory write at 1:33. No graph-completion claim. Use earlier proof as PLAYBACK; no live stack restart.
-- **Photon:** Main reports a real allowlisted send/reply at 1:12–1:14 and a 1:32 owner-approved batch with correlated TEST REPLY and live parsing. Phone/app clips remain pending; fixture simulation does not prove iMessage.
+Payroll preparation can stall on a missing job assignment, an unclear shift, or a cost that does not match its records. PayrollPilot helps one home-service business turn those questions into a review the owner can assess.
 
-[Sanitized evidence](evidence/logs/live-flow-main27b.txt), [matrix](evidence-matrix.md). Real Jobber read is partial: 58 entries, 10 workers, 13 jobs; totals, ids, source approval unverified, rates/payroll/payments/expenses not read. The film uses synthetic data. Final voice and all 14 product clips remain pending.
+It detects missing, unassigned, long, overlapping, or duplicate time and mismatched or duplicated costs, with source evidence and stage impact. It groups questions by respondent for a real iMessage through Photon after the owner approves the exact text and recipient. In test mode, messages go only to the owner's allowlisted phone. It parses replies, flags vague, partial, or conflicting answers, and asks a bounded follow-up within the same scope.
 
-## Links
-- Repo: https://github.com/sdrucquer/PayrollPilot (public; verify before submitting)
-- Video: [OWNER pastes URL after upload]
-- Team: [OWNER]
+PayrollPilot proposes local corrections with before-and-after values and calculation impact. Only owner-approved corrections are applied, followed by recalculation of wages and job costs. Employee wages and each Stage 2 item—quote commission, tips, and manager pool—retain independent readiness and named blockers. A 12-ledger review workbook includes pending tabs and totals checked against the on-screen draft.
 
-## Required fields checklist
-- [ ] Project name
-- [ ] Tagline / one-liner
-- [ ] Description (150-300 words)
-- [ ] Repo URL, public, README renders
-- [ ] Video URL, plays in a private window, under 3:00, sound works
-- [ ] Team members [OWNER]
-- [ ] Sponsor integrations used, each statement matches `demo/evidence-matrix.md`
-- [ ] Any extra organizer fields [OWNER confirms from the organizer brief]
+Cases can pass between agents through Band with a human decision, while confirmed facts recalled from Cognee can change a later action. The demo uses labeled synthetic records and test replies; the evidence notes below distinguish tested integrations from pending captures. PayrollPilot does not submit payroll or write to source systems. The owner stays in control.
 
-## Upload buffer plan
-| Time | Step | Who |
+## Sponsor evidence notes (main 27b40ae; footage remains pending)
+
+- **Band:** Existing CLI proof shows three product agents, a shared board and dependent handoff. Main reports the owner's `approve <batch_id>` room reply produced a version-bound approval at 1:32. `band ask` is unsupported for generic peers; no per-product-agent Band usage claim. Final Desktop clip pending. Evidence: [R03–R05 / R19](evidence-matrix.md), [latest main report](evidence/logs/live-flow-main27b.txt).
+- **Cognee:** Existing cross-process CHUNKS proof shows a stored fact recalled by a fresh process, changing the proposed next action without granting approval. Main reports a live memory write at 1:33. No LLM-backed graph extraction / graph-completion claim. Use earlier proof as PLAYBACK; leave the live stack running. Evidence: [R13–R15](evidence-matrix.md), [recall log](evidence/cognee/recall-run.txt).
+- **Photon:** Main reports a real allowlisted send/reply at 1:12–1:14 and a 1:32 owner-approved batch with correlated TEST REPLY and live parsing. Final phone/app footage pending. Fixture simulation does not prove iMessage. Evidence: [R08–R09](evidence-matrix.md), [live report](evidence/logs/live-flow-main27b.txt).
+
+The description follows `docs/PRODUCT-STATEMENT.md` “It can”; it describes capability, not a completed final recording. A real Jobber read has **partial coverage** (58 entries, 10 workers, 13 jobs): source totals, ids and approval state unverified; rates/payroll/payments/expenses not read. The film stays synthetic. Never imply complete source coverage. Owner correction application and clarification completion remain unproven in this snapshot. All 14 product clips and final voice remain pending.
+
+## Owner’s final steps
+
+| Time | Action | Completion evidence |
 |---|---|---|
-| 2:20 | Rehearsal recording, every beat live; becomes PLAYBACK backup | Owner |
-| 2:30 | This file, README, product brief final (except video URL) | Lane E |
-| 2:45-2:55 | Final take (screen + phone) | Owner |
-| 2:55-3:05 | Lane E cuts clips, sets status card from the matrix, renders 1080p (~5 min) | Lane E |
-| 3:05 | Owner watches the export end to end with sound; redaction check | Owner |
-| 3:10-3:15 | Upload begins (fallback: upload the rehearsal-based render if the final render fails) | Owner |
-| 3:15-3:25 | Verify playback in a private window, repo public, paste URLs, submit, screenshot receipt | Owner |
-| 3:30 | Deadline | |
+| Before 2:45 | Confirm the organizer form’s fields; preserve this copy. Check `/api/comms/health` active adapters and synthetic/test labels. Leave live services running; coordinate case preparation with lane C. | Form inspected by owner; no credentials on screen. |
+| 2:45 | Feature freeze. Begin recording real app, Band and Cognee views using [shot list](shot-list.md) and [reply script](reply-script.md). | Owner raw take; Lane E does not screen-record. |
+| 2:45–2:55 | One complete take plus short pickups. Keep owner approvals, synthetic data and test replies visible. | Real footage for each selected beat; prior take labeled PLAYBACK. |
+| 2:55–3:05 | Cut named clips, rebuild manifest, update evidence and closing status from what is actually shown, render. | Run film commands below; preserve pending/unavailable distinctions. |
+| 3:05–3:10 | Watch the whole export with sound and complete [redaction checklist](redaction-checklist.md). | No pending frames, missing sound, private details or unproven claims. |
+| **By 3:15** | Owner uploads the verified video; paste its URL above and into the form. | Upload completed / playable link. Begin earlier if upload time is uncertain. |
+| 3:15–3:25 | Open video and repo signed out; verify sound, full duration and access. Owner submits and saves receipt. | Playback verified, public repo accessible, submission receipt saved privately. |
+| **3:30** | Deadline. | Owner verifies receipt before this time. |
+
+If a live beat fails, use an earlier successful owner recording labeled PLAYBACK. If there is no successful recording, cut that claim and mark it unavailable; never replace it with a mock or a simulation labeled real. The present draft has no product clips and is not an upload fallback.
+
+From `demo/film/`:
+
+```bash
+node scripts/manifest.mjs
+node scripts/preflight.mjs --final
+npx remotion render PayrollPilotFilm out/payrollpilot-film.mp4 --codec h264 --crf 18
+ffprobe -v error -show_entries format=duration:stream=codec_name,width,height -of compact out/payrollpilot-film.mp4
+```
+
+The final gate currently refuses missing clips, pending closing statuses and placeholder voice. Use owner narration or configured final voice, update `public/vo/source.txt` truthfully, and rebuild the manifest. If a beat is cut, update the timeline, narration, shot list and final evidence scope together. For the uncut film expect 152 seconds; export must stay under three minutes. A successful technical gate still needs the owner’s full playback/redaction review.
+
+## Form checklist (owner completes at upload)
+
+- [x] Project, tagline, one line, description, team and repository copy prepared.
+- [ ] Organizer field list / eligibility / any required declarations checked in the actual form.
+- [ ] Final video contains real running-product footage, accurate labels and verified claims.
+- [ ] Band and Cognee statements match the evidence actually shown.
+- [ ] Video URL pasted; signed-out playback and audio verified.
+- [ ] Repository visibility / access verified signed out.
+- [ ] Owner submitted; receipt saved privately.
