@@ -61,8 +61,11 @@ export default function Thread({ id, onChange }: { id: string; onChange: () => v
   const approvalFor = (b: MessageBatch) => t.approvals.find((a) => a.id === b.approval_id)
   const invalidated = (b: MessageBatch) => t.approvals.filter((a) => a.target_id === b.id && a.state === 'invalidated')
   const hasOpenDraft = t.batches.some((b) => b.state === 'draft' || b.state === 'approved')
-  const needsClarify = t.parsed.some((p) => p.needs_clarification.includes(e.id)
-    || p.answers.some((a) => a.exception_id === e.id && ['ambiguous', 'partial', 'conflicting'].includes(a.status)))
+  // Only the latest parsed answer for this exception decides whether a follow-up is needed.
+  const latest = [...t.parsed].reverse().find((p) => p.answers.some((a) => a.exception_id === e.id))
+  const latestAns = latest?.answers.find((a) => a.exception_id === e.id)
+  const needsClarify = !t.resolution && !!latest && (latest.needs_clarification.includes(e.id)
+    || ['ambiguous', 'partial', 'conflicting'].includes(latestAns?.status ?? ''))
 
   function openSend(b: MessageBatch) {
     const a = approvalFor(b)
