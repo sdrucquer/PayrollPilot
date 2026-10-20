@@ -103,25 +103,44 @@ def worker_readiness(snapshot: dict, worker_id: str, exceptions: list[dict], now
     return _readiness("blocked" if blockers else "ready", scope, blockers, unknown, now)
 
 
-def stage1_readiness(snapshot: dict, exceptions: list[dict], now=None) -> tuple[dict, dict[str, dict]]:
+def stage1_detail(snapshot: dict, exceptions: list[dict], now=None) -> tuple[dict, dict[str, dict]]:
+    """(stage1 Readiness, {worker_id: Readiness}) for workers with in-cycle time."""
     active = sorted({e["worker_id"] for e in cycle_entries(snapshot)})
     workers = {wid: worker_readiness(snapshot, wid, exceptions, now) for wid in active}
+    return _stage1_from_workers(workers, exceptions, now), workers
+
+
+def _stage1_from_workers(workers: dict[str, dict], exceptions: list[dict], now=None) -> dict:
     ready = [w for w, r in workers.items() if r["state"] == "ready"]
     blockers = _dedupe([b for r in workers.values() for b in r["blockers"]])
     excluded = sum(1 for e in exceptions if e["category"] == "unassigned_time" and OPEN(e))
-    if not active:
-        state = "pending"
-    elif len(ready) == len(active):
-        state = "ready"
-    elif ready:
-        state = "partial"
-    else:
-        state = "blocked"
-    scope = f"review-ready for {len(ready)} of {len(active)} workers; {len(active) - len(ready)} unresolved"
+    n = len(workers)
+    state = "pending" if not n else "ready" if len(ready) == n else "partial" if ready else "blocked"
+    scope = f"review-ready for {len(ready)} of {n} workers; {n - len(ready)} unresolved"
     if excluded:
         scope += f"; {excluded} out-of-cycle entr{'y' if excluded == 1 else 'ies'} excluded"
-    unknown = any(r["unknown_amount"] for r in workers.values())
-    return _readiness(state, scope, blockers, unknown, now), workers
+    return _readiness(state, scope, blockers, any(r["unknown_amount"] for r in workers.values()), now)
+
+
+def stage1_readiness(snapshot_or_workers, exceptions: list[dict], now=None) -> dict:
+    """Stage 1 Readiness. Preferred: pass the (corrected) snapshot dict. Legacy form: a list of Worker dicts,
+    which can only use exception state (no time/rate data), so amounts are reported unknown and a worker
+    with no blocking exception is still blocked by amount_unknown:wages. Prefer cycle_readiness()."""
+    if isinstance(snapshot_or_workers, dict):
+        return stage1_detail(snapshot_or_workers, exceptions, now)[0]
+    workers = {}
+    for w in snapshot_or_workers:
+        wid = w["id"]
+        blockers = [_exc_blocker(e) for e in filter(OPEN, exceptions)
+                    if e["entity_refs"].get("worker_id") == wid
+                    and e["stage_impact"]["stage1_wages"] in ("blocks_worker", "blocks_item")]
+        blockers += [b for e in filter(OPEN, exceptions) if e["category"] == "coverage_gap"
+                     and e["stage_impact"]["stage1_wages"] != "none" for b in _cov_blocker(e)]
+        if not blockers:
+            blockers = [{"code": "amount_unknown:wages", "label": "time entries not supplied to readiness",
+                         "exception_id": None}]
+        workers[wid] = _readiness("blocked", w.get("display_name", wid), blockers, True, now)
+    return _stage1_from_workers(workers, exceptions, now)
 
 
 # ------------------------------------------------------------------ job economics helpers
@@ -343,7 +362,7 @@ def cycle_readiness(snapshot: dict, exceptions: list[dict], policies: dict | Non
     """Everything the board needs: {"stage1", "workers", "items", "items_by_id", "stage2_summary"}.
     `policies` (e.g. the private policy file) overrides snapshot["policies"] key by key."""
     pol = _policies(snapshot, policies)
-    stage1, workers = stage1_readiness(snapshot, exceptions, now)
+    stage1, workers = stage1_detail(snapshot, exceptions, now)
     revenue_jobs = {r["job_id"] for r in snapshot.get("receipts", []) if r.get("kind") != "tip"}
     quote_items = [quote_item(snapshot, j, exceptions, pol, now) for j in snapshot.get("jobs", [])
                    if j.get("adjusted_invoice_cents") is not None or j["id"] in revenue_jobs]

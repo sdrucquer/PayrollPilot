@@ -152,3 +152,12 @@ def test_resolved_exception_no_longer_blocks(snap):
     s["time_entries"] = [e for e in s["time_entries"] if e["id"] != "te_0018"]
     assert cycle_readiness(s, run_audit(s))["workers"]["wkr_02"]["state"] == "ready"
     assert excs2
+
+
+def test_stage1_readiness_snapshot_form_and_legacy_list_form(snap):
+    from payrollpilot_core.readiness import stage1_readiness
+    excs = run_audit(snap)
+    r = stage1_readiness(snap, excs)
+    assert r == cycle_readiness(snap, excs)["stage1"] and r["state"] == "partial"
+    legacy = stage1_readiness(snap["workers"], excs)  # no time data: never ready, amounts unknown
+    assert legacy["state"] == "blocked" and legacy["unknown_amount"] is True
