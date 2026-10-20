@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Img, interpolate, random, Sequence, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {Background, Card, ci, D, fontFamily, has, Headline, K, Label, Media, mono, Pill, useSpring, Window} from './ui';
 
-type P = {dur: number; voAt: number; voDur: number};
+type P = {dur: number; voAt: number; voDur: number; still?: boolean};
 const FPS = 30;
 
 /* ---------- 01 HOOK: the flood ---------- */
@@ -59,7 +59,7 @@ const FragSum: React.FC = () => (
   </FragBox>
 );
 
-export const Hook: React.FC<P> = ({dur, voAt, voDur}) => {
+export const Hook: React.FC<P> = ({dur, voAt, voDur, still}) => {
   const f = useCurrentFrame();
   const total = dur * FPS;
   const rushAt = total - 26;
@@ -115,7 +115,7 @@ export const Hook: React.FC<P> = ({dur, voAt, voDur}) => {
       <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center'}}>
         <div style={{width: 30, height: 30, borderRadius: 30, background: K.brand, transform: `scale(${ci(rush, 8, 26, 0, 1.4)})`, boxShadow: `0 0 ${ci(rush, 8, 26, 0, 120)}px ${K.brand}`}} />
       </AbsoluteFill>
-      <Label kinds={['illustration']} note="fictional data" />
+      {still ? null : <Label kinds={['illustration']} note="fictional data" />}
     </AbsoluteFill>
   );
 };

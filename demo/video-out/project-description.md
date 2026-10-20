@@ -32,4 +32,5 @@ When an answer is confirmed (for example, "Job 03's off-site disposal run belong
 
 - **Band**: shared product room with three agents and the owner, @mention handoffs and acknowledgements, a human decision in the room, the work board, and the usage and estimated-cost view.
 - **Cognee**: memory write and recall across processes, changing an agent's next action without creating an approval.
-- **Flexprice and Snyk were not used.**
+- **Snyk**: Snyk Open Source CLI scan of the web app's dependency lockfile (`tests/security/snyk-web-summary.json` on main). Production dependencies came back clean; including dev dependencies, one high-severity finding (picomatch ReDoS via Vite) has no upgrade or patch available yet and is kept open. This covers frontend dependencies only.
+- **Flexprice was not used.**
