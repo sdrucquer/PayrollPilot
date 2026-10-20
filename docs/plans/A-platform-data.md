@@ -44,3 +44,14 @@ Mission: a running FastAPI backend that loads a cycle (fixture or private snapsh
 
 ## Status log
 (append status blocks here, format in shared context section 7)
+
+```
+LANE A status @ 12:58
+Done: A-01 (acceptance checks passed: records+events reload after restart, both in pytest and a live uvicorn stop/start; check_recipient("+10000000000") raises PermissionDenied; assert_not_gated("source_write") raises NotImplementedError; /api/health returns ok, contract_version "1", integrations all unverified/blocked)
+Changed files: backend/pyproject.toml, backend/.gitignore, backend/payrollpilot/{__init__,app,settings,state,db,events,contracts,permissions,coordinator,core_bridge}.py, backend/payrollpilot/routes/{__init__,health}.py, backend/payrollpilot/adapters/{__init__,messaging,memory,band}.py, backend/tests/{conftest,test_a01_persistence,test_a01_permissions}.py, scripts/{dev,smoke}.sh
+Tests run: cd backend && .venv/bin/pytest -q tests/test_a01_persistence.py tests/test_a01_permissions.py -> 16 passed, 0 failed (1 starlette deprecation warning)
+Evidence: live uvicorn :8000 health JSON; worker + cycle.created event reread after process restart
+Blockers: none. Band setup check: all OK (CLI v0.4.16, Claude Code integration v0.5.33, session reachable).
+Next: A-02
+Handoff requested: C, D build against /api/health and backend/payrollpilot/contracts.py. contracts.py is lead-owned after this PR.
+```
