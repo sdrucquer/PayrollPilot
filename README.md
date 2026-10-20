@@ -35,6 +35,8 @@ This is an evidence snapshot from `origin/main` at `bcb5251` (live findings intr
 
 ## Architecture and local run
 
+The hackathon stack is already running under lane C. Leave backend :8000 and bridge :3001 running; the startup commands below are for a fresh checkout, not the recording session.
+
 Three product agents propose actions with different permissions: Audit finds issues, Resolution asks and interprets, and Payroll Preparation computes and reports. A deterministic coordinator owns state and approvals in SQLite. FastAPI serves the React/Vite app; the Bun bridge connects messaging, with Band and Cognee adapters. [Architecture](ARCHITECTURE.md), [contracts](docs/contracts/CONTRACTS.md), [public brief](docs/PRODUCT-BRIEF.md).
 
 Requirements: Python 3.13+, Node 22, Bun, and macOS for the local messaging setup. From the repository root:

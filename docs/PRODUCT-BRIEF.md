@@ -6,7 +6,7 @@ It detects time and cost exceptions with source evidence and stage impact, group
 
 It proposes local corrections with before/after values and calculation impact. After owner approval, it applies the correction and recalculates wages and job costs. Stage 1 employee wages and each Stage 2 item—quote commission, tips, manager pool—have independent readiness and named blockers. The 12-ledger review workbook retains pending tabs and verifies totals against the on-screen draft.
 
-Agents can hand cases through Band with a human decision. Confirmed facts recalled from Cognee can change a later action; memory cannot authorize an effect. The [evidence matrix](../demo/evidence-matrix.md) states what has been demonstrated, including pending human-decision and video evidence. Capabilities are not proof that the final film shows them.
+Agents can hand cases through Band with a human decision. Confirmed facts recalled from Cognee can change a later action; memory cannot authorize an effect. The [evidence matrix](../demo/evidence-matrix.md) states what has been demonstrated, including the reported Band room decision and pending video evidence. Capabilities are not proof that the final film shows them.
 
 Nothing submits or pays payroll, creates a Gusto draft, or writes to Jobber, Gusto or QuickBooks. Unknown inputs remain blockers. Demo records are synthetic; test replies and playback must remain labeled. Public examples use Pilot Co, Worker A–D and Ops lead.
 
