@@ -12,7 +12,7 @@ No interim screenshot or design mockup substitutes for product footage; missing 
 
 Two kinds of material:
 - **Motion graphics** (ILLUSTRATION), rendered by `demo/film/`: hook B-roll with fictional data, reveal, architecture diagram, close.
-- **Product footage**, recorded by the dedicated automatic capture chat into numbered `demo/film/clips/` files on `cloud/film`. Lane E maps/cuts these into the film slots below; no duplicate or human screen recording.
+- **Product footage**, recorded by the dedicated automatic capture chat into numbered `demo/film/clips/` files on `cloud/film`. Claude maps/cuts these into the final film; E supplies assets/evidence and the mapping below; no duplicate or human screen recording.
 
 Capture: automatic Playwright `recordVideo` at 1920×1080 for the running app; native Band captures by the capture chat after the owner foregrounds it. C owns the single phone-reply cue. No physical phone recording is planned: E uses app-only reply views rather than a fake phone inset. Keep synthetic/test/playback labels and true policy blockers.
 

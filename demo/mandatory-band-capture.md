@@ -25,7 +25,7 @@ Read-only supported-path investigation and exact owner sponsor question: [native
 | B5 — Real human decision in Band | Show `[decision.requested]`, exact batch scope, then the owner’s `approve <batch_id>` room reply and the resulting version-bound approval. Use the verified 1:32 room decision if needed, labeled PLAYBACK. | The human made the decision through Band and the backend observed it. `band ask` is unsupported for these generic peers. A UI-only approval is not the Band decision proof. |
 | B6 — Native visibility (REQUIRED GAP) | In Band Desktop, open the participating agent’s native session/usage detail. Hold long enough to read **session count/list, tokens and estimated USD cost**; repeat for each participating measurable agent and show how the session belongs to that team/work. | Lane C identifies valid native bindings and the real view shows attributable data. Label missing/unattributed values accurately; no app totals or unrelated agents substituted. Estimated cost is not billed cost. |
 
-The dedicated **Record PayrollPilot demo footage** chat owns automatic capture on `cloud/film`, writing numbered files only under `demo/film/clips/`, due **3:00 PM Pacific**. The owner only supplies phone replies through C’s single-cue coordination and foregrounds Band when requested. No human screen recording is required; E imports/cuts/renders without recording. For B2/B4/B6, C/lead provides exact mappings privately before capture. This checklist is not a request to post artificial messages or manufacture telemetry. If only a separately coordinated native coding team is measurable, identify that team and its actual PayrollPilot work honestly; the lead must decide how it satisfies the brief. Do not portray those numbers as generic product-agent usage.
+The dedicated **Record PayrollPilot demo footage** chat owns automatic capture on `cloud/film`, writing numbered files only under `demo/film/clips/`, due **3:00 PM Pacific**. The owner only supplies phone replies through C’s single-cue coordination and foregrounds Band when requested. No human screen recording is required; Claude owns final assembly/rendering; E supports assets/evidence without recording. For B2/B4/B6, C/lead provides exact mappings privately before capture. This checklist is not a request to post artificial messages or manufacture telemetry. If only a separately coordinated native coding team is measurable, identify that team and its actual PayrollPilot work honestly; the lead must decide how it satisfies the brief. Do not portray those numbers as generic product-agent usage.
 
 ## Cognee evidence, without stopping the live stack
 
@@ -37,6 +37,8 @@ The dedicated **Record PayrollPilot demo footage** chat owns automatic capture o
 | C4 — Essential dependency | Use Lane C/F’s verified delete-test result: disabling Band blocks required coordination; disabling Cognee removes the remembered answer/changes the next action. | The exact tested route/version supports it. E does not disable a live service to film the check. A health badge alone does not prove essentiality. |
 
 Evidence: historical cross-process `demo/evidence/cognee/recall-run.txt`; current-flow C-07 section of `INTEGRATION-FINDINGS.md` records real clarification reply/memory write and observed behavior-changing recall at 13:51/13:53, then owner application and verified workbook. Other C session’s full-response/cross-process evidence is tracked in PR #38. The documented identical-baseline-query calls timed out/returned 500 and are not successful proof. These runtime records support the claim; final video capture is still separate.
+
+Final assembly ownership and working commands: [Claude video handoff](CLAUDE-VIDEO-HANDOFF.md). A genuinely participating Claude video-assembly coding agent may provide its own native Band session usage if actually attributed; label it **video assembly**, never rename it as product-agent cost or substitute unrelated history. C/capture verifies the real session and team/room association.
 
 ## Film allocation within the existing 2:32 cut
 
@@ -54,7 +56,7 @@ If readable mandatory proof needs more time, trim illustration time; stay under 
 - [ ] B6 session → agent → PayrollPilot work mapping confirmed by C; unattributed is not attributed and unknown is not zero.
 - [ ] B2/B4 references supplied; no claim that a shared plan or routed @handoff exists without its message/task proof.
 - [ ] No phone numbers, provider space ids, credentials, private pilot identities or unrelated room/session content visible.
-- [ ] Dedicated automatic capture chat records; numbered clips committed on `cloud/film` under `demo/film/clips/` by **3:00 PM Pacific**. Owner only replies on phone and foregrounds Band. E imports/cuts/renders; no duplicate or human screen recording.
+- [ ] Dedicated automatic capture chat records; numbered clips committed on `cloud/film` under `demo/film/clips/` by **3:00 PM Pacific**. Owner only replies on phone and foregrounds Band. Claude assembles/renders; E supports assets/evidence; no duplicate or human screen recording.
 - [ ] Final film reviewed end to end; final preflight passes; owner uploads by 3:15 and verifies playback/receipt before 3:30.
 
 ## Read-only checks run by Lane E

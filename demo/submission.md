@@ -40,7 +40,7 @@ The description follows `docs/PRODUCT-STATEMENT.md` “It can”; it describes c
 |---|---|---|
 | Before 2:45 | Confirm the organizer form’s fields; preserve this copy. Check `/api/comms/health` active adapters and synthetic/test labels. Leave live services running; coordinate case preparation with lane C. | Form inspected by owner; no credentials on screen. |
 | Before / by 2:45 | Automatic capture chat records the safe C-coordinated case and independent Band/Cognee views. Feature freeze at 2:45. | Owner only phone replies/foregrounding; no human recording. |
-| **By 3:00** | Automatic capture chat commits numbered files under `demo/film/clips/` on `cloud/film`; E reviews/maps each as it arrives. | Genuine actual/failed evidence list; no reenactment of the earlier applied correction. |
+| **By 3:00** | Automatic capture chat commits numbered files under `demo/film/clips/` on `cloud/film`; Claude reviews/maps each as it arrives; E supports assets/evidence. | Genuine actual/failed evidence list; no reenactment of the earlier applied correction. |
 | 2:55–3:05 | Cut named clips, rebuild manifest, update evidence and closing status from what is actually shown, render. | Run film commands below; preserve pending/unavailable distinctions. |
 | 3:05–3:10 | Watch the whole export with sound and complete [redaction checklist](redaction-checklist.md). | No pending frames, missing sound, private details or unproven claims. |
 | **By 3:15** | Owner uploads the verified video; paste its URL above and into the form. | Upload completed / playable link. Begin earlier if upload time is uncertain. |
