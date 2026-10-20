@@ -39,3 +39,15 @@ Blockers: none. DEMO-PLAN.md absent on main, so demo/script.md is the baseline.
 Next: E-02 (reply script, redaction checklist, recording setup); launch-film build in demo/film/ (owner direction 12:40 PM: Remotion, ~40% story / 60% real product)
 Handoff requested: D: palette/font for a shared identity (asked directly). C: screenshots of Band room/board/ask/usage and the Cognee recall log when proven.
 ```
+
+```
+LANE E status @ 13:14
+Done: E-02 (acceptance: reply-script gives exact texts, cues, expected UI result, and fallbacks; recording-setup covers machine, phone, capture, rehearsal, post-render steps; redaction checklist covers recipient, names, rates, allocations, env, dashboards, Band room, evidence files, film labels)
+Also: demo/script.md + shot-list.md aligned with DEMO-PLAN.md (merged from main) and the B-01 fixture: audit beat is the already-paid Oct 1 shift on Job 01 scheduled on Job 02; question batch adds the Job 03 off-site link that Beat 6's recall depends on.
+Changed files: demo/reply-script.md, demo/redaction-checklist.md, demo/recording-setup.md, demo/script.md, demo/shot-list.md
+Tests run: none applicable (docs). Fixture entities checked against origin/lane/b-core fd57ea2.
+Evidence: none captured yet.
+Blockers: none.
+Next: launch film build (demo/film, Remotion), then E-03 evidence sweep every 15 min, E-04 by 14:30.
+Handoff requested: C: confirm the demo batch = [already_paid_allocation te_0014, offsite_link job_03] and the exact next_action strings for the recall beat.
+```
