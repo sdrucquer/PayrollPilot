@@ -12,10 +12,16 @@ Question the screen answers: **where are the agents in this payroll cycle, and w
 - Chips: destination `Gusto: not prepared`; provenance of the loaded data (synthetic / real read); messaging mode (live Photon / test mode) with masked recipient; coverage summary (N datasets, M incomplete).
 - Header actions: Export workbook (`POST /api/cycles/{id}/workbook`, shows draft version and "original not updated"), Stop (`POST /api/run/stop`).
 
-## Zone 2: What's limiting payroll (left, main list)
-- Exceptions from `GET /api/cycles/{id}/exceptions`, grouped by what they block, in this order: Blocks wages (stage_impact.stage1_wages != none), Blocks job costing / commission (stage2_costs != none), Policy decisions needed (category policy_missing or readiness blockers with code policy_missing:*), Informational / resolved.
-- Row: title, evidence refs (system + record id), intended respondent role, state as a plain phrase (waiting on reply / needs your approval / needs clarification / resolved), provenance tag, dollars affected or "unknown".
-- Policy blockers show the open decision id (O05 etc.) and never an action button other than "owner decision".
+## Zone 2: What's limiting payroll = who we're waiting on (left, main list)
+Owner refinement (1:25 PM): most blockers are missing information from the crew, chiefly the operations lead (job manager). The list is organized by **respondent**, not by exception category.
+- Groups in order, each with a count and a one-line summary:
+  1. **Ops lead** (intended_respondent_role ops_lead): the bulk. "4 questions, 1 message awaiting reply since 1:32 PM". Rows are the questions in plain language ("Which job was the 8h14m shift on 10/02?"), with the evidence ref, what it blocks (wages for Worker B / job costing on Job 02), and state (draft / sent, awaiting reply / answered / needs clarification / resolved).
+  2. **Workers** (role worker): identity or onboarding facts, usually few.
+  3. **Owner (you)** (role owner): rate confirmations, correction approvals, and policy decisions (O-ids). These are decisions, not questions; the row's action is Approve or Decide, never a text.
+  4. **Resolved this cycle**: collapsed, count only.
+- Group header action for Ops lead: **Draft one message** (batches all unsent questions for that respondent into one MessageBatch, opens zone 3 for approval). Questions keep separate exception ids inside the batch.
+- Each row keeps provenance and "dollars affected or unknown". Policy blockers in the Owner group show the open decision id and block only the item they affect (chip in zone 1 links down to the row).
+- Source: `GET /api/cycles/{id}/exceptions` grouped client-side by intended_respondent_role; message state from each exception's message_ids.
 
 ## Zone 3: Selected blocker panel (right)
 - Thread for the selected exception from `GET /api/exceptions/{id}`: observed vs expected, evidence; drafted question (exact text, masked recipient, linked issue ids) with **Approve and send** (POST /api/approvals kind message_send with target_version = text_hash, then POST /api/messages/{id}/send); inbound replies labeled test reply with per-question parsed status; **Clarify** when any status is ambiguous/partial; proposed correction with before/after and calculation impact and **Approve correction** then **Apply** (POST /api/approvals kind local_correction with the correction's target_version, then POST /api/corrections/{id}/apply).
