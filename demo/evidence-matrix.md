@@ -10,7 +10,7 @@ Requirement sources: PRD FR-29 (product agents coordinate through Band with a hu
 | R02 | Agents have different tool allowlists; coordinator owns state and approvals | ARCH 3, AGENTS | test output from C-04/F-02 in `demo/evidence/logs/agents-permissions.txt` | pending | C, F | how-it-works |
 | R03 | Band: 2+ product-agent participants in one room (pp-audit, pp-resolution, pp-payroll) | Band brief, FR-29 | `demo/evidence/band/room.png`, `s2b-band-room.mov` | pending | C | 2 |
 | R04 | Band: shared board, dependent handoff Audit -> Resolution -> Payroll Prep | Band brief, FR-29 | `demo/evidence/band/board.png`, handoff event log `demo/evidence/logs/handoff-events.json` | pending | C | 2 |
-| R05 | Band: human decision via `band ask` answered by the owner | Band brief, FR-29 | `demo/evidence/band/ask.png` | pending | C, owner | 2 |
+| R05 | Band: human decision via `[decision.requested]` and the owner room reply `approve <batch_id>` | Band brief, FR-29 | `demo/evidence/band/ask.png` | pending | C, owner | 2 |
 | R06 | Approval binds exact text + recipient; changed text invalidates | FR-23, T16 | F-02 test output `demo/evidence/logs/safety-suite.txt`; dialog `demo/evidence/screens/approval-dialog.png` | pending | F, D | 3 |
 | R07 | Only the allowlisted test recipient can receive (backend + bridge) | FR-10, FR-26, T29 | bridge + backend 403 test output `demo/evidence/logs/allowlist.txt` | pending | C, F | 3 |
 | R08 | Real outbound iMessage via Photon to the owner's phone | live text round trip, C-01 | `demo/evidence/phone/outbound.png` (number masked), provider message id (no number) in `demo/evidence/logs/photon-roundtrip.txt` | pending | C, owner | 3 |

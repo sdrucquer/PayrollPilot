@@ -8,7 +8,7 @@ Tick every line. One failure means the frame or file does not ship.
 - [ ] **No real names**: workers are Worker A-D, the respondent is "Ops lead", the company is "Pilot Co". Check the Band room participant list and the phone contact names too.
 - [ ] **No real rates or amounts beyond fixture placeholders** (2200/2500/3000 cents per hour; the $1,000 synthetic commission case). If the private snapshot is loaded, rates and amounts must render masked or the beat uses the fixture.
 - [ ] **No private allocation percentages** (manager pool split). The manager pool card should show "blocked" with a code, not percentages.
-- [ ] **No env or secrets**: no `.env`, no terminal scrollback with keys, no `export` lines, no OpenRouter/Photon/Browser Use dashboards. Terminal for the restart beat is a fresh window with `clear` run first.
+- [ ] **No env or secrets**: no `.env`, no terminal scrollback with keys, no `export` lines, no OpenRouter/Photon/Browser Use dashboards. Any separate recall terminal is a fresh window with `clear` run first; the live backend and bridge stay running.
 - [ ] **Photon dashboard never on screen.** Same for Gusto, Jobber, QuickBooks pages that show company identity.
 - [ ] **Band room minimized**: only the "PayrollPilot Cases" room visible; sidebar with other chats collapsed or cropped; case cards show id, category, title only.
 - [ ] **Browser chrome clean**: no bookmarks bar, no other tabs with identifying titles, no extensions with account names, profile avatar hidden.
