@@ -6,7 +6,7 @@
   "pages": [],
   "boards": {
     "Main.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1420, "title": "Home · approval pending (interactive)", "expand": "fill", "is_interactive": true},
-    "Ready.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 1380, "title": "Home · payroll ready for review", "expand": "fill"},
+    "Ready.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 1480, "title": "Home · payroll ready for review (interactive)", "expand": "fill", "is_interactive": true},
     "Phone.dc.html": {"x": 2720, "y": 0, "w": 390, "h": 1180, "title": "Phone · approval pending"}
   },
   "order": ["Main.dc.html", "Ready.dc.html", "Phone.dc.html"],
