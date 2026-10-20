@@ -2,6 +2,8 @@
 
 **Your AI payroll team. From missing information to payroll-ready, with you in control.**
 
+PayrollPilot is an AI-powered payroll operations team that actually understands your business. It learns your company's workflows, employees, pay structures, job history, and financial rules. Its agents proactively audit timesheets and expenses, catch discrepancies, and contact the right people to resolve missing information. Powered by Band's multi-agent coordination, Cognee's persistent company memory, and protected by Snyk's security scanning, PayrollPilot gets smarter with every payroll cycle, turning hours of manual reconciliation into a streamlined, secure, owner-approved process.
+
 ## The problem
 
 In a home-service business, payroll looks complete while the records are not. Shifts have no job, timers stay open, receipts are uncategorized, and the totals in Jobber, QuickBooks and Gusto don't agree. The owner spends payday chasing the crew and the ops lead by text to work out what actually happened, then fixes job costs and commissions by hand.
