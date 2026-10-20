@@ -85,5 +85,40 @@ def transition(
     return transition_exception(db, exception_id, new_state, actor=actor, reason=reason or "requested", next_action=next_action)
 
 
+def resolve_by_applied_correction(
+    db: Database, exception_id: str, correction: dict[str, Any], *, actor: str = "payroll"
+) -> dict[str, Any] | None:
+    """The one path to ``resolved`` outside the reply flow. Allowed only when an
+    owner-approved correction has been APPLIED, it touches a record this
+    exception references, and the audit of the corrected view no longer
+    detects the exception (the caller checks that last condition).
+    Returns the new version, or None when the conditions do not hold."""
+    if correction.get("state") != "applied" or not correction.get("approval_id"):
+        return None
+    exc = db.get_record("exception", exception_id)
+    if exc is None or exc.get("state") == "resolved":
+        return None
+    refs = exc.get("entity_refs") or {}
+    referenced = set(refs.get("time_entry_ids") or []) | set(refs.get("cost_ids") or []) | set(refs.get("job_ids") or [])
+    if refs.get("worker_id"):
+        referenced.add(refs["worker_id"])
+    touched = {v for side in (correction.get("before") or {}, correction.get("after") or {})
+               for k, v in side.items() if k in ("time_entry_id", "cost_id", "worker_id") and v}
+    if not referenced & touched:
+        return None
+    current = exc["state"]
+    updated = {k: v for k, v in exc.items() if k != "_version"}
+    updated.update(state="resolved", updated_at=now_iso(), resolved_by_correction_id=correction["id"],
+                   next_action="none: resolved by applied local correction")
+    stored = db.put_record("exception", updated)
+    emit(
+        db, type="exception.state_changed", actor=actor, cycle_id=exc.get("cycle_id"),
+        summary=f"{exception_id}: {current} -> resolved (no longer detected after correction {correction['id']})",
+        refs={"exception_id": exception_id, "from": current, "to": "resolved", "correction_id": correction["id"],
+              "approval_id": correction.get("approval_id")},
+    )
+    return stored
+
+
 def is_stopped(db: Database) -> bool:
     return db.get_flag("run_stopped") == "1"
