@@ -1,8 +1,0 @@
-pyproject.toml
-payrollpilot_core/__init__.py
-payrollpilot_core/ids.py
-payrollpilot_core.egg-info/PKG-INFO
-payrollpilot_core.egg-info/SOURCES.txt
-payrollpilot_core.egg-info/dependency_links.txt
-payrollpilot_core.egg-info/requires.txt
-payrollpilot_core.egg-info/top_level.txt
