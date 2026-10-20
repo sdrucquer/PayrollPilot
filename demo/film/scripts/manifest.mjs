@@ -15,7 +15,7 @@ writeFileSync(root + 'src/generated/manifest.json', JSON.stringify({vo, footage,
 const {lines} = JSON.parse(readFileSync(root + 'src/narration.json', 'utf8'));
 let ok = true;
 lines.forEach((l, i) => {
-  const next = lines[i + 1]?.start ?? 175;
+  const next = lines[i + 1]?.start ?? 152;
   const end = l.start + (vo[l.id] ?? 0);
   const slack = next - end;
   if (slack < 0.25) ok = false;

@@ -4,11 +4,11 @@ import {Captions} from './components/Captions';
 import narration from './narration.json';
 import manifest from './generated/manifest.json';
 import status from './status.json';
-import {BEATS} from './beats';
+import {SECTIONS} from './beats';
 import {HowItWorks} from './scenes/HowItWorks';
-import {ColdOpen, LogoReveal, Montage, Turn} from './scenes/Opening';
-import {ProductBeat} from './scenes/ProductBeat';
-import {Close, StatusCard} from './scenes/Closing';
+import {Hook, Reveal} from './scenes/Opening';
+import {SectionView} from './scenes/ProductBeat';
+import {Close} from './scenes/Closing';
 import {T, TOTAL} from './timeline';
 import {C, mono, s} from './theme';
 
@@ -16,10 +16,10 @@ const m = manifest as {vo: Record<string, number>; footage: Record<string, numbe
 const span = (k: keyof typeof T) => ({from: s(T[k][0]), durationInFrames: s(T[k][1]) - s(T[k][0])});
 
 const Watermark: React.FC = () => {
-  const missing = BEATS.flatMap((b) => b.segments.flatMap((x) => [x.screen, x.phone])).filter((f) => f && !m.footage[f]);
+  const missing = SECTIONS.flatMap((x) => x.segments.flatMap((g) => [g.screen, g.phone])).filter((f) => f && !m.footage[f]);
   const parts = [] as string[];
   if (status.draft) parts.push('DRAFT RENDER');
-  if (m.voSource !== 'elevenlabs') parts.push(m.voSource === 'say' ? 'placeholder voice' : 'no voice');
+  if (m.voSource !== 'elevenlabs' && m.voSource !== 'owner') parts.push(m.voSource === 'say' ? 'placeholder voice' : 'no voice');
   if (missing.length) parts.push(`${new Set(missing).size} clips pending`);
   if (!parts.length) return null;
   return <div style={{position: 'absolute', right: 28, top: 22, fontFamily: mono, fontSize: 16, color: C.pending, opacity: 0.8, letterSpacing: '0.08em'}}>{parts.join(' · ')}</div>;
@@ -27,20 +27,17 @@ const Watermark: React.FC = () => {
 
 export const Film: React.FC = () => {
   const musicVol = (f: number) =>
-    interpolate(f, [0, s(3), s(23.6), s(24), s(32), s(34), s(160), s(168.5), s(TOTAL)], [0.0, 0.5, 0.75, 0.9, 0.85, 0.32, 0.32, 0.7, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+    interpolate(f, [0, s(1), s(12.8), s(13.2), s(15.2), s(17), s(25), s(27), s(144), s(146), s(TOTAL)], [0.35, 0.55, 0.8, 0.9, 0.95, 0.8, 0.6, 0.3, 0.3, 0.7, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill style={{backgroundColor: C.bg}}>
-      <Sequence {...span('coldOpen')}><ColdOpen /></Sequence>
-      <Sequence {...span('montage')}><Montage /></Sequence>
-      <Sequence {...span('turn')}><Turn /></Sequence>
-      <Sequence {...span('logo')}><LogoReveal /></Sequence>
-      <Sequence {...span('how')}><HowItWorks /></Sequence>
-      {BEATS.map((b) => (
-        <Sequence key={b.key} {...span(b.key)}>
-          <ProductBeat beat={b} dur={span(b.key).durationInFrames} />
+      <Sequence {...span('hook')}><Hook /></Sequence>
+      <Sequence {...span('reveal')}><Reveal /></Sequence>
+      {SECTIONS.map((x) => (
+        <Sequence key={x.key} {...span(x.key)}>
+          <SectionView section={x} start={T[x.key][0]} dur={span(x.key).durationInFrames} />
         </Sequence>
       ))}
-      <Sequence {...span('status')}><StatusCard dur={span('status').durationInFrames} /></Sequence>
+      <Sequence {...span('how')}><HowItWorks /></Sequence>
       <Sequence {...span('close')}><Close /></Sequence>
       <Captions />
       <Watermark />

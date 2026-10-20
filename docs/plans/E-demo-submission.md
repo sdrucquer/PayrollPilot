@@ -65,3 +65,15 @@ Blockers: ElevenLabs key not provided (placeholder voice until it is). Photon ro
 Next: E-03 sweep every 15 min; draft 2 render; E-04 README/brief/submission by 14:30.
 Handoff requested: owner: ELEVENLABS_API_KEY into demo/film/.env (gitignored) if you want the professional voice. C: Band room/board/ask/usage screenshots and the iMessage round trip when proven.
 ```
+
+```
+LANE E status @ 13:11
+Done: film v3 on the owner's cut (lead relay 13:05): hook 15 s, reveal 10 s, product 75 s, under the hood 35 s, result + close 17 s; 2:32 total. Close states the boundary from docs/PRODUCT-STATEMENT.md. Theme is back to the shared tokens lane D adopted. Lane G's light mockups are not used (they would clash with the dark running app); the DESIGN MOCKUP chip exists if needed.
+Also: demo/script.md v3 (claim map rebuilt), demo/shot-list.md v3 (14 named clips), demo/vo-read-script.md (ElevenLabs and owner-voice paths), reply-script updated with lane C's confirmed batch (exc_611be6d68e + exc_d06fba51f7) and the Band "approve <batch_id>" decision step.
+Changed files: demo/film/**, demo/script.md, demo/shot-list.md, demo/reply-script.md, demo/vo-read-script.md
+Tests run: npx tsc -p demo/film -> 0 errors; scripts/manifest.mjs -> no VO overlaps (min slack 0.9 s); render draft 3 -> h264 1920x1080 + aac, 152.0 s, mean -20.2 dB / peak -2.8 dB
+Evidence: no new proofs since 13:00 (Photon still blocked on credentials; no OpenRouter key)
+Blockers: Photon credentials + phone; OpenRouter key (metering line and "patio" parsing); ElevenLabs key optional
+Next: E-03 sweep, E-04 final at 14:30
+Handoff requested: owner: Photon phone/credentials, OPENROUTER_API_KEY, optional ELEVENLABS_API_KEY
+```

@@ -6,8 +6,8 @@ export const Background: React.FC<{glow?: number; hue?: 'accent' | 'warm' | 'non
   const f = useCurrentFrame();
   const x = 50 + Math.sin(f / 140) * 12;
   const y = 40 + Math.cos(f / 170) * 10;
-  const col = hue === 'warm' ? 'rgba(255,92,108,0.16)' : hue === 'none' ? 'rgba(0,0,0,0)' : 'rgba(139,156,255,0.16)';
-  const col2 = hue === 'warm' ? 'rgba(245,185,66,0.07)' : 'rgba(56,189,172,0.08)';
+  const col = hue === 'warm' ? 'rgba(255,92,108,0.16)' : hue === 'none' ? 'rgba(0,0,0,0)' : 'rgba(79,124,255,0.18)';
+  const col2 = hue === 'warm' ? 'rgba(245,185,66,0.07)' : 'rgba(127,160,255,0.08)';
   return (
     <AbsoluteFill style={{backgroundColor: C.bg}}>
       <AbsoluteFill

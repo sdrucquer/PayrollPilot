@@ -6,25 +6,26 @@ export const inter = loadInter('normal', {weights: ['400', '500', '600', '700'],
 export const display = loadInterTight('normal', {weights: ['500', '600', '700', '800'], subsets: ['latin']}).fontFamily;
 export const mono = loadMono('normal', {weights: ['400', '500'], subsets: ['latin']}).fontFamily;
 
-// Shared identity with the web app: lane D tokens (side-session note, D-01) + docs/DESIGN-DIRECTION.md.
+// Shared identity with the running web app: lane D adopted these tokens (message 1:05 PM).
 export const C = {
   bg: '#0B0D12',
-  surface: '#12141B',
-  surface2: '#171A23',
-  border: 'rgba(255,255,255,0.08)',
-  text: '#E7E9EE',
-  muted: '#A3A9B7',
-  faint: '#6F7686',
-  accent: '#8B9CFF', // indigo
-  accent2: '#B79CFF', // violet
-  teal: '#38BDAC',
-  steel: '#7FA6D9', // title-card gradient start (Wonderlust register)
-  sand: '#E2C9A0', // title-card gradient end
-  ready: '#4ADE80',
-  pending: '#FBBF24',
-  partial: '#60A5FA',
-  blocked: '#F87171',
+  surface: '#12151C',
+  surface2: '#171B24',
+  border: '#222838',
+  text: '#F5F7FA',
+  muted: '#8B93A5',
+  faint: '#5A6275',
+  accent: '#4F7CFF',
+  accent2: '#7FA0FF', // in-progress states (lane D)
+  steel: '#7FA6D9', // title-card particle gradient start
+  sand: '#E2C9A0', // title-card particle gradient end
+  ready: '#2ED3A3',
+  pending: '#F5B942',
+  partial: '#F5B942',
+  blocked: '#FF5C6C',
   seeded: '#C084FC',
+  chipBg: '#2A3040',
+  chipFg: '#C9D1E0',
 };
 
 export const FPS = 30;

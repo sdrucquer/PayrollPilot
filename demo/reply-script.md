@@ -2,7 +2,7 @@
 
 Every reply below is a **test reply**: the owner is answering on behalf of the intended respondent ("Ops lead"). The UI labels it `test_reply`; the film chip says TEST REPLY. Send replies from the phone that the PayrollPilot iMessage arrives on, in the same thread, nothing else in between.
 
-The batch these answer (drafted by the Resolution agent; wording will differ, meaning should not):
+The batch these answer (drafted by the Resolution agent; wording will differ, meaning should not). Lane C confirmed this batch at 1:05 PM: exc_611be6d68e (already_paid_allocation, te_0014) and exc_d06fba51f7 (offsite_link, job_03), one message to the ops-lead role, sent to the allowlisted owner phone:
 
 1. The already-paid shift on Oct 1 (Worker B, 8h) is logged on Job 01 but was scheduled on Job 02. Which job was it?
 2. Job 03 (the off-site disposal run) has no parent job. Which job was it for?
@@ -20,10 +20,11 @@ If lane C's demo batch covers different exceptions, use the fallback replies at 
 
 | Cue (what you see) | You send | Expect in the UI within ~10 s | Script time |
 |---|---|---|---|
-| R0. The question batch arrives on the phone (after you click Approve + Send in the UI). | Nothing. Hold the phone steady 2 s so the camera sees the message. | Batch state `sent`, provider status shown. | 1:32-1:40 |
-| R1. Wait 2 s after R0. | `yes` | Inbound labeled TEST REPLY; both questions `ambiguous`; Clarify button appears. | 1:40-1:44 |
-| R2. In the UI click Clarify, review the follow-up, Approve + Send. Wait for it on the phone. | Nothing until the clarification arrives. | Clarification batch `sent` (new approval id). | 1:44-1:48 |
-| R3. Clarification visible on the phone. | `The Oct 1 shift was Job 02, the patio build. The disposal run on Job 03 was for the patio job too.` | Both questions `answered`; extracted job_02 for each; quote shown; resolution recorded; correction proposed. | 1:48-1:55 |
+| B0. Before the send, Band Desktop shows `[decision.requested]` for this batch in the PayrollPilot room (`band ask` does not work for these agents). | Reply in the Band room: `approve <batch_id>` (copy the id from the message). | The app records the approval from the room (or click Approve and send in the app; either path creates the same approval record). | 0:42-0:48 |
+| R0. The question batch arrives on the phone (after you click Approve + Send in the UI). | Nothing. Hold the phone steady 2 s so the camera sees the message. | Batch state `sent`, provider status shown. | 0:48-0:54 |
+| R1. Wait 2 s after R0. | `yes` | Inbound labeled TEST REPLY; both questions `ambiguous`; Clarify button appears. | 0:54-0:57 |
+| R2. In the UI click Clarify, review the follow-up, Approve + Send. Wait for it on the phone. | Nothing until the clarification arrives. | Clarification batch `sent` (new approval id). | 0:57-1:03 |
+| R3. Clarification visible on the phone. | `The Oct 1 shift was Job 02, the patio build. The disposal run on Job 03 was for the patio job too.` | Both cases `needs_approval`: te_0014 -> job_02, Job 03 off-site for parent job_02; quote shown; Cognee stores the resolutions in the background. Mapping "patio" to job_02 needs the live OpenRouter key (lane C). | 1:03-1:10 |
 
 Then continue in the UI: approve the correction, apply, watch the board (Beat 5).
 

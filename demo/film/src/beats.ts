@@ -1,70 +1,59 @@
 import {Prov} from './components/Chip';
-import {T} from './timeline';
 
 export type Segment = {
-  layout: 'screen' | 'split' | 'phone';
+  from: number; // seconds, absolute
+  to: number;
+  title: string;
+  layout: 'screen' | 'split';
   screen?: string; // footage file in public/footage
   phone?: string;
   route?: string;
   chip: {kind: Prov; text?: string};
-  share: number; // fraction of the beat
-  pending: string[]; // what the shot must show (shown only while footage is missing)
+  pending: string[]; // what the shot must show (rendered only while footage is missing)
 };
-export type Beat = {key: keyof typeof T; n: string; title: string; sub: string; segments: Segment[]};
+export type Section = {key: 'magic' | 'engine' | 'result'; kicker: string; segments: Segment[]};
 
-// Chips are the PLANNED labels. Lane E downgrades a chip (e.g. to PLAYBACK or NOT SHOWN) per demo/evidence-matrix.md before the final render.
-export const BEATS: Beat[] = [
+const APP = 'localhost:5173 · PayrollPilot';
+
+// Chips are the PLANNED labels. Lane E downgrades a chip (PLAYBACK, NOT SHOWN) per demo/evidence-matrix.md before the final render.
+export const SECTIONS: Section[] = [
   {
-    key: 'b1', n: '01', title: 'The cycle board', sub: 'Wages and each Stage 2 item keep separate states',
-    segments: [{layout: 'screen', screen: 's1-board.mov', route: 'localhost:5173 · PayrollPilot', chip: {kind: 'SYNTHETIC', text: 'fixture data in the real app'}, share: 1,
-      pending: ['Progress strip: Collect → Audit → Resolve → Prepare → Review, agent on each step', 'Stage 1 wages row + three Stage 2 chips with first blocker', 'Chips: Gusto not prepared · synthetic data · test mode']}],
-  },
-  {
-    key: 'b2', n: '02', title: 'Audit hands off to Resolution', sub: 'Through a Band Desktop room, with the owner deciding',
+    key: 'magic', kicker: 'THE PRODUCT',
     segments: [
-      {layout: 'screen', screen: 's2a-handoff.mov', route: 'localhost:5173 · PayrollPilot', chip: {kind: 'SEEDED ISSUE', text: 'already-paid shift on the wrong job'}, share: 0.4,
-        pending: ['Zone 2 row: Oct 1 shift on Job 01, scheduled on Job 02 (seeded)', 'Zone 3: observed vs expected, evidence, wages none / job costing', 'Strip: Audit → Resolution']},
-      {layout: 'screen', screen: 's2b-band-room.mov', route: 'Band Desktop · PayrollPilot Cases', chip: {kind: 'REAL', text: 'Band Desktop'}, share: 0.6,
-        pending: ['Room with pp-audit, pp-resolution, pp-payroll + owner', 'Case card → accepted reply; board task → completed', 'Owner replies to [decision.requested] in the room']},
+      {from: 25, to: 35, title: 'Audit finds an issue', layout: 'screen', screen: 'm1-detect.mov', route: APP, chip: {kind: 'SEEDED ISSUE', text: 'synthetic data · real app'},
+        pending: ['Progress strip + Stage 1 / Stage 2 readiness rows', 'Zone 2: Oct 1 shift on Job 01, scheduled on Job 02', 'Zone 3: observed vs expected, evidence, wages none / job costing']},
+      {from: 35, to: 42, title: 'Handed to Resolution, in Band', layout: 'screen', screen: 'm2-band-handoff.mov', route: 'Band Desktop', chip: {kind: 'REAL', text: 'Band Desktop'},
+        pending: ['pp-audit posts the case card', 'pp-resolution accepts it', 'Board task moves to in progress']},
+      {from: 42, to: 48.5, title: 'The owner approves the exact text', layout: 'screen', screen: 'm3-approve.mov', route: APP, chip: {kind: 'REAL', text: 'approval bound to text hash'},
+        pending: ['Two questions, masked recipient, linked issues, hash', 'Approve and send']},
+      {from: 48.5, to: 54, title: 'A real iMessage', layout: 'split', screen: 'm3-approve.mov', phone: 'm3-phone.mov', route: APP, chip: {kind: 'REAL', text: 'Photon iMessage · test mode'},
+        pending: ['Batch sent, provider status', 'Phone: the message arrives (no number visible)']},
+      {from: 54, to: 63, title: '“yes” is not an answer', layout: 'split', screen: 'm4-clarify.mov', phone: 'm4-phone.mov', route: APP, chip: {kind: 'TEST REPLY', text: 'owner answering as Ops lead'},
+        pending: ['Both questions ambiguous → Clarify', 'Follow-up approved and sent', 'Phone: “yes”, then the follow-up arrives']},
+      {from: 63, to: 70, title: 'The answer lands in the case', layout: 'split', screen: 'm5-answer.mov', phone: 'm5-phone.mov', route: APP, chip: {kind: 'TEST REPLY', text: 'parsed into the right case'},
+        pending: ['Both answered: Job 02; quote shown', 'Phone: the clear reply']},
+      {from: 70, to: 81, title: 'A local correction, approved', layout: 'screen', screen: 'm6-correction.mov', route: APP, chip: {kind: 'REAL', text: 'deterministic calc · synthetic data'},
+        pending: ['Before/after: Oct 1 shift Job 01 → Job 02', 'Impact: wages $0.00 · job labor moves', 'Approve correction → Apply → one item changes']},
+      {from: 81, to: 92, title: 'Restarted. Still remembers.', layout: 'screen', screen: 'm7-cognee.mov', route: APP, chip: {kind: 'REAL', text: 'Cognee'},
+        pending: ['Backend restart (timestamps)', 'memory.recalled → memory.applied for Job 03 cost', 'Next action: “ask ops lead which job” → “propose allocation to job_02 pending owner approval”']},
+      {from: 92, to: 100, title: 'The corrected review', layout: 'screen', screen: 'm8-review.mov', route: APP, chip: {kind: 'REAL', text: 'internal draft · synthetic data'},
+        pending: ['Stage 1 expansion: per-worker table after the correction', 'Destination: internal draft · Gusto not prepared']},
     ],
   },
   {
-    key: 'b3', n: '03', title: 'One approval, one exact message', sub: 'Then a real iMessage to the owner’s phone',
+    key: 'engine', kicker: 'UNDER THE HOOD',
     segments: [
-      {layout: 'screen', screen: 's3a-approve-send.mov', route: 'localhost:5173 · PayrollPilot', chip: {kind: 'REAL', text: 'approval bound to text hash'}, share: 0.55,
-        pending: ['Drafted batch: two questions', 'Approval dialog: exact text, masked recipient, hash', 'Approve + Send']},
-      {layout: 'split', screen: 's3a-approve-send.mov', phone: 's3b-phone-arrive.mov', route: 'localhost:5173 · PayrollPilot', chip: {kind: 'REAL', text: 'Photon iMessage'}, share: 0.45,
-        pending: ['Batch state: sent, provider status', 'Phone: message arrives (no number visible)']},
+      {from: 111, to: 123, title: 'One room. One board. Every handoff.', layout: 'screen', screen: 'e2-band.mov', route: 'Band Desktop', chip: {kind: 'REAL', text: 'Band Desktop'},
+        pending: ['Room: pp-audit, pp-resolution, pp-payroll + owner', 'Board task: pending → in progress → completed', '[decision.requested] and the owner’s reply']},
+      {from: 123, to: 135, title: 'Metered agents. Memory without permission.', layout: 'screen', screen: 'e3-usage-recall.mov', route: APP, chip: {kind: 'REAL', text: 'usage events · recall check'},
+        pending: ['Activity log: tokens and cost per agent call', 'Recall check: approval_created false', 'Memory off: case stays insufficient_evidence']},
     ],
   },
   {
-    key: 'b4', n: '04', title: '“yes” is not an answer', sub: 'Ambiguous replies get a bounded clarification',
+    key: 'result', kicker: 'THE RESULT',
     segments: [
-      {layout: 'split', screen: 's4b-clarify.mov', phone: 's4a-phone-vague.mov', route: 'localhost:5173 · PayrollPilot', chip: {kind: 'TEST REPLY', text: 'real transport, owner answering as Ops lead'}, share: 1,
-        pending: ['Phone: owner sends “yes”', 'UI: both questions ambiguous → Clarify → new approval', 'Phone + UI: clear answer, extracted job, quote']},
-    ],
-  },
-  {
-    key: 'b5', n: '05', title: 'A local correction, approved', sub: 'Wages unchanged. Job costing moves.',
-    segments: [{layout: 'screen', screen: 's5-correction.mov', route: 'localhost:5173 · PayrollPilot', chip: {kind: 'REAL', text: 'deterministic calc on synthetic data'}, share: 1,
-      pending: ['Before/after: Oct 1 shift Job 01 → Job 02', 'Impact: wages $0.00, job labor moves', 'Approve correction, apply, one card changes']}],
-  },
-  {
-    key: 'b6', n: '06', title: 'Restarted. Still remembers.', sub: 'Payroll Prep recalls a Cognee memory and changes its next action',
-    segments: [
-      {layout: 'screen', screen: 's6a-restart.mov', route: 'Terminal', chip: {kind: 'REAL', text: 'backend restart'}, share: 0.3,
-        pending: ['Backend stopped and started, timestamps visible']},
-      {layout: 'screen', screen: 's6b-cognee-recall.mov', route: 'localhost:5173 · PayrollPilot', chip: {kind: 'REAL', text: 'Cognee'}, share: 0.7,
-        pending: ['Activity log under the strip: memory.recalled → memory.applied', 'Next action before: ask ops lead which job', 'After: propose allocation to Job 02, needs approval']},
-    ],
-  },
-  {
-    key: 'b7', n: '07', title: 'Packet, workbook, honest status', sub: 'Verified against each other. Gusto: not prepared.',
-    segments: [
-      {layout: 'screen', screen: 's7a-review.mov', route: 'localhost:5173 · PayrollPilot', chip: {kind: 'REAL', text: 'workbook file · synthetic data'}, share: 0.75,
-        pending: ['Stage 1 expansion: per-worker packet table', 'Export workbook toast: draft version, original not updated', 'Stage 2 chips with blockers · Gusto: not prepared']},
-      {layout: 'screen', screen: 's7b-workbook.mov', route: 'review-workbook.xlsx', chip: {kind: 'REAL', text: 'generated xlsx'}, share: 0.25,
-        pending: ['Ledger tabs, one pending tab with its blocker']},
+      {from: 135, to: 145, title: 'Separate readiness. Honest destination.', layout: 'screen', screen: 'c1-readiness.mov', route: APP, chip: {kind: 'REAL', text: 'workbook file · synthetic data'},
+        pending: ['Stage 1 wages and each Stage 2 item with its blocker', 'Export workbook: verified totals, original not updated', 'Gusto: not prepared']},
     ],
   },
 ];

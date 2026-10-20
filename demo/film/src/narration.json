@@ -1,89 +1,113 @@
 {
- "_comment": "Mirror of demo/script.md 'Narration text'. start = seconds into the film. caption=false when the words are already on screen.",
+ "_comment": "Mirror of demo/script.md narration (owner's cut, v3). start = seconds into the film.",
  "lines": [
   {
-   "id": "01",
-   "start": 0.6,
+   "id": "h1",
+   "start": 1.0,
+   "caption": true,
+   "text": "Running payroll shouldn't mean chasing down your entire team."
+  },
+  {
+   "id": "h2",
+   "start": 6.4,
    "caption": false,
-   "text": "Friday, 4:52 PM."
+   "text": "Missing hours."
   },
   {
-   "id": "02",
-   "start": 3.4,
-   "caption": true,
-   "text": "Every two weeks, a home-service business owner reconciles hours, jobs, receipts and commissions by hand. Across three tools that don't talk. And one spreadsheet that remembers nothing."
-  },
-  {
-   "id": "03",
-   "start": 15.8,
+   "id": "h3",
+   "start": 8.6,
    "caption": false,
-   "text": "What if payroll came to you already checked, with the questions already asked, and nothing paid until you said so?"
+   "text": "Unassigned expenses."
   },
   {
-   "id": "04",
-   "start": 27.4,
+   "id": "h4",
+   "start": 11.0,
    "caption": false,
-   "text": "PayrollPilot. Payroll, prepared. Never guessed."
+   "text": "Numbers that don't add up."
   },
   {
-   "id": "05",
-   "start": 32.8,
+   "id": "r1",
+   "start": 18.8,
+   "caption": false,
+   "text": "Meet PayrollPilot. Your AI-powered payroll operations team."
+  },
+  {
+   "id": "m1",
+   "start": 25.6,
    "caption": true,
-   "text": "Three agents share one model, not one set of powers. Audit finds issues. Resolution asks people. Payroll Prep assembles the result. Plain code owns every approval, so no agent, message or memory can grant itself permission. They hand off in Band Desktop, and remember with Cognee."
+   "text": "This is a real pay period, on synthetic data, every record labeled. The audit agent finds an already-paid shift logged to the wrong job."
   },
   {
-   "id": "06",
-   "start": 51.2,
+   "id": "m2",
+   "start": 35.6,
    "caption": true,
-   "text": "A real pay period, loaded from a synthetic snapshot, every record labeled. Wages are Stage 1. Commissions, tips and the manager pool are Stage 2, each with its own state. Nothing rolls up to complete."
+   "text": "It can't ask anyone, so it hands the case to Resolution, in a shared Band room."
   },
   {
-   "id": "07",
-   "start": 65.4,
+   "id": "m3",
+   "start": 42.4,
    "caption": true,
-   "text": "The audit agent found an already-paid shift logged to the wrong job. It can't ask anyone, so it hands the case to Resolution in a Band Desktop room shared by all three agents and the owner. The board moves, and the owner's decision is a reply in that same room."
+   "text": "Resolution drafts two questions. The owner approves the exact text, and only then does it send: a real iMessage, in test mode, to the owner's own phone."
   },
   {
-   "id": "08",
-   "start": 83.4,
+   "id": "m4",
+   "start": 54.6,
    "caption": true,
-   "text": "Resolution drafts two questions for the ops lead. The owner approves the exact text and recipient; change a character and the approval dies. In test mode, only the owner's phone is allowed. And here it is: a real iMessage, through Photon."
+   "text": "A vague yes isn't an answer. Both questions are marked ambiguous, and one bounded follow-up goes out, with a new approval."
   },
   {
-   "id": "09",
-   "start": 100.4,
+   "id": "m5",
+   "start": 63.4,
    "caption": true,
-   "text": "A vague yes to two questions isn't an answer. Both are marked ambiguous, and a bounded clarification goes out: same person, same issues, new approval. The clear reply lands in the right case, quote attached."
+   "text": "The clear reply lands in the right case, quote attached, and the confirmed fact is stored in Cognee."
   },
   {
-   "id": "10",
-   "start": 115.4,
+   "id": "m6",
+   "start": 70.6,
    "caption": true,
-   "text": "The confirmed fact becomes a local correction, never a source write, approved separately. Wages don't move; that shift was already paid. Job costing does, and only the readiness that depends on it changes."
+   "text": "The owner approves a local correction. Wages don't move; that shift was already paid. Job costing does, and only the affected item changes."
   },
   {
-   "id": "11",
-   "start": 129.4,
+   "id": "m7",
+   "start": 81.6,
    "caption": true,
-   "text": "Now the process restarts. A different agent, Payroll Prep, meets a disposal receipt on that same off-site job. It recalls the earlier resolution from Cognee, checks the references still exist, and proposes instead of re-asking. Memory never creates an approval."
+   "text": "Later, a disposal cost arrives for the same off-site job. After a restart, Payroll Prep recalls the answer from Cognee, and proposes instead of asking again."
   },
   {
-   "id": "12",
+   "id": "m8",
+   "start": 92.4,
+   "caption": true,
+   "text": "Then Payroll Prep assembles the corrected review: an internal draft, waiting for the owner."
+  },
+  {
+   "id": "e1",
+   "start": 100.8,
+   "caption": true,
+   "text": "Under the hood, three agents share one model, but not one set of powers. Plain code owns every state change and every approval."
+  },
+  {
+   "id": "e2",
+   "start": 111.6,
+   "caption": true,
+   "text": "They coordinate in Band: one room, a shared board, every handoff acknowledged, and the owner's decision as a reply in that room."
+  },
+  {
+   "id": "e3",
+   "start": 123.6,
+   "caption": true,
+   "text": "Each agent's model usage is metered. And memory can change a next action, but it can never grant an approval."
+  },
+  {
+   "id": "c1",
+   "start": 135.4,
+   "caption": true,
+   "text": "Wages, commissions, tips and the manager pool stay separate, each with named blockers. The workbook is verified. And Gusto: not prepared."
+  },
+  {
+   "id": "c2",
    "start": 146.4,
-   "caption": true,
-   "text": "A review packet and a twelve-ledger workbook, verified against each other. Missing policy shows as a blocker, with its code. And the destination is honest: Gusto, not prepared. Nothing was submitted."
-  },
-  {
-   "id": "13",
-   "start": 161.0,
-   "caption": true,
-   "text": "Everything you saw was labeled: what was live, what was synthetic, what was a test reply."
-  },
-  {
-   "id": "14",
-   "start": 169.6,
    "caption": false,
-   "text": "PayrollPilot. Payroll, prepared."
+   "text": "From missing information to payroll-ready. With you in control."
   }
  ]
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import {C, inter} from '../theme';
 
-export type Prov = 'REAL' | 'SYNTHETIC' | 'SEEDED ISSUE' | 'TEST REPLY' | 'PLAYBACK' | 'ILLUSTRATION' | 'CACHED' | 'PLANNED' | 'NOT PREPARED' | 'NOT SHOWN';
+export type Prov = 'REAL' | 'SYNTHETIC' | 'SEEDED ISSUE' | 'TEST REPLY' | 'PLAYBACK' | 'ILLUSTRATION' | 'CACHED' | 'PLANNED' | 'NOT PREPARED' | 'NOT SHOWN' | 'DESIGN MOCKUP';
 
 const color: Record<Prov, string> = {
   REAL: C.ready,
-  SYNTHETIC: C.partial,
+  SYNTHETIC: C.accent2,
   'SEEDED ISSUE': C.seeded,
   'TEST REPLY': C.pending,
   PLAYBACK: C.pending,
@@ -14,6 +14,7 @@ const color: Record<Prov, string> = {
   PLANNED: '#6B7385',
   'NOT PREPARED': C.blocked,
   'NOT SHOWN': '#6B7385',
+  'DESIGN MOCKUP': '#9AA3B5',
 };
 
 export const Chip: React.FC<{kind: Prov; text?: string; size?: number}> = ({kind, text, size = 20}) => (
@@ -24,7 +25,7 @@ export const Chip: React.FC<{kind: Prov; text?: string; size?: number}> = ({kind
       gap: size * 0.5,
       padding: `${size * 0.35}px ${size * 0.75}px`,
       borderRadius: 999,
-      background: 'rgba(18,21,28,0.82)',
+      background: 'rgba(42,48,64,0.85)',
       border: `1px solid ${C.border}`,
       backdropFilter: 'blur(8px)',
       fontFamily: inter,
