@@ -207,7 +207,10 @@ export default function Home() {
                   <>
                     <button type="button" className="h-btn primary" disabled={busy || error != null || maskText(b.text) !== b.text}
                       onClick={() => act(async () => {
-                        await api.approve({ kind: 'message_send', target_id: b.id, target_version: b.text_hash, scope_text: 'Send this exact text to the allowlisted test recipient' })
+                        if (!(b.approval_id && b.state === 'approved')) {
+                          await api.preflightMessageSend(b)
+                          await api.approve({ kind: 'message_send', target_id: b.id, target_version: b.text_hash, scope_text: 'Send this exact text to the allowlisted test recipient' })
+                        }
                         await api.send(b.id)
                         setJustSent(b.id)
                       }, `Sent to the ${roleName}.`)}>

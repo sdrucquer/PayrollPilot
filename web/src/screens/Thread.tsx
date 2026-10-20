@@ -69,16 +69,22 @@ export default function Thread({ id, onChange }: { id: string; onChange: () => v
 
   function openSend(b: MessageBatch) {
     const a = approvalFor(b)
-    const valid = a && a.state === 'active' && a.target_version === b.text_hash
+    const valid = (a && a.state === 'active' && a.target_version === b.text_hash) || (b.state === 'approved' && !!b.approval_id)
     setDialog({
       title: valid ? 'Send approved message' : 'Approve and send this message',
       kind: 'message_send', targetId: b.id, targetVersion: b.text_hash,
       scopeText: 'Send this exact text to the allowlisted test recipient', text: b.text,
       recipient: b.actual_recipient, recipientRole: b.intended_respondent_label, exceptionIds: b.exception_ids,
       confirmLabel: valid ? 'Send' : 'Approve + Send',
-      approveOnly: valid ? undefined : () => api.approve({ kind: 'message_send', target_id: b.id, target_version: b.text_hash, scope_text: 'Send this exact text to the allowlisted test recipient' }),
+      approveOnly: valid ? undefined : async () => {
+        await api.preflightMessageSend(b)
+        return api.approve({ kind: 'message_send', target_id: b.id, target_version: b.text_hash, scope_text: 'Send this exact text to the allowlisted test recipient' })
+      },
       run: async () => {
-        if (!valid) await api.approve({ kind: 'message_send', target_id: b.id, target_version: b.text_hash, scope_text: 'Send this exact text to the allowlisted test recipient' })
+        if (!valid) {
+          await api.preflightMessageSend(b)
+          await api.approve({ kind: 'message_send', target_id: b.id, target_version: b.text_hash, scope_text: 'Send this exact text to the allowlisted test recipient' })
+        }
         await api.send(b.id)
       },
     })
