@@ -24,7 +24,7 @@ from .test_a02_routes import _mini_rules
 FIX = Path(__file__).parent / "fixtures" / "cycle_mini_v1.json"
 
 
-def _t02_impact(kind, before, after, snapshot):
+def _t02_impact(kind, before, after, snapshot, resolution_id=None):
     return {"calculation_impact": {"stage1_wages_delta_cents": 0,
                                    "job_costing_delta": [{"job_id": after.get("job_id"), "labor_delta_cents": None}]}}
 
@@ -130,3 +130,97 @@ def test_readiness_route_uses_core_on_synthetic_cycle(settings, tmp_path):
         assert item["readiness"]["state"] in {"ready", "partial", "pending", "blocked", "not_meaningful"}
         if item["readiness"]["state"] != "ready":
             assert item["readiness"]["blockers"] or item["readiness"]["state"] == "not_meaningful", item["id"]
+
+
+class _CoreErr(ValueError):
+    def __init__(self, code):
+        super().__init__(f"{code}: test")
+        self.code = code
+
+
+@pytest.mark.parametrize("code,status", [("stale_before", 409), ("allocation_mismatch", 409),
+                                         ("unsupported:identity_merge", 422), ("target_not_found", 404)])
+def test_core_correction_error_codes_map_to_http(env, monkeypatch, code, status):
+    c, _ = env
+
+    def boom(*a, **k):
+        raise _CoreErr(code)
+
+    monkeypatch.setattr(core_bridge, "propose_correction", boom)
+    r = c.post("/api/corrections", json={"kind": "job_allocation", "cycle_id": "cyc_mini_v1",
+                                         "after": {"time_entry_id": "te_0002", "job_id": "job_01"}})
+    assert r.status_code == status and r.json()["error"] == code
+
+
+def test_workbook_verification_failure_is_not_success(env, monkeypatch):
+    c, _ = env
+
+    class WorkbookVerificationError(RuntimeError):
+        pass
+
+    def bad_wb(packet, path):
+        raise WorkbookVerificationError("Review total mismatch")
+
+    monkeypatch.setattr(core_bridge, "build_packet", lambda **k: {"draft_version": "x"})
+    monkeypatch.setattr(core_bridge, "build_workbook", bad_wb)
+    r = c.post("/api/cycles/cyc_mini_v1/workbook")
+    assert r.status_code == 500 and r.json()["error"] == "workbook_verification_failed"
+    types = [e["type"] for e in c.get("/api/events", params={"cycle_id": "cyc_mini_v1"}).json()]
+    assert "workbook.generated" not in types and "workbook.verified" not in types
+
+
+MATRIX = Path(__file__).resolve().parents[2] / "docs" / "contracts" / "fixtures" / "readiness_matrix_v1.json"
+
+
+@pytest.mark.skipif(core_bridge.propose_correction is None or core_bridge.cycle_readiness is None or not SYNTH.exists(),
+                    reason="needs payrollpilot_core corrections + readiness and lane B fixtures")
+def test_t02_end_to_end_wages_unchanged_job_costing_changed(settings, tmp_path):
+    """T02 through the routes with real lane B core: te_0014 job_01 -> job_02."""
+    shutil.copy(SYNTH, tmp_path / SYNTH.name)
+    c = TestClient(create_app(dataclasses.replace(settings, fixtures_dir=tmp_path)))
+    c.post("/api/cycles/load", json={"source": "fixture", "name": "cycle_synthetic_v1"})
+    c.post("/api/cycles/cyc_synth_v1/audit")
+    before_ready = c.get("/api/cycles/cyc_synth_v1/readiness").json()
+    r = c.post("/api/corrections", json={"kind": "job_allocation", "cycle_id": "cyc_synth_v1",
+                                         "after": {"time_entry_id": "te_0014", "job_id": "job_02"}})
+    assert r.status_code == 200, r.text
+    corr = r.json()
+    assert corr["before"] == {"time_entry_id": "te_0014", "job_id": "job_01"}
+    impact = corr["calculation_impact"]
+    assert impact["stage1_wages_delta_cents"] == 0
+    deltas = {d["job_id"]: d["labor_delta_cents"] for d in impact["job_costing_delta"]}
+    assert deltas.get("job_02") and deltas["job_02"] > 0 and deltas.get("job_01") == -deltas["job_02"]
+    appr = c.post("/api/approvals", json={"kind": "local_correction", "target_id": corr["id"],
+                                          "target_version": corr["target_version"], "scope_text": "Move te_0014 to job_02 locally"})
+    assert appr.status_code == 200, appr.text
+    out = c.post(f"/api/corrections/{corr['id']}/apply")
+    assert out.status_code == 200, out.text
+    changed = {ch["scope"] for ch in out.json()["readiness_changes"]}
+    assert "stage1" not in changed  # wages readiness untouched by an allocation-only correction
+    after_ready = c.get("/api/cycles/cyc_synth_v1/readiness").json()
+    assert after_ready["stage1"]["state"] == before_ready["stage1"]["state"]
+    if MATRIX.exists():
+        want = json.loads(MATRIX.read_text())["after_t02_correction"]
+        assert after_ready["stage1"]["state"] == want["stage1"]["state"]
+        assert after_ready["stage1"]["scope"] == want["stage1"]["scope"]
+    types = [e["type"] for e in c.get("/api/events", params={"cycle_id": "cyc_synth_v1"}).json()]
+    assert {"correction.proposed", "approval.granted", "correction.applied", "recalc.completed"} <= set(types)
+
+
+@pytest.mark.skipif(core_bridge.build_packet is None or core_bridge.build_workbook is None or not SYNTH.exists(),
+                    reason="needs payrollpilot_core packet + workbook (lane B B-04)")
+def test_packet_and_workbook_routes_with_real_core(settings, tmp_path):
+    shutil.copy(SYNTH, tmp_path / SYNTH.name)
+    s = dataclasses.replace(settings, fixtures_dir=tmp_path, private_snapshots_dir=tmp_path / "private" / "snapshots")
+    c = TestClient(create_app(s))
+    c.post("/api/cycles/load", json={"source": "fixture", "name": "cycle_synthetic_v1"})
+    c.post("/api/cycles/cyc_synth_v1/audit")
+    pkt = c.get("/api/cycles/cyc_synth_v1/packet")
+    assert pkt.status_code == 200, pkt.text
+    wb = c.post("/api/cycles/cyc_synth_v1/workbook")
+    assert wb.status_code == 200, wb.text
+    art = wb.json()
+    assert art["original_updated"] is False and art["verified_totals"]
+    assert Path(art["path"]).is_file() and str(tmp_path) in art["path"]  # written under the private dir, not the repo
+    types = [e["type"] for e in c.get("/api/events", params={"cycle_id": "cyc_synth_v1"}).json()]
+    assert "workbook.generated" in types and "workbook.verified" in types

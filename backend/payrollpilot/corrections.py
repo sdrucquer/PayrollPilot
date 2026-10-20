@@ -39,6 +39,16 @@ def _target(view: dict[str, Any], after: dict[str, Any]) -> tuple[str, dict[str,
     raise CorrectionError(422, "no_target", f"after must name one of {_TARGET_KEYS}")
 
 
+# lane B CorrectionError.code -> HTTP status. Conflicts with current data are
+# 409 (re-read and re-propose); requests core cannot express are 422.
+_CORE_ERROR_STATUS = {
+    "stale_before": 409,
+    "allocation_mismatch": 409,
+    "target_not_found": 404,
+    "unknown_kind": 422,
+}
+
+
 def propose(db: Database, *, resolution_id: str | None, kind: str, after: dict[str, Any], cycle_id: str | None = None) -> dict[str, Any]:
     resolution = db.get_record(kinds.RESOLUTION, resolution_id) if resolution_id else None
     if resolution_id and resolution is None:
@@ -53,7 +63,13 @@ def propose(db: Database, *, resolution_id: str | None, kind: str, after: dict[s
     before = {k: (rec.get(k) if not (k == key) else rec["id"]) for k in after}
     if core_bridge.propose_correction is None:
         raise CorrectionError(501, "core_not_merged", "calculation impact needs payrollpilot_core.corrections.propose_correction")
-    core_out = dict(core_bridge.propose_correction(kind, before, after, view) or {})
+    try:
+        core_out = dict(core_bridge.propose_correction(kind, before, after, view, resolution_id=resolution_id) or {})
+    except Exception as exc:  # lane B CorrectionError(code, message)
+        code = getattr(exc, "code", None)
+        if code is None:
+            raise
+        raise CorrectionError(_CORE_ERROR_STATUS.get(code, 422), code, str(exc)) from exc
     correction = {
         "id": core_out.get("id") or new_id("corr"),
         "resolution_id": resolution_id,
@@ -61,6 +77,7 @@ def propose(db: Database, *, resolution_id: str | None, kind: str, after: dict[s
         "before": before,
         "after": after,
         "calculation_impact": core_out.get("calculation_impact"),
+        "blockers": core_out.get("blockers") or [],
         "approval_id": None,
         "state": "proposed",
         "applied_at": None,
