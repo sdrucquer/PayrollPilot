@@ -1,0 +1,20 @@
+# PayrollPilot demo narration. One line per segment: id | target window | text
+# Owner recording: record each line as its own file, demo/film/public/vo/owner/<id>.m4a (or .wav/.mp3).
+# The film stretches each segment to fit the recorded line, so exact timing is not required.
+# Final cue times are printed by `node scripts/assets.mjs` and written to src/generated/timeline.json.
+01 | 0:00-0:14 | Running payroll shouldn't mean chasing down your whole team. Missing hours. Unassigned expenses. Numbers that don't add up.
+02 | 0:14-0:23 | Meet PayrollPilot. Your AI payroll team.
+03 | 0:23-0:33 | This is a pay period on synthetic data. PayrollPilot has found what's missing, and one message is waiting for the owner's approval.
+04 | 0:33-0:43 | The owner approves the exact text in a shared room in Band. That's a human decision, and nothing is sent without it.
+05 | 0:43-0:52 | Then a real iMessage goes out, in test mode, only to the owner's own phone. The reply comes straight back.
+06 | 0:52-1:01 | The first answer is a vague yes. PayrollPilot flags it as ambiguous instead of guessing.
+07 | 1:01-1:12 | It drafts one bounded follow-up. The owner approves it, and a clear answer comes back.
+08 | 1:12-1:24 | Now it proposes a correction. Wages don't change. Two hundred dollars of job cost moves from Job 01 to Job 02.
+09 | 1:24-1:34 | After Approve and Apply, it recalculates, and only the affected readiness line changes.
+10 | 1:34-1:44 | Under the hood, three agents, Audit, Resolution and Payroll Preparation, work together in one shared room in Band.
+11 | 1:44-1:56 | Each case moves across the work board from to-do to done, and the agents hand off by mentioning each other.
+12 | 1:56-2:04 | Band tracks every agent's sessions, tokens and estimated cost.
+13 | 2:04-2:10 | And PayrollPilot itself was built by a Claude Code and Codex team, coordinated in Band.
+14 | 2:10-2:26 | Then, memory. The confirmed answer is written to Cognee, and that process exits. On memory recall after a restart, the next action changes from asking the ops lead to proposing an allocation to Job 02. No approval is created.
+15 | 2:26-2:37 | The result: Stage 1 wages and each Stage 2 item, shown separately. Gusto: not prepared.
+16 | 2:37-2:46 | From missing information to payroll-ready. With you in control.
