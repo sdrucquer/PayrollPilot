@@ -10,7 +10,7 @@ PayrollPilot prepares payroll for one home-service business. It loads one author
 
 | Time | Gate |
 |---|---|
-| 12:50 | **Launch.** All six chats open; spikes running (A-01 scaffold, C-01 Photon round trip, C-02 Band CLI path, C-03 Cognee, B-01 fixtures, D-01 web scaffold, E-01 script, F-01 contract tests). |
+| 12:35 | **Launch.** All six chats open; spikes running (A-01 scaffold, C-01 Photon round trip, C-02 Band CLI path, C-03 Cognee, B-01 fixtures, D-01 web scaffold, E-01 script, F-01 contract tests). |
 | 1:15 | **G0.** Backend serves the synthetic cycle, audit returns expected exceptions, web board renders from the API. C has sent and received one real iMessage (any text). |
 | 1:50 | **G1.** Approved batch -> real iMessage -> real reply -> correlated to case -> parsed -> correction proposed -> owner approves -> readiness changes on the board. Workbook export exists. |
 | 2:20 | **G2.** Band product handoff visible (Audit -> Resolution -> Payroll) with a human decision; Cognee recall changes a next action after restart; rehearsal recording captured. Private Jobber snapshot loaded if A-03 succeeded, else fixture labeled. |
