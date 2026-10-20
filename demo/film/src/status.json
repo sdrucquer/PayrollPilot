@@ -1,0 +1,12 @@
+{
+  "_comment": "Close-card chips. Lane E sets status ONLY from demo/evidence-matrix.md: 'shown' (captured, on screen), 'not_shown' (cut or unavailable), 'pending' (draft renders only; a final render must have none). draft=false only for the final render.",
+  "draft": true,
+  "rows": [
+    {"name": "iMessage via Photon", "label": "REAL", "status": "pending", "row": "R08-R09"},
+    {"name": "Band handoff", "label": "REAL", "status": "pending", "row": "R03-R05"},
+    {"name": "Cognee recall", "label": "REAL", "status": "pending", "row": "R13-R15"},
+    {"name": "payroll data", "label": "SYNTHETIC", "status": "shown", "row": "R21"},
+    {"name": "owner replies", "label": "TEST REPLY", "status": "pending", "row": "R09-R10"},
+    {"name": "Gusto draft", "label": "NOT PREPARED", "status": "shown", "row": "R18"}
+  ]
+}

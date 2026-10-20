@@ -1,0 +1,23 @@
+{
+  "name": "payrollpilot-film",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render PayrollPilotFilm out/payrollpilot-film.mp4 --codec h264 --crf 18",
+    "render:draft": "remotion render PayrollPilotFilm out/payrollpilot-film-draft.mp4 --codec h264 --crf 28 --scale 0.5",
+    "still": "remotion still PayrollPilotFilm out/frame.png"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.537",
+    "@remotion/google-fonts": "4.0.537",
+    "@remotion/transitions": "4.0.537",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.537"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "typescript": "5.6.3"
+  }
+}
