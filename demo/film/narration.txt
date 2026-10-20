@@ -8,7 +8,7 @@
 04 | 0:33-0:43 | The owner approves the exact text in a shared room in Band. That's a human decision, and nothing is sent without it.
 05 | 0:43-0:52 | Then a real iMessage goes out, in test mode, only to the owner's own phone. The reply comes straight back.
 06 | 0:52-1:01 | The first answer is a vague yes. PayrollPilot flags it as ambiguous instead of guessing.
-07 | 1:01-1:12 | It drafts one bounded follow-up. The owner approves it, and the answer comes back clear: the shift was Job 02.
+07 | 1:01-1:12 | It drafts one bounded follow-up. The owner approves it, and a clear answer comes back.
 08 | 1:12-1:24 | Now it proposes a correction. Wages don't change. Two hundred dollars of job cost moves from Job 01 to Job 02.
 09 | 1:24-1:34 | After Approve and Apply, it recalculates, and only the affected readiness line changes.
 10 | 1:34-1:44 | Under the hood, three agents, Audit, Resolution and Payroll Preparation, work together in one shared room in Band.
