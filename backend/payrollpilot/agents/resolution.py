@@ -109,7 +109,7 @@ def _job_id(n: int | None, known_jobs: set[str]) -> str | None:
 
 
 def parse_reply(inbound: dict, batch: dict, exceptions: list[dict], known_jobs: set[str],
-                llm: OpenRouterLLM | None = None) -> dict:
+                llm: OpenRouterLLM | None = None, job_names: dict[str, str] | None = None) -> dict:
     """Return {parsed: ParsedReply dict, blocked: [codes], usage}. Never authoritative for money."""
     ids = [e["id"] for e in exceptions if e["id"] in batch["exception_ids"]]
     raw = inbound["raw_text"]
@@ -129,7 +129,9 @@ def parse_reply(inbound: dict, batch: dict, exceptions: list[dict], known_jobs: 
     if llm and llm.available:
         numbered = "\n".join(f"{n}) [{e['id']}] {_question(e)}" for n, e in enumerate(exceptions, 1) if e["id"] in ids)
         try:
-            res = llm.complete_json(_PARSE_SYSTEM, f"Questions:\n{numbered}\n\nReply:\n\"\"\"{redact(raw)}\"\"\"",
+            jobs_txt = "\n".join(f"- {j}: {n}" for j, n in sorted((job_names or {}).items())) or "(none listed)"
+            res = llm.complete_json(_PARSE_SYSTEM, f"Known jobs (job_number is the digits in the id):\n{jobs_txt}\n\n"
+                                    f"Questions:\n{numbered}\n\nReply:\n\"\"\"{redact(raw)}\"\"\"",
                                     "parsed_reply", _parse_schema(ids))
             by_id = {}
             for a in res.data.get("answers", []):

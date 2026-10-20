@@ -46,6 +46,10 @@ def apply_recall(case: dict, hits: list[MemoryHit], known: dict[str, set[str]]) 
 
 
 def _target_job(refs: dict, case: dict) -> str | None:
+    child = case.get("offsite_child_job_id")
+    if child:  # a cost on an off-site child job is allocated to its confirmed parent
+        parents = refs.get("offsite_parent_job_ids", [])
+        return parents[0] if parents and child in refs.get("job_ids", []) else None
     parent = case.get("parent_job_id")
     for j in refs.get("job_ids", []):
         if j != parent:

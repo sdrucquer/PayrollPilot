@@ -68,6 +68,9 @@ def memory_text_for_resolution(res: dict) -> str:
         if facts.get("site_note"):
             fact += f"; {facts['site_note']}"
         parts.append(fact)
+    elif job and facts.get("offsite_parent_job_id"):
+        parts.append(f"fact: job {job} is off-site work (off-site child of {facts['offsite_parent_job_id']}); "
+                     f"costs on {job} belong to {facts['offsite_parent_job_id']}")
     else:
         parts.append("fact: " + ", ".join(f"{k}={v}" for k, v in sorted(facts.items())))
     inbound = ",".join(res.get("inbound_ids", []))

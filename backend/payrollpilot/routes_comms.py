@@ -80,6 +80,12 @@ def _update(db, kind: str, rec: dict, **changes) -> dict:
     return db.put_record(kind, new)
 
 
+def _job_names(db, cycle_id: str | None) -> dict[str, str]:
+    from .cycles import get_snapshot
+    snap = (get_snapshot(db, cycle_id) if cycle_id else None) or {}
+    return {j["id"]: j.get("display_name") or j["id"] for j in snap.get("jobs") or []}
+
+
 def _known_ids(db, cycle_id: str | None) -> dict[str, set[str]]:
     from .cycles import get_snapshot
     snap = get_snapshot(db, cycle_id) if cycle_id else None
@@ -298,7 +304,7 @@ def inbound(body: dict, request: Request, background: BackgroundTasks,
     excs = [e for e in excs if e]
     known = _known_ids(st.db, cycle_id)
     try:
-        out = parse_reply(rec, batch, excs, known["job_ids"], c["llm_cheap"])
+        out = parse_reply(rec, batch, excs, known["job_ids"], c["llm_cheap"], _job_names(st.db, cycle_id))
     except BudgetExhausted as e:
         emit(st.db, type="budget.exhausted", actor="system", cycle_id=cycle_id, summary=str(e))
         return _err(429, "budget_exhausted", str(e))
@@ -324,8 +330,12 @@ def inbound(body: dict, request: Request, background: BackgroundTasks,
                 _advance(st.db, exc["id"], "answer_received", "resolution", f"answered in {inbound_id}")
                 facts = dict(a.get("extracted") or {})
                 facts.pop("note", None)
-                te = (exc.get("entity_refs") or {}).get("time_entry_ids") or []
-                if te:
+                refs_ = exc.get("entity_refs") or {}
+                te = refs_.get("time_entry_ids") or []
+                if exc.get("category") == "offsite_link" and facts.get("job_id") and refs_.get("job_ids"):
+                    # Reply names the parent; the exception's job is the off-site child.
+                    facts = {"job_id": refs_["job_ids"][0], "offsite_parent_job_id": facts["job_id"]}
+                elif te:
                     facts.setdefault("time_entry_id", te[0])
                 res = {
                     "id": new_id("res"), "exception_id": exc["id"], "cycle_id": exc["cycle_id"], "confirmed_facts": facts,
@@ -371,7 +381,10 @@ def clarify(exception_id: str, request: Request):
         return _err(409, "no_sent_batch", "nothing was asked yet; draft a batch instead")
     parent = max(batches, key=lambda b: b.get("sent_at") or "")
     check_recipient(parent["actual_recipient"], st.settings.allowlist)
-    cl = draft_clarification(parent, [exception_id], [_strip(exc)], st.settings.company_label)
+    # Cover every question in the parent batch that is still open, not only this one.
+    open_ = [_strip(st.db.get_record(kinds.EXCEPTION, i)) for i in parent["exception_ids"]]
+    open_ = [e for e in open_ if e and e["state"] == "awaiting_reply"] or [_strip(exc)]
+    cl = draft_clarification(parent, [e["id"] for e in open_], open_, st.settings.company_label)
     batch = {**{k: v for k, v in parent.items() if k != "_version"}, "id": new_id("msg_batch"), "exception_ids": cl["exception_ids"],
              "text": cl["text"], "text_hash": text_hash(cl["text"]), "approval_id": None, "state": "draft",
              "provider_message_id": None, "sent_at": None, "provider_status": None, "parent_batch_id": parent["id"],
@@ -389,6 +402,7 @@ class RecallCheck(BaseModel):
     scope: dict[str, Any] = {}
     exception_id: Optional[str] = None
     parent_job_id: Optional[str] = None
+    offsite_child_job_id: Optional[str] = None
     next_action: Optional[str] = None
 
 
@@ -401,7 +415,7 @@ def recall_check(body: RecallCheck, request: Request):
     cycle_id = (exc or {}).get("cycle_id") or body.scope.get("cycle_id")
     case = {"exception_id": body.exception_id, "cycle_id": cycle_id,
             "company_label": body.scope.get("company_label", st.settings.company_label),
-            "parent_job_id": body.parent_job_id, "next_action": body.next_action or (exc or {}).get("next_action") or ASK_AGAIN}
+            "parent_job_id": body.parent_job_id, "offsite_child_job_id": body.offsite_child_job_id, "next_action": body.next_action or (exc or {}).get("next_action") or ASK_AGAIN}
     hits = asyncio.run(memory.recall(body.query, body.scope))
     emit(st.db, type="memory.recalled", actor="payroll", cycle_id=cycle_id,
          summary=f"{getattr(memory, 'name', '?')}: {len(hits)} hit(s) for '{body.query[:80]}'",
