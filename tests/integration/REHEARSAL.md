@@ -1,5 +1,13 @@
 # Integrated rehearsal (F-03)
 
+For the existing owner-gated live stack, use `scripts/f_smoke.sh --observe --out tests/integration/REHEARSAL.md`.
+This performs GET-only checks and inspects existing event evidence. It never reloads the cycle, creates
+approvals, sends, applies corrections, generates a workbook, invokes recall, or restarts a service.
+Missing required evidence is a failure; skipped effects are not new live proofs. The exact T15
+before/after response and `approval_created=false` must be captured by Lane C separately.
+The default and `--send` modes below are **mutating isolated rehearsals**, despite the old “dry run” name;
+do not run them on the active owner-gated loop or follow their fresh-database/restart guidance there.
+
 Script: `scripts/f_smoke.sh` (dry run) or `scripts/f_smoke.sh --send --out tests/integration/REHEARSAL.md` (real send + wait for the owner's real reply).
 
 How to run a rehearsal:
