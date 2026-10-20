@@ -27,6 +27,7 @@ from .settings import mask_handle
 
 router = APIRouter()
 _lock = threading.Lock()
+_batch_action_lock = threading.Lock()
 
 
 # ---------------------------------------------------------------- adapters
@@ -184,6 +185,62 @@ def _public_batch(b: dict) -> dict:
     return out
 
 
+# Owner edits/declines append new versions; neither action sends a message.
+class DraftVersionRequest(BaseModel):
+    target_version: str
+
+
+class EditDraftRequest(DraftVersionRequest):
+    text: str
+
+
+def _editable_batch(st, batch_id: str, version: str):
+    batch = st.db.get_record(kinds.MESSAGE_BATCH, batch_id)
+    if batch is None:
+        return None, _err(404, "not_found", "message batch not found")
+    send_state = st.db.send_state(batch_id)
+    if batch.get("declined_at") or batch.get("state") not in {"draft", "approved"} or (send_state and send_state["state"] in {"sending", "sent"}):
+        return None, _err(409, "batch_not_editable", "only an unsent, non-declined draft can change")
+    if version != batch_version(batch):
+        return None, _err(409, "stale_version", "draft changed; review its current text first")
+    return batch, None
+
+
+@router.post("/api/messages/{batch_id}/edit")
+def edit_draft(batch_id: str, body: EditDraftRequest, request: Request):
+    st = request.app.state.pp
+    with _batch_action_lock:
+        if (r := _stopped(st.db)):
+            return r
+        if not body.text.strip() or len(body.text) > 10000:
+            return _err(422, "invalid_text", "message text must contain 1 to 10000 characters")
+        batch, error = _editable_batch(st, batch_id, body.target_version)
+        if error is not None:
+            return error
+        if body.text == batch["text"]:
+            return _public_batch(batch)
+        approvals.invalidate_for_target(st.db, batch_id, "owner edited message text", batch["cycle_id"])
+        updated = _update(st.db, kinds.MESSAGE_BATCH, batch, text=body.text, text_hash=text_hash(body.text),
+                          approval_id=None, state="draft")
+        emit(st.db, type="message.drafted", actor="owner", cycle_id=batch["cycle_id"],
+             summary="Owner edited the message; new approval required", refs={"batch_id": batch_id, "edited": True})
+        return _public_batch(updated)
+
+
+@router.post("/api/messages/{batch_id}/decline")
+def decline_draft(batch_id: str, body: DraftVersionRequest, request: Request):
+    st = request.app.state.pp
+    with _batch_action_lock:
+        batch, error = _editable_batch(st, batch_id, body.target_version)
+        if error is not None:
+            return error
+        approvals.invalidate_for_target(st.db, batch_id, "owner declined message", batch["cycle_id"])
+        updated = _update(st.db, kinds.MESSAGE_BATCH, batch, declined_at=now_iso(), approval_id=None, state="draft")
+        emit(st.db, type="approval.invalidated", actor="owner", cycle_id=batch["cycle_id"],
+             summary="Owner declined the message; nothing sent", refs={"batch_id": batch_id, "decision": "declined"})
+        return _public_batch(updated)
+
+
 # ---------------------------------------------------------------- band decision -> approval
 @router.post("/api/messages/{batch_id}/band-decision")
 def band_decision(batch_id: str, request: Request):
@@ -213,12 +270,19 @@ def band_decision(batch_id: str, request: Request):
 # ---------------------------------------------------------------- send
 @router.post("/api/messages/{batch_id}/send")
 def send(batch_id: str, request: Request):
+    with _batch_action_lock:
+        return _send_locked(batch_id, request)
+
+
+def _send_locked(batch_id: str, request: Request):
     st = request.app.state.pp
     if (r := _stopped(st.db)):
         return r
     batch = st.db.get_record(kinds.MESSAGE_BATCH, batch_id)
     if batch is None:
         return _err(404, "not_found", f"batch {batch_id} not found")
+    if batch.get("declined_at"):
+        return _err(409, "batch_declined", "owner declined this message; nothing sent")
     prior = st.db.send_state(batch_id)
     if prior and prior["state"] in ("sent", "sending"):
         return {**_public_batch(batch), "duplicate": True, "send_state": prior}

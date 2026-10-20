@@ -46,6 +46,8 @@ def current_target_version(db: Database, kind: str, target_id: str) -> str:
         batch = db.get_record(kinds.MESSAGE_BATCH, target_id)
         if batch is None:
             raise ApprovalError(404, "target_not_found", f"message batch {target_id} not found")
+        if batch.get("declined_at"):
+            raise ApprovalError(409, "batch_declined", "owner declined this message")
         return batch_version(batch)
     if kind == "local_correction":
         corr = db.get_record(kinds.CORRECTION, target_id)
