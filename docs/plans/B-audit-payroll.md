@@ -39,3 +39,14 @@ Mission: pure, tested Python for everything that touches money, time, readiness,
 - `corrections.py`: `propose_correction(kind, before, after, snapshot) -> LocalCorrection` with `calculation_impact` computed by re-running calc on a corrected view (pure). T02: wages delta 0, job labor delta != 0. T20: a time confirmation reconciles the whole affected workweek, not new hours × rate; if prior payroll for that week is unknown -> blocker `prior_recognition_unknown`.
 
 ## Status log
+
+```
+LANE B status @ 12:40
+Done: B-01 (acceptance checks passed: T01 "2h14" -> 134; T05 weekly totals per fixed workweek, never averaged; invalid durations raise; null stays null)
+Changed files: core/pyproject.toml, core/payrollpilot_core/{__init__,ids,money,time}.py, core/tests/test_{time,money}.py, core/tools/build_fixtures.py, docs/contracts/fixtures/*.json (5)
+Tests run: core/.venv/bin/pytest -q tests/test_time.py tests/test_money.py -> 35 passed
+Evidence: fixtures pushed 12:39 (fd57ea2); all 5 parse with python3 -I json.load
+Blockers: none. Lead decision requested: bless fixture extensions TimeEntry.scheduled_job_id, snapshot.policies, snapshot.obligations, Exception.entity_refs.coverage
+Next: B-02 audit, B-03 calc/readiness
+Handoff requested: A, D, F consume docs/contracts/fixtures/*.json (cycle id cyc_synth_v1)
+```
