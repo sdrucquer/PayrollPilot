@@ -1118,6 +1118,7 @@
       "payment_date": "2026-10-03",
       "kind": "payment",
       "status": "succeeded",
+      "provenance": "synthetic",
       "source_ref": {
         "system": "fixture",
         "record_id": "jobber_pay_01",
@@ -1140,6 +1141,7 @@
       "payment_date": "2026-09-20",
       "kind": "deposit",
       "status": "succeeded",
+      "provenance": "synthetic",
       "source_ref": {
         "system": "fixture",
         "record_id": "jobber_pay_02",
@@ -1162,6 +1164,7 @@
       "payment_date": "2026-10-06",
       "kind": "deposit",
       "status": "succeeded",
+      "provenance": "synthetic",
       "source_ref": {
         "system": "fixture",
         "record_id": "jobber_pay_03",
@@ -1184,6 +1187,7 @@
       "payment_date": "2026-10-03",
       "kind": "tip",
       "status": "succeeded",
+      "provenance": "synthetic",
       "source_ref": {
         "system": "fixture",
         "record_id": "jobber_pay_04",

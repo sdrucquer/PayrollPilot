@@ -159,22 +159,22 @@ te(33, "wkr_01", "job_01", "2026-09-26", "07:00", "15:00", 480, approved=False, 
 RECEIPTS = [
     # final payment collected in this cycle; a PROPOSED (not finalized) allocation to the prior cycle (T19)
     {"id": "rcpt_01", "job_id": "job_01", "amount_cents": 300000, "payment_date": "2026-10-03", "kind": "payment",
-     "status": "succeeded", "source_ref": fx("jobber_pay_01"),
+     "status": "succeeded", "provenance": "synthetic", "source_ref": fx("jobber_pay_01"),
      "cycle_allocation": {"original_cycle_id": CYCLE_ID, "allocated_cycle_id": PRIOR_CYCLE_ID, "state": "proposed",
                           "finalization_evidence": None, "version": 1}},
     # deposit collected in the prior cycle (full-job revenue evidence; not this cycle's receipt)
     {"id": "rcpt_02", "job_id": "job_01", "amount_cents": 180000, "payment_date": "2026-09-20", "kind": "deposit",
-     "status": "succeeded", "source_ref": fx("jobber_pay_02"),
+     "status": "succeeded", "provenance": "synthetic", "source_ref": fx("jobber_pay_02"),
      "cycle_allocation": {"original_cycle_id": PRIOR_CYCLE_ID, "allocated_cycle_id": None, "state": "none",
                           "finalization_evidence": None, "version": 1}},
     # deposit-only job (final payment not verified -> commission ineligible)
     {"id": "rcpt_03", "job_id": "job_02", "amount_cents": 150000, "payment_date": "2026-10-06", "kind": "deposit",
-     "status": "succeeded", "source_ref": fx("jobber_pay_03"),
+     "status": "succeeded", "provenance": "synthetic", "source_ref": fx("jobber_pay_03"),
      "cycle_allocation": {"original_cycle_id": CYCLE_ID, "allocated_cycle_id": None, "state": "none",
                           "finalization_evidence": None, "version": 1}},
     # tip: separate from company revenue; excluded from distributable receipts (T12)
     {"id": "rcpt_04", "job_id": "job_01", "amount_cents": 5000, "payment_date": "2026-10-03", "kind": "tip",
-     "status": "succeeded", "source_ref": fx("jobber_pay_04"),
+     "status": "succeeded", "provenance": "synthetic", "source_ref": fx("jobber_pay_04"),
      "cycle_allocation": {"original_cycle_id": CYCLE_ID, "allocated_cycle_id": None, "state": "none",
                           "finalization_evidence": None, "version": 1}},
 ]
