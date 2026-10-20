@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PayrollPilot — Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ---------- tokens (mirrored in design/DESIGN.md) ---------- */
+  :root{
+    --bg-0:#0A0C11; --bg-1:#0F1218; --bg-2:#141822; --bg-3:#1A1F2B; --bg-hover:#1E2432;
+    --line-1:rgba(255,255,255,.06); --line-2:rgba(255,255,255,.10); --line-3:rgba(255,255,255,.16);
+    --fg-0:#F2F4F8; --fg-1:#C9CFDA; --fg-2:#8B94A7; --fg-3:#5B6478;
+    --accent:#8A8CFF; --accent-strong:#A5A7FF; --accent-dim:rgba(138,140,255,.14); --accent-line:rgba(138,140,255,.35);
+    --ready:#3DD68C; --ready-dim:rgba(61,214,140,.12);
+    --partial:#F2B443; --partial-dim:rgba(242,180,67,.12);
+    --pending:#8B94A7; --pending-dim:rgba(139,148,167,.12);
+    --blocked:#F26D85; --blocked-dim:rgba(242,109,133,.12);
+    --info:#5CB8FF; --info-dim:rgba(92,184,255,.12);
+    --r-sm:6px; --r-md:10px; --r-lg:14px; --r-xl:18px;
+    --sans:'Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --shadow-1:0 1px 0 rgba(255,255,255,.03) inset, 0 1px 2px rgba(0,0,0,.4);
+    --shadow-2:0 1px 0 rgba(255,255,255,.04) inset, 0 8px 24px -12px rgba(0,0,0,.6);
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg-0);color:var(--fg-0);font-family:var(--sans);font-size:13px;line-height:1.45;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01","tnum"}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:var(--mono);font-feature-settings:"tnum";letter-spacing:-.01em}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ---------- app shell ---------- */
+  .app{display:grid;grid-template-columns:224px 1fr;min-height:100vh;width:1280px;margin:0 auto;background:var(--bg-0)}
+  .side{border-right:1px solid var(--line-1);background:var(--bg-1);padding:16px 12px;display:flex;flex-direction:column;gap:18px;position:sticky;top:0;height:100vh}
+  .brand{display:flex;align-items:center;gap:10px;padding:4px 8px}
+  .brand-mark{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--accent) 0%,#5D5FEF 100%);display:grid;place-items:center;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 6px 16px -6px rgba(138,140,255,.6)}
+  .brand-mark svg{width:14px;height:14px}
+  .brand h1{font-size:13.5px;font-weight:600;margin:0;letter-spacing:-.01em}
+  .brand small{display:block;color:var(--fg-3);font-size:11px;font-weight:500}
+  .nav{display:flex;flex-direction:column;gap:2px}
+  .nav a{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:var(--r-sm);color:var(--fg-2);font-weight:500;transition:background .15s var(--ease),color .15s var(--ease)}
+  .nav a:hover{background:var(--bg-2);color:var(--fg-1)}
+  .nav a.active{background:var(--bg-3);color:var(--fg-0);box-shadow:var(--shadow-1)}
+  .nav a svg{width:15px;height:15px;opacity:.8}
+  .nav .count{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--fg-3);background:var(--bg-2);padding:1px 6px;border-radius:999px}
+  .nav a.active .count{background:var(--accent-dim);color:var(--accent-strong)}
+  .side-section{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);padding:0 10px;margin-bottom:6px}
+  .side-foot{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+  .env{border:1px solid var(--line-2);border-radius:var(--r-md);padding:10px 10px;background:var(--bg-2);font-size:11.5px;color:var(--fg-2);display:flex;flex-direction:column;gap:6px}
+  .env-row{display:flex;justify-content:space-between;align-items:center}
+  .env-row b{font-weight:500;color:var(--fg-1)}
+
+  .main{display:flex;flex-direction:column;min-width:0}
+  .topbar{display:flex;align-items:center;gap:10px;white-space:nowrap;padding:12px 24px;border-bottom:1px solid var(--line-1);background:rgba(10,12,17,.8);backdrop-filter:blur(10px);position:sticky;top:0;z-index:5}
+  .crumb{display:flex;align-items:center;gap:8px;color:var(--fg-2);font-weight:500;white-space:nowrap}
+  .crumb .sep{color:var(--fg-3)}
+  .crumb b{color:var(--fg-0);font-weight:600}
+  .topbar .spacer{flex:1}
+  .content{padding:22px 24px 40px;display:flex;flex-direction:column;gap:18px}
+
+  /* ---------- pills / badges ---------- */
+  .pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:999px;font-size:11px;font-weight:500;border:1px solid var(--line-2);color:var(--fg-2);background:var(--bg-2);white-space:nowrap}
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+  .pill.ready{color:var(--ready);background:var(--ready-dim);border-color:transparent}
+  .pill.partial{color:var(--partial);background:var(--partial-dim);border-color:transparent}
+  .pill.pending{color:var(--pending);background:var(--pending-dim);border-color:transparent}
+  .pill.blocked{color:var(--blocked);background:var(--blocked-dim);border-color:transparent}
+  .pill.accent{color:var(--accent-strong);background:var(--accent-dim);border-color:transparent}
+  .pill.info{color:var(--info);background:var(--info-dim);border-color:transparent}
+  .pill.test{color:var(--partial);border-color:rgba(242,180,67,.35);background:transparent}
+  .pill.test .dot{animation:pulse 1.8s infinite}
+  .prov{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:500;color:var(--fg-3);letter-spacing:.01em}
+  .prov::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--fg-3)}
+  .prov.synthetic::before{background:var(--info)}
+  .prov.seeded::before{background:var(--partial)}
+  .prov.real::before{background:var(--ready)}
+  .prov.cached::before{background:var(--fg-2)}
+  .prov.test-reply::before{background:var(--accent)}
+  .dest{display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 10px 0 8px;border-radius:var(--r-md);border:1px solid var(--line-2);background:var(--bg-2);font-weight:500;color:var(--fg-1)}
+  .dest .logo{width:16px;height:16px;border-radius:4px;background:#F45D48;display:grid;place-items:center;font-size:9px;font-weight:700;color:#fff}
+  .dest em{font-style:normal;color:var(--fg-2)}
+  .dest .lock{width:12px;height:12px;color:var(--fg-3)}
+
+  /* ---------- cards ---------- */
+  .card{background:var(--bg-1);border:1px solid var(--line-1);border-radius:var(--r-lg);box-shadow:var(--shadow-2)}
+  body.anim .card{animation:rise .55s var(--ease) both}
+  .card-h{display:flex;align-items:center;gap:10px;padding:14px 16px 0}
+  .card-h h3{margin:0;font-size:13px;font-weight:600;letter-spacing:-.005em}
+  .card-h .sub{color:var(--fg-3);font-size:11.5px;font-weight:500}
+  .card-h .right{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .card-b{padding:12px 16px 16px}
+  .btn{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 11px;border-radius:var(--r-sm);border:1px solid var(--line-2);background:var(--bg-2);color:var(--fg-1);font:inherit;font-weight:500;cursor:pointer;transition:background .15s var(--ease),border-color .15s var(--ease),transform .15s var(--ease)}
+  .btn:hover{background:var(--bg-hover);border-color:var(--line-3)}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--accent);border-color:transparent;color:#0B0D14;font-weight:600;box-shadow:0 0 0 1px rgba(255,255,255,.1) inset,0 6px 18px -8px rgba(138,140,255,.8)}
+  .btn.primary:hover{background:var(--accent-strong)}
+  .btn.ghost{background:transparent;border-color:transparent;color:var(--fg-2)}
+  .btn.ghost:hover{background:var(--bg-2);color:var(--fg-0)}
+  .btn.sm{height:24px;padding:0 8px;font-size:11.5px}
+  .btn svg{width:13px;height:13px}
+  .btn.disabled{opacity:.45;cursor:not-allowed}
+  .kbd{font-family:var(--mono);font-size:10px;color:var(--fg-3);border:1px solid var(--line-2);border-radius:4px;padding:0 4px;line-height:15px}
+
+  /* ---------- hero ---------- */
+  .hero{display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:stretch}
+  .hero .cycle{padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+  .cycle-top{display:flex;align-items:flex-start;gap:14px}
+  .cycle-top h2{margin:0;font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+  .cycle-top .meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--fg-2);margin-top:6px;font-size:12px}
+  .cycle-top .meta b{color:var(--fg-1);font-weight:500}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .stat{background:var(--bg-2);border:1px solid var(--line-1);border-radius:var(--r-md);padding:10px 12px}
+  .stat .l{font-size:11px;color:var(--fg-3);font-weight:500}
+  .stat .v{font-size:18px;font-weight:600;letter-spacing:-.02em;margin-top:2px;display:flex;align-items:baseline;gap:4px;white-space:nowrap}
+  .stat .sub{font-size:11px;color:var(--fg-3);font-weight:500;margin-top:2px}
+  .stat .v small{font-size:11px;color:var(--fg-3);font-weight:500;letter-spacing:0}
+  .stat .v.unknown{color:var(--fg-2)}
+  .coverage{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .coverage .lbl{font-size:11px;color:var(--fg-3);font-weight:500;margin-right:4px}
+  .chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:var(--r-sm);border:1px solid var(--line-1);background:var(--bg-2);font-size:11px;color:var(--fg-2)}
+  .chip .sys{font-weight:600;color:var(--fg-1)}
+  .chip .ok{width:6px;height:6px;border-radius:50%;background:var(--ready)}
+  .chip .warn{width:6px;height:6px;border-radius:50%;background:var(--partial)}
+  .chip .m{font-family:var(--mono);font-size:10px;color:var(--fg-3)}
+
+  .next{padding:16px 18px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,rgba(138,140,255,.07),rgba(138,140,255,0) 60%),var(--bg-1)}
+  .next h3{margin:0;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+  .next h3 .spark{width:14px;height:14px;color:var(--accent)}
+  .action{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-md);border:1px solid var(--line-1);background:var(--bg-2);transition:border-color .15s var(--ease),background .15s var(--ease);cursor:pointer}
+  .action:hover{border-color:var(--accent-line);background:var(--bg-3)}
+  .action .n{width:22px;height:22px;border-radius:7px;background:var(--accent-dim);color:var(--accent-strong);display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:500;flex:none}
+  .action .t{display:flex;flex-direction:column;gap:1px;min-width:0}
+  .action .t b{font-weight:500;color:var(--fg-0)}
+  .action .t span{font-size:11.5px;color:var(--fg-3)}
+  .action .go{margin-left:auto;color:var(--fg-3);width:14px;height:14px;flex:none}
+
+  /* ---------- stages ---------- */
+  .stages{display:grid;grid-template-columns:1.08fr 1fr;gap:18px}
+  .stage-badge{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3)}
+  .stage-badge .k{font-family:var(--mono);font-size:10px;color:var(--accent-strong);background:var(--accent-dim);border-radius:4px;padding:1px 5px;letter-spacing:0}
+  .summary{color:var(--fg-2);font-size:12px;margin:0 0 10px}
+  .summary b{color:var(--fg-1);font-weight:500}
+  .workers{display:flex;flex-direction:column;border:1px solid var(--line-1);border-radius:var(--r-md);overflow:hidden}
+  .wrow{display:grid;grid-template-columns:26px 1fr 62px 86px 84px;align-items:center;gap:10px;padding:9px 12px;border-top:1px solid var(--line-1);background:var(--bg-1);transition:background .15s var(--ease)}
+  .wrow:first-child{border-top:0}
+  .wrow:hover{background:var(--bg-2)}
+  .wrow.head{background:var(--bg-2);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3);padding:7px 12px}
+  .avatar{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:10.5px;font-weight:600;color:var(--fg-1);background:var(--bg-3);border:1px solid var(--line-2)}
+  .wname{display:flex;flex-direction:column;gap:1px;min-width:0}
+  .wname b{font-weight:500}
+  .wname span{font-size:11px;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .money{font-family:var(--mono);font-size:12.5px;text-align:right;color:var(--fg-0)}
+  .money.null{color:var(--fg-3)}
+  .mins{font-family:var(--mono);font-size:12px;color:var(--fg-2);text-align:right}
+  .bar{height:4px;border-radius:999px;background:var(--bg-3);overflow:hidden;margin-top:10px}
+  .bar i{display:block;height:100%;width:0;border-radius:999px;background:var(--ready);transition:width 1.1s var(--ease)}
+  .bar i.partial{background:var(--partial)} .bar i.accent{background:var(--accent)}
+
+  .items{display:flex;flex-direction:column;gap:8px}
+  .item{border:1px solid var(--line-1);border-radius:var(--r-md);background:var(--bg-2);padding:10px 12px 10px 14px;display:grid;grid-template-columns:1fr auto;grid-template-areas:'head amt' 'scope amt' 'blk blk';column-gap:12px;row-gap:3px;position:relative;overflow:hidden}
+  .item .ih{grid-area:head}.item .scope{grid-area:scope}.item .amt{grid-area:amt;align-self:center;text-align:right}.item .blockers{grid-area:blk}
+  .item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--fg-3);opacity:.9}
+  .item.ready::before{background:var(--ready)} .item.partial::before{background:var(--partial)} .item.pending::before{background:var(--pending)} .item.blocked::before{background:var(--blocked)}
+  .item .ih{display:flex;align-items:center;gap:8px}
+  .item .ih b{font-weight:600;font-size:12.5px}
+  .item .scope{font-size:11.5px;color:var(--fg-2)}
+  .item .amt{font-family:var(--mono);font-size:17px;letter-spacing:-.02em;font-weight:500;white-space:nowrap}
+  .item .amt small{display:block;font-family:var(--sans);font-size:11px;color:var(--fg-3);font-weight:500;letter-spacing:0;margin-top:1px}
+  .item .amt.null{color:var(--fg-3)}
+  .blockers{display:flex;flex-direction:column;gap:3px;margin-top:4px;padding-top:6px;border-top:1px solid var(--line-1)}
+  .blocker{display:flex;align-items:flex-start;gap:6px;font-size:11.5px;color:var(--fg-2);line-height:1.35}
+  .blocker code{font-family:var(--mono);font-size:10px;color:var(--fg-3);background:var(--bg-3);border-radius:4px;padding:1px 4px;white-space:nowrap}
+  .blocker .x{width:12px;height:12px;flex:none;margin-top:2px;color:var(--blocked)}
+  .blocker .w{color:var(--partial)}
+  .blocker .q{color:var(--pending)}
+  .indicators{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line-1)}
+  .ind{flex:1;display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--fg-2)}
+  .ind .sq{width:8px;height:8px;border-radius:2px;background:var(--fg-3)}
+  .ind.ok .sq{background:var(--ready)} .ind.warn .sq{background:var(--partial)}
+  .ind b{color:var(--fg-1);font-weight:500}
+
+  /* ---------- lower grid ---------- */
+  .lower{display:grid;grid-template-columns:332px 1fr;gap:18px}
+  .agents{display:flex;flex-direction:column;gap:8px}
+  .agent{border:1px solid var(--line-1);border-radius:var(--r-md);background:var(--bg-2);padding:11px 12px;display:flex;flex-direction:column;gap:8px}
+  .agent .ah{display:flex;align-items:center;gap:9px}
+  .agent .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none}
+  .agent .ic svg{width:14px;height:14px}
+  .agent .ic.audit{background:rgba(92,184,255,.14);color:var(--info)}
+  .agent .ic.res{background:var(--accent-dim);color:var(--accent-strong)}
+  .agent .ic.pay{background:var(--ready-dim);color:var(--ready)}
+  .agent .an{display:flex;flex-direction:column;gap:0;min-width:0}
+  .agent .an b{font-weight:600;font-size:12.5px}
+  .agent .an span{font-size:11px;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .agent .st{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:var(--fg-2)}
+  .live{width:7px;height:7px;border-radius:50%;background:var(--ready);box-shadow:0 0 0 0 rgba(61,214,140,.5);animation:ping 1.6s infinite}
+  .live.idle{background:var(--fg-3);animation:none;box-shadow:none}
+  .live.wait{background:var(--partial);animation:ping 2.4s infinite;box-shadow:0 0 0 0 rgba(242,180,67,.5)}
+  .agent .usage{display:flex;gap:12px;font-family:var(--mono);font-size:10.5px;color:var(--fg-3)}
+  .agent .usage b{color:var(--fg-2);font-weight:500}
+  .agent .bar{margin-top:0}
+
+  .exc-list{display:flex;flex-direction:column;border:1px solid var(--line-1);border-radius:var(--r-md);overflow:hidden}
+  .exc{display:grid;grid-template-columns:18px 1fr 96px 128px 16px;align-items:center;gap:12px;padding:10px 12px;border-top:1px solid var(--line-1);transition:background .15s var(--ease);cursor:pointer}
+  .exc:first-child{border-top:0}
+  .exc:hover{background:var(--bg-2)}
+  .exc .cat{width:8px;height:8px;border-radius:2px;background:var(--fg-3);justify-self:center}
+  .exc .cat.w{background:var(--partial)} .exc .cat.c{background:var(--info)} .exc .cat.b{background:var(--blocked)}
+  .exc .tt{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .exc .tt b{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .exc .tt span{font-size:11.5px;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .exc .tt em{font-style:normal;color:var(--fg-2)}
+  .exc .imp{font-size:11.5px;color:var(--fg-2)}
+  .exc .imp b{display:block;font-weight:500;color:var(--fg-1);font-family:var(--mono);font-size:12px}
+  .exc .who{display:flex;flex-direction:column;gap:1px;font-size:11.5px;color:var(--fg-2)}
+  .exc .who span{font-family:var(--mono);font-size:10.5px;color:var(--fg-3)}
+  .exc .chev{width:14px;height:14px;color:var(--fg-3)}
+  .tabs{display:flex;gap:2px;background:var(--bg-2);border:1px solid var(--line-1);border-radius:8px;padding:2px}
+  .tabs a{padding:4px 9px;border-radius:6px;font-size:11.5px;font-weight:500;color:var(--fg-2)}
+  .tabs a.on{background:var(--bg-3);color:var(--fg-0);box-shadow:var(--shadow-1)}
+
+  .threads{display:flex;flex-direction:column;gap:8px}
+  .thread{border:1px solid var(--line-1);border-radius:var(--r-md);background:var(--bg-2);padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+  .thread .th{display:flex;align-items:center;gap:8px}
+  .thread .th b{font-weight:500}
+  .thread .th .to{font-size:11.5px;color:var(--fg-3)}
+  .thread .th .to code{font-family:var(--mono);color:var(--fg-2);font-size:11px}
+  .thread .q{font-size:12px;color:var(--fg-1);background:var(--bg-3);border-radius:8px;padding:8px 10px;border-left:2px solid var(--accent)}
+  .thread .meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--fg-3)}
+  .thread .meta .elapsed{font-family:var(--mono)}
+  .thread .reply{font-size:12px;color:var(--fg-1);background:var(--bg-3);border-radius:8px;padding:8px 10px;border-left:2px solid var(--ready);display:flex;flex-direction:column;gap:4px}
+  .thread .reply .rh{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--fg-3)}
+
+  .foot{display:flex;align-items:center;gap:14px;color:var(--fg-3);font-size:11px;padding-top:4px}
+  .foot .spacer{flex:1}
+
+  /* ---------- motion ---------- */
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(61,214,140,.45)}80%,100%{box-shadow:0 0 0 7px rgba(61,214,140,0)}}
+  .d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.19s}.d4{animation-delay:.26s}.d5{animation-delay:.33s}.d6{animation-delay:.4s}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.bar i{width:var(--w)!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- ================= sidebar ================= -->
+  <aside class="side">
+    <div class="brand">
+      <div class="brand-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M3 12.5 8 3l5 9.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 9.5h5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+      <div><h1>PayrollPilot</h1><small>Pilot Co · Operations</small></div>
+    </div>
+    <div>
+      <div class="side-section">Cycle</div>
+      <nav class="nav">
+        <a class="active" href="#"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1.2"/><rect x="9" y="2" width="5" height="5" rx="1.2"/><rect x="2" y="9" width="5" height="5" rx="1.2"/><rect x="9" y="9" width="5" height="5" rx="1.2"/></svg>Command Center</a>
+        <a href="exceptions-inbox.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 9.5h3.2l1 2h3.6l1-2H14"/><path d="M3.5 3h9l1.5 6.5V13H2V9.5L3.5 3z"/></svg>Exceptions<span class="count">7</span></a>
+        <a href="#"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12.5 6 7l3 3.5 5-7"/></svg>Agent activity</a>
+        <a href="#"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 2.5h7l3 3V13.5H3z"/><path d="M5.5 8.5h5M5.5 11h5"/></svg>Review &amp; approve<span class="count">2</span></a>
+      </nav>
+    </div>
+    <div>
+      <div class="side-section">Sources</div>
+      <nav class="nav">
+        <a href="#"><span class="chip" style="height:auto;padding:0;border:0;background:none"><span class="ok"></span></span>Jobber</a>
+        <a href="#"><span class="chip" style="height:auto;padding:0;border:0;background:none"><span class="warn"></span></span>QuickBooks</a>
+        <a href="#"><span class="chip" style="height:auto;padding:0;border:0;background:none"><span class="ok"></span></span>Gusto <span class="count" style="font-family:var(--sans)">read-only</span></a>
+      </nav>
+    </div>
+    <div class="side-foot">
+      <div class="env">
+        <div class="env-row"><span>Messaging</span><b>Photon · test mode</b></div>
+        <div class="env-row"><span>Memory</span><b>Cognee</b></div>
+        <div class="env-row"><span>Band</span><b>enabled</b></div>
+        <div class="env-row"><span>Data</span><b>fixture · synthetic</b></div>
+      </div>
+      <div class="prov" style="padding:0 6px">Owner session · v1 contracts</div>
+    </div>
+  </aside>
+
+  <!-- ================= main ================= -->
+  <div class="main">
+    <div class="topbar">
+      <div class="crumb"><span>Pilot Co</span><span class="sep">/</span><b>Cycle Sep 28 – Oct 11</b></div>
+      <span class="pill test"><span class="dot"></span>Test mode · owner test phone</span>
+      <span class="pill info"><span class="dot"></span>Synthetic fixture</span>
+      <div class="spacer"></div>
+      <span class="dest"><span class="logo">G</span>Gusto: <em>not prepared</em><svg class="lock" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span>
+      <button class="btn ghost sm"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="8" height="8" rx="1.5"/></svg>Stop run</button>
+      <button class="btn primary"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8.5l3 3 7-7"/></svg>Review packet</button>
+    </div>
+
+    <div class="content">
+      <!-- ---------- hero ---------- -->
+      <section class="hero">
+        <div class="card cycle d1">
+          <div class="cycle-top">
+            <div style="flex:1">
+              <h2>Payroll cycle · Sep 28 – Oct 11, 2026</h2>
+              <div class="meta">
+                <span>Payday <b>Fri Oct 17</b></span>
+                <span>Workweeks <b>Sep 28 – Oct 4</b> · <b>Oct 5 – 11</b></span>
+                <span>Timezone <b>America/New_York</b></span>
+                <span>Existing Gusto run <b>none</b></span>
+                <span class="mono" style="color:var(--fg-3)">cyc_synth_v1 · pol_v2</span>
+              </div>
+            </div>
+            <span class="pill partial"><span class="dot"></span>Resolving · 3 open</span>
+          </div>
+          <div class="stats">
+            <div class="stat"><div class="l">Workers in cycle</div><div class="v num">4</div><div class="sub">1 identity ambiguous</div></div>
+            <div class="stat"><div class="l">Hours logged</div><div class="v num">318<small>h</small> 42<small>m</small></div><div class="sub">2 workweeks · 33 entries</div></div>
+            <div class="stat"><div class="l">Wages review-ready</div><div class="v num mono">$4,144</div><div class="sub">2 of 4 workers · 2 unknown</div></div>
+            <div class="stat"><div class="l">Dollars in question</div><div class="v num mono" style="color:var(--partial)">$184</div><div class="sub">+ 2 items unknown</div></div>
+          </div>
+          <div class="coverage">
+            <span class="lbl">Coverage</span>
+            <span class="chip"><span class="ok"></span><span class="sys">Jobber</span>time entries<span class="m">33 · api</span></span>
+            <span class="chip"><span class="ok"></span><span class="sys">Jobber</span>jobs<span class="m">3</span></span>
+            <span class="chip"><span class="ok"></span><span class="sys">Jobber</span>payments<span class="m">4</span></span>
+            <span class="chip"><span class="warn"></span><span class="sys">QuickBooks</span>expenses<span class="m">pagination cut</span></span>
+            <span class="chip"><span class="ok"></span><span class="sys">Gusto</span>workers · rates<span class="m">4 · export</span></span>
+            <span class="chip"><span class="ok"></span><span class="sys">Gusto</span>payroll runs<span class="m">0</span></span>
+          </div>
+        </div>
+
+        <div class="card next d2">
+          <h3><svg class="spark" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.6 4.4L14 7l-4.4 1.6L8 13l-1.6-4.4L2 7l4.4-1.6z"/></svg>Your next actions</h3>
+          <div class="action"><span class="n">1</span><div class="t"><b>Approve correction · Worker A → Job 02</b><span>Ops lead confirmed by text · $181.14 moves to job costing</span></div><svg class="go" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></div>
+          <div class="action"><span class="n">2</span><div class="t"><b>Approve message · 2 questions to Ops lead</b><span>Open timer on 10/09 · rate for Worker C unconfirmed</span></div><svg class="go" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></div>
+          <div class="action"><span class="n">3</span><div class="t"><b>Decide policy · overhead allocation O05</b><span>Blocks manager pool and 1 of 2 quote commissions</span></div><svg class="go" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:2px">
+            <button class="btn sm disabled" style="white-space:nowrap;flex:none" title="No executor in this pilot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>Submit payroll · unavailable</button>
+            <span style="font-size:11px;color:var(--fg-3)">Nothing submits. Owner approves every effect.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- stages ---------- -->
+      <section class="stages">
+        <div class="card d3">
+          <div class="card-h">
+            <span class="stage-badge"><span class="k">S1</span>Employee wages</span>
+            <div class="right"><span class="pill partial"><span class="dot"></span>Partial · review-ready for 3 of 4</span></div>
+          </div>
+          <div class="card-b">
+            <p class="summary"><b>Worker A</b> ready · <b>Worker B</b> ready · <b>Worker C</b> rate unconfirmed · <b>Worker D</b> blocked by open timer. 1 unresolved, <b class="mono">$184.00</b> affected.</p>
+            <div class="workers">
+              <div class="wrow head"><span></span><span>Worker</span><span style="text-align:right">Minutes</span><span style="text-align:right">Gross</span><span>Readiness</span></div>
+              <div class="wrow"><span class="avatar">A</span><div class="wname"><b>Worker A</b><span>hourly · verified</span></div><span class="mins">5,040</span><span class="money">$1,848.00</span><span class="pill ready"><span class="dot"></span>Ready</span></div>
+              <div class="wrow"><span class="avatar">B</span><div class="wname"><b>Worker B</b><span>team leader · verified</span></div><span class="mins">4,920</span><span class="money">$2,296.00</span><span class="pill ready"><span class="dot"></span>Ready</span></div>
+              <div class="wrow"><span class="avatar">C</span><div class="wname"><b>Worker C</b><span>rate unconfirmed</span></div><span class="mins">4,668</span><span class="money null">—</span><span class="pill partial"><span class="dot"></span>Partial</span></div>
+              <div class="wrow"><span class="avatar">D</span><div class="wname"><b>Worker D</b><span>duplicate profiles</span></div><span class="mins">4,494</span><span class="money null">—</span><span class="pill blocked"><span class="dot"></span>Blocked</span></div>
+            </div>
+            <div class="bar"><i class="partial" style="--w:72%"></i></div>
+            <div class="indicators">
+              <div class="ind ok"><span class="sq"></span><span>Wage correctness <b>3 of 4</b></span></div>
+              <div class="ind warn"><span class="sq"></span><span>Labor / revenue <b>review pending</b></span></div>
+              <div class="ind"><span class="sq"></span><span>Cash confirmation <b>not confirmed</b></span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card d4">
+          <div class="card-h">
+            <span class="stage-badge"><span class="k">S2</span>Financial reconciliation</span>
+            <div class="right"><span class="pill pending"><span class="dot"></span>1 ready · 1 pending · 1 blocked</span></div>
+          </div>
+          <div class="card-b">
+            <p class="summary"><b>Quote commission</b> 1 of 2 ready · <b>Tips</b> pending · <b>Manager pool</b> blocked. Items are never rolled up; unknown amounts stay <b class="mono">—</b>.</p>
+            <div class="items">
+              <div class="item ready">
+                <div class="ih"><b>Quote commission</b><span class="pill ready"><span class="dot"></span>Ready</span></div>
+                <div class="scope">Job 01 · 2 of 2 quoters · profit verified</div>
+                <div class="amt">$50.00<small>$25 / $25</small></div>
+                <div class="blockers">
+                  <div class="blocker"><svg class="x w" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3v6M8 12v.5"/></svg><span>Job 02 pending · <code>policy_missing:overhead</code></span></div>
+                </div>
+              </div>
+              <div class="item pending">
+                <div class="ih"><b>Tips</b><span class="pill pending"><span class="dot"></span>Pending</span></div>
+                <div class="scope">1 tip receipt · recipient unassigned</div>
+                <div class="amt null">—<small>rcpt_04 · $40.00 received</small></div>
+                <div class="blockers">
+                  <div class="blocker"><svg class="x q" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3.5l2 1.5"/></svg><span>Awaiting ops lead · which crew worked Job 03</span></div>
+                </div>
+              </div>
+              <div class="item blocked">
+                <div class="ih"><b>Manager pool</b><span class="pill blocked"><span class="dot"></span>Blocked</span></div>
+                <div class="scope">Cycle profit bridge · 2 of 5 components null</div>
+                <div class="amt null">—<small>unknown amount</small></div>
+                <div class="blockers">
+                  <div class="blocker"><svg class="x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4l8 8M12 4l-8 8"/></svg><span><code>policy_missing:overhead</code> O05 unresolved</span></div>
+                  <div class="blocker"><svg class="x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4l8 8M12 4l-8 8"/></svg><span><code>coverage_gap</code> QuickBooks expenses incomplete</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="indicators">
+              <div class="ind ok"><span class="sq"></span><span>Costs categorized <b>4 of 5</b></span></div>
+              <div class="ind warn"><span class="sq"></span><span>Cost conflicts <b>1 (bank ≠ Jobber)</b></span></div>
+              <div class="ind"><span class="sq"></span><span>Final payments <b>2 of 3 verified</b></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- agents + exceptions ---------- -->
+      <section class="lower">
+        <div class="card d5">
+          <div class="card-h"><h3>Agents</h3><span class="sub">product agents · same model, scoped tools</span><div class="right"><a class="btn ghost sm" href="#">Activity</a></div></div>
+          <div class="card-b agents">
+            <div class="agent">
+              <div class="ah"><span class="ic audit"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.2"/><path d="M10.2 10.2 14 14"/></svg></span><div class="an"><b>Audit</b><span>15 exceptions · 33 entries · rules only</span></div><span class="st"><span class="live idle"></span>Done</span></div>
+              <div class="bar"><i class="accent" style="--w:100%;background:var(--info)"></i></div>
+              <div class="usage"><span>run <b>2.4s</b></span><span>tokens <b>0</b></span><span>cost <b>$0.00</b></span><span class="prov" style="margin-left:auto">no LLM</span></div>
+            </div>
+            <div class="agent">
+              <div class="ah"><span class="ic res"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 4h10v7H7l-3 2.5V11H3z"/></svg></span><div class="an"><b>Resolution</b><span>2 sent · 1 reply parsed · 2 drafting</span></div><span class="st"><span class="live"></span>Working</span></div>
+              <div class="bar"><i class="accent" style="--w:58%"></i></div>
+              <div class="usage"><span>haiku-5.5</span><span>in <b>14.2k</b></span><span>out <b>1.1k</b></span><span>cost <b>$0.019</b></span></div>
+            </div>
+            <div class="agent">
+              <div class="ah"><span class="ic pay"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="4" width="11" height="8" rx="1.5"/><path d="M2.5 7h11"/></svg></span><div class="an"><b>Payroll Preparation</b><span>waiting on 1 correction · packet v3</span></div><span class="st"><span class="live wait"></span>Waiting</span></div>
+              <div class="bar"><i class="partial" style="--w:35%"></i></div>
+              <div class="usage"><span>haiku-5.5</span><span>in <b>3.8k</b></span><span>out <b>0.4k</b></span><span>cost <b>$0.005</b></span></div>
+            </div>
+            <div class="foot" style="padding-top:2px"><span>Memory recalled 2 · applied 1</span><span class="spacer"></span><span class="mono">budget $0.024 / $2.00</span></div>
+          </div>
+        </div>
+
+        <div class="card d6" style="display:flex;flex-direction:column">
+          <div class="card-h">
+            <h3>Open exceptions</h3><span class="sub">7 open · 8 resolved</span>
+            <div class="right">
+              <div class="tabs"><a class="on" href="#">All</a><a href="#">Wages</a><a href="#">Costs</a><a href="#">Commission</a><a href="#">Policy</a></div>
+              <a class="btn sm" href="exceptions-inbox.html">Open inbox</a>
+            </div>
+          </div>
+          <div class="card-b" style="display:flex;flex-direction:column;gap:14px">
+            <div class="exc-list">
+              <a class="exc" href="exceptions-inbox.html"><span class="cat w"></span><div class="tt"><b>Shift on 10/02 has no job assigned</b><span>missing_job · Worker A · 2h 14m, job empty · <em>Ops lead</em> ***-**12 · test reply</span></div><div class="imp"><b>$181.14</b>job costing</div><span class="pill accent"><span class="dot"></span>Needs approval</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></a>
+              <a class="exc" href="#"><span class="cat w"></span><div class="tt"><b>Open timer on 10/09, no end time</b><span>open_timer · Worker D · <em>Ops lead</em> · draft, not sent</span></div><div class="imp"><b>—</b>blocks worker</div><span class="pill pending"><span class="dot"></span>Investigating</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></a>
+              <a class="exc" href="#"><span class="cat w"></span><div class="tt"><b>Hourly rate for Worker C unconfirmed</b><span>rate_unconfirmed · no effective rate in Gusto export · <em>Owner</em> in app</span></div><div class="imp"><b>—</b>blocks worker</div><span class="pill partial"><span class="dot"></span>Awaiting reply</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></a>
+              <a class="exc" href="#"><span class="cat c"></span><div class="tt"><b>Disposal fee appears in bank and Jobber at different amounts</b><span>cost_conflict · cost_03 · $182.50 vs $180.00 · <em>Accountant</em> not asked</span></div><div class="imp"><b>$2.50</b>job costing</div><span class="pill pending"><span class="dot"></span>Detected</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></a>
+              <a class="exc" href="#"><span class="cat c"></span><div class="tt"><b>Tip of $40.00 on Job 03 has no recipient</b><span>unassigned_tip · rcpt_04 · <em>Ops lead</em> ***-**12 · sent 14m ago</span></div><div class="imp"><b>$40.00</b>tips</div><span class="pill partial"><span class="dot"></span>Awaiting reply</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></a>
+              <a class="exc" href="#"><span class="cat b"></span><div class="tt"><b>Overhead allocation method unresolved (O05)</b><span>policy_missing · manager pool + Job 02 commission · <em>Owner</em> decision</span></div><div class="imp"><b>—</b>manager pool</div><span class="pill blocked"><span class="dot"></span>Escalated</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></a>
+              <a class="exc" href="#"><span class="cat b"></span><div class="tt"><b>Worker D matches two Gusto profiles</b><span>identity · duplicate_profiles · route unknown · <em>Owner</em> decision</span></div><div class="imp"><b>—</b>blocks worker</div><span class="pill blocked"><span class="dot"></span>Needs evidence</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></a>
+            </div>
+
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><h3 style="margin:0;font-size:12.5px;font-weight:600">Questions awaiting replies</h3><span class="sub" style="color:var(--fg-3);font-size:11.5px">2 sent to the allowlisted test recipient only</span></div>
+              <div class="threads">
+                <div class="thread">
+                  <div class="th"><span class="avatar" style="width:20px;height:20px;border-radius:6px;font-size:9.5px;background:var(--accent-dim);color:var(--accent-strong);border-color:transparent">R</span><b>Resolution → Ops lead</b><span class="to">to <code>***-**12</code> · iMessage · delivered</span><span class="pill test" style="margin-left:auto;height:20px"><span class="dot"></span>test reply</span></div>
+                  <div class="q">Hi, 2 quick payroll checks: (1) Worker A's 10/02 shift (2h14) has no job on it. Which job was it? (2) Was the $40 tip on Job 03 for one person or the whole crew?</div>
+                  <div class="reply"><div class="rh"><span>Reply · owner test phone as Ops lead · 9m ago</span><span class="pill ready" style="height:18px;font-size:10.5px">parsed · 1 answered · 1 unaddressed</span></div>yes, job 2 was the lawn install</div>
+                  <div class="meta"><span>Clarification drafted for question 2</span><span class="spacer" style="flex:1"></span><span class="elapsed">batch msg_batch_01 · sha256:4f1c…</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="foot">
+        <span class="prov synthetic">synthetic fixture cycle_synthetic_v1</span>
+        <span class="prov seeded">seeded issues labeled in inbox</span>
+        <span class="prov test-reply">replies are test_reply</span>
+        <span class="spacer"></span>
+        <span>Sources read-only · no source writes · no payroll submission</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // Entrance: cards rise in with a stagger, then the animation class is removed so the
+  // settled page carries no animation state (safe for screenshots and video freeze-frames).
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.body.classList.add('anim');
+    setTimeout(()=>document.body.classList.remove('anim'),1200);
+  }
+  // Progress bars fill after first paint.
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    document.querySelectorAll('.bar i').forEach(el=>{ el.style.width = getComputedStyle(el).getPropertyValue('--w').trim() || '0%'; });
+  }));
+</script>
+</body>
+</html>
