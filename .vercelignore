@@ -1,0 +1,14 @@
+.env
+.env.*
+**/.env
+**/.env.*
+data/private
+docs/private
+backend/data
+**/*.db
+**/.venv*
+.venv-lead
+**/node_modules
+demo
+.git
+**/__pycache__

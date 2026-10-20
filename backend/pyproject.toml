@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "PayrollPilot backend: FastAPI + SQLite coordinator for payroll preparation (hackathon 2026-10-20)"
 requires-python = ">=3.13"
 dependencies = [
+  "payrollpilot-core",
   "fastapi>=0.115",
   "uvicorn[standard]>=0.30",
   "pydantic>=2.7",
@@ -24,3 +25,6 @@ include = ["payrollpilot*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.uv.sources]
+payrollpilot-core = { path = "../core" }
