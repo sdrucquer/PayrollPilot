@@ -10,7 +10,7 @@ Band’s installed CLI describes usage as coding-agent, ccusage-backed **catalog
 
 **R19 remains REQUIRED GAP until the actual participating team has a native Band Desktop sessions/tokens/estimated-cost view with valid attribution.** If the team cannot obtain this before recording, tell the lead/owner the criterion remains unmet; a CLI screenshot or app usage view alone does not satisfy the mandatory Desktop view.
 
-C also reported four shared-board tasks and initially no room plan. C is attaching a truthful plan and collecting the exact board, routed handoff and human-decision references; treat plan capture as pending until that message is identified.
+C subsequently reported the real room Plan attached at 14:07:02, the selected allocation case Completed while an unresolved task remains In progress, actual Audit → Resolution and correction → Payroll handoffs/acknowledgements, and the real 13:32 human decision. Use the [redacted capture guide](evidence/band/mandatory-capture-references.md); exact internal identifiers stay private with C/the owner. Desktop footage and visible mention-chip checks are still pending. Native usage attribution is still missing.
 
 Read-only supported-path investigation and exact owner sponsor question: [native usage research](band-native-usage-research.md). No verified generic/OpenRouter → native cost-view ingestion path found; SDK `Emit.USAGE` timeline events do not yet close R19.
 
