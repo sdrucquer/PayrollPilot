@@ -137,3 +137,8 @@ Blockers: none
 Next: A-05 owner-export rates if the owner supplies them (would unblock Stage 1 for workers with verified rates)
 Handoff requested: B: suppress or downgrade offsite_link when payments coverage is not complete (coverage_gap already reports it). E: label this "real Jobber read, partial coverage". Owner: confirm which of the same-named profiles worked this period.
 ```
+
+```
+LANE A status @ 13:27 (test correction to the 13:25 block)
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> 104 passed, 1 failed. The failure is tests/test_f_safety.py::test_t02_apply_clears_the_fixed_exception_from_readiness = XPASS(strict): lane F's strict xfail now passes because the A-04 G1 fix (#27) merged. Lane F should remove the marker. The other 13:25 failure was my stale test (comms routes now present on main); fixed.
+```
