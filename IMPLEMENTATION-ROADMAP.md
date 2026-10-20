@@ -1,6 +1,6 @@
 # Implementation roadmap (2026-10-20, America/Los_Angeles)
 
-Planning started 12:11 PM. Lanes A, B, C launched 12:47 PM; D, E launched 12:52 PM. Deadline 3:30 PM. Feature freeze 2:45 PM. Upload by 3:15 PM. Build time available at launch: about 1 h 55 min before freeze.
+Planning started 12:11 PM. Lanes A, B, C launched 12:31 PM; D, E launched 12:34 PM. Deadline 3:30 PM. Feature freeze 2:45 PM. Upload by 3:15 PM. Build time available at launch: about 2 h 10 min before freeze.
 
 ## Dependency graph
 

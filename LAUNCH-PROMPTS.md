@@ -1,6 +1,6 @@
 # Launch prompts and setup steps
 
-Order the lead used on 2026-10-20: A, B, C (12:47 PM, started from the lead's Claude Code session as linked sessions in worktrees), then D, E (12:52 PM). F runs in Codex. The optional design chat is only worth opening if lane D asks for a spec.
+Order the lead used on 2026-10-20: A, B, C (12:31 PM, started from the lead's Claude Code session as linked sessions in worktrees), then D, E (12:34 PM). F runs in Codex. The optional design chat is only worth opening if lane D asks for a spec.
 
 ## Band setup for Claude Code sessions (verified 12:45 PM)
 The Band app's "Claude Code integration" needs the standalone `claude` CLI with a plugin manager on PATH. The desktop app alone does not provide it. Done by the lead:
