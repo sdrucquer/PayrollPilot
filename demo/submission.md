@@ -1,4 +1,4 @@
-# Submission (draft, 1:08 PM; final by 2:30 PM, values refreshed at 3:05 PM after the render)
+# Submission (draft, 1:02 PM; final by 2:30 PM, values refreshed at 3:05 PM after the render)
 
 Fields follow `DEMO-PLAN.md` "Submission fields". Confirm the organizer's exact field list with the owner; anything marked [OWNER] needs the owner.
 
@@ -23,7 +23,7 @@ A plain-code coordinator owns every state change and permission. Agents hand cas
 
 - **Band**: The Audit, Resolution, and Payroll Prep agents join one Band room with the owner. Audit posts the case, Resolution accepts it, Payroll Prep receives the result, and the shared board task moves to completed. The owner's approval is a reply in that room. *(Proven via CLI run 12:47 PM; Band Desktop screenshot and owner reply pending. Do not claim `band ask` or per-agent Band usage: neither works for these agents.)*
 - **Cognee**: Resolution stores each confirmed fact in Cognee. After a restart, a fresh Payroll Prep process recalls it, validates the referenced records, and changes its next action from asking again to proposing the allocation for owner approval. Memory never creates an approval. *(Proven cross-process 12:40-12:43 PM with local search; LLM-backed graph extraction not used.)*
-- **Photon** *(if proven)*: Approved questions arrive as real iMessages on the owner's phone and replies flow back into the right case. *(Not yet proven at 1:08 PM. Remove this line if it is not proven.)*
+- **Photon** *(if proven)*: Approved questions arrive as real iMessages on the owner's phone and replies flow back into the right case. *(Not yet proven at 1:02 PM. Remove this line if it is not proven.)*
 
 ## Links
 - Repo: https://github.com/sdrucquer/PayrollPilot (public; verify before submitting)
