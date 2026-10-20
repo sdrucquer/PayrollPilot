@@ -26,3 +26,17 @@ Observed in the second run:
 Blockers for a real G2 rehearsal on the live stack:
 1. C-05 must be on main (PR #17 merged into lane/c-04, not main).
 2. Lane A apply bug (fixed exception stays detected) for the "readiness changes" beat.
+
+## Pre-rehearsal check on main, 2026-10-20 13:18 PDT (isolated, fake messaging)
+
+main @ 38ccd0d now has the C-05 routes (lane C #28) and the A-04 exception-resolution fix (#27).
+
+| Backend code | Messaging | Steps | Result |
+|---|---|---|---|
+| main @ 38ccd0d | fake (labeled synthetic) | 21 | 19 pass, 2 FAIL: handoff 503 band_required (Band disabled in the isolated instance), no real reply (`REPLY_WAIT=0`) |
+
+- draft 200 to the masked test handle; approve 200; send 200 (synthetic); retry returned `duplicate: true`.
+- T02 correction: wages delta 0; job labor -20000 / +20000; apply 200 with `readiness_changes` = ci_quote_job_01, ci_manager_pool; Stage 1 unchanged; Job 01 commission blockers 11 -> 10. The readiness beat works.
+- packet internal_draft; workbook verified, 13 sheets, same draft version.
+
+Earlier blockers 1 and 2 are cleared. For the live G2 rehearsal: start the backend with a fresh `PP_DB_PATH`, `PP_BAND_ENABLED=1` and `PP_MESSAGING=bridge`, then run `scripts/f_smoke.sh --send --out tests/integration/REHEARSAL.md` while the owner has the test phone ready to reply.
