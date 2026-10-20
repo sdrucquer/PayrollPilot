@@ -236,7 +236,7 @@ POLICIES = {
     "marketing": {"decision_id": "O04", "status": "job_specific_only", "job_rules": {}},
     "overhead_allocation": {"decision_id": "O05", "status": "unresolved"},
     "manager_split": {"decision_id": "O06", "status": "placeholder",
-                      "split_percent": {"retained": 50, "mgr_a": 10, "mgr_b": 20, "owner": 20},
+                      "split_percent": {"retained": 40, "mgr_a": 15, "mgr_b": 25, "owner": 20},
                       "requires_resolution": ["gross_net_intent", "employer_costs", "losses_reserves_rounding"]},
     "tip_rule": {"decision_id": "O07", "status": "unresolved"},
     "labor_revenue_threshold": {"decision_id": "O06", "status": "unresolved"},
