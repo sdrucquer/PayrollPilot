@@ -40,7 +40,7 @@ def test_snapshot_shape_deidentified_and_honest():
     assert te["112"]["duration_minutes"] is None and te["112"]["open_timer"] is True  # unknown stays null
     assert te["111"]["start"].endswith("-04:00")  # business tz offset
     cov = {r["dataset"]: r for r in s["cycle"]["coverage"]}
-    assert cov["time_entries"]["complete"] is False and cov["time_entries"]["incomplete_reason"] == "pagination_cut"
+    assert cov["time_entries"]["complete"] is False and cov["time_entries"]["incomplete_reason"] == "pagination_cut"  # not all pages
     assert cov["time_entries"]["method"] == "browser_use" and cov["time_entries"]["record_count"] == 3
     assert cov["rates"]["incomplete_reason"] == "not_attempted"
     assert [w["start"] for w in s["cycle"]["workweeks"]] == ["2026-09-28", "2026-10-05"]
@@ -77,3 +77,20 @@ def test_dry_run_makes_no_call(monkeypatch, capsys):
     monkeypatch.setattr(bu, "_call", lambda *a, **k: (_ for _ in ()).throw(AssertionError("network call in dry run")))
     assert bu.main(["read", "--start", "2026-09-28", "--end", "2026-10-11", "--dry-run"]) == 0
     assert '"dry_run": true' in capsys.readouterr().out
+
+
+def test_all_pages_but_no_source_total_is_incomplete_without_pagination_claim():
+    out = json.loads(json.dumps(OUT))
+    out["coverage"] = {"all_pages_viewed": True, "entries_seen": 3, "total_shown_by_jobber": None,
+                       "problems": "approval state not shown in this view"}
+    row = {r["dataset"]: r for r in _snap(out)["cycle"]["coverage"]}["time_entries"]
+    assert row["complete"] is False and row["incomplete_reason"] is None
+    assert "no total" in row["filters"]["incomplete_detail"]
+
+
+def test_same_name_on_two_profiles_flags_duplicate_profiles():
+    out = json.loads(json.dumps(OUT))
+    out["workers"].append({"name": "Placeholder Two", "jobber_id": None})
+    w = {x["source_name"]: x for x in _snap(out)["workers"]}
+    assert w["Placeholder Two"]["identity_status"] == "duplicate_profiles"
+    assert w["Placeholder One"]["identity_status"] == "unmatched"

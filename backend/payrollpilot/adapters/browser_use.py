@@ -278,9 +278,14 @@ def to_snapshot(output: dict[str, Any], *, start: str, end: str, run_id: str, ca
                    {(w.get("name") or "").strip() for w in output.get("workers") or []} - {""})
     wid = {n: f"wkr_{i + 1:02d}" for i, n in enumerate(names)}
     wjid = {(w.get("name") or "").strip(): w.get("jobber_id") for w in output.get("workers") or []}
+    name_counts: dict[str, int] = {}
+    for w in output.get("workers") or []:
+        n = (w.get("name") or "").strip()
+        name_counts[n] = name_counts.get(n, 0) + 1
     workers = [{"id": wid[n], "display_name": f"Worker {_letters(i)}", "source_name": n,
                 "jobber_ref": ref(wjid.get(n) or f"name:{content_hash(n)[7:19]}"), "gusto_ref": None,
-                "identity_status": "unmatched", "rates": [], "payment_route": "unknown", "provenance": "real"}
+                # Same display name on 2+ Jobber profiles: entries cannot be told apart by name.
+                "identity_status": "duplicate_profiles" if name_counts.get(n, 0) > 1 else "unmatched", "rates": [], "payment_route": "unknown", "provenance": "real"}
                for i, n in enumerate(names)]
 
     def job_key(title: str | None, number: str | None) -> str | None:
@@ -324,10 +329,22 @@ def to_snapshot(output: dict[str, Any], *, start: str, end: str, run_id: str, ca
     cov = output.get("coverage") or {}
     seen = cov.get("entries_seen")
     shown = cov.get("total_shown_by_jobber")
-    complete = bool(cov.get("all_pages_viewed")) and not cov.get("problems") and (shown is None or shown == len(entries))
-    reason = None if complete else ("permission" if "sign" in (cov.get("problems") or "").lower() else "pagination_cut")
+    all_pages = bool(cov.get("all_pages_viewed"))
+    problems = cov.get("problems") or ""
+    complete = all_pages and not problems and shown is not None and shown == len(entries)
+    if complete:
+        reason, detail = None, None
+    elif "not signed in" in problems.lower() or "sign in" in problems.lower() and not all_pages:
+        reason, detail = "permission", "not signed in"
+    elif not all_pages or (shown is not None and shown != len(entries)):
+        reason, detail = "pagination_cut", "not every page viewed or count differs from the source total"
+    else:
+        # Every page viewed, but the source shows no total to verify against and/or fields are missing.
+        reason, detail = None, ("all pages viewed; source shows no total to verify the count"
+                                + ("; some fields not shown by the source view (see problems)" if problems else ""))
     filters = {"date_range": [start, end], "filters_used": cov.get("filters_used"), "entries_seen_reported": seen,
-               "total_shown_by_jobber": shown, "problems": cov.get("problems"), "run_id": run_id}
+               "total_shown_by_jobber": shown, "all_pages_viewed": all_pages, "incomplete_detail": detail,
+               "problems": cov.get("problems"), "run_id": run_id}
 
     def cov_row(dataset: str, count: int | None, done: bool, why: str | None, method: str = "browser_use") -> dict[str, Any]:
         return {"system": "jobber", "dataset": dataset, "range_start": start, "range_end": end,
@@ -421,6 +438,25 @@ def read_period(start: str, end: str, *, max_cost_usd: float = 5.0, poll_s: floa
             "workers": len(snap["workers"]), "jobs": len(snap["jobs"])}
 
 
+def rebuild(run_id: str, start: str, end: str) -> dict[str, Any]:
+    """Re-transform a completed run's stored output (GET /runs/{id}); no new browsing."""
+    from datetime import datetime
+
+    full = _call("GET", f"/runs/{run_id}")
+    if full.get("status") != "completed" or not isinstance(full.get("output"), dict):
+        raise BrowserUseError(f"run {run_id} is {full.get('status')}")
+    captured = full.get("updatedAt") or datetime.now().astimezone().isoformat(timespec="seconds")
+    snap = to_snapshot(full["output"], start=start, end=end, run_id=run_id, captured_at=captured,
+                       tz=os.environ.get("PP_BUSINESS_TZ") or _NEW_YORK, payday=os.environ.get("PP_PAYDAY") or None,
+                       existing_run_status=os.environ.get("PP_EXISTING_RUN_STATUS") or "unknown")
+    path = snapshot_path(start, end)
+    path.write_text(json.dumps(snap, indent=1))
+    cov = next(r for r in snap["cycle"]["coverage"] if r["dataset"] == "time_entries")
+    return {"run_id": run_id, "snapshot": str(path), "cycle_id": snap["cycle"]["id"],
+            "coverage": {k: cov[k] for k in ("record_count", "complete", "incomplete_reason")},
+            "incomplete_detail": cov["filters"].get("incomplete_detail")}
+
+
 def main(argv: list[str] | None = None) -> int:
     from dotenv import load_dotenv
 
@@ -439,6 +475,10 @@ def main(argv: list[str] | None = None) -> int:
     rd.add_argument("--dry-run", action="store_true")
     rd.add_argument("--max-cost-usd", type=float, default=5.0)
     rd.add_argument("--timeout-s", type=float, default=2280.0)
+    rb = sub.add_parser("rebuild")
+    rb.add_argument("--run-id", required=True)
+    rb.add_argument("--start", required=True)
+    rb.add_argument("--end", required=True)
     args = ap.parse_args(argv)
     try:
         if args.cmd == "check":
@@ -449,6 +489,8 @@ def main(argv: list[str] | None = None) -> int:
             out = open_login(args.timeout_minutes)
         elif args.cmd == "status":
             out = status()
+        elif args.cmd == "rebuild":
+            out = rebuild(args.run_id, args.start, args.end)
         elif args.cmd == "read":
             from datetime import date
 
