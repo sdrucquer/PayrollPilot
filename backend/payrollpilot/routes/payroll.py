@@ -12,7 +12,7 @@ from .. import core_bridge, corrections, cycles, kinds
 from ..contracts import CorrectionRequest
 from ..coordinator import is_stopped
 from ..events import emit, new_id
-from ..settings import REPO_ROOT
+from ..settings import REPO_ROOT, load_private_policies
 
 router = APIRouter()
 
@@ -39,7 +39,7 @@ def apply(correction_id: str, request: Request):
     if is_stopped(db):
         return JSONResponse(status_code=409, content={"error": "run_stopped"})
     try:
-        return corrections.apply(db, correction_id)
+        return corrections.apply(db, correction_id, load_private_policies(request.app.state.pp.settings))
     except corrections.CorrectionError as e:
         return JSONResponse(status_code=e.status, content={"error": e.code, "detail": e.detail})
 
@@ -54,22 +54,13 @@ def get_correction(correction_id: str, request: Request):
 
 @router.get("/api/cycles/{cycle_id}/readiness")
 def readiness(cycle_id: str, request: Request):
-    db = request.app.state.pp.db
-    view = cycles.corrected_snapshot(db, cycle_id)
-    if view is None:
+    st = request.app.state.pp
+    if cycles.get_cycle(st.db, cycle_id) is None:
         raise HTTPException(404, f"cycle {cycle_id} not found")
-    if core_bridge.stage1_readiness is None:
-        return _501("payrollpilot_core.readiness.stage1_readiness / readiness_for")
-    exceptions = cycles.list_exceptions(db, cycle_id)
-    items = view.get("compensation_items") or []
-    policies = view.get("policies") or {}
-    out_items = []
-    for item in items:
-        it = dict(item)
-        if core_bridge.readiness_for is not None:
-            it["readiness"] = core_bridge.readiness_for(item, exceptions, policies)
-        out_items.append(it)
-    return {"stage1": core_bridge.stage1_readiness(view.get("workers") or [], exceptions), "items": out_items}
+    r = corrections.readiness_view(st.db, cycle_id, load_private_policies(st.settings))
+    if r is None:
+        return _501("payrollpilot_core.readiness.cycle_readiness")
+    return {"stage1": r["stage1"], "items": r["items"], "workers": r.get("workers"), "stage2_summary": r.get("stage2_summary")}
 
 
 def _packet(db, cycle_id: str):
@@ -79,7 +70,7 @@ def _packet(db, cycle_id: str):
     corrs = [c for c in db.list_records(kinds.CORRECTION, cycle_id=cycle_id)]
     return core_bridge.build_packet(
         cycles.get_cycle(db, cycle_id), view.get("workers") or [], view.get("time_entries") or [],
-        view.get("compensation_items") or [], cycles.list_exceptions(db, cycle_id), corrs,
+        (corrections.readiness_view(db, cycle_id) or {}).get("items") or [], cycles.list_exceptions(db, cycle_id), corrs,
     )
 
 

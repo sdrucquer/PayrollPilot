@@ -83,16 +83,22 @@ def with_target_version(db: Database, corr: dict[str, Any]) -> dict[str, Any]:
     return corr
 
 
-def _readiness_snapshot(db: Database, cycle_id: str) -> dict[str, Any] | None:
-    """Readiness via core when available; None means 'not computed', never 'ready'."""
-    if core_bridge.stage1_readiness is None:
+def readiness_view(db: Database, cycle_id: str, policies: dict[str, Any] | None = None) -> dict[str, Any] | None:
+    """Readiness via core on the corrected view; None means 'not computed', never 'ready'."""
+    if core_bridge.cycle_readiness is None:
         return None
     view = cycles.corrected_snapshot(db, cycle_id) or {}
-    exceptions = cycles.list_exceptions(db, cycle_id)
-    return {"stage1": core_bridge.stage1_readiness(view.get("workers") or [], exceptions)}
+    return core_bridge.cycle_readiness(view, cycles.list_exceptions(db, cycle_id), policies)
 
 
-def apply(db: Database, correction_id: str) -> dict[str, Any]:
+def _readiness_snapshot(db: Database, cycle_id: str, policies: dict[str, Any] | None = None) -> dict[str, Any] | None:
+    r = readiness_view(db, cycle_id, policies)
+    if r is None:
+        return None
+    return {"stage1": r["stage1"], **{i["id"]: i.get("readiness") for i in r.get("items") or []}}
+
+
+def apply(db: Database, correction_id: str, policies: dict[str, Any] | None = None) -> dict[str, Any]:
     corr = db.get_record(kinds.CORRECTION, correction_id)
     if corr is None:
         raise CorrectionError(404, "correction_not_found", f"correction {correction_id} not found")
@@ -104,7 +110,7 @@ def apply(db: Database, correction_id: str) -> dict[str, Any]:
     sv = source_versions_for_correction(db, corr)
     check_apply(corr, approval, sv)  # raises PermissionDenied -> 403
     cycle_id = corr["cycle_id"]
-    before_ready = _readiness_snapshot(db, cycle_id)
+    before_ready = _readiness_snapshot(db, cycle_id, policies)
 
     applied = dict(corr, state="applied", applied_at=now_iso(), approval_id=approval["id"])
     db.put_record(kinds.CORRECTION, applied)
@@ -114,17 +120,24 @@ def apply(db: Database, correction_id: str) -> dict[str, Any]:
                "calculation_impact": corr.get("calculation_impact")})
 
     audit = cycles.run_cycle_audit(db, cycle_id)
-    after_ready = _readiness_snapshot(db, cycle_id)
+    after_ready = _readiness_snapshot(db, cycle_id, policies)
     emit(db, type="recalc.completed", actor="payroll", cycle_id=cycle_id,
          summary="Re-audited corrected view" + ("" if after_ready is not None else "; readiness not computed (core not merged)"),
          refs={"correction_id": correction_id, "exception_count": len(audit["exceptions"]),
                "readiness": "core" if after_ready is not None else "missing"})
     readiness_changes = None
     if after_ready is not None:
-        readiness_changes = [] if before_ready == after_ready else [{"scope": "stage1", "before": (before_ready or {}).get("stage1"), "after": after_ready["stage1"]}]
-        if readiness_changes:
+        before_ready = before_ready or {}
+        readiness_changes = [
+            {"scope": k, "before": before_ready.get(k), "after": v}
+            for k, v in after_ready.items() if before_ready.get(k) != v
+        ]
+        # Only affected items get an event (PRD: update only the relevant readiness).
+        for ch in readiness_changes:
             emit(db, type="readiness.changed", actor="payroll", cycle_id=cycle_id,
-                 summary="Stage 1 readiness changed after correction", refs={"correction_id": correction_id})
+                 summary=f"Readiness changed for {ch['scope']} after correction {correction_id}",
+                 refs={"correction_id": correction_id, "scope": ch["scope"],
+                       "before_state": (ch["before"] or {}).get("state"), "after_state": (ch["after"] or {}).get("state")})
     return {"correction": applied, "readiness_changes": readiness_changes, "exceptions": audit["exceptions"]}
 
 

@@ -80,3 +80,12 @@ Blockers: lane B core modules; A-03 still needs BROWSER_USE_API_KEY + cycle date
 Next: wire real core signatures when B pushes; A-03 when unblocked; A-05 after
 Handoff requested: C/D: message approval target_version = batch text_hash = permissions.text_hash(text) (CONTRACTS); correction approval target_version = the `target_version` field returned by POST /api/corrections and GET /api/corrections/{id}.
 ```
+
+```
+LANE A status @ 12:58
+Done: readiness route rewired to lane B's cycle_readiness(view, exceptions, policies) per B's request; private policy overrides read from data/private/policy.json (PP_POLICY_FILE) when present, else None. Integration check with lane B PR #11 core installed temporarily into backend/.venv (from origin/lane/b-03): A-02 expected-exceptions acceptance now PASSES (15 of 15 by category + entity refs, all with evidence + provenance).
+Tests run: with lane B core: cd backend && .venv/bin/pytest -q tests/ -> 36 passed, 0 skipped, 0 failed. Without core (uninstalled after): 34 passed, 2 skipped, 0 failed.
+Evidence: live uvicorn + scripts/smoke.sh cycle_synthetic_v1 with core -> 15 exceptions, 15 exception.detected events; GET /readiness -> stage1 partial "review-ready for 1 of 4 workers; 3 unresolved; 1 out-of-cycle entry excluded"; quote job_01 pending (exception blockers), quote job_02 not_meaningful, marketing pending policy_missing:O04, tip pending policy_missing:O07 + prior_payment_unknown, manager_pool blocked policy_missing:O05/O06 + coverage:expenses.
+Blockers: B-04/B-05 (packet, workbook, propose_correction) for the rest of A-04; A-03 needs backend/.env key + dates.
+Next: wire propose_correction/packet/workbook when B pushes; then A-03/A-05.
+```
