@@ -1,3 +1,4 @@
+import { pendingMessage } from './pending-message'
 import type { Packet, Thread } from './api'
 import type { CompensationItem, LocalCorrection, MessageBatch, PayrollCycle, PayrollException, PPEvent, ReadinessResponse } from './contracts'
 
@@ -53,10 +54,8 @@ export type Pending =
   | null
 
 export function findPending(d: Data, declined: Set<string>): Pending {
-  for (const t of d.threads) {
-    const b = t.batches.find((x) => (x.state === 'draft' || x.state === 'approved') && !x.declined_at && !declined.has(x.id))
-    if (b) return { kind: 'message', batch: b, exceptions: d.exceptions.filter((e) => b.exception_ids.includes(e.id)) }
-  }
+  const b = pendingMessage(d.threads.flatMap((t) => t.batches), d.events, declined)
+  if (b) return { kind: 'message', batch: b, exceptions: d.exceptions.filter((e) => b.exception_ids.includes(e.id)) }
   for (const t of d.threads) {
     if (t.correction && (t.correction.state === 'proposed' || t.correction.state === 'approved') && !declined.has(t.correction.id))
       return { kind: 'correction', correction: t.correction, exception: t.exception }
