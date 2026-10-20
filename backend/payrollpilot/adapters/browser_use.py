@@ -186,7 +186,7 @@ def build_task(start: str, end: str) -> str:
         "You are doing a READ-ONLY data collection in Jobber for payroll review. The browser profile is already "
         "signed in to Jobber.\n"
         f"Goal: list every timesheet/time entry for ALL team members with a date from {start} to {end} inclusive.\n"
-        "Where to look: Jobber's Timesheets area (Team / Timesheets). Use only date-range filters and paging.\n"
+        "Where to look: Jobber's Timesheets area and Reports > Timesheets. Use only read-only views, date-range filters and paging.\n"
         "STRICT RULES:\n"
         "- Do not click Approve, Edit, Delete, Save, Start/Stop timer, Send, or any button that changes data. "
         "Do not type into any field except date-range and search filters. If a dialog would change data, close it.\n"
@@ -195,6 +195,9 @@ def build_task(start: str, end: str) -> str:
         "- Record values exactly as shown; do not compute, round, or infer missing values (use null).\n"
         "- View every page of results. Report whether all pages were viewed and how many entries you saw, and "
         "the total Jobber shows if it shows one.\n"
+        "- Cross-check the entry total in the Timesheets report; team-member counts are not entry totals. "
+        "Read actual entry ids and approval states from the page or its already-loaded read-only responses when available. "
+        "Do not issue mutations, invent ids, infer approval, or invent per-entry URLs when only worker/day links exist.\n"
         "Also list the distinct jobs and team members that appear in those entries (no other Jobber data)."
     )
 
@@ -338,6 +341,8 @@ def to_snapshot(output: dict[str, Any], *, start: str, end: str, run_id: str, ca
         reason, detail = "permission", "not signed in"
     elif not all_pages or (shown is not None and shown != len(entries)):
         reason, detail = "pagination_cut", "not every page viewed or count differs from the source total"
+    elif shown is not None:
+        reason, detail = None, "source count verified; other source-view limitations remain (see problems)"
     else:
         # Every page viewed, but the source shows no total to verify against and/or fields are missing.
         reason, detail = None, ("all pages viewed; source shows no total to verify the count"
@@ -374,6 +379,21 @@ def to_snapshot(output: dict[str, Any], *, start: str, end: str, run_id: str, ca
 def merge_snapshots(old: dict[str, Any], new: dict[str, Any]) -> dict[str, Any]:
     """Second read of the same range: one record per source id (T13 dedupe); newer capture wins."""
     merged = dict(new)
+    incoming = new.get("time_entries") or []
+    time_coverage = next((r for r in new["cycle"]["coverage"] if r["dataset"] == "time_entries"), {})
+    proof = time_coverage.get("filters") or {}
+    source_ids = [te["source_ref"]["record_id"] for te in incoming]
+    same_range = all(old["cycle"].get(k) == new["cycle"].get(k) for k in ("period_start", "period_end"))
+    # A verified full source enumeration supersedes the older enumeration. In
+    # particular, newly recovered real ids must not coexist with their old
+    # content-hash fallback ids and double-count the same work.
+    authoritative = (same_range and proof.get("all_pages_viewed") is True
+                     and proof.get("total_shown_by_jobber") == len(incoming)
+                     and proof.get("entries_seen_reported") == len(incoming)
+                     and len(set(source_ids)) == len(incoming)
+                     and all(rid and not rid.startswith("te:") for rid in source_ids))
+    if authoritative:
+        return merged
     by_ref = {te["source_ref"]["record_id"]: te for te in old.get("time_entries") or []}
     for te in new.get("time_entries") or []:
         by_ref[te["source_ref"]["record_id"]] = te

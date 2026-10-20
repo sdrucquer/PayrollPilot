@@ -59,6 +59,28 @@ def test_second_read_dedupes_by_source_id():
     assert len(merged["time_entries"]) == len(a["time_entries"]) == 3
 
 
+def test_verified_full_read_replaces_fallback_ids_without_double_counting():
+    out = json.loads(json.dumps(OUT))
+    out["time_entries"][2]["jobber_id"] = "113"
+    out["coverage"] = {"all_pages_viewed": True, "entries_seen": 3, "total_shown_by_jobber": 3,
+                       "problems": "No per-entry URL exists; rates were not read"}
+    refreshed = _snap(out)
+    merged = bu.merge_snapshots(_snap(), refreshed)
+    assert len(merged["time_entries"]) == 3
+    assert {e["source_ref"]["record_id"] for e in merged["time_entries"]} == {"111", "112", "113"}
+    assert merged["cycle"]["coverage"][0]["complete"] is False  # Limitations remain honest.
+
+
+def test_verified_count_with_other_limitations_does_not_claim_no_source_total():
+    out = json.loads(json.dumps(OUT))
+    out["coverage"] = {"all_pages_viewed": True, "entries_seen": 3, "total_shown_by_jobber": 3,
+                       "problems": "No per-entry URL exists"}
+    row = _snap(out)["cycle"]["coverage"][0]
+    assert row["complete"] is False
+    assert "source count verified" in row["filters"]["incomplete_detail"]
+    assert "no total" not in row["filters"]["incomplete_detail"]
+
+
 def test_private_snapshot_loads_and_audits(settings, tmp_path):
     snaps = tmp_path / "snapshots"
     snaps.mkdir()

@@ -30,7 +30,7 @@ This is an evidence snapshot from `origin/main` at `bcb5251` (live findings intr
 | Cognee | Scoped fact written and recalled by a fresh process; recall changed the proposed next action without creating approval. Local CHUNKS search / GLiNER; no graph-completion claim. In-app footage pending. | [R13–R15](demo/evidence-matrix.md), [cross-process proof](demo/evidence/cognee/recall-run.txt) |
 | Photon iMessage | Real allowlisted round trip 1:12–1:14; 1:32 owner-approved batch, correlated TEST REPLY and live parsing. Final phone/app footage pending. | [R07–R09](demo/evidence-matrix.md), [main report](demo/evidence/logs/live-flow-main27b.txt) |
 | OpenRouter | Main reports live strict-schema parse at 1:09 and 1:32, with usage recorded; vague/injected replies handled by deterministic guards. Final usage clip pending. | [main report](demo/evidence/logs/live-flow-main27b.txt), R10 / R19 |
-| Browser Use / Jobber | Real read, **partial coverage**: 58 time entries, 10 workers, 13 jobs. Totals, source ids and approval state unverified; rates/payroll/payments/expenses not read. Film stays synthetic. | [R21](demo/evidence-matrix.md), [coverage report](demo/evidence/logs/live-flow-main27b.txt) |
+| Browser Use / Jobber | Real read, **partial payroll coverage**: 58 entries with verified source IDs, source total and approval states; 10 worker profiles, 12 actual jobs. All 58 are unapproved in Jobber. Per-entry URLs are not exposed; rates/payroll/payments/expenses remain unread. Film stays synthetic. | [R21](demo/evidence-matrix.md), [coverage report](demo/evidence/logs/live-flow-main27b.txt) |
 | Gusto draft / source writes / submission | Unavailable; no executor. | [scope boundaries](docs/PRODUCT-STATEMENT.md) |
 
 ## Architecture and local run
