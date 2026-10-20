@@ -48,3 +48,34 @@ main @ 38ccd0d now has the C-05 routes (lane C #28) and the A-04 exception-resol
 - packet internal_draft; workbook verified, 13 sheets, same draft version.
 
 Earlier blockers 1 and 2 are cleared. For the live G2 rehearsal: start the backend with a fresh `PP_DB_PATH`, `PP_BAND_ENABLED=1` and `PP_MESSAGING=bridge`, then run `scripts/f_smoke.sh --send --out tests/integration/REHEARSAL.md` while the owner has the test phone ready to reply.
+
+## Rehearsal 2026-10-20 14:20 PDT (send=0, observe=1)
+
+**Current operating instruction:** the fresh-backend / `--send` directions above are historical and superseded for the active recording stack. Keep the existing backend and bridge running; use only `--observe` here. Default/`--send` mutates cases and must not be used on the owner's active loop.
+
+GET-only observation of existing evidence; no new send, reply, approval, correction, workbook or recall was performed. Missing required evidence fails; skipped actions are not proofs.
+
+| # | step | result | http | detail |
+|---|---|---|---|---|
+| 1 | backend health | PASS | 200 | existing process; no restart |
+| 2 | active real comms | PASS | 200 | requires bridge, Cognee, Band CLI and configured model/room |
+| 3 | bridge health | PASS | 200 | requires real bridge |
+| 4 | web served | PASS | 200 | HTTP availability only; API-mode UI must be checked separately |
+| 5 | existing cycle | PASS | 200 | existing cycle; not reloaded or audited |
+| 6 | exception evidence | PASS | 200 | evidence present; no private record text printed |
+| 7 | readiness available | PASS | 200 | readiness reported; blocked items remain blocked |
+| 8 | review packet | PASS | 200 | internal draft only; nothing submitted |
+| 9 | event trail | PASS | 200 | current cycle audit trail |
+| 10 | Band handoff evidence | PASS | 200 | recorded handoff.accepted count=2; no new action performed |
+| 11 | recorded live round trip | PASS | 200 | requires correlated bridge send, inbound and parsed reply |
+| 12 | owner approval log | PASS | 200 | recorded approval.granted count=3; no new action performed |
+| 13 | correction applied | PASS | 200 | recorded correction.applied count=1; no new action performed |
+| 14 | readiness change log | PASS | 200 | recorded readiness.changed count=2; no new action performed |
+| 15 | Cognee write log | PASS | 200 | recorded memory.written count=2; no new action performed |
+| 16 | Cognee recall log | PASS | 200 | requires recorded Cognee adapter; HTTP 200 alone is insufficient |
+| 17 | memory action change log | PASS | 200 | requires recorded proposal to job_02 with resolution refs; full before/after proof belongs in C ledger |
+| 18 | workbook verification log | PASS | 200 | requires matching generated/verified artifact; no workbook generated now |
+| 19 | new effects | SKIP | - | owner alone approves; send/apply/export/recall not invoked |
+| 20 | exact T15 comparison | SKIP | - | use C's captured response before/after and approval_created=false; event counts alone do not establish every T15 condition |
+
+Result: 0 FAIL of 20 steps.
