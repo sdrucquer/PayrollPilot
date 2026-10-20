@@ -1,0 +1,16 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-10-20T20:05:00Z"},
+  "title": "PayrollPilot UI Mockups",
+  "launch": {"view": "canvas"},
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1380, "title": "Home · payroll in progress", "expand": "fill"},
+    "Ready.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 1380, "title": "Home · payroll ready for review", "expand": "fill"}
+  },
+  "order": ["Main.dc.html", "Ready.dc.html"],
+  "notes": {
+    "t1": {"x": 0, "y": -300, "text": "PayrollPilot · one screen for the owner", "kind": "title1", "maxW": 2640}
+  },
+  "designSystems": []
+}

@@ -1,5 +1,22 @@
 # PayrollPilot UI design notes (lane G)
 
+## Current direction (owner decision, 1:10 PM): one calm screen
+
+The owner asked for an aggressive simplification. PayrollPilot should feel like an AI employee doing payroll in the background and only asking for approval when necessary. The primary interface is a single centered column (max 760px) with four parts, in this order:
+
+1. **Needs your approval** (only when something is waiting): the exact drafted message, the respondent as a role with a masked number, and three buttons: Approve & send, Edit, Decline. These map to the existing contracts (POST /api/approvals with the text hash as target_version, then POST /api/messages/{batch}/send; Edit invalidates the approval and requires re-approval). Never bypass them.
+2. **Progress**: six plain-English steps with completed / current / upcoming states, grouped so Stage 1 (Employee wages) and Stage 2 (Financial reconciliation) stay distinguishable: Gathering employee hours, Auditing hours, Resolving missing information, Preparing employee wages, Reconciling job expenses and commissions, Payroll ready for your review.
+3. **Activity**: plain-English lines with times ("Checked 42 timesheets", "Found 3 missing job assignments", "Drafted a question for the Ops lead", "Ops lead replied", "Verified the correction", "Employee wages ready for review"). Test replies carry a small "test reply" tag.
+4. **Payroll summary** (ready state): totals per item (wages, commissions & tips, manager pool), what is verified, what is left out until resolved with a Decide button, and ONE action: "Approve this draft". Copy says explicitly that this does not submit to Gusto; the top bar badge reads "Gusto · not submitted".
+
+Removed from the main interface: multi-column layouts, exception tables, record ids and hashes, evidence panels, raw agent logs, filters and categories, per-agent pages. That detail can live behind "Show everything" or a secondary screen for the pilot team, never on the owner's home.
+
+Sources: `design/claude-design/Main.dc.html` (in progress) and `Ready.dc.html` (ready state), built natively in Claude Design; canvas: https://claude.ai/artifact/55usfvGbaCVYAWY2piYaeC (private until shared). Names stay as roles (Ops lead); no personal names in committed files.
+
+Visual language for this direction: page `#F2F2F7`, white cards radius 22px with a very soft shadow, body 15px, titles 32px/700, uppercase 12px section labels in `#6E6E73`, iOS blue `#0A7AFF` for the single primary action and the current step, green `#1F8A3B` for done/verified, orange `#B35C00` for waiting/test labels, `—` for unknown money. Buttons are 44–46px pills; the primary one is the only filled blue element on screen.
+
+## Earlier exploration (superseded for the owner's home; still useful for the pilot team's detail views)
+
 Static mockups for lane D (production UI) and lane E (video). Visual reference only, not a spec to rebuild pixel-for-pixel.
 
 - `command-center.html` — cycle overview: Stage 1 wages, Stage 2 reconciliation (quote commission, tips, manager pool as separate cards), agents, open exceptions, questions awaiting replies, next actions, "Gusto: not prepared".
