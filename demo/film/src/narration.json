@@ -1,19 +1,89 @@
 {
-  "_comment": "Mirror of demo/script.md 'Narration text'. start = seconds into the film. caption=false when the words are already on screen.",
-  "lines": [
-    {"id": "01", "start": 0.6, "caption": false, "text": "Friday, 4:52 PM."},
-    {"id": "02", "start": 3.4, "caption": true, "text": "Every two weeks, a home-service business owner reconciles hours, jobs, receipts and commissions by hand. Across three tools that don't talk. And one spreadsheet that remembers nothing."},
-    {"id": "03", "start": 15.8, "caption": false, "text": "What if payroll came to you already checked, with the questions already asked, and nothing paid until you said so?"},
-    {"id": "04", "start": 27.4, "caption": false, "text": "PayrollPilot. Payroll, prepared. Never guessed."},
-    {"id": "05", "start": 32.8, "caption": true, "text": "Three agents share one model, not one set of powers. Audit finds issues. Resolution asks people. Payroll Prep assembles the result. Plain code owns every approval, so no agent, message or memory can grant itself permission. They hand off in Band Desktop, and remember with Cognee."},
-    {"id": "06", "start": 51.2, "caption": true, "text": "A real pay period, loaded from a synthetic snapshot, every record labeled. Wages are Stage 1. Commissions, tips and the manager pool are Stage 2, each with its own state. Nothing rolls up to complete."},
-    {"id": "07", "start": 65.4, "caption": true, "text": "The audit agent found an already-paid shift logged to the wrong job. It can't ask anyone, so it hands the case to Resolution in a Band Desktop room shared by all three agents and the owner. The board moves. The human decision is a real Band prompt."},
-    {"id": "08", "start": 83.4, "caption": true, "text": "Resolution drafts two questions for the ops lead. The owner approves the exact text and recipient; change a character and the approval dies. In test mode, only the owner's phone is allowed. And here it is: a real iMessage, through Photon."},
-    {"id": "09", "start": 100.4, "caption": true, "text": "A vague yes to two questions isn't an answer. Both are marked ambiguous, and a bounded clarification goes out: same person, same issues, new approval. The clear reply lands in the right case, quote attached."},
-    {"id": "10", "start": 115.4, "caption": true, "text": "The confirmed fact becomes a local correction, never a source write, approved separately. Wages don't move; that shift was already paid. Job costing does, and only the readiness that depends on it changes."},
-    {"id": "11", "start": 129.4, "caption": true, "text": "Now the process restarts. A different agent, Payroll Prep, meets a disposal receipt on that same off-site job. It recalls the earlier resolution from Cognee, checks the references still exist, and proposes instead of re-asking. Memory never creates an approval."},
-    {"id": "12", "start": 146.4, "caption": true, "text": "A review packet and a twelve-ledger workbook, verified against each other. Missing policy shows as a blocker, with its code. And the destination is honest: Gusto, not prepared. Nothing was submitted."},
-    {"id": "13", "start": 161.0, "caption": true, "text": "Everything you saw was labeled: what was live, what was synthetic, what was a test reply."},
-    {"id": "14", "start": 169.6, "caption": false, "text": "PayrollPilot. Payroll, prepared."}
-  ]
+ "_comment": "Mirror of demo/script.md 'Narration text'. start = seconds into the film. caption=false when the words are already on screen.",
+ "lines": [
+  {
+   "id": "01",
+   "start": 0.6,
+   "caption": false,
+   "text": "Friday, 4:52 PM."
+  },
+  {
+   "id": "02",
+   "start": 3.4,
+   "caption": true,
+   "text": "Every two weeks, a home-service business owner reconciles hours, jobs, receipts and commissions by hand. Across three tools that don't talk. And one spreadsheet that remembers nothing."
+  },
+  {
+   "id": "03",
+   "start": 15.8,
+   "caption": false,
+   "text": "What if payroll came to you already checked, with the questions already asked, and nothing paid until you said so?"
+  },
+  {
+   "id": "04",
+   "start": 27.4,
+   "caption": false,
+   "text": "PayrollPilot. Payroll, prepared. Never guessed."
+  },
+  {
+   "id": "05",
+   "start": 32.8,
+   "caption": true,
+   "text": "Three agents share one model, not one set of powers. Audit finds issues. Resolution asks people. Payroll Prep assembles the result. Plain code owns every approval, so no agent, message or memory can grant itself permission. They hand off in Band Desktop, and remember with Cognee."
+  },
+  {
+   "id": "06",
+   "start": 51.2,
+   "caption": true,
+   "text": "A real pay period, loaded from a synthetic snapshot, every record labeled. Wages are Stage 1. Commissions, tips and the manager pool are Stage 2, each with its own state. Nothing rolls up to complete."
+  },
+  {
+   "id": "07",
+   "start": 65.4,
+   "caption": true,
+   "text": "The audit agent found an already-paid shift logged to the wrong job. It can't ask anyone, so it hands the case to Resolution in a Band Desktop room shared by all three agents and the owner. The board moves, and the owner's decision is a reply in that same room."
+  },
+  {
+   "id": "08",
+   "start": 83.4,
+   "caption": true,
+   "text": "Resolution drafts two questions for the ops lead. The owner approves the exact text and recipient; change a character and the approval dies. In test mode, only the owner's phone is allowed. And here it is: a real iMessage, through Photon."
+  },
+  {
+   "id": "09",
+   "start": 100.4,
+   "caption": true,
+   "text": "A vague yes to two questions isn't an answer. Both are marked ambiguous, and a bounded clarification goes out: same person, same issues, new approval. The clear reply lands in the right case, quote attached."
+  },
+  {
+   "id": "10",
+   "start": 115.4,
+   "caption": true,
+   "text": "The confirmed fact becomes a local correction, never a source write, approved separately. Wages don't move; that shift was already paid. Job costing does, and only the readiness that depends on it changes."
+  },
+  {
+   "id": "11",
+   "start": 129.4,
+   "caption": true,
+   "text": "Now the process restarts. A different agent, Payroll Prep, meets a disposal receipt on that same off-site job. It recalls the earlier resolution from Cognee, checks the references still exist, and proposes instead of re-asking. Memory never creates an approval."
+  },
+  {
+   "id": "12",
+   "start": 146.4,
+   "caption": true,
+   "text": "A review packet and a twelve-ledger workbook, verified against each other. Missing policy shows as a blocker, with its code. And the destination is honest: Gusto, not prepared. Nothing was submitted."
+  },
+  {
+   "id": "13",
+   "start": 161.0,
+   "caption": true,
+   "text": "Everything you saw was labeled: what was live, what was synthetic, what was a test reply."
+  },
+  {
+   "id": "14",
+   "start": 169.6,
+   "caption": false,
+   "text": "PayrollPilot. Payroll, prepared."
+  }
+ ]
 }

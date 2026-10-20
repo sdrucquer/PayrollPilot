@@ -20,12 +20,12 @@ export const BEATS: Beat[] = [
       pending: ['Progress strip: Collect → Audit → Resolve → Prepare → Review, agent on each step', 'Stage 1 wages row + three Stage 2 chips with first blocker', 'Chips: Gusto not prepared · synthetic data · test mode']}],
   },
   {
-    key: 'b2', n: '02', title: 'Audit hands off to Resolution', sub: 'Through a Band Desktop room, with a human decision',
+    key: 'b2', n: '02', title: 'Audit hands off to Resolution', sub: 'Through a Band Desktop room, with the owner deciding',
     segments: [
       {layout: 'screen', screen: 's2a-handoff.mov', route: 'localhost:5173 · PayrollPilot', chip: {kind: 'SEEDED ISSUE', text: 'already-paid shift on the wrong job'}, share: 0.4,
         pending: ['Zone 2 row: Oct 1 shift on Job 01, scheduled on Job 02 (seeded)', 'Zone 3: observed vs expected, evidence, wages none / job costing', 'Strip: Audit → Resolution']},
       {layout: 'screen', screen: 's2b-band-room.mov', route: 'Band Desktop · PayrollPilot Cases', chip: {kind: 'REAL', text: 'Band Desktop'}, share: 0.6,
-        pending: ['Room with pp-audit, pp-resolution, pp-payroll', 'Case card posted, board item moves', 'band ask decision answered by the owner']},
+        pending: ['Room with pp-audit, pp-resolution, pp-payroll + owner', 'Case card → accepted reply; board task → completed', 'Owner replies to [decision.requested] in the room']},
     ],
   },
   {

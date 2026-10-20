@@ -14,7 +14,7 @@ Capture format for every screen clip: QuickTime "Record Selected Portion" of the
 | S0 | 0:00-0:51 | Remotion | Cold open, montage, turn, logo, "how it works" diagram | rendered | ILLUSTRATION | E |
 | S1 | 0:51-1:05 | App, zone 1 strip + zone 2 | Progress strip (Collect -> Audit -> Resolve -> Prepare -> Review with the agent on each step), company label "Pilot Co", period, timezone, coverage chips with method, Stage 1 card, Stage 2 cards (Quote/marketing, Tips, Manager pool) each with readiness + blocker codes, destination badge "not prepared", health strip (Messaging / Memory / Band modes) | `s1-board.mov` | SYNTHETIC fixture (or REAL read) | D (UI), A (data) |
 | S2a | 1:05-1:12 | App, zone 2 row -> zone 3 panel | Seeded issue "Already-paid shift on 2026-10-01 is on Job 01 but scheduled on Job 02": observed vs expected, evidence refs, stage impact `stage1_wages: none / stage2_costs: job_costing`, owner_agent audit; click Hand off; owner_agent becomes resolution | `s2a-handoff.mov` | SEEDED ISSUE | D, C |
-| S2b | 1:12-1:23 | Band Desktop | Room "PayrollPilot Cases": participants pp-audit, pp-resolution, pp-payroll, owner; the posted case card (id, category, title only); `band work` board item moving to Resolution; `band ask` decision prompt and the owner's answer | `s2b-band-room.mov` | REAL · Band Desktop | C |
+| S2b | 1:12-1:23 | Band Desktop | The PayrollPilot room (Band default title; rename is refused for the human): participants pp-audit, pp-resolution, pp-payroll, owner; case card and the accepted reply; work board task moving to Completed; the `[decision.requested]` message and the owner's reply (`band ask` is unsupported for generic peers) | `s2b-band-room.mov` | REAL · Band Desktop | C |
 | S3a | 1:23-1:32 | App, zone 3 | Draft batch text (two questions: the Oct 1 shift's job, and which job Job 03's off-site disposal run belongs to); approval dialog: exact text, masked recipient `***-**NN`, linked exception ids, `target_version` hash; Approve + Send; batch state "sent", provider status | `s3a-approve-send.mov` | REAL · Photon | C, D |
 | S3b | 1:32-1:40 | Phone | Message arrives in Messages (thread header must NOT show a number: save the Photon sender as contact "PayrollPilot" beforehand) | `s3b-phone-arrive.mov` | REAL · iMessage | Owner |
 | S4a | 1:40-1:46 | Phone | Owner types and sends reply R1 (vague "yes") from `reply-script.md` | `s4a-phone-vague.mov` | TEST REPLY | Owner |
@@ -25,7 +25,7 @@ Capture format for every screen clip: QuickTime "Record Selected Portion" of the
 | S7a | 2:26-2:36 | App, Stage 1 expansion + Export workbook | Per-worker packet table; Export workbook toast -> sheets list, verified totals, draft version equal to packet, `original_updated: false` + note; Stage 2 cards with blockers; "Gusto: not prepared" | `s7a-review.mov` | REAL workbook · SYNTHETIC data | B, D |
 | S7b | 2:36-2:40 | Numbers/Excel | The generated xlsx: tab strip with all ledgers, one pending tab showing `status: pending — <blocker>` | `s7b-workbook.mov` | REAL file · SYNTHETIC data | Owner |
 | S8 | 2:40-2:55 | Remotion | Status card (values from evidence-matrix.md), close card | rendered | ILLUSTRATION | E |
-| B1 | optional | Band Desktop | `band usage` per-agent tokens/cost (still image is fine, used inside S8) | `b1-band-usage.png` | REAL | C |
+| B1 | optional | App activity log | Per-agent tokens/cost from PayrollPilot's own OpenRouter usage events (Band usage covers coding sessions only) | `b1-agent-usage.png` | REAL | C, D |
 
 ## Playback rule
 
