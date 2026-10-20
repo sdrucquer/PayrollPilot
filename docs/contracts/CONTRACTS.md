@@ -1,6 +1,6 @@
 # PayrollPilot canonical contracts (v1.1, 2026-10-20 12:45 PM)
 
-Change log: v1.1 blessed lane B fixture extensions: `TimeEntry.scheduled_job_id`, snapshot `policies` and `obligations`, `entity_refs.coverage`. `contract_version` stays "1".
+Change log: v1.2 (1:50 PM) Receipt gains `provenance` (lane F finding); fixtures and models may add it without a bump. v1.1 blessed lane B fixture extensions: `TimeEntry.scheduled_job_id`, snapshot `policies` and `obligations`, `entity_refs.coverage`. `contract_version` stays "1".
 
 **This file is the single source of truth for shared data shapes, event names, state machines, and API routes.** Every plan references it; none redefines it. Changes go through the lead (integrator) in a PR that bumps `contract_version` and lists affected tests. Private policy details (named allocations, real rates, phone numbers) never appear here; use fixture placeholders.
 
@@ -69,7 +69,7 @@ Implementation mirrors: `backend/payrollpilot/contracts.py` (pydantic v2, lead-o
 
 // Receipt (customer payment)
 {"id": "rcpt_01", "job_id": "job_01", "amount_cents": 480000, "payment_date": "2026-10-03", "kind": "payment"|"deposit"|"tip"|"refund",
- "status": "succeeded"|"failed"|"pending", "source_ref": SourceRef,
+ "status": "succeeded"|"failed"|"pending", "source_ref": SourceRef, "provenance": "real"|"synthetic"|"seeded_issue",   // v1.2: added
  "cycle_allocation": {"original_cycle_id": "cyc_...", "allocated_cycle_id": "cyc_..."|null, "state": "none"|"proposed"|"approved"|"finalized",
                       "finalization_evidence": SourceRef|null, "version": 1}}
 

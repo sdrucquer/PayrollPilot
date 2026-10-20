@@ -35,3 +35,25 @@ Blockers: data/private/denylist.txt not supplied, so the denylist test skips. Le
 Next: F-02 safety regression suite
 Handoff requested: lead supplies data/private/denylist.txt (one term per line, gitignored)
 ```
+
+```
+LANE F status @ 13:06
+Done: F-02 (acceptance checks passed against the real core and the synthetic fixture: gated actions raise and gated approval kinds return 501; non-allowlisted and empty-allowlist recipients refused in backend; bridge checkSend refuses another recipient (403), a bad token (401) and edited text (409); approval with a stale version refused (409) and apply refused (403); a source change after approval invalidates it (approval.invalidated, apply 403); T02 correction impact wages 0 and job labor -20000/+20000, Stage 1 and worker readiness identical after apply, source untouched, applies once; readiness never ready with blockers or unknown amount; manager-pool blockers never on commission cards, and manager policy changes never move other cards; negative cycle pool does not cancel a ready commission; removing any policy never turns an item green; workbook totals equal packet and the Review sheet; restart preserves exceptions, approvals and corrections and does not re-arm an applied correction. Messaging (C-05 branch merged onto main in a throwaway checkout): send without approval 403, retry returns duplicate with one provider send and one message.sent event, inbound needs the bridge token, inbound replay processed once, T17 injection blocked with no state, correction, batch or send change)
+Changed files: backend/tests/test_f_safety.py, core/tests/test_f_rules.py, tests/integration/test_f_bridge_policy.py, tests/integration/f_bridge_policy_check.ts
+Tests run: backend: .venv/bin/pytest -q tests/test_f_safety.py -> 15 passed, 5 skipped (C-05 not merged), 1 xfailed; same file on lane/c-05 + main -> 20 passed, 1 xfailed; core: pytest -q tests/test_f_rules.py -> 38 passed; tests/integration -> 33 passed, 5 skipped (denylist absent), 1 xfailed; full backend 75 passed, 5 skipped, 1 xfailed; full core 144 passed
+Evidence: FOUND A-04 bug (strict xfail test_t02_apply_clears_the_fixed_exception_from_readiness): after apply, the fixed already_paid_allocation exception stays 'detected', so readiness still blocks Job 01 commission and manager pool on it. Over-blocks, never falsely ready. Reported to lane A.
+Blockers: C-05 not on main, so 5 messaging tests skip there
+Next: F-04 privacy sweep script
+Handoff requested: lane A fixes resolution of no-longer-detected exceptions in run_cycle_audit; lead merges C-05 so the messaging tests run on main
+```
+
+```
+LANE F status @ 13:08
+Done: F-04 (acceptance checks passed: scripts/f_privacy.sh scans git-tracked text files plus web/dist when present for E.164 and formatted US phone numbers, sk-or- and other API keys, personal email domains, assigned secrets in env-style lines and private denylist terms; checks .gitignore covers docs/private, data/private and .env files, that nothing private or .env is tracked, and that no xlsx/csv is tracked outside data/fixtures; prints file:line with masked matches only and never prints denylist terms; exit 0 clean, 1 findings)
+Changed files: scripts/f_privacy.sh
+Tests run: scripts/f_privacy.sh on main 69c672e -> CLEAN, exit 0 (denylist SKIP: file absent). Probe with a planted sk-or- key and two real-format numbers -> 3 FAIL lines, masked, exit 1; probe removed.
+Evidence: allowed by design: NANP 555 numbers and numbers with area code 0xx/1xx (never assignable, e.g. +10000000000 placeholders in lane A tests), noreply@anthropic.com
+Blockers: data/private/denylist.txt still absent, so real-name terms are not checked. Git history is not scanned (the old manager split remains in B-01 history).
+Next: F-03 rehearsal at G2 if wanted; rerun f_privacy.sh at 2:35 PM before recording
+Handoff requested: lead supplies data/private/denylist.txt and reruns scripts/f_privacy.sh before recording
+```
