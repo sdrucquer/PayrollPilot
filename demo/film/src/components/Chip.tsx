@@ -9,12 +9,12 @@ const color: Record<Prov, string> = {
   'SEEDED ISSUE': C.seeded,
   'TEST REPLY': C.pending,
   PLAYBACK: C.pending,
-  ILLUSTRATION: '#9AA3B5',
-  CACHED: '#7FD1E6',
-  PLANNED: '#6B7385',
+  ILLUSTRATION: C.muted,
+  CACHED: C.muted,
+  PLANNED: C.muted,
   'NOT PREPARED': C.blocked,
-  'NOT SHOWN': '#6B7385',
-  'DESIGN MOCKUP': '#9AA3B5',
+  'NOT SHOWN': C.muted,
+  'DESIGN MOCKUP': C.muted,
 };
 
 export const Chip: React.FC<{kind: Prov; text?: string; size?: number}> = ({kind, text, size = 20}) => (
@@ -25,9 +25,9 @@ export const Chip: React.FC<{kind: Prov; text?: string; size?: number}> = ({kind
       gap: size * 0.5,
       padding: `${size * 0.35}px ${size * 0.75}px`,
       borderRadius: 999,
-      background: 'rgba(42,48,64,0.85)',
+      background: C.surface,
       border: `1px solid ${C.border}`,
-      backdropFilter: 'blur(8px)',
+
       fontFamily: inter,
       fontSize: size,
       fontWeight: 600,
@@ -36,7 +36,7 @@ export const Chip: React.FC<{kind: Prov; text?: string; size?: number}> = ({kind
       whiteSpace: 'nowrap',
     }}
   >
-    <span style={{width: size * 0.5, height: size * 0.5, borderRadius: 99, background: color[kind], boxShadow: `0 0 ${size * 0.6}px ${color[kind]}`}} />
+    <span style={{width: size * 0.5, height: size * 0.5, borderRadius: 99, background: color[kind]}} />
     <span style={{color: color[kind]}}>{kind}</span>
     {text ? <span style={{color: C.muted, fontWeight: 500, letterSpacing: '0.01em'}}>· {text}</span> : null}
   </div>

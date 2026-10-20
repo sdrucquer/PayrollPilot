@@ -10,7 +10,7 @@ const ease = Easing.bezier(0.16, 1, 0.3, 1);
 
 // ---------- Hook B-roll vignettes. All data here is fictional (no real business data). ----------
 const Card: React.FC<{title: string; children: React.ReactNode; w?: number}> = ({title, children, w = 1180}) => (
-  <div style={{width: w, borderRadius: 22, background: 'rgba(18,21,28,0.92)', border: `1px solid ${C.border}`, boxShadow: '0 50px 140px rgba(0,0,0,0.6)', overflow: 'hidden', fontFamily: inter}}>
+  <div style={{width: w, borderRadius: 28, background: C.surface, border: `1px solid ${C.border}`, boxShadow: '0 1px 2px rgba(0,0,0,.03), 0 20px 48px -28px rgba(20,20,40,.22)', overflow: 'hidden', fontFamily: inter}}>
     <div style={{padding: '18px 28px', borderBottom: `1px solid ${C.border}`, fontSize: 22, color: C.muted, display: 'flex', justifyContent: 'space-between'}}>
       <span>{title}</span>
       <span style={{fontFamily: mono, fontSize: 16, color: C.faint}}>fictional</span>
@@ -103,8 +103,8 @@ export const Hook: React.FC = () => {
   const out = interpolate(sec, [14.4, 15], [1, 0], clamp);
   const V = shot.V;
   return (
-    <AbsoluteFill style={{background: '#000', opacity: out}}>
-      <AbsoluteFill style={{filter: `saturate(${1 - 0.9 * freeze}) brightness(${1 - 0.45 * freeze})`}}>
+    <AbsoluteFill style={{background: C.bg, opacity: out}}>
+      <AbsoluteFill style={{filter: `saturate(${1 - 0.9 * freeze}) brightness(${1 + 0.1 * freeze})`}}>
         <Background hue="warm" glow={0.7 * (1 - freeze)} />
         <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center'}}>
           <div style={{transform: `scale(${scale}) translateX(${(shot.zoom ? -40 : 30) * drift}px) rotate(${shot.zoom ? -1.2 : 0.6}deg)`, filter: `blur(${(1 - p) * 10}px)`, opacity: shot.slam ? 0.42 : 1}}>
@@ -114,7 +114,7 @@ export const Hook: React.FC = () => {
       </AbsoluteFill>
       {shot.slam ? (
         <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center'}}>
-          <div style={{fontFamily: display, fontWeight: 800, fontSize: 128, letterSpacing: '-0.045em', color: C.text, transform: `scale(${1.15 - 0.15 * p})`, opacity: p, textShadow: '0 20px 80px rgba(0,0,0,0.8)'}}>{shot.slam}</div>
+          <div style={{fontFamily: display, fontWeight: 800, fontSize: 128, letterSpacing: '-0.045em', color: C.text, transform: `scale(${1.15 - 0.15 * p})`, opacity: p, textShadow: '0 2px 24px rgba(255,255,255,.9)'}}>{shot.slam}</div>
         </AbsoluteFill>
       ) : null}
       <AbsoluteFill style={{background: '#fff', opacity: interpolate(sec, [13.0, 13.08, 13.4], [0, 0.18, 0], clamp)}} />
@@ -123,7 +123,7 @@ export const Hook: React.FC = () => {
   );
 };
 
-// ---------- Reveal: particle mark on black, one quiet word (docs/DESIGN-DIRECTION.md). Local 0 = 15 s, 10 s long. ----------
+// ---------- Reveal: blue particle mark on light, one quiet word (docs/DESIGN-DIRECTION.md). Local 0 = 15 s, 10 s long. ----------
 export const Reveal: React.FC = () => {
   const f = useCurrentFrame();
   const word = interpolate(f, [s(3.4), s(4.4)], [0, 1], {...clamp, easing: ease});
@@ -132,8 +132,8 @@ export const Reveal: React.FC = () => {
   const glow = interpolate(f, [s(2), s(4)], [0, 1], clamp);
   const out = interpolate(f, [s(9.4), s(10)], [1, 0], clamp);
   return (
-    <AbsoluteFill style={{opacity: out, background: '#000'}}>
-      <AbsoluteFill style={{opacity: glow * 0.9, background: 'radial-gradient(30% 34% at 50% 42%, rgba(127,166,217,0.16), rgba(226,201,160,0.05) 55%, rgba(0,0,0,0) 75%)'}} />
+    <AbsoluteFill style={{opacity: out, background: C.bg}}>
+      <AbsoluteFill style={{opacity: glow * 0.9, background: 'radial-gradient(30% 34% at 50% 42%, #E8F1FF, transparent 75%)'}} />
       <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: `scale(${scale})`}}>
         <div style={{marginTop: -60}}>
           <ParticleMark size={330} start={s(0.2)} dur={s(4.6)} />

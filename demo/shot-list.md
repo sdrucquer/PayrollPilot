@@ -1,3 +1,5 @@
+> Current direction: FROZEN light identity in design/DESIGN.md and design/home.html. Product shots must come from the running app, Band, and Cognee views. No mockup or old fixture screenshot may stand in for a recording. All 14 unique clips remain pending. Owner records 2:45–3:15 Pacific. Label earlier takes PLAYBACK, data SYNTHETIC, owner answers TEST REPLY; REAL describes a verified integration.
+
 # Shot list (v4, 2026-10-20 1:17 PM)
 
 The app is one evolving screen with three zones (`docs/UI-ONE-SCREEN.md`): the progress strip on top, "what's limiting payroll" on the left, the selected-blocker panel on the right. Lane D's running app is the only source for proof beats. Since D-03 (1:12 PM) the app uses the light register from lane G (canvas #F2F2F7, white cards, accent #0A7AFF). The film keeps a dark stage for story scenes and frames the light app in light window chrome. Lane G's static mockups are not needed; if one is ever shown it carries a DESIGN MOCKUP chip.

@@ -18,7 +18,7 @@ export const Close: React.FC = () => {
   const out = interpolate(f, [s(6.4), s(7)], [1, 0], clamp);
   const rows = status.rows as Row[];
   return (
-    <AbsoluteFill style={{opacity: out, background: '#000'}}>
+    <AbsoluteFill style={{opacity: out, background: 'linear-gradient(180deg,#F5F5F8,#EEEEF3)'}}>
       <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center'}}>
         <div style={{display: 'flex', alignItems: 'center', gap: 26}}>
           <ParticleMark size={120} start={0} dur={s(2)} />

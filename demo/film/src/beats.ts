@@ -10,8 +10,6 @@ export type Segment = {
   route?: string;
   chip: {kind: Prov; text?: string};
   pending: string[]; // what the shot must show (rendered only while footage is missing)
-  // Interim still (real app screenshot) used only while the clip is missing, with its own honest chip.
-  still?: {file: string; chip: {kind: Prov; text?: string}; focus?: string};
 };
 export type Section = {key: 'magic' | 'engine' | 'result'; kicker: string; segments: Segment[]};
 
@@ -23,8 +21,7 @@ export const SECTIONS: Section[] = [
     key: 'magic', kicker: 'THE PRODUCT',
     segments: [
       {from: 25, to: 35, title: 'Audit finds an issue', layout: 'screen', screen: 'm1-detect.mov', route: APP, chip: {kind: 'SEEDED ISSUE', text: 'synthetic data · real app'},
-        still: {file: 'stills/d03-zones-thread-1280.jpg', chip: {kind: 'SEEDED ISSUE', text: 'app screenshot · fixture mode · interim'}, focus: '0% 0%'},
-        pending: ['Progress strip + Stage 1 / Stage 2 readiness rows', 'Zone 2: Oct 1 shift on Job 01, scheduled on Job 02', 'Zone 3: observed vs expected, evidence, wages none / job costing']},
+        pending: ['Frozen one-column home: hero, approval, progress, activity; separate stage readiness', 'Details: Oct 1 shift on Job 01, scheduled on Job 02', 'Details: observed vs expected, evidence, wages none / job costing']},
       {from: 35, to: 42, title: 'Handed to Resolution, in Band', layout: 'screen', screen: 'm2-band-handoff.mov', route: 'Band Desktop', chip: {kind: 'REAL', text: 'Band Desktop'},
         pending: ['pp-audit posts the case card', 'pp-resolution accepts it', 'Board task moves to in progress']},
       {from: 42, to: 48.5, title: 'The owner approves the exact text', layout: 'screen', screen: 'm3-approve.mov', route: APP, chip: {kind: 'REAL', text: 'approval bound to text hash'},
@@ -36,7 +33,6 @@ export const SECTIONS: Section[] = [
       {from: 63, to: 70, title: 'The answer lands in the case', layout: 'split', screen: 'm5-answer.mov', phone: 'm5-phone.mov', route: APP, chip: {kind: 'TEST REPLY', text: 'parsed into the right case'},
         pending: ['Both answered: Job 02; quote shown', 'Phone: the clear reply']},
       {from: 70, to: 81, title: 'A local correction, approved', layout: 'screen', screen: 'm6-correction.mov', route: APP, chip: {kind: 'REAL', text: 'deterministic calc · synthetic data'},
-        still: {file: 'stills/d03-after-correction-1280.jpg', chip: {kind: 'SYNTHETIC', text: 'app screenshot after correction · fixture mode · interim'}, focus: '50% 0%'},
         pending: ['Before/after: Oct 1 shift Job 01 → Job 02', 'Impact: wages $0.00 · job labor moves', 'Approve correction → Apply → one item changes']},
       {from: 81, to: 92, title: 'Restarted. Still remembers.', layout: 'screen', screen: 'm7-cognee.mov', route: APP, chip: {kind: 'REAL', text: 'Cognee'},
         pending: ['Backend restart (timestamps)', 'memory.recalled → memory.applied for Job 03 cost', 'Next action: “ask ops lead which job” → “propose allocation to job_02 pending owner approval”']},
@@ -57,7 +53,6 @@ export const SECTIONS: Section[] = [
     key: 'result', kicker: 'THE RESULT',
     segments: [
       {from: 135, to: 145, title: 'Separate readiness. Honest destination.', layout: 'screen', screen: 'c1-readiness.mov', route: APP, chip: {kind: 'REAL', text: 'workbook file · synthetic data'},
-        still: {file: 'stills/d03-command-center-1280.jpg', chip: {kind: 'SYNTHETIC', text: 'app screenshot · fixture mode · interim'}, focus: '50% 0%'},
         pending: ['Stage 1 wages and each Stage 2 item with its blocker', 'Export workbook: verified totals, original not updated', 'Gusto: not prepared']},
     ],
   },
