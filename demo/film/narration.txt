@@ -14,7 +14,7 @@
 10 | 1:19-1:30 | It proposes the fix. Wages stay the same. Two hundred dollars of job cost moves from Job 01 to Job 02.
 11 | 1:30-1:38 | After Approve and Apply, Payroll Preparation recalculates, and only the affected line changes.
 12 | 1:38-1:47 | Under the hood, three agents, Audit, Resolution and Payroll Preparation, hand off in one shared room in Band.
-13 | 1:47-1:59 | Every case moves across the work board from to-do to done, and Band tracks each agent's sessions, tokens and estimated cost.
+13 | 1:47-1:59 | Every case moves across the work board from to-do to done, and Band shows the team's sessions, tokens and estimated cost.
 14 | 1:59-2:05 | PayrollPilot itself was built by a Claude Code and Codex team, coordinated in Band.
 15 | 2:05-2:22 | And it remembers the business. The confirmed answer is written to Cognee. On memory recall after a restart, it no longer asks the Ops lead. It proposes the allocation to Job 02, and creates no approval.
 16 | 2:22-2:33 | You get one recap: wages and each payout, shown separately. You confirm the draft. Submitting stays with you.

@@ -520,7 +520,7 @@ export const Loop: React.FC<{start: number}> = ({start}) => {
         <BandPanel t={t} segStart={segStart} />
       </div>
       {phoneShow > 0 ? <Phone t={t} segStart={segStart} show={phoneShow} /> : null}
-      <Label kinds={labels as never} x={1240} y={40} note={phoneShow > 0.5 ? 'owner’s phone · test mode' : 'Band room · exact messages'} />
+      <Label kinds={(phoneShow > 0.5 ? ['illustration', 'test'] : cur.id === '10' ? ['earlier', 'synthetic'] : labels) as never} x={1240} y={40} note={phoneShow > 0.5 ? 'rebuilt from the owner’s phone screenshot' : cur.id === '10' ? 'correction verified earlier today' : 'Band room · exact messages'} />
     </AbsoluteFill>
   );
 };

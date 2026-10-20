@@ -90,7 +90,7 @@
       "from": 105,
       "dur": 12,
       "voAt": 0.5,
-      "text": "Every case moves across the work board from to-do to done, and Band tracks each agent's sessions, tokens and estimated cost."
+      "text": "Every case moves across the work board from to-do to done, and Band shows the team's sessions, tokens and estimated cost."
     },
     {
       "id": "15",
@@ -132,7 +132,7 @@
     },
     "13": {
       "file": "vo/kokoro/13.mp3",
-      "dur": 7.656,
+      "dur": 7.464,
       "source": "kokoro"
     },
     "14": {
