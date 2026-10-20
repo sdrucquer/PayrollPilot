@@ -38,7 +38,9 @@ A confirmed off-site job relationship was written to **Cognee Open Source**. A l
 
 **Evidence limits that matter to judging:** the native Band cost screenshot is real but **unattributed**; it does not establish per-product-agent costs. The board is a captured state, not filmed motion. Fresh ambiguous-reply/apply footage and the combined development-agent Band view are unavailable. These remain gaps in the mandatory demonstration, not claimed completions. [Full evidence matrix](demo/evidence-matrix.md).
 
-**Bonus integrations:** Flexprice and Snyk are not claimed. A possible business model is a per-company subscription with metered extra processing; billing is a proposal, not an implemented feature.
+**Snyk bonus:** a real, repeatable [frontend dependency scan](tests/security/snyk-web-summary.json) checked **8 production dependencies with no known vulnerable paths**, then **103 including development dependencies**. The broader scan found **one high-severity picomatch ReDoS issue through two Vite paths** (direct and via tinyglobby), with no patch/upgrade reported by Snyk. The finding remains open; this is not a clean whole-application audit. Reproduce with `scripts/f_snyk.sh` after Snyk authentication. The video predates this late scan.
+
+**Business model:** a per-company subscription with metered extra processing is a proposal. Flexprice billing is not implemented or claimed.
 
 ## Real integrations, measurable boundaries
 
