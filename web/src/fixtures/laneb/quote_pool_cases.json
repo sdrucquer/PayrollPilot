@@ -1,0 +1,174 @@
+{
+  "_comment": "Inputs/outputs for payrollpilot_core.calc.quote_pool. Money in cents. Illustrative only, not real payroll. Policy: one pool = 5% of eligible full-job profit after final payment; two confirmed quoters split equally; prior paid entitlement deducted per person.",
+  "cases": [
+    {
+      "name": "T10 two quoters, $1,000 profit",
+      "eligible_profit_cents": 100000,
+      "quoters": [
+        "wkr_02",
+        "wkr_03"
+      ],
+      "prior_paid": {},
+      "final_payment_verified": true,
+      "expect": {
+        "ok": true,
+        "pool_cents": 5000,
+        "shares": {
+          "wkr_02": 2500,
+          "wkr_03": 2500
+        }
+      }
+    },
+    {
+      "name": "single quoter keeps whole pool",
+      "eligible_profit_cents": 100000,
+      "quoters": [
+        "wkr_02"
+      ],
+      "prior_paid": {},
+      "final_payment_verified": true,
+      "expect": {
+        "ok": true,
+        "pool_cents": 5000,
+        "shares": {
+          "wkr_02": 5000
+        }
+      }
+    },
+    {
+      "name": "prior paid $10 reduces that person's share",
+      "eligible_profit_cents": 100000,
+      "quoters": [
+        "wkr_02",
+        "wkr_03"
+      ],
+      "prior_paid": {
+        "wkr_02": 1000
+      },
+      "final_payment_verified": true,
+      "expect": {
+        "ok": true,
+        "pool_cents": 5000,
+        "shares": {
+          "wkr_02": 1500,
+          "wkr_03": 2500
+        }
+      }
+    },
+    {
+      "name": "odd pool rounds half-even once",
+      "eligible_profit_cents": 100010,
+      "quoters": [
+        "wkr_02",
+        "wkr_03"
+      ],
+      "prior_paid": {},
+      "final_payment_verified": true,
+      "expect": {
+        "ok": true,
+        "pool_cents": 5000,
+        "shares": {
+          "wkr_02": 2500,
+          "wkr_03": 2500
+        }
+      },
+      "note": "5% of 100010 = 5000.5 -> 5000 (half-even); split 2500/2500"
+    },
+    {
+      "name": "deposit-only job is ineligible",
+      "eligible_profit_cents": 100000,
+      "quoters": [
+        "wkr_02",
+        "wkr_03"
+      ],
+      "prior_paid": {},
+      "final_payment_verified": false,
+      "expect": {
+        "ok": false,
+        "code": "policy_missing:final_payment"
+      }
+    },
+    {
+      "name": "profit unknown -> blocked",
+      "eligible_profit_cents": null,
+      "quoters": [
+        "wkr_02",
+        "wkr_03"
+      ],
+      "prior_paid": {},
+      "final_payment_verified": true,
+      "expect": {
+        "ok": false,
+        "code": "policy_missing:profit_unknown"
+      }
+    },
+    {
+      "name": "zero profit -> blocked (policy open)",
+      "eligible_profit_cents": 0,
+      "quoters": [
+        "wkr_02"
+      ],
+      "prior_paid": {},
+      "final_payment_verified": true,
+      "expect": {
+        "ok": false,
+        "code": "policy_missing:O03_nonpositive_profit"
+      }
+    },
+    {
+      "name": "negative profit -> blocked (policy open)",
+      "eligible_profit_cents": -5000,
+      "quoters": [
+        "wkr_02"
+      ],
+      "prior_paid": {},
+      "final_payment_verified": true,
+      "expect": {
+        "ok": false,
+        "code": "policy_missing:O03_nonpositive_profit"
+      }
+    },
+    {
+      "name": "three quoters -> blocked (policy open)",
+      "eligible_profit_cents": 100000,
+      "quoters": [
+        "wkr_02",
+        "wkr_03",
+        "wkr_04"
+      ],
+      "prior_paid": {},
+      "final_payment_verified": true,
+      "expect": {
+        "ok": false,
+        "code": "policy_missing:O03_more_than_two_quoters"
+      }
+    },
+    {
+      "name": "no confirmed quoter -> blocked",
+      "eligible_profit_cents": 100000,
+      "quoters": [],
+      "prior_paid": {},
+      "final_payment_verified": true,
+      "expect": {
+        "ok": false,
+        "code": "attribution_unconfirmed"
+      }
+    },
+    {
+      "name": "prior paid exceeds share -> blocked, needs adjustment decision (T25)",
+      "eligible_profit_cents": 100000,
+      "quoters": [
+        "wkr_02",
+        "wkr_03"
+      ],
+      "prior_paid": {
+        "wkr_02": 4000
+      },
+      "final_payment_verified": true,
+      "expect": {
+        "ok": false,
+        "code": "prior_paid_exceeds_share"
+      }
+    }
+  ]
+}
