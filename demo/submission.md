@@ -14,7 +14,7 @@
 
 **Team members:** Shanin Drucquer (owner account); no additional human teammates supplied.
 
-**Sponsors used:** Band and Cognee. Select no other listed sponsor unless a genuine integration is completed and evidenced before submission.
+**Sponsors used:** Band, Cognee and Snyk. Leave Adal, Linkup and Flexprice unselected.
 
 **Tracks:** The organizer form displayed no options.
 
@@ -35,7 +35,7 @@ Private Jobber data is excluded from source and deployment. The real read verifi
 - Band shared-room handoffs, plan, board state, owner approval and Payroll ACK are evidenced. Native usage is real but unattributed; per-product-agent cost attribution remains unproven. Board movement and a combined Claude Code/Codex Band view were not filmed.
 - Cognee working-memory write, fresh-process recall and behavior-changing next action are evidenced. No graph-completion claim.
 - Fresh ambiguous-reply and correction-click footage is missing; the film labels earlier evidence and illustrations instead.
-- Flexprice and Snyk bonus integrations are not claimed.
+- **Snyk bonus:** completed frontend dependency scans using CLI 1.1308.1. Production: 8 dependencies, no known vulnerable paths. Including development: 103 dependencies, one high-severity picomatch ReDoS issue via two Vite paths, no patch/upgrade reported. Sanitized findings and a repeatable scan script are committed. No first-party code, full-application, auto-remediation or security-agent-in-Band claim. The video predates this late scan. Flexprice is not implemented.
 
 [Final film provenance](video-out/README.md) · [Evidence matrix](evidence-matrix.md) · [Source ledger](../INTEGRATION-FINDINGS.md).
 
@@ -43,6 +43,6 @@ Private Jobber data is excluded from source and deployment. The real read verifi
 
 1. Open the video link signed out: check that the full 2:35 plays with sound.
 2. Open the repository and live preview signed out.
-3. Select Band and Cognee; submit the organizer form and save the receipt before 3:30 PM Pacific.
+3. Select Band, Cognee and Snyk; submit the organizer form and save the receipt before 3:30 PM Pacific.
 
 A prepared form or published video is not a submitted entry. The owner verifies the receipt.

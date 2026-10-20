@@ -1,0 +1,55 @@
+{
+  "scan_tool": "Snyk Open Source CLI",
+  "cli_version": "1.1308.1",
+  "recorded_at": "2026-10-20T22:17:19.653902+00:00",
+  "repository_commit": "dc1e415",
+  "target": "web/package-lock.json",
+  "target_sha256": "59729e4f581be95115741c1772739f11896a131dff47a675b3e81da856121205",
+  "production": {
+    "exit_code": 0,
+    "ok": true,
+    "dependency_count": 8,
+    "vulnerable_paths": 0
+  },
+  "including_development": {
+    "exit_code": 1,
+    "ok": false,
+    "dependency_count": 103,
+    "unique_issues": 1,
+    "vulnerable_paths": 2,
+    "findings": [
+      {
+        "id": "SNYK-JS-PICOMATCH-21248802",
+        "title": "Regular Expression Denial of Service (ReDoS)",
+        "severity": "high",
+        "packageName": "picomatch",
+        "version": "4.0.7",
+        "isUpgradable": false,
+        "isPatchable": false,
+        "upgradePath": [],
+        "from": [
+          "payrollpilot-web@0.0.0",
+          "vite@8.3.4",
+          "picomatch@4.0.7"
+        ]
+      },
+      {
+        "id": "SNYK-JS-PICOMATCH-21248802",
+        "title": "Regular Expression Denial of Service (ReDoS)",
+        "severity": "high",
+        "packageName": "picomatch",
+        "version": "4.0.7",
+        "isUpgradable": false,
+        "isPatchable": false,
+        "upgradePath": [],
+        "from": [
+          "payrollpilot-web@0.0.0",
+          "vite@8.3.4",
+          "tinyglobby@0.2.17",
+          "picomatch@4.0.7"
+        ]
+      }
+    ]
+  },
+  "scope": "Frontend dependency vulnerability/license scan only; no first-party code, backend, bridge, film dependencies, container or running-service assessment. No fix or whole-application safety claim. The video predates this late scan."
+}
