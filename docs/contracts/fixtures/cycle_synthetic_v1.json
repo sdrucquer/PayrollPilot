@@ -1,0 +1,1485 @@
+{
+  "_comment": "Synthetic, de-identified pay-period snapshot for PayrollPilot. Not real payroll. Seeded issues are labeled provenance=seeded_issue. Shapes per docs/contracts/CONTRACTS.md v1. Fixture extensions: TimeEntry.scheduled_job_id (schedule evidence), snapshot.policies, snapshot.obligations.",
+  "snapshot_id": "snap_synth_v1",
+  "captured_at": "2026-10-12T09:00:00-04:00",
+  "provenance": "synthetic",
+  "cycle": {
+    "id": "cyc_synth_v1",
+    "contract_version": "1",
+    "policy_version": "pol_synth_v1",
+    "company_label": "Pilot Co",
+    "company_ref": null,
+    "period_start": "2026-09-28",
+    "period_end": "2026-10-11",
+    "payday": "2026-10-16",
+    "business_tz": "America/New_York",
+    "workweeks": [
+      {
+        "start": "2026-09-28",
+        "end": "2026-10-04"
+      },
+      {
+        "start": "2026-10-05",
+        "end": "2026-10-11"
+      }
+    ],
+    "existing_run_status": "none",
+    "coverage": [
+      {
+        "system": "jobber",
+        "dataset": "time_entries",
+        "range_start": "2026-09-28",
+        "range_end": "2026-10-11",
+        "filters": {},
+        "record_count": 33,
+        "complete": true,
+        "incomplete_reason": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1",
+        "method": "fixture"
+      },
+      {
+        "system": "jobber",
+        "dataset": "jobs",
+        "range_start": "2026-09-28",
+        "range_end": "2026-10-11",
+        "filters": {},
+        "record_count": 3,
+        "complete": true,
+        "incomplete_reason": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1",
+        "method": "fixture"
+      },
+      {
+        "system": "jobber",
+        "dataset": "workers",
+        "range_start": "2026-09-28",
+        "range_end": "2026-10-11",
+        "filters": {},
+        "record_count": 4,
+        "complete": true,
+        "incomplete_reason": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1",
+        "method": "fixture"
+      },
+      {
+        "system": "jobber",
+        "dataset": "payments",
+        "range_start": "2026-09-28",
+        "range_end": "2026-10-11",
+        "filters": {},
+        "record_count": 4,
+        "complete": true,
+        "incomplete_reason": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1",
+        "method": "fixture"
+      },
+      {
+        "system": "gusto",
+        "dataset": "rates",
+        "range_start": "2026-09-28",
+        "range_end": "2026-10-11",
+        "filters": {},
+        "record_count": 3,
+        "complete": true,
+        "incomplete_reason": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1",
+        "method": "fixture"
+      },
+      {
+        "system": "gusto",
+        "dataset": "payroll_runs",
+        "range_start": "2026-09-28",
+        "range_end": "2026-10-11",
+        "filters": {},
+        "record_count": 0,
+        "complete": true,
+        "incomplete_reason": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1",
+        "method": "fixture"
+      },
+      {
+        "system": "quickbooks",
+        "dataset": "expenses",
+        "range_start": "2026-09-28",
+        "range_end": "2026-10-11",
+        "filters": {},
+        "record_count": 5,
+        "complete": false,
+        "incomplete_reason": "permission",
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1",
+        "method": "fixture"
+      }
+    ],
+    "stage1": {
+      "state": "not_started",
+      "scope_note": "not started",
+      "unresolved_count": 0,
+      "dollars_affected_cents": null
+    },
+    "stage2": {
+      "state": "not_started",
+      "scope_note": "not started",
+      "unresolved_count": 0,
+      "dollars_affected_cents": null
+    },
+    "destination": "not_prepared",
+    "provenance": "synthetic"
+  },
+  "workers": [
+    {
+      "id": "wkr_01",
+      "display_name": "Worker A",
+      "jobber_ref": {
+        "system": "fixture",
+        "record_id": "jobber_user_101",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "gusto_ref": {
+        "system": "fixture",
+        "record_id": "gusto_emp_201",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "identity_status": "verified",
+      "rates": [
+        {
+          "effective_from": "2026-01-01",
+          "effective_to": null,
+          "rate_cents_per_hour": 2200,
+          "category": "hourly",
+          "evidence": {
+            "system": "fixture",
+            "record_id": "gusto_rate_201",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "status": "verified"
+        }
+      ],
+      "payment_route": "gusto",
+      "provenance": "synthetic"
+    },
+    {
+      "id": "wkr_02",
+      "display_name": "Worker B",
+      "jobber_ref": {
+        "system": "fixture",
+        "record_id": "jobber_user_102",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "gusto_ref": {
+        "system": "fixture",
+        "record_id": "gusto_emp_202",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "identity_status": "verified",
+      "rates": [
+        {
+          "effective_from": "2026-01-01",
+          "effective_to": "2026-10-04",
+          "rate_cents_per_hour": 2500,
+          "category": "team_leader",
+          "evidence": {
+            "system": "fixture",
+            "record_id": "gusto_rate_202a",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "status": "verified"
+        },
+        {
+          "effective_from": "2026-10-05",
+          "effective_to": null,
+          "rate_cents_per_hour": 3000,
+          "category": "team_leader",
+          "evidence": {
+            "system": "fixture",
+            "record_id": "gusto_rate_202b",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "status": "verified"
+        }
+      ],
+      "payment_route": "gusto",
+      "provenance": "synthetic"
+    },
+    {
+      "id": "wkr_03",
+      "display_name": "Worker C",
+      "jobber_ref": {
+        "system": "fixture",
+        "record_id": "jobber_user_103",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "gusto_ref": null,
+      "identity_status": "verified",
+      "rates": [
+        {
+          "effective_from": "2026-09-01",
+          "effective_to": null,
+          "rate_cents_per_hour": null,
+          "category": "unknown",
+          "evidence": null,
+          "status": "unconfirmed"
+        }
+      ],
+      "payment_route": "unknown",
+      "provenance": "seeded_issue"
+    },
+    {
+      "id": "wkr_04",
+      "display_name": "Worker D",
+      "jobber_ref": {
+        "system": "fixture",
+        "record_id": "jobber_user_104",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "gusto_ref": {
+        "system": "fixture",
+        "record_id": "gusto_emp_204",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "identity_status": "duplicate_profiles",
+      "rates": [
+        {
+          "effective_from": "2026-01-01",
+          "effective_to": null,
+          "rate_cents_per_hour": 2200,
+          "category": "hourly",
+          "evidence": {
+            "system": "fixture",
+            "record_id": "gusto_rate_204",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "status": "verified"
+        }
+      ],
+      "payment_route": "gusto",
+      "provenance": "seeded_issue"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "job_01",
+      "display_name": "Job 01 (lawn install)",
+      "parent_job_id": null,
+      "status": "complete",
+      "adjusted_invoice_cents": 480000,
+      "final_payment_verified": true,
+      "quoter_candidates": [
+        {
+          "worker_id": "wkr_02",
+          "basis": "salesperson_field"
+        }
+      ],
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_job_01",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic"
+    },
+    {
+      "id": "job_02",
+      "display_name": "Job 02 (patio build)",
+      "parent_job_id": null,
+      "status": "in_progress",
+      "adjusted_invoice_cents": null,
+      "final_payment_verified": false,
+      "quoter_candidates": [],
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_job_02",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic"
+    },
+    {
+      "id": "job_03",
+      "display_name": "Job 03 (disposal run, off-site)",
+      "parent_job_id": null,
+      "status": "complete",
+      "adjusted_invoice_cents": null,
+      "final_payment_verified": null,
+      "quoter_candidates": [],
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_job_03",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "seeded_issue"
+    }
+  ],
+  "time_entries": [
+    {
+      "id": "te_0001",
+      "worker_id": "wkr_01",
+      "job_id": "job_01",
+      "date": "2026-09-28",
+      "start": "2026-09-28T07:00:00-04:00",
+      "end": "2026-09-28T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 480,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0001",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:94f51114dc643f02070c2e79ca5a884e7f50dad5de643272e3e41ee75a3adbfd"
+    },
+    {
+      "id": "te_0002",
+      "worker_id": "wkr_01",
+      "job_id": "job_01",
+      "date": "2026-09-29",
+      "start": "2026-09-29T07:00:00-04:00",
+      "end": "2026-09-29T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 480,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0002",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:5da7574447a0cef46a95d7d7e0ae862c91f238e39157ff7be0e314ede54fc03e"
+    },
+    {
+      "id": "te_0003",
+      "worker_id": "wkr_01",
+      "job_id": "job_01",
+      "date": "2026-09-30",
+      "start": "2026-09-30T07:00:00-04:00",
+      "end": "2026-09-30T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 480,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0003",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:85d6191b86fe92ffaeafbfca2343f85504310d4beefc82ba6a032af248cf9666"
+    },
+    {
+      "id": "te_0004",
+      "worker_id": "wkr_01",
+      "job_id": "job_01",
+      "date": "2026-10-01",
+      "start": "2026-10-01T07:00:00-04:00",
+      "end": "2026-10-01T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 480,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0004",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:aae1ff82cd31cfdc6962c920a4e9a0317f62fe4a01fee6e55b4d11aa301ec9cf"
+    },
+    {
+      "id": "te_0005",
+      "worker_id": "wkr_01",
+      "job_id": "job_02",
+      "date": "2026-10-02",
+      "start": "2026-10-02T07:00:00-04:00",
+      "end": "2026-10-02T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 480,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0005",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:45e1e16fcd50bc74f80c419a3e3c4141bd0c490a53e8fbea4845ac1d5ccbb996"
+    },
+    {
+      "id": "te_0006",
+      "worker_id": "wkr_01",
+      "job_id": "job_02",
+      "date": "2026-10-05",
+      "start": "2026-10-05T07:00:00-04:00",
+      "end": "2026-10-05T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 480,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0006",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:6605156d7c366d97b6238a339adb5977ce85bbfe44feeee550b86e7556d4949f"
+    },
+    {
+      "id": "te_0007",
+      "worker_id": "wkr_01",
+      "job_id": "job_02",
+      "date": "2026-10-06",
+      "start": "2026-10-06T07:00:00-04:00",
+      "end": "2026-10-06T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 480,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0007",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:a800c0bc58fef6863f8b72e95ed09100f2d7266936b3c0c941a7d1c2809cdb24"
+    },
+    {
+      "id": "te_0008",
+      "worker_id": "wkr_01",
+      "job_id": "job_02",
+      "date": "2026-10-07",
+      "start": "2026-10-07T07:00:00-04:00",
+      "end": "2026-10-07T14:30:00-04:00",
+      "duration_minutes": 450,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 450,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0008",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:2f15316815c12fe7a841abda79fd2b86e015956858e499801e8217c213a8714e"
+    },
+    {
+      "id": "te_0009",
+      "worker_id": "wkr_01",
+      "job_id": "job_02",
+      "date": "2026-10-08",
+      "start": "2026-10-08T07:00:00-04:00",
+      "end": "2026-10-08T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 480,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0009",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:e6874f8d67ef962d8749f4310d25e7183141b78c3463a2787e908596eb84fda6"
+    },
+    {
+      "id": "te_0010",
+      "worker_id": "wkr_01",
+      "job_id": "job_02",
+      "date": "2026-10-09",
+      "start": "2026-10-09T07:00:00-04:00",
+      "end": "2026-10-09T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 480,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0010",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:58607f05e0c9a30338b079c2ba6fd5766cf925287cd1668384de2d3c19d09bac"
+    },
+    {
+      "id": "te_0011",
+      "worker_id": "wkr_02",
+      "job_id": "job_01",
+      "date": "2026-09-28",
+      "start": "2026-09-28T07:00:00-04:00",
+      "end": "2026-09-28T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0011",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:9f905cf90e9476f6cecef95d37c397c3688427296709d4cc92a750d53ce6e7fc"
+    },
+    {
+      "id": "te_0012",
+      "worker_id": "wkr_02",
+      "job_id": "job_01",
+      "date": "2026-09-29",
+      "start": "2026-09-29T07:00:00-04:00",
+      "end": "2026-09-29T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0012",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:87f752fb726180ce4efa243e5a08dd17b5b612f159dec5dd43f0ea8649981cb5"
+    },
+    {
+      "id": "te_0013",
+      "worker_id": "wkr_02",
+      "job_id": "job_01",
+      "date": "2026-09-30",
+      "start": "2026-09-30T07:00:00-04:00",
+      "end": "2026-09-30T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0013",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:861ddd4f2faef09a2575ac855972e80831f2c8654ad33b7bdc5b8020e898c2c6"
+    },
+    {
+      "id": "te_0014",
+      "worker_id": "wkr_02",
+      "job_id": "job_01",
+      "date": "2026-10-01",
+      "start": "2026-10-01T07:00:00-04:00",
+      "end": "2026-10-01T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 480,
+      "paid_status": "paid_prior_cycle",
+      "paid_ref": {
+        "system": "fixture",
+        "record_id": "gusto_offcycle_run_0",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0014",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "seeded_issue",
+      "scheduled_job_id": "job_02",
+      "version_hash": "sha256:f4d2fc0e8c146707667fd8bfbc3b346f5354ff3b4b8f69742a6a7483708e094d"
+    },
+    {
+      "id": "te_0015",
+      "worker_id": "wkr_02",
+      "job_id": "job_01",
+      "date": "2026-10-02",
+      "start": "2026-10-02T07:00:00-04:00",
+      "end": "2026-10-02T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0015",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:3c0bdd837b534fef5e47954bd37791a9c16760fb5456668637ff18b9df47e591"
+    },
+    {
+      "id": "te_0016",
+      "worker_id": "wkr_02",
+      "job_id": "job_02",
+      "date": "2026-10-05",
+      "start": "2026-10-05T07:00:00-04:00",
+      "end": "2026-10-05T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0016",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:567021e0500eb49e9b7e5f0ccdb8de107fc5c1a12433703151d9bd7421a6fef0"
+    },
+    {
+      "id": "te_0017",
+      "worker_id": "wkr_02",
+      "job_id": "job_02",
+      "date": "2026-10-06",
+      "start": "2026-10-06T07:00:00-04:00",
+      "end": "2026-10-06T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0017",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:5929c89d1a306374f4b277534c4cee1756806eb6be40450775f77764c1daf5b3"
+    },
+    {
+      "id": "te_0018",
+      "worker_id": "wkr_02",
+      "job_id": "job_02",
+      "date": "2026-10-06",
+      "start": "2026-10-06T07:00:00-04:00",
+      "end": "2026-10-06T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0018",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "seeded_issue",
+      "version_hash": "sha256:113d2dfe242c8c045a4e64bd9d38cdbeba9bcbf93075e0575c5ee69a99cca189"
+    },
+    {
+      "id": "te_0019",
+      "worker_id": "wkr_02",
+      "job_id": "job_02",
+      "date": "2026-10-07",
+      "start": "2026-10-07T07:00:00-04:00",
+      "end": "2026-10-07T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0019",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:052e7cc134bd893a842f3a0d8c0c7d002fb9ad89b2b154437e96113189f88a5f"
+    },
+    {
+      "id": "te_0020",
+      "worker_id": "wkr_02",
+      "job_id": "job_02",
+      "date": "2026-10-08",
+      "start": "2026-10-08T07:00:00-04:00",
+      "end": "2026-10-08T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0020",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:267d86ef0b02921027fc83d673cd6380fc066d3f54e8c081d7fa88152a7c559a"
+    },
+    {
+      "id": "te_0021",
+      "worker_id": "wkr_02",
+      "job_id": "job_02",
+      "date": "2026-10-09",
+      "start": "2026-10-09T07:30:00-04:00",
+      "end": null,
+      "duration_minutes": null,
+      "approved_in_source": false,
+      "open_timer": true,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0021",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "seeded_issue",
+      "version_hash": "sha256:89948040642bb0b5c0f4c109fafdcddd60852460a07e0c9715f80e842571da29"
+    },
+    {
+      "id": "te_0022",
+      "worker_id": "wkr_03",
+      "job_id": null,
+      "date": "2026-09-29",
+      "start": "2026-09-29T13:00:00-04:00",
+      "end": "2026-09-29T15:14:00-04:00",
+      "duration_minutes": 134,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0022",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "seeded_issue",
+      "version_hash": "sha256:b5f88c9915719a64f75c77571addffdbc52224067ccd4e5d57db8fc9afacf7f6"
+    },
+    {
+      "id": "te_0023",
+      "worker_id": "wkr_03",
+      "job_id": "job_01",
+      "date": "2026-09-30",
+      "start": "2026-09-30T07:00:00-04:00",
+      "end": "2026-09-30T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0023",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:1cd44f92bc0fa30e7c774341aecd2bd91a888e6d474131de0b1d6a5c41be2cd9"
+    },
+    {
+      "id": "te_0024",
+      "worker_id": "wkr_03",
+      "job_id": "job_01",
+      "date": "2026-10-01",
+      "start": "2026-10-01T07:00:00-04:00",
+      "end": "2026-10-01T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0024",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:bfe3c00d8612d038a3708af0082654d8897b64c4ec88f75961a7a28b0b85eb9e"
+    },
+    {
+      "id": "te_0025",
+      "worker_id": "wkr_03",
+      "job_id": "job_03",
+      "date": "2026-10-06",
+      "start": "2026-10-06T08:00:00-04:00",
+      "end": "2026-10-06T15:00:00-04:00",
+      "duration_minutes": 420,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0025",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:66f811b232ad0f33d4f8ca5fad519c16c6c3fad42789f80729e6947a241373c9"
+    },
+    {
+      "id": "te_0026",
+      "worker_id": "wkr_03",
+      "job_id": "job_02",
+      "date": "2026-10-07",
+      "start": "2026-10-07T07:00:00-04:00",
+      "end": "2026-10-07T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0026",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:f1b7c5930eb3b2df93b0e152db712223759d3e79fb187f33b35ac6a14170593b"
+    },
+    {
+      "id": "te_0027",
+      "worker_id": "wkr_03",
+      "job_id": "job_01",
+      "date": "2026-10-07",
+      "start": "2026-10-07T14:00:00-04:00",
+      "end": "2026-10-07T16:00:00-04:00",
+      "duration_minutes": 120,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0027",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "seeded_issue",
+      "version_hash": "sha256:3d63bebc7383c35e15c7808d991f8054ed62ce2c0fd645eaa09027f908f44071"
+    },
+    {
+      "id": "te_0028",
+      "worker_id": "wkr_04",
+      "job_id": "job_01",
+      "date": "2026-09-28",
+      "start": "2026-09-28T07:00:00-04:00",
+      "end": "2026-09-28T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0028",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:7e93e6f8cc3d60bf579910c43de636efc1e2adb8e310d08f563040f2e73ae0dc"
+    },
+    {
+      "id": "te_0029",
+      "worker_id": "wkr_04",
+      "job_id": "job_02",
+      "date": "2026-09-30",
+      "start": "2026-09-30T06:40:00-04:00",
+      "end": "2026-09-30T16:00:00-04:00",
+      "duration_minutes": 560,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0029",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "seeded_issue",
+      "version_hash": "sha256:4e5b9ccc875babc54bb1a7b0f36d1463fe5406e4c4c0061844a60ce2b82a1e3d"
+    },
+    {
+      "id": "te_0030",
+      "worker_id": "wkr_04",
+      "job_id": "job_02",
+      "date": "2026-10-05",
+      "start": "2026-10-05T07:00:00-04:00",
+      "end": "2026-10-05T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0030",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:0452b536b58948c6c98889992d3ae7200fb494483bb290d43d87c1d0921d0066"
+    },
+    {
+      "id": "te_0031",
+      "worker_id": "wkr_04",
+      "job_id": "job_02",
+      "date": "2026-10-08",
+      "start": "2026-10-08T07:00:00-04:00",
+      "end": "2026-10-08T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": 360,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0031",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "seeded_issue",
+      "version_hash": "sha256:66923af69267998c503c976618e215bfabc6e21e5f2d0b77511bb66e9bc9de8d"
+    },
+    {
+      "id": "te_0032",
+      "worker_id": "wkr_04",
+      "job_id": "job_02",
+      "date": "2026-10-10",
+      "start": "2026-10-10T08:00:00-04:00",
+      "end": "2026-10-10T13:00:00-04:00",
+      "duration_minutes": 300,
+      "approved_in_source": true,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unpaid",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0032",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "synthetic",
+      "version_hash": "sha256:41c003bc8a2e4fe51c50fe1330672149fe1e86f0bc4160bd1fefb0a0f3323e86"
+    },
+    {
+      "id": "te_0033",
+      "worker_id": "wkr_01",
+      "job_id": "job_01",
+      "date": "2026-09-26",
+      "start": "2026-09-26T07:00:00-04:00",
+      "end": "2026-09-26T15:00:00-04:00",
+      "duration_minutes": 480,
+      "approved_in_source": false,
+      "open_timer": false,
+      "scheduled_minutes": null,
+      "paid_status": "unknown",
+      "paid_ref": null,
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_te_0033",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "provenance": "seeded_issue",
+      "version_hash": "sha256:fb6f9504e923572df7c68b7a13b9cbd3cb07ae65b2a4719d67a38aaaa11eec73"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "rcpt_01",
+      "job_id": "job_01",
+      "amount_cents": 300000,
+      "payment_date": "2026-10-03",
+      "kind": "payment",
+      "status": "succeeded",
+      "provenance": "synthetic",
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_pay_01",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "cycle_allocation": {
+        "original_cycle_id": "cyc_synth_v1",
+        "allocated_cycle_id": "cyc_synth_v0",
+        "state": "proposed",
+        "finalization_evidence": null,
+        "version": 1
+      }
+    },
+    {
+      "id": "rcpt_02",
+      "job_id": "job_01",
+      "amount_cents": 180000,
+      "payment_date": "2026-09-20",
+      "kind": "deposit",
+      "status": "succeeded",
+      "provenance": "synthetic",
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_pay_02",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "cycle_allocation": {
+        "original_cycle_id": "cyc_synth_v0",
+        "allocated_cycle_id": null,
+        "state": "none",
+        "finalization_evidence": null,
+        "version": 1
+      }
+    },
+    {
+      "id": "rcpt_03",
+      "job_id": "job_02",
+      "amount_cents": 150000,
+      "payment_date": "2026-10-06",
+      "kind": "deposit",
+      "status": "succeeded",
+      "provenance": "synthetic",
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_pay_03",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "cycle_allocation": {
+        "original_cycle_id": "cyc_synth_v1",
+        "allocated_cycle_id": null,
+        "state": "none",
+        "finalization_evidence": null,
+        "version": 1
+      }
+    },
+    {
+      "id": "rcpt_04",
+      "job_id": "job_01",
+      "amount_cents": 5000,
+      "payment_date": "2026-10-03",
+      "kind": "tip",
+      "status": "succeeded",
+      "provenance": "synthetic",
+      "source_ref": {
+        "system": "fixture",
+        "record_id": "jobber_pay_04",
+        "url": null,
+        "captured_at": "2026-10-12T09:00:00-04:00",
+        "snapshot_id": "snap_synth_v1"
+      },
+      "cycle_allocation": {
+        "original_cycle_id": "cyc_synth_v1",
+        "allocated_cycle_id": null,
+        "state": "none",
+        "finalization_evidence": null,
+        "version": 1
+      }
+    }
+  ],
+  "costs": [
+    {
+      "id": "cost_01",
+      "amount_cents": 18250,
+      "description": "disposal fee",
+      "cost_date": "2026-10-02",
+      "representations": [
+        {
+          "kind": "estimate",
+          "source_ref": {
+            "system": "fixture",
+            "record_id": "est_01",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "amount_cents": 18000
+        },
+        {
+          "kind": "receipt",
+          "source_ref": {
+            "system": "fixture",
+            "record_id": "rcpt_img_01",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "amount_cents": 18250
+        },
+        {
+          "kind": "bank",
+          "source_ref": {
+            "system": "fixture",
+            "record_id": "bank_txn_01",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "amount_cents": 18250
+        }
+      ],
+      "job_allocations": [
+        {
+          "job_id": "job_03",
+          "amount_cents": 18250
+        }
+      ],
+      "categorized": true,
+      "allocated": true,
+      "included_in_calc": true,
+      "supersedes_cost_id": null,
+      "conflict": null,
+      "provenance": "synthetic"
+    },
+    {
+      "id": "cost_02",
+      "amount_cents": 42000,
+      "description": "mulch (bulk)",
+      "cost_date": "2026-09-29",
+      "representations": [
+        {
+          "kind": "bank",
+          "source_ref": {
+            "system": "fixture",
+            "record_id": "bank_txn_02",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "amount_cents": 42000
+        },
+        {
+          "kind": "jobber_expense",
+          "source_ref": {
+            "system": "fixture",
+            "record_id": "jobber_exp_02",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "amount_cents": 42000
+        }
+      ],
+      "job_allocations": [
+        {
+          "job_id": "job_01",
+          "amount_cents": 42000
+        }
+      ],
+      "categorized": true,
+      "allocated": true,
+      "included_in_calc": true,
+      "supersedes_cost_id": null,
+      "conflict": null,
+      "provenance": "seeded_issue"
+    },
+    {
+      "id": "cost_03",
+      "amount_cents": 60000,
+      "description": "pavers + base (shared)",
+      "cost_date": "2026-10-05",
+      "representations": [
+        {
+          "kind": "receipt",
+          "source_ref": {
+            "system": "fixture",
+            "record_id": "rcpt_img_03",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "amount_cents": 60000
+        }
+      ],
+      "job_allocations": [
+        {
+          "job_id": "job_01",
+          "amount_cents": 25000
+        },
+        {
+          "job_id": "job_02",
+          "amount_cents": 35000
+        }
+      ],
+      "categorized": true,
+      "allocated": true,
+      "included_in_calc": true,
+      "supersedes_cost_id": null,
+      "conflict": null,
+      "provenance": "synthetic"
+    },
+    {
+      "id": "cost_04",
+      "amount_cents": 12575,
+      "description": "hardware store purchase",
+      "cost_date": "2026-10-07",
+      "representations": [
+        {
+          "kind": "bank",
+          "source_ref": {
+            "system": "fixture",
+            "record_id": "bank_txn_04",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "amount_cents": 12575
+        }
+      ],
+      "job_allocations": [],
+      "categorized": false,
+      "allocated": false,
+      "included_in_calc": false,
+      "supersedes_cost_id": null,
+      "conflict": "job_uncertain",
+      "provenance": "seeded_issue"
+    },
+    {
+      "id": "cost_05",
+      "amount_cents": null,
+      "description": "fuel (receipt vs Jobber entry)",
+      "cost_date": "2026-10-08",
+      "representations": [
+        {
+          "kind": "receipt",
+          "source_ref": {
+            "system": "fixture",
+            "record_id": "rcpt_img_05",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "amount_cents": 8900
+        },
+        {
+          "kind": "jobber_expense",
+          "source_ref": {
+            "system": "fixture",
+            "record_id": "jobber_exp_05",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "amount_cents": 9800
+        },
+        {
+          "kind": "reimbursement",
+          "source_ref": {
+            "system": "fixture",
+            "record_id": "reimb_05",
+            "url": null,
+            "captured_at": "2026-10-12T09:00:00-04:00",
+            "snapshot_id": "snap_synth_v1"
+          },
+          "amount_cents": 8900
+        }
+      ],
+      "job_allocations": [],
+      "categorized": true,
+      "allocated": false,
+      "included_in_calc": false,
+      "supersedes_cost_id": null,
+      "conflict": "amount_mismatch",
+      "provenance": "seeded_issue"
+    }
+  ],
+  "obligations": [
+    {
+      "id": "obl_01",
+      "kind": "reimbursement",
+      "worker_id": "wkr_02",
+      "job_id": "job_01",
+      "earning_period": {
+        "start": "2026-09-14",
+        "end": "2026-09-27"
+      },
+      "recognition_cycle_id": "cyc_synth_v0",
+      "gross_cents": 8900,
+      "status": "recognized",
+      "settlements": [],
+      "balance_cents": 8900,
+      "provenance": "synthetic"
+    }
+  ],
+  "policies": {
+    "_comment": "Statuses drive PolicyMissing blockers. Percentages here are PLACEHOLDERS for the synthetic fixture; real named assignments live only in the private policy file read at runtime.",
+    "quote_pool": {
+      "decision_id": "O03",
+      "status": "approved",
+      "pool_percent": 5,
+      "max_quoters": 2,
+      "requires_final_payment": true,
+      "profit_definition": "adjusted_invoice - base_labor - job_expenses"
+    },
+    "marketing": {
+      "decision_id": "O04",
+      "status": "job_specific_only",
+      "job_rules": {}
+    },
+    "overhead_allocation": {
+      "decision_id": "O05",
+      "status": "unresolved"
+    },
+    "manager_split": {
+      "decision_id": "O06",
+      "status": "placeholder",
+      "split_percent": {
+        "retained": 40,
+        "mgr_a": 15,
+        "mgr_b": 25,
+        "owner": 20
+      },
+      "requires_resolution": [
+        "gross_net_intent",
+        "employer_costs",
+        "losses_reserves_rounding"
+      ]
+    },
+    "tip_rule": {
+      "decision_id": "O07",
+      "status": "unresolved"
+    },
+    "labor_revenue_threshold": {
+      "decision_id": "O06",
+      "status": "unresolved"
+    },
+    "workweek": {
+      "decision_id": "O02",
+      "status": "proposed",
+      "start_day": "monday",
+      "business_tz": "America/New_York"
+    },
+    "long_shift_review_minutes": {
+      "status": "sop_rule",
+      "threshold_minutes": 480,
+      "note": "review threshold only; never a cap on pay or overtime logic"
+    }
+  }
+}

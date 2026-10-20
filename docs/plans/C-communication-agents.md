@@ -42,3 +42,37 @@ Human prerequisites (ask the owner in your first message, then proceed with spik
 - Verify: `backend/.venv/bin/pytest -q backend/tests/test_c05_routes.py`; live G1 run with D's UI.
 
 ## Status log
+
+```
+LANE C status @ 12:45
+Done: C-03 (acceptance: write in process 1, fresh process 2 recall changed next_action, approval_created false, --no-memory control stays insufficient_evidence)
+In progress: C-01 bridge built, live round trip blocked on Photon credentials
+Changed files: bridge/*, backend/payrollpilot/memory/*, backend/tests/test_c03_memory.py, INTEGRATION-FINDINGS.md
+Tests run: cd bridge && bun test -> 9 pass, 0 fail; backend/.venv/bin/python -m pytest -q backend/tests/test_c03_memory.py -> 7 passed
+Evidence: INTEGRATION-FINDINGS Cognee row (pids 15644 write, 17143 recall, 17251 control)
+Blockers: Photon phone + project credentials in bridge/.env; PP_TEST_RECIPIENT; OPENROUTER_API_KEY for C-04
+Next: C-02 Band product handoff
+Handoff requested: A adds app.include_router(routes_comms.router) and cognee/fastembed/python-dotenv to backend deps
+```
+
+```
+LANE C status @ 12:50
+Done: C-03; C-02 agent handoff + board (acceptance: 3 agent participants, audit->resolution->payroll messages, task #2 pending->in_progress->completed). Human decision posted, owner reply pending.
+Changed files: backend/payrollpilot/band/*, backend/tests/test_c02_band.py, INTEGRATION-FINDINGS.md
+Tests run: backend/.venv/bin/python -m pytest -q backend/tests/test_c02_band.py -> 7 passed
+Evidence: INTEGRATION-FINDINGS Band (product handoff) row; room a55619f6-19f6-4504-881f-a6d5b5d2ce4d
+Blockers: band ask unsupported for generic peers (fallback: room message + inbox reply); owner must reply "approve msg_batch_spike02" in the room
+Next: C-04 agents (template path now, live OpenRouter once key lands)
+Handoff requested: A: backend startup calls band.ensure_peers(os.getpid()) when PP_BAND_ENABLED=1; env PP_BAND_ROOM_ID
+```
+
+```
+LANE C status @ 12:55
+Done: C-03 (merged #8), C-02 agent handoff (PR #12), C-04 agents (tests with stub transport; live call pending key), C-05 routes (tests with fake messaging + fake band)
+Changed files: backend/payrollpilot/agents/*, backend/payrollpilot/routes_comms.py, backend/tests/test_c04_agents.py, backend/tests/test_c05_routes.py
+Tests run: backend/.venv/bin/python -m pytest -q -> 61 passed, 1 skipped, 1 failed (lane A test_health_reports_comms_routes_absent now sees "loaded"); bridge bun test -> 9 pass
+Evidence: INTEGRATION-FINDINGS lane C notes 1:05 PM
+Blockers: Photon credentials + PP_TEST_RECIPIENT (C-01 live), OPENROUTER_API_KEY (C-04 live), owner reply in Band room (human decision)
+Next: live C-01 round trip and G1 run as soon as credentials land
+Handoff requested: A: update test_health_reports_comms_routes_absent to "loaded"; state.py use payrollpilot.memory.cognee_memory.CogneeMemory when PP_MEMORY=cognee and payrollpilot.band.CliBand when PP_BAND_ENABLED=1 (routes_comms already does this itself); health integrations photon/band/cognee from INTEGRATION-FINDINGS
+```
