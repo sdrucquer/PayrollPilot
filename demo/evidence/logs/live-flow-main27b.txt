@@ -5,3 +5,5 @@ Live batch msg_batch_95601f6f3ab8: owner room approve reply -> approval.granted 
 Correction proposed 1:33:26, te_0014 job_01 -> job_02, wages delta 0; job cost -20000/+20000 cents. Owner application and final clarification completion not established by this note.
 Real Jobber read reported 13:25: partial coverage, 58 time entries, 10 workers, 13 jobs, 14 dates viewed. Totals, source entry ids and approval state unverified; rates/payroll/payments/expenses not read. Wage readiness blocked. No private rows copied. Film remains synthetic; no complete source-coverage claim.
 Final phone/app/Band/Cognee recordings pending. Cross-process proof: demo/evidence/cognee/recall-run.txt. Earlier recordings PLAYBACK; owner answers TEST REPLY. No live services stopped.
+
+Follow-up checked against main 00b110a: Home UI approved clarification at 13:44:03 and sent at 13:44:04. Correction was still proposed at that checkpoint. Final current-flow recall comparison remains pending. New synthetic display-label code is merged but not claimed active in the serving backend; no restart performed. This does not alter the earlier cross-process recall proof.
