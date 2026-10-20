@@ -8,18 +8,13 @@ Source: Remotion project in `demo/film/` (`src/v2/`). Rebuild: see "Render" belo
 
 Narration is **AI-generated with Kokoro** (open-source TTS, Apache-2.0, voice `af_heart`), run locally from `demo/film/narration.txt`. It is not the owner's voice. No ElevenLabs key was available in the render environment. Owner recordings dropped into `demo/film/public/vo/owner/<id>.m4a` replace lines one by one on the next render. Captions are burned in.
 
-Sound effects and music are **synthesized in code** by `demo/film/scripts/sound.py` (numpy; no samples, no licensed tracks):
-- 83 cues are computed from the film timeline (`demo/film/public/sound/cues.json`): dings for message bubbles, pops for Band messages, an impact on the logo reveal, a glitch on the process exit, and varied transitions at scene cuts.
-- The music is an original pad-and-pulse bed at 100 BPM. It ducks under the voice with a sidechain compressor and is loudness-normalized to about −14 LUFS (peak −0.7 dB).
-- The video stream is copied untouched.
-- `payrollpilot-demo-voice-only.mp4` is the same cut with narration only.
+Music: an original pad-and-pulse bed at 100 BPM, **synthesized in code** by `demo/film/scripts/sound.py` (numpy; no samples, no licensed tracks). It ducks under the voice with a sidechain compressor; peak −2.7 dB. No sound effects in the final mix (the script can still generate them). `payrollpilot-demo-voice-only.mp4` is the same cut with narration only.
 
-Mix command, from `demo/video-out/`:
+Mix (from `demo/video-out/`):
 
 ```bash
 python ../film/scripts/sound.py ../film/public/sound
-ffmpeg -i voice-only.mp4 -i ../film/public/sound/sfx.wav -i ../film/public/sound/music.wav -filter_complex "[0:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit=2[vo][vosc];[2:a]volume=0.32[m];[m][vosc]sidechaincompress=threshold=0.02:ratio=8:attack=15:release=450[md];[1:a]volume=0.42[s];[vo][s][md]amix=inputs=3:normalize=0:duration=first,alimiter=limit=0.93[a]" -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k mixed.mp4
-ffmpeg -i mixed.mp4 -map 0 -c:v copy -af loudnorm=I=-14:TP=-1.0:LRA=11 -c:a aac -b:a 192k payrollpilot-demo.mp4
+ffmpeg -i payrollpilot-demo-voice-only.mp4 -i ../film/public/sound/music.wav -filter_complex "[0:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit=2[vo][vosc];[1:a]volume=0.32[m];[m][vosc]sidechaincompress=threshold=0.02:ratio=8:attack=15:release=450[md];[vo][md]amix=inputs=2:normalize=0:duration=first,volume=7dB,alimiter=limit=0.7:level=false[a]" -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k payrollpilot-demo.mp4
 ```
 
 ## What is real, per segment
