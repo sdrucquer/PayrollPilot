@@ -61,6 +61,7 @@ def client(settings, monkeypatch):
     c = TestClient(create_app(settings))
     c.post("/api/cycles/load", json={"source": "fixture", "name": "cycle_mini_v1"}).raise_for_status()
     c.post(f"/api/cycles/{CYC}/audit").raise_for_status()
+    _with_band(c)  # Explicit test double; production has no Band-off bypass.
     return c
 
 
@@ -83,6 +84,8 @@ def _inbound(c, pmid, text, token="tok"):
 
 
 def test_handoff_requires_band(client):
+    from payrollpilot.band import NullBand
+    _with_band(client)["band"] = NullBand()
     r = client.post(f"/api/exceptions/{EXC}/handoff")
     assert r.status_code == 503 and r.json()["error"] == "band_required"
     assert client.get(f"/api/exceptions/{EXC}").json()["owner_agent"] == "audit"

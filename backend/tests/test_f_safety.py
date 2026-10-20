@@ -237,6 +237,8 @@ def test_restart_preserves_cases_approvals_and_corrections(env):
 
 # ------------------------------------------------------------------ messaging (C-05): duplicates, replay, T17
 def _draft_and_approve(c, exc_ids):
+    from .test_c05_routes import _with_band
+    _with_band(c)  # Lead-authorized, labeled Band test double for messaging happy paths.
     r = c.post("/api/messages/draft", json={"exception_ids": exc_ids})
     assert r.status_code == 200, r.text
     batch = r.json()
@@ -248,6 +250,8 @@ def _draft_and_approve(c, exc_ids):
 @needs_comms
 def test_send_without_approval_refused(env):
     c, _, _ = env
+    from .test_c05_routes import _with_band
+    _with_band(c)  # Keep approval test independent of the essential-Band deletion tests.
     exc = excs_by_cat(c)["missing_job"]
     batch = c.post("/api/messages/draft", json={"exception_ids": [exc["id"]]}).json()
     assert c.post(f"/api/messages/{batch['id']}/send").status_code == 403

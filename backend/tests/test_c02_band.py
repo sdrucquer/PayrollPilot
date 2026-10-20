@@ -99,3 +99,12 @@ def test_handoff_sequence():
     kinds = [(e[0], e[1]) for e in fb.log]
     assert kinds == [("post", "pp-audit"), ("assign", "pp-audit"), ("reply", "pp-resolution"),
                      ("take", "pp-resolution"), ("status", "pp-resolution")]
+
+
+@pytest.mark.parametrize("failure", [OSError("test unavailable"), __import__("subprocess").TimeoutExpired("band", 1)])
+def test_cli_unreachable_and_timeout_are_explicit_band_failures(failure):
+    from payrollpilot.band import BandError
+    def unavailable(*args, **kwargs):
+        raise failure
+    with pytest.raises(BandError):
+        CliBand(room_id="room_test", bin_path="band", runner=unavailable).inbox("pp-resolution")

@@ -53,7 +53,10 @@ class CliBand:
 
     # -- plumbing --
     def _run(self, *args: str, timeout: int = 60) -> str:
-        proc = self._run_proc([self.bin, *args], capture_output=True, text=True, timeout=timeout)
+        try:
+            proc = self._run_proc([self.bin, *args], capture_output=True, text=True, timeout=timeout)
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            raise BandError(f"band {args[0]} unavailable ({type(exc).__name__})") from exc
         if proc.returncode != 0:
             raise BandError(f"band {args[0]} failed: {(proc.stderr or proc.stdout).strip()[:300]}")
         return (proc.stdout or "").strip()
