@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import type { Blocker, Provenance, Readiness } from '../contracts'
 import { humanize } from '../format'
@@ -17,7 +18,7 @@ export function BlockerList({ blockers }: { blockers: Blocker[] }) {
       {blockers.map((b) => (
         <li key={`${b.code}-${b.exception_id ?? ''}`}>
           <code>{b.code}</code> {b.label}
-          {b.exception_id && <> · <a href={`/inbox/${b.exception_id}`}>{b.exception_id}</a></>}
+          {b.exception_id && <> · <Link to={`/inbox/${b.exception_id}`}>{b.exception_id}</Link></>}
         </li>
       ))}
     </ul>

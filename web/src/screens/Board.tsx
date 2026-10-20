@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { api, DEFAULT_CYCLE_ID } from '../api'
 import type { PayrollCycle, PayrollException, PPEvent, ReadinessResponse, StageState, Worker } from '../contracts'
 import { formatCents, formatTime, humanize } from '../format'
@@ -77,12 +78,12 @@ export default function Board() {
       <Indicators r={readiness} />
 
       <div className="grid-2">
-        <Card title={`Needs attention · ${open.length}`} right={<a href="/inbox">Open inbox</a>}>
+        <Card title={`Needs attention · ${open.length}`} right={<Link to="/inbox">Open inbox</Link>}>
           {open.length === 0 && <p className="muted">No open exceptions reported.</p>}
           {open.slice(0, 6).map((e) => (
             <div key={e.id} className="exc-row">
               <div>
-                <a href={`/inbox/${e.id}`}>{e.title}</a>
+                <Link to={`/inbox/${e.id}`}>{e.title}</Link>
                 <div className="muted small">{humanize(e.category)} · ask {humanize(e.intended_respondent_role)} · {e.next_action}</div>
               </div>
               <div className="row wrap" style={{ justifyContent: 'flex-end' }}>
@@ -93,7 +94,7 @@ export default function Board() {
             </div>
           ))}
         </Card>
-        <Card title="Agent activity" right={<a href="/activity">All events</a>}>
+        <Card title="Agent activity" right={<Link to="/activity">All events</Link>}>
           {events.length === 0 && <p className="muted">No events yet.</p>}
           <ul className="feed">
             {events.slice(-6).reverse().map((ev) => (
