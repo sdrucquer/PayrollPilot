@@ -59,3 +59,17 @@ The installed Chrome override worked; bundled headless shell stalled. Measured d
 - Measured 152-second 540p draft took roughly 8–10 minutes under load; an 11-second revised section took roughly 2–3 minutes including setup. Full 1080p is unbenchmarked: conservatively budget 12–20 minutes, plus 2–5 for QA/encode; reserve 5–10 for upload because bandwidth is unknown.
 - Safest full-render cutoff: critical media/script locked **2:40–2:45**, render start **2:45–2:50**. A complete high-quality rerender first started after all clips arrive at 3:00 is not a safe promise for upload by 3:15.
 - Reuse verified unchanged story/title sections, ingest/render genuine product sections as they arrive, and trim optional illustration/polish. Do not fill missing proof with fiction to meet the clock. No E duplicate render or submission.
+
+## Lead review of shared film branch, 2:33 PM Pacific
+
+`cloud/film` now contains the real incremental capture files and generated Kokoro voice assets. Preserve both writers with ordinary merges; never force-push. The following narration corrections are required before a final cut:
+
+- Segment 12 currently claims Band tracks every agent's sessions/tokens/cost. The actual native view is **unattributed** and no product-agent attribution has been verified. Say that the native view is shown but product-agent attribution remains unavailable. Do not label machine-wide totals as product-agent spend.
+- Segment 13 claims the coding team coordinated in Band. Use that claim only if capture 13 actually proves the participating Claude Code/Codex sessions and their collaboration. Codex chat coordination alone does not establish it.
+- Segments 08–09's known wages-zero / $200 allocation belongs to the **earlier owner-applied correction**, not the newly sent nine-question batch. If showing its real applied details, explicitly narrate it as earlier verified work; do not imply a fresh Approve & Apply click or replay a completed action. The new missing-job case has an unconfirmed rate, so its monetary impact is unknown.
+- Segment 11 must describe the **selected case** reaching Done; other genuine cases remain open. Never imply every case or all payroll is complete.
+- Segment 04 must match the captured approval channel. The earlier human Band decision is real historical evidence; the new send used the reviewed web action. Distinguish the two visibly.
+- Ambiguous/clear reply segments require the actual new inbound events and captures. At this checkpoint the ambiguity clip is still waiting for the owner's reply; cut or mark unavailable if it does not occur.
+- Current generated Kokoro narration must be disclosed and verified against the corrected factual script; existing script comments still call it placeholder. A metadata change alone is not a factual correction.
+
+These are claim/evidence corrections, not changes to payroll rules, permissions or readiness.
