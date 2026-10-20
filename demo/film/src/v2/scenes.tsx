@@ -297,7 +297,8 @@ export const Audit: React.FC<P> = ({dur}) => {
 };
 
 /* ---------- 05–11 LIVE LOOP: app + Band + phone ---------- */
-type Msg = {who: 'audit' | 'resolution' | 'payroll' | 'owner'; time?: string; text: string; to?: string; seg: string; at: number; decision?: boolean};
+type AgentKey = 'audit' | 'resolution' | 'payroll' | 'owner';
+type Msg = {who: AgentKey; time?: string; text: string; to?: AgentKey; seg: string; at: number; decision?: boolean};
 const AG = {
   audit: {n: 'pp-audit', c: '#7B61FF'},
   resolution: {n: 'pp-resolution', c: '#C99A06'},
