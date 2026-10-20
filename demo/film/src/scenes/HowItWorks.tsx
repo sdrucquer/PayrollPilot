@@ -52,10 +52,10 @@ export const HowItWorks: React.FC = () => {
               width: CW,
               height: CH,
               opacity: appear * others,
-              borderRadius: 22,
-              background: `linear-gradient(180deg, rgba(23,27,36,0.95), rgba(18,21,28,0.95))`,
+              borderRadius: 28,
+              background: 'linear-gradient(180deg,#F3F8FF,#FFFFFF 38%)',
               border: `1px solid ${lit > 0.5 ? C.accent : C.border}`,
-              boxShadow: `0 0 ${60 * lit}px rgba(79,124,255,${0.35 * lit}), 0 30px 80px rgba(0,0,0,0.45)`,
+              boxShadow: '0 1px 2px rgba(0,0,0,.03), 0 20px 48px -28px rgba(20,20,40,.22)',
               padding: 34,
               fontFamily: inter,
             }}
@@ -65,7 +65,7 @@ export const HowItWorks: React.FC = () => {
             <div style={{fontSize: 26, color: C.muted, marginTop: 2}}>{a.verb}</div>
             <div style={{display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 22}}>
               {a.tools.map((t) => (
-                <span key={t} style={{fontFamily: mono, fontSize: 16, color: '#AFC2FF', padding: '5px 10px', borderRadius: 8, background: 'rgba(79,124,255,0.10)', border: '1px solid rgba(79,124,255,0.25)'}}>
+                <span key={t} style={{fontFamily: mono, fontSize: 16, color: C.accent2, padding: '5px 10px', borderRadius: 8, background: 'rgba(10,122,255,0.10)', border: '1px solid rgba(10,122,255,0.25)'}}>
                   {t}
                 </span>
               ))}
@@ -95,8 +95,8 @@ export const HowItWorks: React.FC = () => {
           height: barH,
           borderRadius: barR,
           opacity: bar,
-          background: morph > 0 ? `rgba(15,18,24,${0.9 + 0.1 * morph})` : 'rgba(79,124,255,0.10)',
-          border: `1px solid ${morph > 0.5 ? C.border : 'rgba(79,124,255,0.45)'}`,
+          background: morph > 0 ? C.surface : 'rgba(10,122,255,0.10)',
+          border: `1px solid ${morph > 0.5 ? C.border : 'rgba(10,122,255,0.45)'}`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: morph > 0.5 ? 'flex-start' : 'center',
@@ -122,7 +122,7 @@ export const HowItWorks: React.FC = () => {
           justifyContent: 'center',
         }}
       >
-        <div style={{display: 'flex', alignItems: 'center', gap: 14, padding: '14px 26px', borderRadius: 999, border: '1px solid rgba(127,160,255,0.5)', background: 'rgba(127,160,255,0.10)', fontFamily: inter, fontSize: 24, color: C.text}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 14, padding: '14px 26px', borderRadius: 999, border: '1px solid rgba(10,122,255,0.5)', background: 'rgba(10,122,255,0.10)', fontFamily: inter, fontSize: 24, color: C.text}}>
           <svg width="26" height="26" viewBox="0 0 26 26">
             <ellipse cx="13" cy="6" rx="10" ry="4" fill="none" stroke={C.accent2} strokeWidth="2" />
             <path d="M3 6 V20 C3 22.2 7.5 24 13 24 C18.5 24 23 22.2 23 20 V6" fill="none" stroke={C.accent2} strokeWidth="2" />

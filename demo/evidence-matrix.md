@@ -36,3 +36,7 @@ Requirement sources: PRD FR-29 (product agents coordinate through Band with a hu
 | 12:58 | R13-R15 | demo/evidence/cognee/recall-run.txt | INTEGRATION-FINDINGS (main), lane C C-03 | Cross-process CLI recall, CHUNKS search, GLiNER extraction (no LLM). In-app recall after a live reply not yet shown. |
 | 12:58 | R01 | demo/evidence/screens/d01-board-1280.png | lane D PR 5 / main | Board on lane D placeholder data, before lane B fixtures and the one-screen redesign. Not final. |
 | 13:00 | R03-R05, R19 | demo/evidence/band/handoff-run.txt | INTEGRATION-FINDINGS (main), lane C C-02 | Handoff + board tested via CLI; owner decision pending; band ask unsupported; Band usage not per product agent. Script line 07 changed accordingly. |
+
+## Light draft refresh (2026-10-20)
+
+The 152-second draft uses the frozen light identity. No screen recording was made. All 14 unique product clips remain pending; static screenshot fallbacks were removed. The draft retains PLANNED / FOOTAGE PENDING labels, a draft watermark, placeholder voice and pending integration rows. CLI evidence does not establish that product footage was captured. Owner must supply real running-app, Band and Cognee views; prior takes must say PLAYBACK.

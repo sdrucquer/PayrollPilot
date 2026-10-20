@@ -6,11 +6,11 @@ export const WindowFrame: React.FC<{width: number; height: number; title?: strin
     style={{
       width,
       height,
-      borderRadius: 18,
+      borderRadius: 28,
       overflow: 'hidden',
       background: C.uiCanvas,
-      border: '1px solid rgba(255,255,255,0.10)',
-      boxShadow: '0 50px 140px rgba(0,0,0,0.6), 0 0 120px rgba(10,122,255,0.10)',
+      border: `1px solid ${C.border}`,
+      boxShadow: '0 1px 2px rgba(0,0,0,.03), 0 20px 48px -28px rgba(20,20,40,.22)',
       display: 'flex',
       flexDirection: 'column',
     }}
@@ -34,11 +34,11 @@ export const PhoneFrame: React.FC<{height: number; children: React.ReactNode}> =
         height,
         borderRadius: height * 0.075,
         padding: height * 0.018,
-        background: 'linear-gradient(160deg,#2A2F3A,#12151C)',
-        boxShadow: '0 40px 120px rgba(0,0,0,0.6)',
+        background: 'linear-gradient(160deg,#FFFFFF,#D1D1D6)',
+        boxShadow: '0 20px 48px -28px rgba(20,20,40,.22)',
       }}
     >
-      <div style={{width: '100%', height: '100%', borderRadius: height * 0.06, overflow: 'hidden', background: '#000', position: 'relative'}}>{children}</div>
+      <div style={{width: '100%', height: '100%', borderRadius: height * 0.06, overflow: 'hidden', background: C.uiCanvas, position: 'relative'}}>{children}</div>
     </div>
   );
 };

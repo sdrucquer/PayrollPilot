@@ -46,7 +46,7 @@ export const Captions: React.FC = () => {
           maxWidth: 1180,
           padding: '10px 22px',
           borderRadius: 12,
-          background: 'rgba(8,10,14,0.72)',
+          background: 'rgba(255,255,255,.96)',
           fontFamily: inter,
           fontSize: 30,
           fontWeight: 500,

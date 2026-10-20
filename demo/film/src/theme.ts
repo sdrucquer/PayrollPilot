@@ -1,42 +1,18 @@
-import {loadFont as loadInter} from '@remotion/google-fonts/Inter';
-import {loadFont as loadInterTight} from '@remotion/google-fonts/InterTight';
-import {loadFont as loadMono} from '@remotion/google-fonts/JetBrainsMono';
-
-export const inter = loadInter('normal', {weights: ['400', '500', '600', '700'], subsets: ['latin']}).fontFamily;
-export const display = loadInterTight('normal', {weights: ['500', '600', '700', '800'], subsets: ['latin']}).fontFamily;
-export const mono = loadMono('normal', {weights: ['400', '500'], subsets: ['latin']}).fontFamily;
-
-// Shared identity with the running web app: lane D adopted these tokens (message 1:05 PM).
+// Frozen identity: design/DESIGN.md, FROZEN 1:40 PM; design/home.html.
+export const inter = '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif';
+export const display = '-apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, system-ui, sans-serif';
+export const mono = 'ui-monospace, "SF Mono", monospace';
 export const C = {
-  bg: '#0B0D12',
-  surface: '#12151C',
-  surface2: '#171B24',
-  border: '#222838',
-  text: '#F5F7FA',
-  muted: '#8B93A5',
-  faint: '#5A6275',
-  accent: '#4F7CFF',
-  accent2: '#7FA0FF', // in-progress states (lane D)
-  steel: '#7FA6D9', // title-card particle gradient start
-  sand: '#E2C9A0', // title-card particle gradient end
-  ready: '#2ED3A3',
-  pending: '#F5B942',
-  partial: '#F5B942',
-  blocked: '#FF5C6C',
-  seeded: '#C084FC',
-  chipBg: '#2A3040',
-  // Product UI (lane D, light register from lane G): used for window chrome and pending frames around product footage.
-  uiCanvas: '#F2F2F7',
-  uiCard: '#FFFFFF',
-  uiText: '#1C1C1E',
-  uiMuted: '#6E6E73',
-  uiLine: 'rgba(0,0,0,0.08)',
-  uiAccent: '#0A7AFF',
-  uiAccent2: '#5E5CE6',
-  stageAccent: '#3D8BFF', // product accent brightened for the dark stage (kickers)
-  chipFg: '#C9D1E0',
+  bg: '#F2F2F7', surface: '#FFFFFF', surface2: '#F5F5F8',
+  border: 'rgba(0,0,0,.05)', text: '#1C1C1E', muted: '#6E6E73', faint: '#8E8E93',
+  accent: '#0A7AFF', accent2: '#0066D6', steel: '#0A7AFF', sand: '#0066D6',
+  ready: '#1F8A3B', pending: '#9A4D00', partial: '#D97A00', blocked: '#E0323F',
+  seeded: '#9A4D00', chipBg: '#E8F1FF', chipFg: '#0066D6',
+  uiCanvas: '#F2F2F7', uiCard: '#FFFFFF', uiText: '#1C1C1E', uiMuted: '#6E6E73',
+  uiLine: 'rgba(0,0,0,.08)', uiAccent: '#0A7AFF', uiAccent2: '#0066D6',
+  stageAccent: '#0A7AFF',
 };
-
+export const cardShadow = '0 1px 2px rgba(0,0,0,.03), 0 20px 48px -28px rgba(20,20,40,.22), 0 0 0 1px rgba(0,0,0,.03)';
 export const FPS = 30;
 export const W = 1920;
 export const H = 1080;
