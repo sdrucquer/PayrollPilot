@@ -14,7 +14,8 @@ export interface PacketWorker {
 export interface Packet { draft_version?: string; workers?: PacketWorker[]; identities?: Worker[]; [k: string]: unknown }
 
 export type DataMode = 'fixture' | 'api'
-export const DATA_MODE: DataMode = import.meta.env.VITE_DATA_MODE === 'api' ? 'api' : 'fixture'
+// api is the default (backend on :8000); VITE_DATA_MODE=fixture runs the labeled simulation.
+export const DATA_MODE: DataMode = import.meta.env.VITE_DATA_MODE === 'fixture' ? 'fixture' : 'api'
 const FX = DATA_MODE === 'fixture'
 
 export class ApiError extends Error {
@@ -125,6 +126,7 @@ export const api = {
     FX ? Promise.reject(new ApiError(501, 'Workbook export needs the live API; fixture mode cannot generate the xlsx'))
       : post(`/cycles/${cycleId}/workbook`, {}),
   stop: (): Promise<{ stopped: boolean }> => (FX ? ok(() => sim.stop()) : post('/run/stop', {})),
+  resume: (): Promise<{ stopped: boolean }> => (FX ? ok(() => ({ stopped: false })) : post('/run/stop', { resume: true })),
   // Packet is optional: the backend returns 501 until lane B's build_packet lands.
   packet: async (cycleId: string): Promise<Packet | null> => {
     if (FX) return null

@@ -106,7 +106,7 @@ export default function Thread({ id, onChange }: { id: string; onChange: () => v
   return (
     <section className="thread">
       <header className="thread-head">
-        <Link to="/" className="back small">All blockers</Link>
+        <Link to="/details" className="back small">All blockers</Link>
         <div className="row wrap">
           <StateTag value={e.state} kind="exc" />
           <span className="muted small">{humanize(e.category)}</span>
