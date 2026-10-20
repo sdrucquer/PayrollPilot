@@ -25,6 +25,15 @@ export const C = {
   blocked: '#FF5C6C',
   seeded: '#C084FC',
   chipBg: '#2A3040',
+  // Product UI (lane D, light register from lane G): used for window chrome and pending frames around product footage.
+  uiCanvas: '#F2F2F7',
+  uiCard: '#FFFFFF',
+  uiText: '#1C1C1E',
+  uiMuted: '#6E6E73',
+  uiLine: 'rgba(0,0,0,0.08)',
+  uiAccent: '#0A7AFF',
+  uiAccent2: '#5E5CE6',
+  stageAccent: '#3D8BFF', // product accent brightened for the dark stage (kickers)
   chipFg: '#C9D1E0',
 };
 

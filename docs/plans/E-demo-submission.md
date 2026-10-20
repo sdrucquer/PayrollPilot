@@ -77,3 +77,13 @@ Blockers: Photon credentials + phone; OpenRouter key (metering line and "patio" 
 Next: E-03 sweep, E-04 final at 14:30
 Handoff requested: owner: Photon phone/credentials, OPENROUTER_API_KEY, optional ELEVENLABS_API_KEY
 ```
+
+```
+LANE E status @ 13:18
+Done: film draft 4: product windows switched to lane D's light register (D-03, 13:12) on the film's dark stage; lane D's real d03 screenshots used as labeled interim stills for m1, m6, c1; all other product slots still FOOTAGE PENDING. Shot list v4 and recording setup now require live API mode for proof beats (fixture mode's "Simulate test reply" never cut in as iMessage).
+Changed files: demo/film/**, demo/shot-list.md, demo/recording-setup.md
+Tests run: npx tsc -p demo/film -> 0 errors; render draft 4 -> 152.0 s h264 1920x1080 + aac
+Evidence: none new (Photon still blocked).
+Blockers: Photon credentials + phone; OpenRouter key.
+Next: E-03 sweep; E-04 final 14:30.
+```

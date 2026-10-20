@@ -1,6 +1,10 @@
-# Shot list (v3, owner's cut, 2026-10-20 1:10 PM)
+# Shot list (v4, 2026-10-20 1:17 PM)
 
-The app is one evolving screen with three zones (`docs/UI-ONE-SCREEN.md`): the progress strip on top, "what's limiting payroll" on the left, the selected-blocker panel on the right. Lane D's running app is the only source for proof beats. Lane G's mockups use a light theme that does not match the dark running app, so they are not planned for the film; if one is ever shown it carries a DESIGN MOCKUP chip.
+The app is one evolving screen with three zones (`docs/UI-ONE-SCREEN.md`): the progress strip on top, "what's limiting payroll" on the left, the selected-blocker panel on the right. Lane D's running app is the only source for proof beats. Since D-03 (1:12 PM) the app uses the light register from lane G (canvas #F2F2F7, white cards, accent #0A7AFF). The film keeps a dark stage for story scenes and frames the light app in light window chrome. Lane G's static mockups are not needed; if one is ever shown it carries a DESIGN MOCKUP chip.
+
+**Record proof beats in live API mode only** (`cd web && npm run dev:api`, backend on :8000, bridge on :3001). The app's fixture mode has a "Simulate test reply" button and marks those messages "fixture simulation: not sent through Photon". That path is fine for rehearsing clicks but must never be cut into m3-m5 as the live iMessage beat. If it is ever used in the film, its chip must read SIMULATED.
+
+Interim stills: until clips exist, m1, m6 and c1 show lane D's real screenshots (fixture mode, synthetic data), each with an "app screenshot · fixture mode · interim" chip. Every other slot shows FOOTAGE PENDING.
 
 Two kinds of material:
 - **Motion graphics** (ILLUSTRATION), rendered by `demo/film/`: hook B-roll with fictional data, reveal, architecture diagram, close.

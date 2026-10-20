@@ -8,18 +8,18 @@ export const WindowFrame: React.FC<{width: number; height: number; title?: strin
       height,
       borderRadius: 18,
       overflow: 'hidden',
-      background: C.surface,
-      border: `1px solid ${C.border}`,
-      boxShadow: '0 40px 120px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.03) inset',
+      background: C.uiCanvas,
+      border: '1px solid rgba(255,255,255,0.10)',
+      boxShadow: '0 50px 140px rgba(0,0,0,0.6), 0 0 120px rgba(10,122,255,0.10)',
       display: 'flex',
       flexDirection: 'column',
     }}
   >
-    <div style={{height: 40, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 8, padding: '0 16px', borderBottom: `1px solid ${C.border}`, background: '#0F1218'}}>
+    <div style={{height: 40, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 8, padding: '0 16px', borderBottom: `1px solid ${C.uiLine}`, background: '#E9E9EF'}}>
       {['#FF5F57', '#FEBC2E', '#28C840'].map((c) => (
         <span key={c} style={{width: 12, height: 12, borderRadius: 99, background: c, opacity: 0.85}} />
       ))}
-      <span style={{marginLeft: 16, fontFamily: mono, fontSize: 15, color: C.muted}}>{title}</span>
+      <span style={{marginLeft: 16, fontFamily: mono, fontSize: 15, color: C.uiMuted}}>{title}</span>
     </div>
     <div style={{flex: 1, position: 'relative'}}>{children}</div>
   </div>
@@ -49,19 +49,19 @@ export const Pending: React.FC<{lines: string[]; label: string; compact?: boolea
       position: 'absolute',
       inset: compact ? 14 : 28,
       borderRadius: 12,
-      border: `2px dashed ${C.faint}`,
+      border: '2px dashed #C7C7CC',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       padding: compact ? 22 : 56,
       gap: compact ? 10 : 16,
       fontFamily: inter,
-      background: 'repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 14px, rgba(0,0,0,0) 14px 28px)',
+      background: 'repeating-linear-gradient(135deg, rgba(0,0,0,0.025) 0 14px, rgba(0,0,0,0) 14px 28px)',
     }}
   >
-    <div style={{fontFamily: mono, fontSize: compact ? 16 : 22, letterSpacing: '0.12em', color: C.pending}}>FOOTAGE PENDING · {label}</div>
+    <div style={{fontFamily: mono, fontSize: compact ? 16 : 22, letterSpacing: '0.12em', color: '#D97A00'}}>FOOTAGE PENDING · {label}</div>
     {lines.map((l) => (
-      <div key={l} style={{fontSize: compact ? 20 : 30, color: C.muted, lineHeight: 1.3}}>
+      <div key={l} style={{fontSize: compact ? 20 : 30, color: C.uiMuted, lineHeight: 1.3}}>
         — {l}
       </div>
     ))}

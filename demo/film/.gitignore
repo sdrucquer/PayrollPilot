@@ -8,3 +8,4 @@ public/music/*.mp3
 public/music/*.wav
 !public/**/.gitkeep
 public/vo/source.txt
+!public/stills/*.jpg

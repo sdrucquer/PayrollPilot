@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame, Easing} from 'remotion';
+import {AbsoluteFill, Img, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame, Easing} from 'remotion';
 import {Background} from '../components/Background';
 import {Chip} from '../components/Chip';
 import {Pending, PhoneFrame, WindowFrame} from '../components/Frames';
@@ -10,7 +10,14 @@ import {C, display, inter, mono, s} from '../theme';
 const footage = (manifest as {footage: Record<string, number>}).footage;
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
-const Clip: React.FC<{file?: string; segDur: number; lines: string[]; label: string; compact?: boolean}> = ({file, segDur, lines, label, compact}) => {
+const Still: React.FC<{file: string; focus?: string}> = ({file, focus}) => {
+  const f = useCurrentFrame();
+  const z = interpolate(f, [0, 300], [1.0, 1.08], {extrapolateRight: 'clamp'});
+  return <Img src={staticFile(file)} style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: focus ?? '50% 0%', transform: `scale(${z})`, transformOrigin: focus ?? '50% 0%'}} />;
+};
+
+const Clip: React.FC<{file?: string; segDur: number; lines: string[]; label: string; compact?: boolean; still?: {file: string; focus?: string}}> = ({file, segDur, lines, label, compact, still}) => {
+  if (!(file && footage[file]) && still) return <Still file={still.file} focus={still.focus} />;
   if (file && footage[file]) {
     const clipDur = footage[file];
     const rate = clipDur >= segDur ? 1 : Math.max(0.6, clipDur / segDur);
@@ -23,22 +30,25 @@ const SegmentView: React.FC<{seg: Segment; dur: number; kicker: string}> = ({seg
   const f = useCurrentFrame();
   const p = interpolate(f, [0, 14], [0, 1], {...clamp, easing: Easing.bezier(0.16, 1, 0.3, 1)});
   const o = interpolate(f, [0, 8, dur - 6, dur], [0, 1, 1, 0], clamp);
-  const planned = (seg.screen && !footage[seg.screen]) || (seg.phone && !footage[seg.phone]);
+  const missing = (seg.screen && !footage[seg.screen]) || (seg.phone && !footage[seg.phone]);
+  const useStill = Boolean(missing && seg.still);
+  const planned = missing && !useStill;
+  const chip = useStill && seg.still ? seg.still.chip : seg.chip;
   const label = seg.chip.kind + (seg.chip.text ? ` · ${seg.chip.text}` : '');
   const segSec = dur / 30;
   return (
     <AbsoluteFill style={{opacity: o}}>
       <div style={{position: 'absolute', left: 120, top: 62, transform: `translateY(${(1 - p) * 10}px)`}}>
-        <div style={{fontFamily: mono, fontSize: 20, color: C.accent, letterSpacing: '0.14em'}}>{kicker}</div>
+        <div style={{fontFamily: mono, fontSize: 20, color: C.stageAccent, letterSpacing: '0.14em'}}>{kicker}</div>
         <div style={{fontFamily: display, fontSize: 46, fontWeight: 700, color: C.text, letterSpacing: '-0.03em', marginTop: 4}}>{seg.title}</div>
       </div>
       <div style={{position: 'absolute', right: 120, top: 92}}>
-        <Chip kind={planned ? 'PLANNED' : seg.chip.kind} text={planned ? label : seg.chip.text} />
+        <Chip kind={planned ? 'PLANNED' : chip.kind} text={planned ? label : chip.text} />
       </div>
       {seg.layout === 'screen' && (
         <div style={{position: 'absolute', left: 260, top: 176, transform: `scale(${0.97 + 0.03 * p})`, transformOrigin: '50% 0%'}}>
           <WindowFrame width={1400} height={790} title={seg.route}>
-            <Clip file={seg.screen} segDur={segSec} lines={seg.pending} label={label} />
+            <Clip file={seg.screen} segDur={segSec} lines={seg.pending} label={label} still={seg.still} />
           </WindowFrame>
         </div>
       )}
