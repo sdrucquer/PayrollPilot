@@ -46,3 +46,14 @@ Blockers: C-05 not on main, so 5 messaging tests skip there
 Next: F-04 privacy sweep script
 Handoff requested: lane A fixes resolution of no-longer-detected exceptions in run_cycle_audit; lead merges C-05 so the messaging tests run on main
 ```
+
+```
+LANE F status @ 13:08
+Done: F-04 (acceptance checks passed: scripts/f_privacy.sh scans git-tracked text files plus web/dist when present for E.164 and formatted US phone numbers, sk-or- and other API keys, personal email domains, assigned secrets in env-style lines and private denylist terms; checks .gitignore covers docs/private, data/private and .env files, that nothing private or .env is tracked, and that no xlsx/csv is tracked outside data/fixtures; prints file:line with masked matches only and never prints denylist terms; exit 0 clean, 1 findings)
+Changed files: scripts/f_privacy.sh
+Tests run: scripts/f_privacy.sh on main 69c672e -> CLEAN, exit 0 (denylist SKIP: file absent). Probe with a planted sk-or- key and two real-format numbers -> 3 FAIL lines, masked, exit 1; probe removed.
+Evidence: allowed by design: NANP 555 numbers and numbers with area code 0xx/1xx (never assignable, e.g. +10000000000 placeholders in lane A tests), noreply@anthropic.com
+Blockers: data/private/denylist.txt still absent, so real-name terms are not checked. Git history is not scanned (the old manager split remains in B-01 history).
+Next: F-03 rehearsal at G2 if wanted; rerun f_privacy.sh at 2:35 PM before recording
+Handoff requested: lead supplies data/private/denylist.txt and reruns scripts/f_privacy.sh before recording
+```
