@@ -56,8 +56,11 @@ def _check_approval(approval: dict[str, Any] | None, *, kind: str, target_id: st
 
 
 def batch_version(batch: dict[str, Any]) -> str:
-    """A message approval binds to the exact text AND exact recipient."""
-    return content_hash({"text": batch.get("text"), "actual_recipient": batch.get("actual_recipient")})
+    """CONTRACTS: a message approval's ``target_version`` is the batch
+    ``text_hash`` = sha256 of the exact text, recomputed here from the text so
+    an edited text cannot reuse an old hash. The recipient is bound separately:
+    ``check_send`` re-checks it against the allowlist (a single handle)."""
+    return text_hash(batch.get("text") or "")
 
 
 def check_send(batch: dict[str, Any], approval: dict[str, Any] | None, allowlist: Iterable[str]) -> None:

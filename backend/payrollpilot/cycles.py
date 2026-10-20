@@ -100,8 +100,13 @@ def load_cycle(db: Database, settings: Settings, source: str, name: str) -> dict
         "provenance": snapshot.get("provenance", cycle.get("provenance")),
         "data": snapshot,
     }
+    changed_entries = _changed_time_entries(existing_snap["data"], snapshot) if existing_snap else []
     db.put_record(kinds.SNAPSHOT, snap_row)
     stored = db.put_record(kinds.CYCLE, cycle)
+    if changed_entries:
+        from .corrections import invalidate_for_source_change
+
+        invalidate_for_source_change(db, cycle_id, changed_entries)
     counts = {k: len(snapshot.get(k) or []) for k in ENTITY_LISTS}
     if not existing_cycle:
         emit(db, type="cycle.created", actor="system", cycle_id=cycle_id,
@@ -112,6 +117,38 @@ def load_cycle(db: Database, settings: Settings, source: str, name: str) -> dict
          refs={"snapshot_id": snapshot.get("snapshot_id"), "snapshot_hash": snap_hash, "counts": counts,
                "replaced_previous": bool(existing_snap)})
     return _strip(stored)
+
+
+def _changed_time_entries(old: dict[str, Any], new: dict[str, Any]) -> list[str]:
+    """Time entry ids whose version_hash changed or that disappeared."""
+    before = {te["id"]: te.get("version_hash") for te in old.get("time_entries") or []}
+    after = {te["id"]: te.get("version_hash") for te in new.get("time_entries") or []}
+    return sorted(i for i, v in before.items() if after.get(i, "<removed>") != v)
+
+
+def corrected_snapshot(db: Database, cycle_id: str) -> dict[str, Any] | None:
+    """Source snapshot with APPLIED local corrections overlaid. The source
+    snapshot itself is never modified (source systems are read-only)."""
+    snapshot = get_snapshot(db, cycle_id)
+    if snapshot is None:
+        return None
+    applied = [c for c in db.list_records(kinds.CORRECTION, cycle_id=cycle_id) if c.get("state") == "applied"]
+    if not applied:
+        return snapshot
+    view = json.loads(json.dumps(snapshot))
+    index = _entity_index(view)
+    for corr in sorted(applied, key=lambda c: c.get("applied_at") or ""):
+        after = corr.get("after") or {}
+        target_id = next((after[k] for k in ("time_entry_id", "cost_id", "worker_id", "job_id") if after.get(k) and after[k] in index), None)
+        if target_id is None:
+            continue
+        rec = index[target_id]
+        for key, value in after.items():
+            if key.endswith("_id") and value == target_id:
+                continue
+            rec[key] = value
+        rec.setdefault("local_corrections", []).append(corr["id"])
+    return view
 
 
 def get_cycle(db: Database, cycle_id: str) -> dict[str, Any] | None:
@@ -169,7 +206,7 @@ _DETECTION_FIELDS = (
 
 
 def run_cycle_audit(db: Database, cycle_id: str) -> dict[str, Any]:
-    snapshot = get_snapshot(db, cycle_id)
+    snapshot = corrected_snapshot(db, cycle_id)
     if snapshot is None:
         raise KeyError(cycle_id)
     started = now_iso()

@@ -31,5 +31,6 @@ def health(request: Request) -> dict:
         },
         "test_recipient_configured": bool(s.test_recipient),
         "routes": {"comms": getattr(request.app.state, "comms_routes", "absent")},
+        "core": core_bridge.modes(),
         "run_stopped": st.db.get_flag("run_stopped") == "1",
     }
