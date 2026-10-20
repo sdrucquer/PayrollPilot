@@ -3,8 +3,15 @@ import bundle from './fixtures/bundle'
 import { sim } from './sim'
 import type {
   Approval, Health, InboundMessage, LocalCorrection, MessageBatch, ParsedReply, PayrollCycle, PayrollException,
-  PPEvent, ReadinessResponse, Resolution, Worker,
+  PPEvent, ReadinessResponse, Resolution, Worker, WorkbookArtifact,
 } from './contracts'
+
+// Packet shape is not pinned in CONTRACTS; read defensively.
+export interface PacketWorker {
+  worker_id?: string; id?: string; display_name?: string; minutes?: number | null; total_minutes?: number | null
+  rate_status?: string; gross_cents?: number | null
+}
+export interface Packet { draft_version?: string; workers?: PacketWorker[]; identities?: Worker[]; [k: string]: unknown }
 
 export type DataMode = 'fixture' | 'api'
 export const DATA_MODE: DataMode = import.meta.env.VITE_DATA_MODE === 'api' ? 'api' : 'fixture'
@@ -114,6 +121,15 @@ export const api = {
   applyCorrection: (id: string): Promise<unknown> => (FX ? ok(() => sim.applyCorrection(id)) : post(`/corrections/${id}/apply`, {})),
   handoff: (exceptionId: string): Promise<unknown> =>
     FX ? Promise.reject(new ApiError(501, 'Handoff needs the live API')) : post(`/exceptions/${exceptionId}/handoff`, {}),
+  workbook: (cycleId: string): Promise<WorkbookArtifact> =>
+    FX ? Promise.reject(new ApiError(501, 'Workbook export needs the live API; fixture mode cannot generate the xlsx'))
+      : post(`/cycles/${cycleId}/workbook`, {}),
+  stop: (): Promise<{ stopped: boolean }> => (FX ? ok(() => sim.stop()) : post('/run/stop', {})),
+  // Packet is optional: the backend returns 501 until lane B's build_packet lands.
+  packet: async (cycleId: string): Promise<Packet | null> => {
+    if (FX) return null
+    try { return await http<Packet>(`/cycles/${cycleId}/packet`) } catch { return null }
+  },
   // Fixture only: replays the scripted lane B test reply for a sent batch.
   simulateReply: (batchId: string): Promise<void> =>
     FX ? ok(() => sim.simulateReply(batchId)) : Promise.reject(new ApiError(400, 'Replies arrive from the bridge in api mode')),
