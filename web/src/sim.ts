@@ -87,7 +87,7 @@ export const sim = {
 
   async editDraft(batchId: string, text: string) {
     const b = S.batches.find((x) => x.id === batchId)
-    if (!b || b.state === 'sent') throw new Error('only unsent drafts can be edited')
+    if (!b || b.declined_at || b.state === 'sent') throw new Error('only unsent drafts can be edited')
     b.text = text
     b.text_hash = await sha256(text)
     const a = S.approvals.find((x) => x.id === b.approval_id)
@@ -98,6 +98,17 @@ export const sim = {
       b.state = 'draft'
       emit('system', 'approval.invalidated', `Approval ${a.id} invalidated: text changed`, { approval_id: a.id, batch_id: b.id })
     }
+  },
+
+  declineDraft(batchId: string) {
+    const b = S.batches.find((x) => x.id === batchId)
+    if (!b || !['draft', 'approved'].includes(b.state)) throw new Error('only unsent drafts can be declined')
+    b.declined_at = now()
+    const a = S.approvals.find((x) => x.id === b.approval_id)
+    if (a) { a.state = 'invalidated'; a.invalidated_reason = 'owner declined message' }
+    b.approval_id = null
+    b.state = 'draft'
+    emit('owner', 'approval.invalidated', 'Owner declined the message; nothing sent', { batch_id: b.id, decision: 'declined' })
   },
 
   approve(input: { kind: Approval['kind']; target_id: string; target_version: string; scope_text: string }): Approval {
@@ -117,6 +128,7 @@ export const sim = {
   send(batchId: string): MessageBatch {
     const b = S.batches.find((x) => x.id === batchId)
     if (!b) throw new Error('batch not found')
+    if (b.declined_at) throw new Error('owner declined this message')
     if (b.state === 'sent') return clone(b) // a batch sends once
     const a = S.approvals.find((x) => x.id === b.approval_id)
     if (!a || a.state !== 'active' || a.target_version !== b.text_hash) throw new Error('send refused: no active approval for this exact text')

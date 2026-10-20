@@ -38,5 +38,12 @@ export function formatTime(ts: string | null | undefined): string {
 
 // Masks phone-number-like sequences inside free text (e.g. an inbound reply that includes a number).
 export function maskText(t: string): string {
-  return t.replace(/\+?\d[\d\s().-]{7,}\d/g, (m) => maskHandle(m))
+  // Dates in payroll questions are evidence, not phone handles.
+  return t.split(/(\b\d{4}-\d{2}-\d{2}\b)/).map((part) => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(part)) return part
+    return part.replace(/(?<![\w$])\+?\d[\d\s().-]{5,}\d/g, (m) => {
+      const n = m.replace(/\D/g, '').length
+      return n >= 10 || (n === 7 && /[().-]/.test(m)) ? maskHandle(m) : m
+    })
+  }).join('')
 }
