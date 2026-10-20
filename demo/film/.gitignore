@@ -10,3 +10,4 @@ public/music/*.wav
 public/vo/source.txt
 !public/stills/*.jpg
 public/a/
+public/sound/*.wav
