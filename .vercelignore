@@ -1,0 +1,16 @@
+.env
+.env.*
+**/.env
+**/.env.*
+data/private
+docs/private
+backend/data
+**/*.db
+**/.venv*
+.venv-lead
+**/node_modules
+demo/film
+demo/evidence/private
+demo/video-out/payrollpilot-demo-voice-only.mp4
+.git
+**/__pycache__

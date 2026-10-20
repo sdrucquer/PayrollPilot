@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "backend": {
+      "root": "backend",
+      "framework": "fastapi",
+      "entrypoint": "index:app"
+    },
+    "web": {
+      "root": "web",
+      "framework": "vite",
+      "buildCommand": "mkdir -p public && cp ../demo/video-out/payrollpilot-demo.mp4 public/demo.mp4 && VITE_DATA_MODE=fixture npm run build",
+      "rewrites": [
+        { "source": "/(.*)", "destination": "/index.html" }
+      ]
+    }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": { "service": "web" } }
+  ]
+}
