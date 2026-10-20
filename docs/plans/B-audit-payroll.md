@@ -72,3 +72,14 @@ Blockers: none. Fixture change: readiness_matrix_v1.json is stricter than the 12
 Next: B-05 corrections, then B-04 packet + workbook
 Handoff requested: A wires GET /api/cycles/{id}/readiness -> payrollpilot_core.readiness.cycle_readiness(snapshot, exceptions, policies=<private policy file or None>) and returns {stage1, items}; D renders Readiness
 ```
+
+```
+LANE B status @ 12:50
+Done: B-05 (acceptance checks passed: T02 job_allocation te_0014 job_01 -> job_02 gives stage1_wages_delta_cents 0 and job labor -20000/+20000, equal to readiness_matrix_v1; applied view reproduces the after-correction readiness; source snapshot untouched; T20 time confirmation reconciles the whole workweek against prior recognized payroll, unknown prior -> prior_recognition_unknown and delta null (not new hours x rate), known prior -> week gross minus prior; stale before refused; identity_merge explicitly unsupported; paid entries -> paid_adjustment_decision; cost_link allocations must reconcile)
+Changed files: core/payrollpilot_core/corrections.py, core/tests/test_corrections.py
+Tests run: core/.venv/bin/pytest -q -> 99 passed (test_corrections: 11)
+Evidence: propose_correction(job_allocation, T02) -> calculation_impact {stage1_wages_delta_cents: 0, job_costing_delta: [job_01 -20000, job_02 +20000]}
+Blockers: none. Open decision: weeks over 40h raise policy_missing:O02_overtime instead of computing overtime.
+Next: B-04 packet + workbook
+Handoff requested: A calls propose_correction(kind, before, after, view) -> LocalCorrection with calculation_impact, blockers and target_version; apply_corrections(snapshot, corrections) mirrors corrected_snapshot
+```
