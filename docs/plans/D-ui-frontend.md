@@ -34,3 +34,14 @@ Fixture-first rule: `web/src/fixtures/` loads `docs/contracts/fixtures/*.json` (
 - Loading/error states (integration errors show as errors, not success), stop control (POST /run/stop) visible, dark text contrast, no phone numbers anywhere (mask helper everywhere a recipient appears).
 
 ## Status log
+
+```
+LANE D status @ 12:43
+Done: D-01 (acceptance checks passed: placeholder fixture renders; blockers display with codes; null money renders as a dash; Stage 2 summary lists items separately and never says "complete"; 1280px and 375px layouts checked, no horizontal overflow at 375px)
+Changed files: web/ (new: Vite + React 19 + TS strict, src/contracts.ts zod mirror of CONTRACTS v1.1, src/api.ts data layer with VITE_DATA_MODE=fixture|api, src/fixtures/placeholder_bundle.json, src/screens/Board.tsx, scripts/check-contracts.ts, screenshots/)
+Tests run: cd web && npm install && npm run build -> exit 0; npm run check:contracts -> 15/15 checks passed
+Evidence: web/screenshots/d01-board-1280.png, web/screenshots/d01-board-phone-375.jpg
+Blockers: lane B fixtures not yet in docs/contracts/fixtures/ on main; board uses the lane D placeholder bundle (labeled synthetic). Band setup check: OK (CLI v0.4.16, Claude Code integration v0.5.33, session reachable).
+Next: D-02 inbox + thread
+Handoff requested: A: no GET route for workers/display names (board falls back to /packet identities, else worker_id); no API field for labor/revenue review or cash confirmation (UI shows "not reviewed" / "not confirmed"). E: screenshots above.
+```
