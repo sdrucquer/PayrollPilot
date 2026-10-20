@@ -3,7 +3,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Request
 
 from .. import CONTRACT_VERSION
-from ..core_bridge import AUDIT_MODE
+from .. import core_bridge
 
 router = APIRouter()
 
@@ -27,7 +27,7 @@ def health(request: Request) -> dict:
             "messaging": {"mode": st.messaging.mode, "label": st.messaging.label},
             "memory": {"mode": st.memory.mode, "label": st.memory.label},
             "band": {"mode": st.band.mode, "label": st.band.label},
-            "audit": AUDIT_MODE,
+            "audit": core_bridge.AUDIT_MODE,
         },
         "test_recipient_configured": bool(s.test_recipient),
         "run_stopped": st.db.get_flag("run_stopped") == "1",

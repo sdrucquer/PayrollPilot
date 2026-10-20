@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 
 from .db import Database
 from .permissions import PermissionDenied
-from .routes import health
+from .routes import cycles, health, ops
 from .settings import Settings, load_settings
 from .state import build_state
 
@@ -26,6 +26,8 @@ def create_app(settings: Settings | None = None, db: Database | None = None) -> 
         return JSONResponse(status_code=501, content={"error": "gated", "detail": str(exc)})
 
     app.include_router(health.router)
+    app.include_router(cycles.router)
+    app.include_router(ops.router)
     return app
 
 
