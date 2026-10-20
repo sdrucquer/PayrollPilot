@@ -1,0 +1,90 @@
+{
+  "captured_date": "2026-10-20 Pacific",
+  "source": "actual running local app and native Band; synthetic/de-identified payroll data",
+  "capture_method": "Playwright recordVideo 1920x1080; native screencapture -x",
+  "facts": [
+    "02 is one actual approved send; only latest agreed batch sent, old duplicate left unsent",
+    "07 shows actual blocked readiness: wages1of4, seven answers needed; Gusto not prepared",
+    "08 and12 are identical native room captures; top sender header partly clipped, full Audit sender not proved",
+    "09 shows actual board state, not filmed motion",
+    "10 real Cognee POST appliedtrue, approval_createdfalse; rejected stale resolution remains in output",
+    "11 native usage remains unattributed, not product-agent costs",
+    "No backend or bridge restarted by capture agent",
+    "Prior failed 02 MP4 replaced by complete40.32sec real send take in this update"
+  ],
+  "missing": {
+    "03": "No real phone response during180secondpoll; subsequent navigation timed out; no ambiguous proof committed",
+    "04": "awaiting genuine reply and one C-owned clarification draft",
+    "05": "awaiting actual clear reply and correction proposal; new rate unconfirmed",
+    "06": "no fresh approved application yet; earlier200dollar correction already applied, never replayed",
+    "13": "Band Agents shows stopped Claude coding agent and3generic product agents, no Codex session; requested dev-team proof unavailable"
+  },
+  "files": [
+    {
+      "name": "01-home-in-progress.mp4",
+      "bytes": 884002,
+      "sha256": "7cf1720a013dfc08fcab65138b4f1cf397ff1ac978405d62411432fb5fba9408",
+      "duration_seconds": 14.36
+    },
+    {
+      "name": "01-home-in-progress.webm",
+      "bytes": 2291101,
+      "sha256": "ee3d7a73b17997d8726ce6b09a43ba6eefbb043f27fdcf73a2e69841254fa35e",
+      "duration_seconds": 14.36
+    },
+    {
+      "name": "02-approve-and-send.mp4",
+      "bytes": 4842400,
+      "sha256": "b1f1d37728e3ff663943337250441001e9d4a3ee0a3a6a236baa3e4bcef3fbb1",
+      "duration_seconds": 40.32
+    },
+    {
+      "name": "02-approve-and-send.webm",
+      "bytes": 5587264,
+      "sha256": "f6cdb322e1de2d28ad7ea6838d20c6f433399ab9037668b7224ff3f9f26db1d2",
+      "duration_seconds": 40.32
+    },
+    {
+      "name": "07-ready-summary.mp4",
+      "bytes": 1506371,
+      "sha256": "e0fae29b2a1a98b58857cfd3b2071942ad4f6edd171b78e799ebb80e572af9fd",
+      "duration_seconds": 15.76
+    },
+    {
+      "name": "07-ready-summary.webm",
+      "bytes": 1656390,
+      "sha256": "ab2e37259f39e819e24d7ec3286d0b20c8a867ce4187cc9f5f5ced369b2eacb8",
+      "duration_seconds": 15.76
+    },
+    {
+      "name": "08-band-room.png",
+      "bytes": 1386655,
+      "sha256": "952706a3ebf519a8ff64f1a08598993170fed9b504d2b08fb244d656e319033e"
+    },
+    {
+      "name": "09-band-board.png",
+      "bytes": 1198843,
+      "sha256": "a19780f931cd5f4009a397f4a8233a0bdf77940ad53c2a3365b7ec3f67b3a565"
+    },
+    {
+      "name": "10-cognee-recall.txt",
+      "bytes": 3344,
+      "sha256": "d77674f323aaa7f5360846202c5d8a3447847f29ffef42afa13555b59df8de31"
+    },
+    {
+      "name": "11-band-cost.png",
+      "bytes": 1195973,
+      "sha256": "a31eababf4c01ad54e901ab81a4c704e8ad0141818c675c2890f50709009fdba"
+    },
+    {
+      "name": "11-band-usage.txt",
+      "bytes": 508,
+      "sha256": "34a8577dbbe18ee4d60ed5e67cf5ce0d2ce1d6b71d1c29ac394d30309b532122"
+    },
+    {
+      "name": "12-band-chat-handoff.png",
+      "bytes": 1386655,
+      "sha256": "952706a3ebf519a8ff64f1a08598993170fed9b504d2b08fb244d656e319033e"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+REAL POST /api/memory/recall-check, 2026-10-20 Pacific. Synthetic/de-identified case data. No new approval created.
+{
+  "hits": [
+    {
+      "text": "PP-RESOLUTION res_demo02 | company Pilot Co | cycle cyc_synth | exception exc_d06fba51f7 | fact: job job_03 is off-site work (off-site child of job_02); costs on job_03 belong to job_02 | confirmed by owner_test_phone reply msg_in_d2 on 2026-10-20 | evidence fixture:job_03.",
+      "refs": {
+        "resolution_ids": [
+          "res_demo02"
+        ],
+        "cycle_ids": [
+          "cyc_synth"
+        ],
+        "job_ids": [
+          "job_03",
+          "job_02"
+        ],
+        "inbound_ids": [
+          "msg_in_d2"
+        ],
+        "offsite_parent_job_ids": [
+          "job_02"
+        ]
+      },
+      "source": "cognee"
+    },
+    {
+      "text": "PP-RESOLUTION res_d7e3b72dae39 | company Pilot Co | cycle cyc_synth_v1 | exception exc_d06fba51f7 | fact: job job_03 is off-site work (off-site child of job_02); costs on job_03 belong to job_02 | confirmed by owner_test_phone reply msg_in_8a53d8cec7144dcf on 2026-10-20 | evidence fixture:jobber_job_03.",
+      "refs": {
+        "resolution_ids": [
+          "res_d7e3b72dae39"
+        ],
+        "job_ids": [
+          "job_03",
+          "job_02"
+        ],
+        "inbound_ids": [
+          "msg_in_8a53d8cec7144dcf"
+        ],
+        "offsite_parent_job_ids": [
+          "job_02"
+        ]
+      },
+      "source": "cognee"
+    },
+    {
+      "text": "PP-RESOLUTION res_01 | company Pilot Co | cycle cyc_synth01 | exception exc_0001 | fact: time entry te_0001 belongs to job job_02 (off-site child of job_01); work at the off-site disposal location is billed to job_02 | confirmed by owner_test_phone reply msg_in_01 on 2026-10-20 | evidence fixture:te_0001.",
+      "refs": {
+        "resolution_ids": [
+          "res_01"
+        ],
+        "cycle_ids": [
+          "cyc_synth01"
+        ],
+        "time_entry_ids": [
+          "te_0001"
+        ],
+        "job_ids": [
+          "job_02",
+          "job_01"
+        ],
+        "inbound_ids": [
+          "msg_in_01"
+        ],
+        "offsite_parent_job_ids": [
+          "job_01"
+        ]
+      },
+      "source": "cognee"
+    },
+    {
+      "text": "PP-RESOLUTION res_1c1543ec450e | company Pilot Co | cycle cyc_synth_v1 | exception exc_611be6d68e | fact: time entry te_0014 belongs to job job_02 | confirmed by owner_test_phone reply msg_in_9c07b802c2c68914 on 2026-10-20 | evidence fixture:jobber_te_0014,fixture:gusto_offcycle_run_0.",
+      "refs": {
+        "resolution_ids": [
+          "res_1c1543ec450e"
+        ],
+        "time_entry_ids": [
+          "te_0014"
+        ],
+        "job_ids": [
+          "job_02"
+        ],
+        "inbound_ids": [
+          "msg_in_9c07b802c2c68914"
+        ]
+      },
+      "source": "cognee"
+    }
+  ],
+  "applied": true,
+  "next_action_before": "ask ops lead which job",
+  "next_action_after": "propose allocation to job_02 pending owner approval",
+  "memory_adapter": "cognee",
+  "approval_created": false,
+  "rejected": [
+    {
+      "reason": "unknown_resolution_ids:res_demo02",
+      "text": "PP-RESOLUTION res_demo02 | company Pilot Co | cycle cyc_synth | exception exc_d06fba51f7 | fact: job job_03 is off-site work (off-site child of job_02); costs on job_03 belong to job_02 | confirmed by"
+    }
+  ]
+}
