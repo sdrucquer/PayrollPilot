@@ -32,22 +32,22 @@ Cases can pass between agents through Band with a human decision, while confirme
 - **Cognee:** Existing cross-process CHUNKS proof shows a stored fact recalled by a fresh process, changing the proposed next action without granting approval. Main reports a live memory write at 1:33. No LLM-backed graph extraction / graph-completion claim. Use earlier proof as PLAYBACK; leave the live stack running. Evidence: [R13–R15](evidence-matrix.md), [recall log](evidence/cognee/recall-run.txt).
 - **Photon:** Main reports a real allowlisted send/reply at 1:12–1:14 and a 1:32 owner-approved batch with correlated TEST REPLY and live parsing. Final phone/app footage pending. Fixture simulation does not prove iMessage. Evidence: [R08–R09](evidence-matrix.md), [live report](evidence/logs/live-flow-main27b.txt).
 
-The description follows `docs/PRODUCT-STATEMENT.md` “It can”; it describes capability, not a completed final recording. A real Jobber read has **partial coverage** (58 entries, 10 workers, 13 jobs): source totals, ids and approval state unverified; rates/payroll/payments/expenses not read. The film stays synthetic. Never imply complete source coverage. Owner correction application and clarification completion remain unproven in this snapshot. All 14 product clips and final voice remain pending.
+The description follows `docs/PRODUCT-STATEMENT.md` “It can”; it describes capability, not a completed final recording. A real Jobber read has **partial coverage** (58 entries, 10 workers, 13 jobs): source totals, ids and approval state unverified; rates/payroll/payments/expenses not read. The film stays synthetic. Never imply complete source coverage. Current-flow clarification, behavior-changing recall, owner correction application and verified export are now evidenced in main’s C-07 notes; final automatic footage remains pending. Timed-out/500 identical-baseline-query attempts are not successful recall proof. Final automatic capture files and final voice remain pending until reviewed.
 
 ## Owner’s final steps
 
 | Time | Action | Completion evidence |
 |---|---|---|
 | Before 2:45 | Confirm the organizer form’s fields; preserve this copy. Check `/api/comms/health` active adapters and synthetic/test labels. Leave live services running; coordinate case preparation with lane C. | Form inspected by owner; no credentials on screen. |
-| 2:45 | Feature freeze. Begin recording real app, Band and Cognee views using [shot list](shot-list.md) and [reply script](reply-script.md). | Owner raw take; Lane E does not screen-record. |
-| 2:45–2:55 | One complete take plus short pickups. Keep owner approvals, synthetic data and test replies visible. | Real footage for each selected beat; prior take labeled PLAYBACK. |
+| Before / by 2:45 | Automatic capture chat records the safe C-coordinated case and independent Band/Cognee views. Feature freeze at 2:45. | Owner only phone replies/foregrounding; no human recording. |
+| **By 3:00** | Automatic capture chat commits numbered files under `demo/film/clips/` on `cloud/film`; E reviews/maps each as it arrives. | Genuine actual/failed evidence list; no reenactment of the earlier applied correction. |
 | 2:55–3:05 | Cut named clips, rebuild manifest, update evidence and closing status from what is actually shown, render. | Run film commands below; preserve pending/unavailable distinctions. |
 | 3:05–3:10 | Watch the whole export with sound and complete [redaction checklist](redaction-checklist.md). | No pending frames, missing sound, private details or unproven claims. |
 | **By 3:15** | Owner uploads the verified video; paste its URL above and into the form. | Upload completed / playable link. Begin earlier if upload time is uncertain. |
 | 3:15–3:25 | Open video and repo signed out; verify sound, full duration and access. Owner submits and saves receipt. | Playback verified, public repo accessible, submission receipt saved privately. |
 | **3:30** | Deadline. | Owner verifies receipt before this time. |
 
-If a live beat fails, use an earlier successful owner recording labeled PLAYBACK. If there is no successful recording, cut that claim and mark it unavailable; never replace it with a mock or a simulation labeled real. The present draft has no product clips and is not an upload fallback.
+If a live beat fails, use an earlier genuine capture labeled PLAYBACK. If there is no successful recording, cut that claim and mark it unavailable; never replace it with a mock or a simulation labeled real. The present draft has no product clips and is not an upload fallback.
 
 From `demo/film/`:
 

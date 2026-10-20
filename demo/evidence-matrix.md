@@ -44,3 +44,7 @@ The 152-second draft uses the frozen light identity. No screen recording was mad
 ## Mandatory brief correction
 
 The cost/session/token view is required Band Desktop evidence. R19 is a REQUIRED GAP, not optional or satisfied by app OpenRouter events. Use `demo/mandatory-band-capture.md` B1–B6/C1–C4 acceptance and capture order. Codex chat coordination alone does not establish Band team coordination.
+
+## Automatic capture and completed current-flow update
+
+Owner superseded human recording: dedicated capture chat owns numbered `demo/film/clips/` on `cloud/film`, committed by **3:00 PM Pacific**. Owner only phone replies/foregrounding Band; E imports and renders. Current-flow behavior-changing recall, owner application and verified workbook are now evidenced by main C-07; full-response/cross-process evidence is tracked in PR #38. The identical-baseline-query timeout/500 attempts are not claimed successful. Media capture remains distinct from runtime proof. R19 native cost attribution remains REQUIRED GAP.
