@@ -456,7 +456,7 @@
        "exception_id": "exc_802ac6361d"
       }
      ],
-     "unknown_amount": false,
+     "unknown_amount": true,
      "calculation_version": "calc_v1",
      "last_computed_at": "2026-10-12T09:00:00-04:00"
     },
@@ -474,7 +474,7 @@
     "computed": null,
     "readiness": {
      "state": "pending",
-     "scope": "Job 01; quoter unconfirmed; costs incomplete",
+     "scope": "Job 01; quoter unconfirmed; costs and labor incomplete",
      "blockers": [
       {
        "code": "exception:exc_4afa02c5e6",
@@ -502,9 +502,29 @@
        "exception_id": "exc_d06fba51f7"
       },
       {
+       "code": "exception:exc_20054a0d67",
+       "label": "Unassigned labor (te_0022) may belong to Job 01",
+       "exception_id": "exc_20054a0d67"
+      },
+      {
+       "code": "exception:exc_4cd900abf0",
+       "label": "Overlapping labor on Job 01 (te_0027)",
+       "exception_id": "exc_4cd900abf0"
+      },
+      {
+       "code": "exception:exc_fea97c8640",
+       "label": "Worker C labor on Job 01 has no verified rate",
+       "exception_id": "exc_fea97c8640"
+      },
+      {
+       "code": "exception:exc_93d1ad0169",
+       "label": "Worker D labor on Job 01: identity unreconciled",
+       "exception_id": "exc_93d1ad0169"
+      },
+      {
        "code": "coverage:expenses",
        "label": "quickbooks/expenses incomplete (permission)",
-       "exception_id": null
+       "exception_id": "exc_f6fead68cd"
       },
       {
        "code": "coverage:historical_labor",
@@ -628,7 +648,7 @@
       {
        "code": "coverage:expenses",
        "label": "quickbooks/expenses incomplete (permission)",
-       "exception_id": null
+       "exception_id": "exc_f6fead68cd"
       },
       {
        "code": "stage1_exposure",
@@ -639,6 +659,56 @@
        "code": "allocation_provisional:rcpt_01",
        "label": "Receipt allocation to prior cycle proposed, not finalized (T19)",
        "exception_id": null
+      },
+      {
+       "code": "commissions_pending",
+       "label": "Commission amounts not final",
+       "exception_id": null
+      },
+      {
+       "code": "exception:exc_20054a0d67",
+       "label": "Open cost-affecting issue: missing_job",
+       "exception_id": "exc_20054a0d67"
+      },
+      {
+       "code": "exception:exc_56598c0c4f",
+       "label": "Open cost-affecting issue: open_timer",
+       "exception_id": "exc_56598c0c4f"
+      },
+      {
+       "code": "exception:exc_4cd900abf0",
+       "label": "Open cost-affecting issue: overlap",
+       "exception_id": "exc_4cd900abf0"
+      },
+      {
+       "code": "exception:exc_098d5893a2",
+       "label": "Open cost-affecting issue: duplicate_time",
+       "exception_id": "exc_098d5893a2"
+      },
+      {
+       "code": "exception:exc_611be6d68e",
+       "label": "Open cost-affecting issue: already_paid_allocation",
+       "exception_id": "exc_611be6d68e"
+      },
+      {
+       "code": "exception:exc_2c344f9c27",
+       "label": "Open cost-affecting issue: unmatched_cost",
+       "exception_id": "exc_2c344f9c27"
+      },
+      {
+       "code": "exception:exc_b178c840ca",
+       "label": "Open cost-affecting issue: cost_conflict",
+       "exception_id": "exc_b178c840ca"
+      },
+      {
+       "code": "exception:exc_d06fba51f7",
+       "label": "Open cost-affecting issue: offsite_link",
+       "exception_id": "exc_d06fba51f7"
+      },
+      {
+       "code": "exception:exc_4afa02c5e6",
+       "label": "Open cost-affecting issue: quote_attribution",
+       "exception_id": "exc_4afa02c5e6"
       }
      ],
      "unknown_amount": true,
@@ -815,7 +885,7 @@
        "exception_id": "exc_802ac6361d"
       }
      ],
-     "unknown_amount": false,
+     "unknown_amount": true,
      "calculation_version": "calc_v1",
      "last_computed_at": "2026-10-12T09:00:00-04:00"
     },
@@ -833,7 +903,7 @@
     "computed": null,
     "readiness": {
      "state": "pending",
-     "scope": "Job 01; quoter unconfirmed; costs incomplete; te_0014 reallocated to Job 02",
+     "scope": "Job 01; quoter unconfirmed; costs and labor incomplete; te_0014 reallocated to Job 02",
      "blockers": [
       {
        "code": "exception:exc_4afa02c5e6",
@@ -856,9 +926,29 @@
        "exception_id": "exc_d06fba51f7"
       },
       {
+       "code": "exception:exc_20054a0d67",
+       "label": "Unassigned labor (te_0022) may belong to Job 01",
+       "exception_id": "exc_20054a0d67"
+      },
+      {
+       "code": "exception:exc_4cd900abf0",
+       "label": "Overlapping labor on Job 01 (te_0027)",
+       "exception_id": "exc_4cd900abf0"
+      },
+      {
+       "code": "exception:exc_fea97c8640",
+       "label": "Worker C labor on Job 01 has no verified rate",
+       "exception_id": "exc_fea97c8640"
+      },
+      {
+       "code": "exception:exc_93d1ad0169",
+       "label": "Worker D labor on Job 01: identity unreconciled",
+       "exception_id": "exc_93d1ad0169"
+      },
+      {
        "code": "coverage:expenses",
        "label": "quickbooks/expenses incomplete (permission)",
-       "exception_id": null
+       "exception_id": "exc_f6fead68cd"
       },
       {
        "code": "coverage:historical_labor",
@@ -982,7 +1072,7 @@
       {
        "code": "coverage:expenses",
        "label": "quickbooks/expenses incomplete (permission)",
-       "exception_id": null
+       "exception_id": "exc_f6fead68cd"
       },
       {
        "code": "stage1_exposure",
@@ -993,6 +1083,51 @@
        "code": "allocation_provisional:rcpt_01",
        "label": "Receipt allocation to prior cycle proposed, not finalized (T19)",
        "exception_id": null
+      },
+      {
+       "code": "commissions_pending",
+       "label": "Commission amounts not final",
+       "exception_id": null
+      },
+      {
+       "code": "exception:exc_20054a0d67",
+       "label": "Open cost-affecting issue: missing_job",
+       "exception_id": "exc_20054a0d67"
+      },
+      {
+       "code": "exception:exc_56598c0c4f",
+       "label": "Open cost-affecting issue: open_timer",
+       "exception_id": "exc_56598c0c4f"
+      },
+      {
+       "code": "exception:exc_4cd900abf0",
+       "label": "Open cost-affecting issue: overlap",
+       "exception_id": "exc_4cd900abf0"
+      },
+      {
+       "code": "exception:exc_098d5893a2",
+       "label": "Open cost-affecting issue: duplicate_time",
+       "exception_id": "exc_098d5893a2"
+      },
+      {
+       "code": "exception:exc_2c344f9c27",
+       "label": "Open cost-affecting issue: unmatched_cost",
+       "exception_id": "exc_2c344f9c27"
+      },
+      {
+       "code": "exception:exc_b178c840ca",
+       "label": "Open cost-affecting issue: cost_conflict",
+       "exception_id": "exc_b178c840ca"
+      },
+      {
+       "code": "exception:exc_d06fba51f7",
+       "label": "Open cost-affecting issue: offsite_link",
+       "exception_id": "exc_d06fba51f7"
+      },
+      {
+       "code": "exception:exc_4afa02c5e6",
+       "label": "Open cost-affecting issue: quote_attribution",
+       "exception_id": "exc_4afa02c5e6"
       }
      ],
      "unknown_amount": true,
