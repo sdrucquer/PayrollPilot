@@ -8,7 +8,7 @@
     "Main.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1420, "title": "Home · approval pending (interactive)", "expand": "fill", "is_interactive": true},
     "Ready.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 1480, "title": "Home · payroll ready for review (interactive)", "expand": "fill", "is_interactive": true},
     "Idle.dc.html": {"x": 2720, "y": 0, "w": 1280, "h": 1180, "title": "Home · between payrolls", "expand": "fill"},
-    "Phone.dc.html": {"x": 0, "y": 1720, "w": 390, "h": 1240, "title": "Phone · approval pending"},
+    "Phone.dc.html": {"x": 0, "y": 1720, "w": 390, "h": 1320, "title": "Phone · approval pending"},
     "PhoneReady.dc.html": {"x": 470, "y": 1720, "w": 390, "h": 1240, "title": "Phone · payroll ready"},
     "PhoneIdle.dc.html": {"x": 940, "y": 1720, "w": 390, "h": 980, "title": "Phone · between payrolls"}
   },
