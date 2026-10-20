@@ -1,0 +1,7 @@
+REAL Band CLI usage agents --since 2026-10-20 --until 2026-10-20. Unattributed coding-agent usage; DOES NOT PROVE product-agent attribution.
+Estimated at list prices — not a bill.
+AGENT                     SESSIONS         TOKENS   ESTIMATE  LAST ACTIVITY
+(unattributed)                   2      256746924    $327.76  2026-10-20T17:53:43.923Z
+  token categories (non-additive): reasoning=54400
+TOTAL                            2      256746924    $327.76
+  token categories (non-additive): reasoning=54400
