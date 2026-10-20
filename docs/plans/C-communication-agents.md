@@ -76,3 +76,26 @@ Blockers: Photon credentials + PP_TEST_RECIPIENT (C-01 live), OPENROUTER_API_KEY
 Next: live C-01 round trip and G1 run as soon as credentials land
 Handoff requested: A: update test_health_reports_comms_routes_absent to "loaded"; state.py use payrollpilot.memory.cognee_memory.CogneeMemory when PP_MEMORY=cognee and payrollpilot.band.CliBand when PP_BAND_ENABLED=1 (routes_comms already does this itself); health integrations photon/band/cognee from INTEGRATION-FINDINGS
 ```
+
+```
+LANE C status @ 13:37 Pacific (C-06 continuation)
+Done: read handoff + integration ledger; verified healthy existing services and real comms adapter selection; captured live Cognee baseline (3 hits rejected, action unchanged, approval_created false).
+In progress: owner-gated correction and clarification loop; final recall comparison and evidence PR.
+Changed files: INTEGRATION-FINDINGS.md; docs/plans/C-communication-agents.md (status only).
+Tests run: GET /api/health -> ok true; GET /api/comms/health -> cognee/band_cli/bridge; POST /api/memory/recall-check -> applied false, approval_created false. No unit tests run for evidence-only notes.
+Evidence: evt_71d97efa4a7f at 2026-10-20T13:37:50-07:00; corr_a647520203 proposed; msg_batch_53be61bf427b draft.
+Blockers: owner must approve/apply corr_a647520203 in UI, then approve clarification in Band and reply on phone.
+Next: confirm correction application, give the next owner step, capture clarification provider/inbound/resolution/memory ids, repeat identical recall request.
+Handoff requested: owner UI decision; final PR after the loop has evidence. Generic health adapter labels disagree with GET /api/comms/health (recorded in integration ledger).
+```
+
+```
+LANE C status — mock customer/job labels follow-up
+Done: owner-requested fictional customer/job reference for new synthetic drafts and clarifications; clarification send verified at 13:44:04 Pacific via Home UI approval.
+Changed files: agents/resolution.py; tests/test_c04_agents.py; INTEGRATION-FINDINGS.md; this status log.
+Tests run: backend/.venv/bin/python -m pytest -q backend/tests/test_c04_agents.py backend/tests/test_c05_routes.py -> 22 passed, 1 warning; git diff --check -> clean.
+Evidence: clarification approval appr_f851b80eb083, send evt_d9de212a36aa, provider spc-msg-153bee25-0095-47fd-bf8a-89040cf38124; watcher PID 47186 alive.
+Blockers: current running backend retains earlier imported wording (no restart); phone reply, memory write and final recall comparison pending.
+Next: lead review/adoption of display labels at a safe point; owner phone reply; record final recall comparison.
+Handoff requested: lead merges reviewed PR; no backend restart without the owner's existing health-failure condition being met or new authorization.
+```

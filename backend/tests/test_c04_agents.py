@@ -127,3 +127,31 @@ def test_guard_does_not_flag_normal_answers():
     for r in REPLIES:
         if "T17" not in r["name"]:
             assert unauthorized_instruction(r["raw_text"]) == [], r["name"]
+
+
+def test_mock_customer_reference_is_shared_by_draft_and_clarification():
+    exc = {**BY_CAT["offsite_link"], "cycle_id": "cyc_synth_v1", "provenance": "seeded_issue"}
+    batch = {"id": "demo_batch", "exception_ids": [exc["id"]], "actual_recipient": "test-owner"}
+    texts = [draft_batch([exc])["text"], draft_clarification(batch, [exc["id"]], [exc])["text"]]
+    for text in texts:
+        assert "fictional customers" in text
+        assert "Job #01 — Avery Reed, lawn install" in text
+        assert "Job #02 — Jordan Ellis, patio build" in text
+        assert "Job #03 — off-site disposal run, customer and parent job unconfirmed" in text
+
+
+@pytest.mark.parametrize("cycle,provenance", [("cyc_private", "real"), ("cyc_synth_v1", "real"), ("cyc_private", "synthetic")])
+def test_mock_customer_names_never_appear_for_other_cycles_or_real_data(cycle, provenance):
+    exc = {**BY_CAT["offsite_link"], "cycle_id": cycle, "provenance": provenance}
+    assert "Avery Reed" not in draft_batch([exc])["text"]
+    assert "Jordan Ellis" not in draft_batch([exc])["text"]
+
+
+def test_model_wording_preserves_deterministic_mock_job_reference(monkeypatch):
+    monkeypatch.setenv("PP_DRAFT_WORDING", "model")
+    exc = {**BY_CAT["offsite_link"], "cycle_id": "cyc_synth_v1", "provenance": "seeded_issue"}
+    def transport(body, headers):
+        return {"model": "stub", "usage": {}, "choices": [{"message": {"content": json.dumps({"items": [{"n": 1, "question": "Which parent job is Job 03 (off-site disposal) under?"}]})}}]}
+    out = draft_batch([exc], llm=OpenRouterLLM(transport=transport, budget=Budget(1.0)))
+    assert out["wording"] == "model"
+    assert "Job #02 — Jordan Ellis, patio build" in out["text"]
