@@ -2,6 +2,8 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import { api, DEFAULT_CYCLE_ID } from './api'
 import CommandCenter from './screens/CommandCenter'
 import Home from './screens/Home'
+import BetweenPayrolls from './screens/BetweenPayrolls'
+import { idlePreview } from './fixtures/idle-preview'
 
 function Details() {
   return (
@@ -28,6 +30,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/preview/between-payrolls" element={<BetweenPayrolls data={idlePreview} preview />} />
         <Route path="/details" element={<Details />} />
         <Route path="/e/:id" element={<Details />} />
         <Route path="/inbox/:id" element={<Details />} />

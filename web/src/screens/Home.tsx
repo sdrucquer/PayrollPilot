@@ -8,6 +8,8 @@ import { activity, findPending, steps, wagesLine, stage2Line, ROLE, KIND_NAME, S
 import { formatCents, maskHandle, maskText } from '../format'
 import { sha256 } from '../sim'
 import '../home.css'
+import BetweenPayrolls from './BetweenPayrolls'
+import { idleHomeFor } from '../idle-state'
 
 const time = (ts?: string) => ts ? new Date(ts).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).replace(/ [AP]M$/, '') : ''
 const day = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
@@ -82,8 +84,7 @@ export default function Home() {
         api.cycle(cycleId), api.readiness(cycleId), api.exceptions(cycleId),
         api.events(cycleId), api.packet(cycleId), api.health(),
       ])
-      const active = exceptions.filter((e) => e.state !== 'resolved' || e.message_ids.length > 0)
-      const threads = await Promise.all(active.map((e) => api.thread(e.id, cycleId)))
+      const threads = await Promise.all(exceptions.map((e) => api.thread(e.id, cycleId)))
       const stopped = !!(health as unknown as { run_stopped?: boolean } | null)?.run_stopped
       if (live) { setD({ cycle, readiness, exceptions, events, packet: packet as Data['packet'], threads, stopped, messagingMode: (health as unknown as { adapters?: { messaging?: { mode?: string } } })?.adapters?.messaging?.mode }); setError(null) }
     })().catch((e) => live && setError(e)).finally(() => { if (live) setRefreshing(false) })
@@ -105,6 +106,9 @@ export default function Home() {
 
   if (error && !d) return <div className="h-page"><div className="h-content"><div className="h-err">Could not load payroll: {maskText(String((error as Error).message ?? error))}</div></div></div>
   if (!d) return <div className="h-page"><div className="h-content"><div className="h-meta">Loading…</div></div></div>
+
+  const idle = !error && !actErr && !acting && editing === null ? idleHomeFor(d, declined) : null
+  if (idle) return <BetweenPayrolls data={idle} fakeMessaging={d.messagingMode === 'fake'} />
 
   const pending = findPending(d, declined)
   const st = steps(d, pending)

@@ -14,6 +14,7 @@ from pydantic import BaseModel
 
 from . import approvals, kinds
 from .agents.audit import investigation_note, propose_respondent
+from .agents.text_approval import TextApprovalError, command_request, draft_request as draft_phone_request, handle_reply as handle_phone_reply
 from .agents.llm import BudgetExhausted, OpenRouterLLM
 from .agents.resolution import draft_batch, draft_clarification, parse_reply
 from .band import BandError, BandRequired, CliBand, NullBand, handoff_to_resolution, request_owner_decision, deliver_to_payroll
@@ -97,6 +98,31 @@ def _known_ids(db, cycle_id: str | None) -> dict[str, set[str]]:
         "resolution_ids": {r["id"] for r in db.list_records(kinds.RESOLUTION)},
     }
 
+
+
+# ---------------------------------------------------------------- explicit owner phone approval requests
+class PhoneApprovalDraft(BaseModel):
+    kind: str
+    target_id: str
+
+
+@router.get("/api/text-approvals/capabilities")
+def phone_approval_capabilities():
+    return {"supported": True, "kinds": ["message_send", "local_correction"],
+            "requires_reviewed_request": True, "vague_reply": "draft_confirmation", "auto_apply": False, "auto_send": False}
+
+
+@router.post("/api/text-approvals/draft")
+def phone_approval_draft(body: PhoneApprovalDraft, request: Request):
+    st = request.app.state.pp
+    with _batch_action_lock:
+        if (r := _stopped(st.db)):
+            return r
+        try:
+            batch = draft_phone_request(st, body.kind, body.target_id)
+            return _public_batch(batch)
+        except (TextApprovalError, approvals.ApprovalError) as e:
+            return _err(e.status, e.code, e.detail)
 
 
 # ---------------------------------------------------------------- handoff
@@ -433,9 +459,15 @@ def _send_locked(batch_id: str, request: Request):
 
 # ---------------------------------------------------------------- inbound
 def _correlate(db, inbound: dict) -> dict | None:
+    phone_request = command_request(db, inbound.get("raw_text", ""))
+    if phone_request:
+        return db.get_record(kinds.MESSAGE_BATCH, phone_request["review_batch_id"])
     if inbound.get("correlated_batch_id"):
         return db.get_record(kinds.MESSAGE_BATCH, inbound["correlated_batch_id"])
     sent = [b for b in db.list_records(kinds.MESSAGE_BATCH) if b.get("state") == "sent"]
+    latest = max(sent, key=lambda b: b.get("sent_at") or "") if sent else None
+    if latest and latest.get("text_approval_request_id"):
+        return latest
     open_ = [b for b in sent if any((db.get_record(kinds.EXCEPTION, e) or {}).get("state") == "awaiting_reply" for e in b["exception_ids"])]
     pool = open_ or sent
     return max(pool, key=lambda b: b.get("sent_at") or "") if pool else None
@@ -475,6 +507,15 @@ def inbound(body: dict, request: Request, background: BackgroundTasks,
     emit(st.db, type="message.received", actor="bridge", cycle_id=cycle_id,
          summary=f"Reply {inbound_id} ({len(rec['raw_text'])} chars) -> {rec['correlated_batch_id'] or 'uncorrelated'}",
          refs={"inbound_id": inbound_id, "provider_message_id": pmid, "batch_id": rec["correlated_batch_id"]})
+    with _batch_action_lock:
+        try:
+            if (r := _stopped(st.db)):
+                return r
+            phone_out = handle_phone_reply(st, rec, batch)
+            if phone_out is not None:
+                return {"duplicate": False, "inbound_id": inbound_id, "parsed": None, **phone_out}
+        except (TextApprovalError, approvals.ApprovalError) as e:
+            return _err(e.status, e.code, e.detail)
     if batch is None:
         return {"duplicate": False, "inbound_id": inbound_id, "parsed": None, "exception_updates": [], "note": "no sent batch to correlate"}
 
