@@ -37,10 +37,31 @@ def _question(exc: dict) -> str:
     return f"{exc['title']}. {_QUESTION.get(exc['category'], 'Can you confirm?')}"
 
 
+def _demo_job_reference(exceptions: list[dict]) -> list[str]:
+    """Display-only fictional labels for the known synthetic demo, never private jobs.
+
+    Job 03's customer/parent is deliberately unknown: this wording must not supply
+    the very allocation fact the operations lead is being asked to confirm.
+    """
+    if not exceptions or not all(
+        e.get("cycle_id") == "cyc_synth_v1"
+        and e.get("provenance") in {"synthetic", "seeded_issue"}
+        for e in exceptions
+    ):
+        return []
+    return [
+        "Demo job reference (fictional customers): "
+        "Job #01 — Avery Reed, lawn install; "
+        "Job #02 — Jordan Ellis, patio build; "
+        "Job #03 — off-site disposal run, customer and parent job unconfirmed."
+    ]
+
+
 def template_text(exceptions: list[dict], company_label: str = "Pilot Co") -> str:
     n = len(exceptions)
     lines = [f"PayrollPilot (test) for {company_label}: {n} quick payroll check{'s' if n != 1 else ''}."]
     lines += [f"{i}) {_question(e)}" for i, e in enumerate(exceptions, 1)]
+    lines += _demo_job_reference(exceptions)
     lines.append("Reply with the number and your answer, e.g. \"1: Job 02\".")
     return "\n".join(lines)
 
@@ -70,7 +91,7 @@ def draft_batch(exceptions: list[dict], llm: OpenRouterLLM | None = None, compan
         if not q or any(tok not in q for tok in _TOKEN.findall(e["title"])):
             return {"text": base, "wording": "template", "usage": res.usage}
     lines = base.split("\n")
-    text = "\n".join([lines[0]] + [f"{i}) {items[i]}" for i in range(1, len(exceptions) + 1)] + [lines[-1]])
+    text = "\n".join([lines[0]] + [f"{i}) {items[i]}" for i in range(1, len(exceptions) + 1)] + _demo_job_reference(exceptions) + [lines[-1]])
     return {"text": text, "wording": "model", "usage": res.usage}
 
 
@@ -181,6 +202,7 @@ def draft_clarification(batch: dict, exception_ids: list[str], exceptions: list[
         raise ValueError("clarification must target exceptions from the original batch")
     lines = [f"Thanks. To be sure for {company_label}:"]
     lines += [f"{i}) {_question(e)}" for i, e in enumerate(scoped, 1)]
+    lines += _demo_job_reference(scoped)
     lines.append("Reply with the number and your answer.")
     return {"text": "\n".join(lines), "exception_ids": [e["id"] for e in scoped],
             "actual_recipient": batch["actual_recipient"], "parent_batch_id": batch["id"]}

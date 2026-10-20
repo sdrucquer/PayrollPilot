@@ -88,3 +88,14 @@ Blockers: owner must approve/apply corr_a647520203 in UI, then approve clarifica
 Next: confirm correction application, give the next owner step, capture clarification provider/inbound/resolution/memory ids, repeat identical recall request.
 Handoff requested: owner UI decision; final PR after the loop has evidence. Generic health adapter labels disagree with GET /api/comms/health (recorded in integration ledger).
 ```
+
+```
+LANE C status — mock customer/job labels follow-up
+Done: owner-requested fictional customer/job reference for new synthetic drafts and clarifications; clarification send verified at 13:44:04 Pacific via Home UI approval.
+Changed files: agents/resolution.py; tests/test_c04_agents.py; INTEGRATION-FINDINGS.md; this status log.
+Tests run: backend/.venv/bin/python -m pytest -q backend/tests/test_c04_agents.py backend/tests/test_c05_routes.py -> 22 passed, 1 warning; git diff --check -> clean.
+Evidence: clarification approval appr_f851b80eb083, send evt_d9de212a36aa, provider spc-msg-153bee25-0095-47fd-bf8a-89040cf38124; watcher PID 47186 alive.
+Blockers: current running backend retains earlier imported wording (no restart); phone reply, memory write and final recall comparison pending.
+Next: lead review/adoption of display labels at a safe point; owner phone reply; record final recall comparison.
+Handoff requested: lead merges reviewed PR; no backend restart without the owner's existing health-failure condition being met or new authorization.
+```
