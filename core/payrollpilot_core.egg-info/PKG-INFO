@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: payrollpilot-core
+Version: 0.1.0
+Summary: PayrollPilot pure core: audit rules, payroll calculation, readiness, workbook (no IO, no LLM)
+Requires-Python: >=3.11
+Requires-Dist: openpyxl>=3.1
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
