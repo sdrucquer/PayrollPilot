@@ -99,3 +99,14 @@ Blockers: current running backend retains earlier imported wording (no restart);
 Next: lead review/adoption of display labels at a safe point; owner phone reply; record final recall comparison.
 Handoff requested: lead merges reviewed PR; no backend restart without the owner's existing health-failure condition being met or new authorization.
 ```
+
+```
+LANE C status — C-07 phone approval + live review export
+Done: owner-approved correction applied/recalculated; synthetic review packet and verified 13-sheet workbook generated. New version-bound phone confirmation backend implemented/tested in isolated clone, not live.
+Changed files: agents/text_approval.py; routes_comms.py (thin integration); tests/test_c07_text_approval.py; INTEGRATION-FINDINGS.md; this status log.
+Tests run: full backend134 passed/1 warning; focused46 passed; final C-07 checks16 passed; diff clean; privacy CLEAN with private denylist explicitly skipped in isolated clone.
+Evidence: res_d7e3b72dae39; mem_res_d7e3b72dae39; corr_a647520203 applied13:58:06; wb_3f0f6afb8c verified true, draft_b99f2e807c14, original_updated false. Other C session final recall events referenced honestly in ledger.
+Blockers: phone-approval deployment/review + optional UI hook; current live capability404. This session did not restart services. Do not overwrite shared runtime uncommitted files from overlapping C sessions.
+Next: lead review/merge separate C-07 PR, coordinate supported UI hook; preserve current working demo, blockers, and owner decisions for recording.
+Handoff requested: lead runs private denylist; runtime adoption needs separate owner authorization. D uses capability GET and does not expose unsupported phone controls as live.
+```
