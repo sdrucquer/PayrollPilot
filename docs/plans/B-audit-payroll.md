@@ -61,3 +61,14 @@ Blockers: none. Open decision: out-of-cycle entries (T27) use category unassigne
 Next: B-03 calc + readiness
 Handoff requested: A wires POST /api/cycles/{id}/audit -> payrollpilot_core.audit.run_audit(snapshot, now=None); F runs expected-exceptions contract test
 ```
+
+```
+LANE B status @ 12:48
+Done: B-03 (acceptance checks passed: all 11 quote_pool_cases incl. T10 100000 -> 5000 -> 2500/2500, deposit-only ineligible, null/zero/negative profit and 3 quoters -> PolicyMissing; readiness_matrix_v1 before and after the T02 correction match on state, unknown_amount and blocker codes; T09 cost/commission blockers never reach wage cards; T11 no default marketing/overhead/tip policy; T12 tip excluded from receipts and pending; T19 proposed or approved allocation does not exclude collection-cycle revenue, only finalized+evidence does; T21 settlement reduces balance, never new earnings, unknown recognition blocks; T22 ratios separate, no threshold, zero/negative/unknown denominator not meaningful; T24 commission can be ready while manager pool blocked, manager blockers never on commission cards; T26 split comes only from the policy dict)
+Changed files: core/payrollpilot_core/{calc,readiness}.py, core/tests/test_{calc,readiness}.py, core/tools/build_fixtures.py, docs/contracts/fixtures/readiness_matrix_v1.json
+Tests run: core/.venv/bin/pytest -q -> 87 passed (test_calc + test_readiness: 37)
+Evidence: cycle_readiness(cycle_synthetic_v1) -> stage1 partial (1 of 4 workers), quote job_01 pending, quote job_02 not_meaningful, marketing pending, tip pending, manager pool blocked
+Blockers: none. Fixture change: readiness_matrix_v1.json is stricter than the 12:39 version (job_01 quote also blocked by unassigned labor, overlap, unverified labor rate and identity; manager pool also blocked by every open cost-affecting exception and commissions_pending; Worker D unknown_amount true). Consumers (D, F) should re-pull.
+Next: B-05 corrections, then B-04 packet + workbook
+Handoff requested: A wires GET /api/cycles/{id}/readiness -> payrollpilot_core.readiness.cycle_readiness(snapshot, exceptions, policies=<private policy file or None>) and returns {stage1, items}; D renders Readiness
+```
