@@ -4,7 +4,7 @@
 import { Spectrum } from "spectrum-ts";
 import { imessage } from "@spectrum-ts/imessage";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { checkSend, Dedupe, isAllowedRecipient, maskHandle, type SendRequest } from "./policy";
+import { checkSend, Dedupe, isAllowedRecipient, maskHandle, maskSpaceId, type SendRequest } from "./policy";
 
 const env = process.env;
 const projectId = env.SPECTRUM_PROJECT_ID || env.PROJECT_ID;
@@ -72,7 +72,7 @@ async function forwardInbound(payload: Record<string, unknown>): Promise<string>
       const payload = {
         id: `msg_in_${message.id.replace(/[^A-Za-z0-9]/g, "").slice(-16)}`,
         provider_message_id: message.id,
-        provider_space_id: space.id,
+        provider_space_id: maskSpaceId(space.id),
         sender: maskHandle(senderId),
         received_at: (message.timestamp ?? new Date()).toISOString(),
         raw_text: text,
@@ -83,7 +83,7 @@ async function forwardInbound(payload: Record<string, unknown>): Promise<string>
         provenance: "test_reply",
       };
       const fwd = await forwardInbound(payload);
-      evidence("inbound.received", { provider_message_id: message.id, provider_space_id: space.id, chars: text.length, forward: fwd });
+      evidence("inbound.received", { provider_message_id: message.id, provider_space_id: maskSpaceId(space.id), chars: text.length, forward: fwd });
       if (ECHO) {
         const out = await space.send(`echo: ${text}`);
         evidence("echo.sent", { provider_message_id: out?.id ?? null });
@@ -110,7 +110,7 @@ async function handleSend(req: Request): Promise<Response> {
   try {
     const space = await im.space.create(RECIPIENT!);
     const msg = await space.send(body.text!);
-    const result = { provider_message_id: msg?.id ?? null, provider_space_id: space.id, status: "sent", sent_at: new Date().toISOString() };
+    const result = { provider_message_id: msg?.id ?? null, provider_space_id: maskSpaceId(space.id), status: "sent", sent_at: new Date().toISOString() };
     sent[body.batch_id!] = result;
     writeFileSync(SENT_FILE, JSON.stringify(sent, null, 2));
     evidence("send.ok", { batch_id: body.batch_id, ...result, recipient: maskHandle(RECIPIENT) });

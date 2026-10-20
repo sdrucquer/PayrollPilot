@@ -99,7 +99,7 @@ export const CompensationItem = z.object({
 })
 export type CompensationItem = z.infer<typeof CompensationItem>
 
-export const ReadinessResponse = z.object({ stage1: Readiness, items: z.array(CompensationItem) })
+export const ReadinessResponse = z.object({ stage1: Readiness, items: z.array(CompensationItem), workers: z.record(z.string(), Readiness).nullish() })
 export type ReadinessResponse = z.infer<typeof ReadinessResponse>
 
 export const ExceptionCategory = z.enum([
@@ -153,6 +153,7 @@ export const MessageBatch = z.object({
   channel: z.literal('imessage'),
   text: z.string(),
   text_hash: z.string(),
+  declined_at: z.string().nullish(),
   approval_id: z.string().nullable(),
   state: z.enum(['draft', 'approved', 'sent', 'delivered', 'failed']),
   provider_message_id: z.string().nullable(),
@@ -218,6 +219,7 @@ export const LocalCorrection = z.object({
   approval_id: z.string().nullable(),
   state: z.enum(['proposed', 'approved', 'applied', 'invalidated']),
   applied_at: z.string().nullable(),
+  target_version: z.string().optional(),
 })
 export type LocalCorrection = z.infer<typeof LocalCorrection>
 

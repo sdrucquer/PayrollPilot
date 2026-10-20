@@ -1,0 +1,7 @@
+Sanitized Lane E summary; source origin/main 27b40ae INTEGRATION-FINDINGS.md and docs/plans/A-platform-data.md 13:25. Not rerun by E.
+OpenRouter 1:09: live strict-schema per-question parsing, usage recorded; yes ambiguous and injection blocked by deterministic guards.
+Photon 1:12-1:14: real allowlisted send/reply; non-allowlisted request 403; inbound forwarded 200. No phone/space ids copied.
+Live batch msg_batch_95601f6f3ab8: owner room approve reply -> approval.granted 1:32:23; Photon sent 1:32:24; correlated owner TEST REPLY 1:32:55; live parse 1:32:58 answered allocation, off-site answer partial -> clarification needed. Cognee memory.written 1:33:18.
+Correction proposed 1:33:26, te_0014 job_01 -> job_02, wages delta 0; job cost -20000/+20000 cents. Owner application and final clarification completion not established by this note.
+Real Jobber read reported 13:25: partial coverage, 58 time entries, 10 workers, 13 jobs, 14 dates viewed. Totals, source entry ids and approval state unverified; rates/payroll/payments/expenses not read. Wage readiness blocked. No private rows copied. Film remains synthetic; no complete source-coverage claim.
+Final phone/app/Band/Cognee recordings pending. Cross-process proof: demo/evidence/cognee/recall-run.txt. Earlier recordings PLAYBACK; owner answers TEST REPLY. No live services stopped.

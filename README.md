@@ -12,7 +12,7 @@ The current 2:32 light-identity film is a **draft**, with placeholder voice and 
 
 | Element | What viewers may infer |
 |---|---|
-| Pay-period records | **SYNTHETIC**, de-identified Pilot Co / Worker A–D; seeded issues labeled separately. No real source-read claim. |
+| Pay-period records | **SYNTHETIC**, de-identified Pilot Co / Worker A–D; seeded issues labeled separately. Film uses the fixture; partial real-read evidence is described below. |
 | Real integration | **REAL** only when backed by the linked evidence; a running UI alone does not prove a provider round trip. |
 | Owner answering as Ops lead | **TEST REPLY**, including replies sent through a real provider. Simulated fixture replies cannot prove iMessage. |
 | Earlier recorded take | **PLAYBACK**, with data and reply provenance retained. |
@@ -22,15 +22,15 @@ The [evidence matrix](demo/evidence-matrix.md) tracks capture status, including 
 
 ## Integration status
 
-This is an evidence snapshot from `origin/main` at `3e8f641` and existing sanitized Lane C artifacts, not a claim that the final film shows these results. [INTEGRATION-FINDINGS.md](INTEGRATION-FINDINGS.md) remains the source ledger; its dated notes supersede earlier table entries.
+This is an evidence snapshot from `origin/main` at `bcb5251` (live findings introduced at `27b40ae`) and existing sanitized Lane C artifacts, not a claim that the final film shows these results. [INTEGRATION-FINDINGS.md](INTEGRATION-FINDINGS.md) remains the source ledger; its dated notes supersede earlier table entries.
 
 | Integration | Reported proof and remaining gap | Evidence |
 |---|---|---|
-| Band | CLI product handoff and board movement tested with Audit, Resolution, and Payroll Prep. Owner decision and Desktop footage pending. `band ask` unsupported for generic peers; product usage comes from app events, not Band usage. | [R03–R05, R19](demo/evidence-matrix.md), [CLI proof](demo/evidence/band/handoff-run.txt) |
+| Band | Handoff and board tested at 12:47; owner room `approve <batch_id>` produced version-bound approval at 1:32. `band ask` unsupported for generic peers; product usage comes from app events. Desktop footage pending. | [R03–R05 / R19](demo/evidence-matrix.md), [latest live report](demo/evidence/logs/live-flow-main27b.txt) |
 | Cognee | Scoped fact written and recalled by a fresh process; recall changed the proposed next action without creating approval. Local CHUNKS search / GLiNER; no graph-completion claim. In-app footage pending. | [R13–R15](demo/evidence-matrix.md), [cross-process proof](demo/evidence/cognee/recall-run.txt) |
-| Photon iMessage | Bridge policy tests reported; real outbound / inbound round trip remains unproven in this evidence snapshot. | [R07–R09](demo/evidence-matrix.md) |
-| OpenRouter | Main’s 1:09 PM note reports live per-question reply parsing with usage recorded; vague and injected replies handled by deterministic guards. Final usage footage pending. | [dated findings](INTEGRATION-FINDINGS.md), R10 / R19 |
-| Browser Use / source reads | No captured real-read proof; use the labeled synthetic fixture. | R21 |
+| Photon iMessage | Real allowlisted round trip 1:12–1:14; 1:32 owner-approved batch, correlated TEST REPLY and live parsing. Final phone/app footage pending. | [R07–R09](demo/evidence-matrix.md), [main report](demo/evidence/logs/live-flow-main27b.txt) |
+| OpenRouter | Main reports live strict-schema parse at 1:09 and 1:32, with usage recorded; vague/injected replies handled by deterministic guards. Final usage clip pending. | [main report](demo/evidence/logs/live-flow-main27b.txt), R10 / R19 |
+| Browser Use / Jobber | Real read, **partial coverage**: 58 time entries, 10 workers, 13 jobs. Totals, source ids and approval state unverified; rates/payroll/payments/expenses not read. Film stays synthetic. | [R21](demo/evidence-matrix.md), [coverage report](demo/evidence/logs/live-flow-main27b.txt) |
 | Gusto draft / source writes / submission | Unavailable; no executor. | [scope boundaries](docs/PRODUCT-STATEMENT.md) |
 
 ## Architecture and local run
@@ -50,11 +50,12 @@ scripts/dev.sh
 The script creates the backend virtual environment and installs backend/core packages, then starts backend `:8000`, bridge `:3001`, and web `:5173`. Configure local env files before enabling providers. Relevant names: `OPENROUTER_API_KEY`, `PP_MODEL`, `PP_MODEL_CHEAP`; Cognee `LLM_*` / `EMBEDDING_*`; Photon `SPECTRUM_PROJECT_ID`, `SPECTRUM_PROJECT_SECRET`; shared `PP_BRIDGE_TOKEN` and `PP_TEST_RECIPIENT`; `PP_BAND_ENABLED` / `PP_BAND_ROOM`. Use `.env.example` and `bridge/.env.example` for the full list. Never commit values. Optional Browser Use credentials do not establish a real-read proof.
 
 ```bash
+curl -fsS http://127.0.0.1:8000/api/comms/health
 curl -fsS http://127.0.0.1:8000/api/health
 scripts/smoke.sh
 ```
 
-Inspect health adapter modes and the UI provenance before a proof take. Fixture mode and fake adapters are development aids. These are operator instructions; Lane E did not run or validate the application in this documentation pass.
+Inspect `/api/comms/health` for active adapters and UI provenance. The older `/api/health` registry can disagree; lane C interprets discrepancies. Leave backend :8000 and bridge :3001 running; lane C controls case preparation. Fixture mode and fake adapters are development aids. These are operator instructions; Lane E did not run or validate the application in this documentation pass.
 
 ## Control boundaries
 

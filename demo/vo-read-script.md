@@ -43,7 +43,7 @@ node scripts/manifest.mjs
 | m4 | 0:54.6 | A vague yes isn't an answer. Both questions are marked ambiguous, and one bounded follow-up goes out, with a new approval. |
 | m5 | 1:03.4 | The clear reply lands in the right case, quote attached, and the confirmed fact is stored in Cognee. |
 | m6 | 1:10.6 | The owner approves a local correction. Wages don't move; that shift was already paid. Job costing does, and only the affected item changes. |
-| m7 | 1:21.6 | Later, a disposal cost arrives for the same off-site job. After a restart, Payroll Prep recalls the answer from Cognee, and proposes instead of asking again. |
+| m7 | 1:21.6 | In an earlier verified run, a fresh Payroll Prep process recalled the confirmed fact from Cognee and proposed an allocation for owner approval. |
 | m8 | 1:32.4 | Then Payroll Prep assembles the corrected review: an internal draft, waiting for the owner. |
 | e1 | 1:40.8 | Under the hood, three agents share one model, but not one set of powers. Plain code owns every state change and every approval. |
 | e2 | 1:51.6 | They coordinate in Band: one room, a shared board, every handoff acknowledged, and the owner's decision as a reply in that room. |

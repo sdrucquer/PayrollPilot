@@ -10,11 +10,11 @@ Requirement sources: PRD FR-29 (product agents coordinate through Band with a hu
 | R02 | Agents have different tool allowlists; coordinator owns state and approvals | ARCH 3, AGENTS | test output from C-04/F-02 in `demo/evidence/logs/agents-permissions.txt` | pending | C, F | how-it-works |
 | R03 | Band: 2+ product-agent participants in one room (pp-audit, pp-resolution, pp-payroll) | Band brief, FR-29 | `demo/evidence/band/handoff-run.txt`; `demo/evidence/band/room.png`, `s2b-band-room.mov` | captured (CLI proof); Band Desktop screenshot pending | C | 2 |
 | R04 | Band: shared board, dependent handoff Audit -> Resolution -> Payroll Prep | Band brief, FR-29 | `demo/evidence/band/handoff-run.txt`; `demo/evidence/band/board.png`, handoff event log `demo/evidence/logs/handoff-events.json` | captured (CLI proof); Band Desktop screenshot pending | C | 2 |
-| R05 | Band: human decision as a `[decision.requested]` room message answered by the owner | Band brief, FR-29 | `demo/evidence/band/handoff-run.txt`; `demo/evidence/band/ask.png` | pending: owner reply in room; `band ask` unsupported for generic peers | C, owner | 2 |
+| R05 | Band human decision: room `approve <batch_id>` reply | FR-29 | `demo/evidence/logs/live-flow-main27b.txt` | captured (main 1:32 report); Desktop footage pending | C report / owner clip | 2 |
 | R06 | Approval binds exact text + recipient; changed text invalidates | FR-23, T16 | F-02 test output `demo/evidence/logs/safety-suite.txt`; dialog `demo/evidence/screens/approval-dialog.png` | pending | F, D | 3 |
 | R07 | Only the allowlisted test recipient can receive (backend + bridge) | FR-10, FR-26, T29 | bridge + backend 403 test output `demo/evidence/logs/allowlist.txt` | pending | C, F | 3 |
-| R08 | Real outbound iMessage via Photon to the owner's phone | live text round trip, C-01 | `demo/evidence/phone/outbound.png` (number masked), provider message id (no number) in `demo/evidence/logs/photon-roundtrip.txt` | pending | C, owner | 3 |
-| R09 | Real inbound reply correlated to the right case | FR-11, T14 | inbound event + `correlated_batch_id` in `demo/evidence/logs/photon-roundtrip.txt` | pending | C | 4 |
+| R08 | Real outbound iMessage to allowlisted owner | round trip | `demo/evidence/logs/live-flow-main27b.txt` | captured (main report); phone footage pending | C report / owner clip | 3 |
+| R09 | Inbound test reply correlated to approved batch | FR-11 | `demo/evidence/logs/live-flow-main27b.txt` | captured (main 1:32 report); footage pending | C report / owner clip | 4 |
 | R10 | Vague reply -> per-question ambiguous -> bounded clarification needing new approval | FR-12, T14 | `demo/evidence/screens/ambiguous.png`, C-04 test output | pending | C, D | 4 |
 | R11 | Approved local correction: wages delta 0, job costing changes, only affected readiness changes | T02, FR-16 | `demo/evidence/screens/correction.png`, `readiness.changed` event in `demo/evidence/logs/recalc-events.json` | pending | A, B, D | 5 |
 | R12 | Source record never written; source write and submit gated | safety 4, AGENTS | gated-action test output in `demo/evidence/logs/safety-suite.txt` | pending | F | 5, 7 |
@@ -26,7 +26,7 @@ Requirement sources: PRD FR-29 (product agents coordinate through Band with a hu
 | R18 | Honest destination "Gusto: not prepared"; nothing submitted | safety 4, PRD | `demo/evidence/screens/destination.png` | pending | D | 7 |
 | R19 | Per-agent tokens/cost (product agents: from app usage events, not Band) | Band brief | `demo/evidence/band/handoff-run.txt`; `demo/evidence/band/usage.png` | changed: Band usage covers coding sessions only; product-agent cost must come from app usage events | C | status card |
 | R20 | Every on-screen element labeled real/cached/synthetic/seeded/test/playback/illustration | FR-30, safety 7 | the film itself + `demo/redaction-checklist.md` pass recorded in this file | pending | E, owner | all |
-| R21 | Data source: synthetic fixture or real read-only Jobber snapshot (coverage block) | FR-02, A-03 | `demo/evidence/logs/coverage.json` (counts only, no records) | pending | A | 1 |
+| R21 | Synthetic film; real Jobber read has partial coverage | A-03 | `demo/evidence/logs/live-flow-main27b.txt` | partial real read report; no complete coverage or final footage claim | A report / E labels | 1 |
 | R22 | Development lanes coordinated through Band Desktop (dev agents, not product agents) | Band brief (optional) | `demo/evidence/band/dev-room.png` | pending | lead / owner | not in film unless captured |
 
 ## Capture log (append, newest last)

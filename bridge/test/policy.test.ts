@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { checkSend, Dedupe, isAllowedRecipient, maskHandle, sha256Hex } from "../src/policy";
+import { checkSend, Dedupe, isAllowedRecipient, maskHandle, maskSpaceId, sha256Hex } from "../src/policy";
 
 const ALLOW = "+15550000001"; // synthetic test value, not a real number
 const TOKEN = "t0ken";
@@ -61,5 +61,13 @@ describe("checkSend", () => {
   });
   test("mask keeps only last two chars", () => {
     expect(maskHandle("+15550000001")).toBe("***01");
+  });
+});
+
+describe("maskSpaceId", () => {
+  test("phone inside a space id is masked", () => {
+    expect(maskSpaceId("any;-;+15550000001")).toBe("any;-;***01");
+    expect(maskSpaceId("any;-;owner@example.com")).toBe("any;-;***om");
+    expect(maskSpaceId(null)).toBeNull();
   });
 });

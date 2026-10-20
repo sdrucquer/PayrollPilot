@@ -26,19 +26,19 @@ PayrollPilot proposes local corrections with before-and-after values and calcula
 
 Cases can pass between agents through Band with a human decision, while confirmed facts recalled from Cognee can change a later action. The demo uses labeled synthetic records and test replies; the evidence notes below distinguish tested integrations from pending captures. PayrollPilot does not submit payroll or write to source systems. The owner stays in control.
 
-## Sponsor evidence notes (use only the supported scope)
+## Sponsor evidence notes (main 27b40ae; footage remains pending)
 
-- **Band:** Three product agents participated in a real Band room; the existing CLI proof reports a dependent Audit → Resolution → Payroll Prep handoff and board movement. Owner decision and Desktop footage remain pending. Do not claim a completed human decision, working `band ask`, or per-product-agent Band usage. Evidence: [R03–R05 / R19](evidence-matrix.md), [handoff log](evidence/band/handoff-run.txt).
-- **Cognee:** Existing cross-process proof reports a stored fact recalled by a fresh process using local CHUNKS search. The validated recall changed the proposed next action without creating approval. In-app footage remains pending. Do not claim LLM-backed graph extraction or graph-completion search. Evidence: [R13–R15](evidence-matrix.md), [recall log](evidence/cognee/recall-run.txt).
-- **Photon:** No verified round-trip claim in the submission evidence snapshot. Add a demonstrated-use statement only after the owner captures both approved outbound and correlated inbound events with the phone result, R08–R09. Fixture reply simulation is not a real iMessage.
+- **Band:** Existing CLI proof shows three product agents, a shared board and dependent handoff. Main reports the owner's `approve <batch_id>` room reply produced a version-bound approval at 1:32. `band ask` is unsupported for generic peers; no per-product-agent Band usage claim. Final Desktop clip pending. Evidence: [R03–R05 / R19](evidence-matrix.md), [latest main report](evidence/logs/live-flow-main27b.txt).
+- **Cognee:** Existing cross-process CHUNKS proof shows a stored fact recalled by a fresh process, changing the proposed next action without granting approval. Main reports a live memory write at 1:33. No LLM-backed graph extraction / graph-completion claim. Use earlier proof as PLAYBACK; leave the live stack running. Evidence: [R13–R15](evidence-matrix.md), [recall log](evidence/cognee/recall-run.txt).
+- **Photon:** Main reports a real allowlisted send/reply at 1:12–1:14 and a 1:32 owner-approved batch with correlated TEST REPLY and live parsing. Final phone/app footage pending. Fixture simulation does not prove iMessage. Evidence: [R08–R09](evidence-matrix.md), [live report](evidence/logs/live-flow-main27b.txt).
 
-The description follows `docs/PRODUCT-STATEMENT.md` “It can”; it describes capability, not a completed live demonstration. Never paste stronger integration claims than the evidence supports. No real source-read claim.
+The description follows `docs/PRODUCT-STATEMENT.md` “It can”; it describes capability, not a completed final recording. A real Jobber read has **partial coverage** (58 entries, 10 workers, 13 jobs): source totals, ids and approval state unverified; rates/payroll/payments/expenses not read. The film stays synthetic. Never imply complete source coverage. Owner correction application and clarification completion remain unproven in this snapshot. All 14 product clips and final voice remain pending.
 
 ## Owner’s final steps
 
 | Time | Action | Completion evidence |
 |---|---|---|
-| Before 2:45 | Confirm the organizer form’s fields; preserve this copy. Check the running app’s health/adapters and synthetic/test labels. | Form inspected by owner; no credentials on screen. |
+| Before 2:45 | Confirm the organizer form’s fields; preserve this copy. Check `/api/comms/health` active adapters and synthetic/test labels. Leave live services running; coordinate case preparation with lane C. | Form inspected by owner; no credentials on screen. |
 | 2:45 | Feature freeze. Begin recording real app, Band and Cognee views using [shot list](shot-list.md) and [reply script](reply-script.md). | Owner raw take; Lane E does not screen-record. |
 | 2:45–2:55 | One complete take plus short pickups. Keep owner approvals, synthetic data and test replies visible. | Real footage for each selected beat; prior take labeled PLAYBACK. |
 | 2:55–3:05 | Cut named clips, rebuild manifest, update evidence and closing status from what is actually shown, render. | Run film commands below; preserve pending/unavailable distinctions. |
