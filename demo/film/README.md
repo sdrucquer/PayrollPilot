@@ -53,3 +53,5 @@ Expect h264 1920x1080, aac, duration under 180 s. Then watch it end to end with 
 Use the actual running app in live API mode, plus the real Band room/board and Cognee recall view. `design/home.html` is an identity reference only. Keep app/data labels visible; an earlier take is PLAYBACK, synthetic records are SYNTHETIC, and the owner's reply is TEST REPLY. Verify each REAL label against the evidence matrix, never against a mock or a narrated intention.
 
 Run `node scripts/preflight.mjs` for the draft report. Run `node scripts/preflight.mjs --final` before the final render; it exits 1 while footage, evidence statuses or final voice are missing. It does not replace the owner's complete playback and redaction check. The current draft is not upload-ready.
+
+The validated local renderer uses `--browser-executable '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'` on this machine. Earlier cross-process Cognee proof is PLAYBACK; leave the live backend and bridge running.

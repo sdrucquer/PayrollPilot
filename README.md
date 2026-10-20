@@ -57,6 +57,8 @@ Use `/api/comms/health` for active adapters; `/api/health` has an older registry
 
 ## Run it
 
+Fresh checkout only: the hackathon backend :8000 and bridge :3001 are already running under lane C. Leave them running during recording; lane C controls case preparation.
+
 Requirements: Python 3.13, Bun 1.4, Node 22, macOS. Copy `.env.example` to `backend/.env` and `bridge/.env` and fill the names listed there (never commit values).
 
 ```bash
