@@ -2,7 +2,7 @@
 
 ## FROZEN 1:40 PM · what lane D builds
 
-Files: `design/home.html` (in progress, approval pending), `design/ready.html` (payroll ready), `design/idle.html` (between payrolls). Static exports, open in any browser, no runtime. Live versions with working Edit / Approve / Decide states: `design/claude-design/*.dc.html` and the canvas https://claude.ai/artifact/HUHEVg4NwowgudNWyK4djG.
+Files: `design/home.html` (in progress, approval pending), `design/ready.html` (payroll ready), `design/idle.html` (between payrolls); phone (390px): `design/phone-home.html`, `design/phone-ready.html`, `design/phone-idle.html`. Phone rules: same tokens, card radius 24, hero ring 76px, primary button full width 50px, Edit/Decline side by side at 46px, stepper labels shortened to "Stage 1 · Wages" / "Stage 2 · Costs", activity chips 26px. Static exports, open in any browser, no runtime. Live versions with working Edit / Approve / Decide states: `design/claude-design/*.dc.html` and the canvas https://claude.ai/artifact/HUHEVg4NwowgudNWyK4djG.
 
 ### Layout
 Single centered column, `max-width: 720px`, 24px side padding, 22px gap between cards. Top bar: logo + company, test-mode pill, "Gusto: not prepared" badge, Pause. Then in order: Hero card (headline + readiness lines + progress ring), the one approval/summary card (tinted, the only card with a colored ring), Progress card (stepper + current step), Activity card, one-line footer. No sidebar, no tables, no ids.

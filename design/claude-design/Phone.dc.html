@@ -9,68 +9,88 @@
 <x-dc>
 <helmet>
 <style>
-body{margin:0;background:#F2F2F7;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;color:#1C1C1E;-webkit-font-smoothing:antialiased}
+body{margin:0;background:#F2F2F7;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",system-ui,sans-serif;color:#1C1C1E;-webkit-font-smoothing:antialiased}
 a{color:#0A7AFF}a:hover{color:#0066D6}
 button{font:inherit;cursor:pointer}
+button:active{transform:scale(.98)}
 @keyframes pp-pulse{0%{box-shadow:0 0 0 0 rgba(10,122,255,.35)}70%{box-shadow:0 0 0 10px rgba(10,122,255,0)}100%{box-shadow:0 0 0 0 rgba(10,122,255,0)}}
+@keyframes pp-breathe{0%,100%{opacity:1}50%{opacity:.45}}
 @media (prefers-reduced-motion: reduce){*{animation:none !important}}
 </style>
 </helmet>
-<div layer-name="Phone" style="width:390px;height:1180px;box-sizing:border-box;background:#F2F2F7;display:flex;flex-direction:column;gap:16px;padding:64px 16px 32px;font-size:15px;line-height:1.45">
+<div layer-name="Phone" style="width:390px;height:1240px;box-sizing:border-box;background:linear-gradient(180deg,#F5F5F8,#EEEEF3);display:flex;flex-direction:column;gap:14px;padding:60px 16px 32px;font-size:15px;line-height:1.45">
 
-  <div layer-name="Header" style="display:flex;flex-direction:column;gap:8px;padding:0 4px">
-    <div style="display:flex;align-items:center;gap:8px">
-      <div aria-hidden="true" style="width:24px;height:24px;border-radius:8px;background:{{accent}};display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5 8 3l5 9.5"></path><path d="M5.5 9.5h5"></path></svg></div>
-      <div style="font-size:13px;font-weight:600;color:#6E6E73">Payroll · Sep 28 – Oct 11</div>
-      <div style="flex:1 1 8px"></div>
-      <div style="display:flex;align-items:center;gap:5px;height:22px;padding:0 8px;border-radius:999px;background:#FFFFFF;border:1px solid rgba(179,92,0,.3);color:#B35C00;font-size:11px;font-weight:600"><span aria-hidden="true" style="width:5px;height:5px;border-radius:50%;background:#B35C00"></span>Test mode</div>
-    </div>
-    <h1 style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.025em;line-height:1.15">One thing needs you.</h1>
-    <div style="font-size:14px;color:#3A3A3C">Wages ready for 3 of 4 workers. Job costs waiting on 2 answers and 1 decision.</div>
+  <div layer-name="Top" style="display:flex;align-items:center;gap:8px;padding:0 2px">
+    <div aria-hidden="true" style="width:26px;height:26px;border-radius:8px;background:linear-gradient(160deg,#4DA3FF,{{accent}});display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5 8 3l5 9.5"></path><path d="M5.5 9.5h5"></path></svg></div>
+    <div style="font-weight:700;font-size:15px">PayrollPilot</div>
+    <div style="flex:1 1 8px"></div>
+    <div style="display:flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:999px;background:#FFF4E5;color:#9A4D00;font-size:11.5px;font-weight:600"><span aria-hidden="true" style="width:5px;height:5px;border-radius:50%;background:#D97A00"></span>Test mode</div>
+    <div style="display:flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 6px;border-radius:999px;background:#FFFFFF;box-shadow:0 0 0 1px rgba(0,0,0,.05);font-size:11.5px;font-weight:600;color:#3A3A3C"><span aria-hidden="true" style="width:13px;height:13px;border-radius:3px;background:#F45D48;color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center">G</span>not prepared</div>
   </div>
 
-  <div layer-name="Needs your approval" style="background:#FFFFFF;border-radius:20px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -18px rgba(20,20,40,.18);padding:18px 18px 16px;display:flex;flex-direction:column;gap:14px;border:1.5px solid rgba(10,122,255,.35)">
-    <div style="display:flex;align-items:center;gap:8px">
-      <span aria-hidden="true" style="width:9px;height:9px;border-radius:50%;background:{{accent}};animation:pp-pulse 2s infinite"></span>
-      <div style="font-size:16px;font-weight:700;letter-spacing:-.01em">Needs your approval</div>
+  <div layer-name="Hero" style="background:#FFFFFF;border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -24px rgba(20,20,40,.25),0 0 0 1px rgba(0,0,0,.03);padding:20px 20px 18px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden">
+    <div aria-hidden="true" style="position:absolute;right:-70px;top:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(10,122,255,.10),rgba(10,122,255,0) 65%)"></div>
+    <div style="display:flex;flex-direction:column;gap:8px;flex:1 1 0;min-width:0;position:relative">
+      <div style="font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73">Sep 28 – Oct 11 · due Wed</div>
+      <h1 style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.1">One thing needs you.</h1>
+      <div style="font-size:13.5px;color:#3A3A3C">Wages ready for 3 of 4. Job costs waiting on 2 answers and 1 decision.</div>
     </div>
-    <div style="font-size:14px;color:#3A3A3C">Text the <strong style="font-weight:600;color:#1C1C1E">Ops lead</strong> about two shifts?</div>
-    <div style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#6E6E73"><span>To</span><span style="font-weight:600;color:#1C1C1E">Ops lead</span><span style="font-family:ui-monospace,'SF Mono',Menlo,monospace;background:#F2F2F7;border-radius:6px;padding:1px 6px;color:#3A3A3C">•••-••12</span></div>
-    <div style="background:#F5F5F8;border-radius:16px;padding:12px 14px;font-size:14px;line-height:1.5">Hi! Two quick payroll checks: (1) Worker A's Friday 10/02 shift (2h 14m) has no job on it. Which job was that? (2) The $40 tip on Job 03, one person or the whole crew? Thanks!</div>
+    <div style="position:relative;width:76px;height:76px;flex-shrink:0">
+      <svg aria-hidden="true" width="76" height="76" viewBox="0 0 112 112" style="transform:rotate(-90deg)"><circle cx="56" cy="56" r="48" fill="none" stroke="#ECECF1" stroke-width="11"></circle><circle cx="56" cy="56" r="48" fill="none" stroke="#1F8A3B" stroke-width="11" stroke-linecap="round" stroke-dasharray="302" stroke-dashoffset="201"></circle><circle cx="56" cy="56" r="48" fill="none" stroke="{{accent}}" stroke-width="11" stroke-linecap="round" stroke-dasharray="302" stroke-dashoffset="252" transform="rotate(120 56 56)"></circle></svg>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;letter-spacing:-.03em">3<span style="font-size:11px;color:#8E8E93;font-weight:600">/6</span></div>
+    </div>
+  </div>
+
+  <div layer-name="Needs your approval" style="background:linear-gradient(180deg,#F3F8FF 0%,#FFFFFF 38%);border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -24px rgba(10,122,255,.35),0 0 0 1.5px rgba(10,122,255,.30);padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div aria-hidden="true" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(160deg,#4DA3FF,{{accent}});display:flex;align-items:center;justify-content:center;animation:pp-pulse 2.4s infinite"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5 8 3l5 9.5"></path><path d="M5.5 9.5h5"></path></svg></div>
+      <div style="display:flex;flex-direction:column"><div style="font-size:16px;font-weight:700;letter-spacing:-.01em">Pilot needs your approval</div><div style="font-size:12.5px;color:#6E6E73">Message to the Ops lead</div></div>
+    </div>
+    <div style="font-size:14px;color:#3A3A3C">Two shifts are missing details. Does this look right?</div>
+    <div style="display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:18px;padding:12px 12px 14px;box-shadow:0 0 0 1px rgba(0,0,0,.05)">
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#6E6E73"><div aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#3A3A3C">O</div><div style="font-weight:600;color:#1C1C1E;font-size:13px">Ops lead</div><div>· <span style="font-family:ui-monospace,'SF Mono',Menlo,monospace">•••-••12</span></div></div>
+      <div style="align-self:flex-end;max-width:92%;background:{{accent}};color:#fff;border-radius:18px 18px 5px 18px;padding:10px 13px;font-size:14px;line-height:1.45">Hi! Two quick payroll checks: (1) Worker A's Friday 10/02 shift (2h 14m) has no job on it. Which job was that? (2) The $40 tip on Job 03, one person or the whole crew? Thanks!</div>
+    </div>
     <div style="display:flex;flex-direction:column;gap:8px">
-      <button type="button" style="height:48px;border-radius:999px;border:0;background:{{accent}};color:#fff;font-size:16px;font-weight:600;box-shadow:0 6px 16px -8px rgba(10,122,255,.7)">Approve &amp; send</button>
+      <button type="button" style="height:50px;border-radius:999px;border:0;background:{{accent}};color:#fff;font-size:16px;font-weight:600;box-shadow:0 8px 20px -8px rgba(10,122,255,.8)">Approve &amp; send</button>
       <div style="display:flex;gap:8px">
-        <button type="button" style="flex:1 1 0;height:44px;border-radius:999px;border:0;background:#ECECF1;color:#1C1C1E;font-size:15px;font-weight:600">Edit</button>
-        <button type="button" style="flex:1 1 0;height:44px;border-radius:999px;border:0;background:transparent;color:#6E6E73;font-size:15px;font-weight:600">Decline</button>
+        <button type="button" style="flex:1 1 0;height:46px;border-radius:999px;border:0;background:#FFFFFF;box-shadow:0 0 0 1px rgba(0,0,0,.08);color:#1C1C1E;font-size:15px;font-weight:600">Edit</button>
+        <button type="button" style="flex:1 1 0;height:46px;border-radius:999px;border:0;background:transparent;color:#6E6E73;font-size:15px;font-weight:600">Decline</button>
       </div>
+      <div style="font-size:12px;color:#8E8E93;text-align:center">Only this text, only to this person.</div>
     </div>
   </div>
 
-  <div layer-name="Progress" style="background:#FFFFFF;border-radius:20px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -18px rgba(20,20,40,.14);padding:18px;display:flex;flex-direction:column;gap:12px">
-    <div style="display:flex;align-items:baseline;gap:8px"><div style="font-size:16px;font-weight:700">Progress</div><div style="font-size:12.5px;color:#6E6E73">Step 3 of 6</div></div>
-    <div style="font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73">Stage 1 · Wages</div>
-    <div style="display:flex;align-items:center;gap:10px"><span aria-hidden="true" style="width:20px;height:20px;border-radius:50%;background:#1F8A3B;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5 7-8"></path></svg></span><div style="font-size:14.5px">Gathering employee hours</div></div>
-    <div style="display:flex;align-items:center;gap:10px"><span aria-hidden="true" style="width:20px;height:20px;border-radius:50%;background:#1F8A3B;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5 7-8"></path></svg></span><div style="font-size:14.5px">Auditing hours</div></div>
-    <div style="display:flex;align-items:center;gap:10px"><span aria-hidden="true" style="width:20px;height:20px;border-radius:50%;background:#fff;border:2.5px solid {{accent}};box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:7px;height:7px;border-radius:50%;background:{{accent}}"></span></span><div style="font-size:14.5px;font-weight:600;color:#0066D6">Resolving missing information</div></div>
-    <div style="display:flex;align-items:center;gap:10px"><span aria-hidden="true" style="width:20px;height:20px;border-radius:50%;border:2px solid #C7C7CC;box-sizing:border-box;flex-shrink:0"></span><div style="font-size:14.5px;color:#6E6E73">Preparing employee wages</div></div>
-    <div aria-hidden="true" style="height:1px;background:rgba(0,0,0,.06)"></div>
-    <div style="font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73">Stage 2 · Financial reconciliation</div>
-    <div style="display:flex;align-items:center;gap:10px"><span aria-hidden="true" style="width:20px;height:20px;border-radius:50%;border:2px solid #C7C7CC;box-sizing:border-box;flex-shrink:0"></span><div style="font-size:14.5px;color:#6E6E73">Reconciling expenses and commissions</div></div>
-    <div style="display:flex;align-items:center;gap:10px"><span aria-hidden="true" style="width:20px;height:20px;border-radius:50%;border:2px solid #C7C7CC;box-sizing:border-box;flex-shrink:0"></span><div style="font-size:14.5px;color:#6E6E73">Payroll ready for your review</div></div>
+  <div layer-name="Progress" style="background:#FFFFFF;border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -24px rgba(20,20,40,.22),0 0 0 1px rgba(0,0,0,.03);padding:18px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:8px"><div style="font-size:16px;font-weight:700;letter-spacing:-.015em">Progress</div><div style="font-size:12.5px;color:#6E6E73">Step 3 of 6</div></div>
+    <div style="display:flex;gap:5px;align-items:center">
+      <div aria-hidden="true" style="flex:1 1 0;height:7px;border-radius:999px;background:#1F8A3B"></div>
+      <div aria-hidden="true" style="flex:1 1 0;height:7px;border-radius:999px;background:#1F8A3B"></div>
+      <div aria-hidden="true" style="flex:1 1 0;height:7px;border-radius:999px;background:{{accent}};animation:pp-breathe 2.2s infinite"></div>
+      <div aria-hidden="true" style="flex:1 1 0;height:7px;border-radius:999px;background:#E5E5EA"></div>
+      <div aria-hidden="true" style="width:1px;height:14px;background:#C7C7CC;flex-shrink:0"></div>
+      <div aria-hidden="true" style="flex:1 1 0;height:7px;border-radius:999px;background:#E5E5EA"></div>
+      <div aria-hidden="true" style="flex:1 1 0;height:7px;border-radius:999px;background:#E5E5EA"></div>
+    </div>
+    <div style="display:flex;gap:5px;font-size:11px;color:#6E6E73"><div style="flex:4 1 0;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#3A3A3C">Stage 1 · Wages</div><div style="width:1px"></div><div style="flex:2 1 0;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#3A3A3C">Stage 2 · Costs</div></div>
+    <div style="display:flex;align-items:flex-start;gap:12px;background:#F5F8FF;border-radius:16px;padding:12px 14px">
+      <div aria-hidden="true" style="width:22px;height:22px;border-radius:50%;background:#fff;border:2.5px solid {{accent}};box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:7px;height:7px;border-radius:50%;background:{{accent}}"></span></div>
+      <div style="display:flex;flex-direction:column;gap:2px"><div style="font-size:15px;font-weight:700;color:#0066D6">Resolving missing information</div><div style="font-size:13px;color:#3A3A3C">1 of 3 answered. Waiting on your approval above.</div></div>
+    </div>
   </div>
 
-  <div layer-name="Activity" style="background:#FFFFFF;border-radius:20px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -18px rgba(20,20,40,.14);padding:18px;display:flex;flex-direction:column;gap:4px">
-    <div style="font-size:16px;font-weight:700;padding-bottom:6px">Activity</div>
-    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:{{accent}};flex-shrink:0"></span><div style="flex:1 1 0;font-size:14px">Drafted a question for the Ops lead</div><div style="font-size:12.5px;color:#6E6E73">12:58</div></div>
-    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:#1F8A3B;flex-shrink:0"></span><div style="flex:1 1 0;font-size:14px">Verified the correction for Worker A's shift</div><div style="font-size:12.5px;color:#6E6E73">12:51</div></div>
-    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:#1F8A3B;flex-shrink:0"></span><div style="flex:1 1 0;font-size:14px">Ops lead replied</div><div style="font-size:12.5px;color:#6E6E73">12:49</div></div>
-    <div style="display:flex;align-items:center;gap:10px;padding:8px 0"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:#C7C7CC;flex-shrink:0"></span><div style="flex:1 1 0;font-size:14px">Checked 42 timesheets</div><div style="font-size:12.5px;color:#6E6E73">12:41</div></div>
+  <div layer-name="Activity" style="background:#FFFFFF;border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -24px rgba(20,20,40,.22),0 0 0 1px rgba(0,0,0,.03);padding:18px;display:flex;flex-direction:column;gap:4px">
+    <div style="display:flex;align-items:baseline;padding-bottom:6px"><div style="font-size:16px;font-weight:700;letter-spacing:-.015em">What Pilot did today</div><div style="flex:1 1 8px"></div><a href="#details" style="font-size:13px;font-weight:600;text-decoration:none">Details</a></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:26px;height:26px;border-radius:8px;background:#E8F1FF;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#0066D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10v7H7l-3 2.5V11H3z"></path></svg></span><div style="flex:1 1 0;font-size:14px">Drafted a question for the Ops lead</div><div style="font-size:12px;color:#8E8E93">12:58</div></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:26px;height:26px;border-radius:8px;background:#E6F6EA;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#1F8A3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5 7-8"></path></svg></span><div style="flex:1 1 0;font-size:14px">Verified Worker A's shift correction</div><div style="font-size:12px;color:#8E8E93">12:51</div></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:26px;height:26px;border-radius:8px;background:#F2F2F7;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;color:#3A3A3C">O</span><div style="flex:1 1 0;font-size:14px">Ops lead replied <span style="margin-left:4px;font-size:11px;color:#9A4D00;background:#FFF4E5;border-radius:999px;padding:1px 7px;font-weight:600">test</span></div><div style="font-size:12px;color:#8E8E93">12:49</div></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0"><span aria-hidden="true" style="width:26px;height:26px;border-radius:8px;background:#F2F2F7;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#3A3A3C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2.5" width="10" height="11" rx="1.5"></rect><path d="M5.5 6h5M5.5 9h5"></path></svg></span><div style="flex:1 1 0;font-size:14px">Checked 42 timesheets</div><div style="font-size:12px;color:#8E8E93">12:41</div></div>
   </div>
 
-  <div style="font-size:12px;color:#6E6E73;text-align:center;padding:0 8px">Test mode · Synthetic data · Nothing is submitted to Gusto.</div>
+  <div style="font-size:11.5px;color:#8E8E93;text-align:center;padding:0 8px">Test mode · Synthetic data · Nothing is submitted to Gusto.</div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#0A7AFF","section":"Theme"},"$preview":{"width":390,"height":1180}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#0A7AFF","section":"Theme"},"$preview":{"width":390,"height":1240}}'>
 class Component extends DCLogic {
   renderVals() {
     return { accent: this.props.accent ?? '#0A7AFF' };

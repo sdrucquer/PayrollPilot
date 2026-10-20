@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PayrollPilot on a phone, payroll ready</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#F2F2F7;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",system-ui,sans-serif;color:#1C1C1E;-webkit-font-smoothing:antialiased}
+a{color:#0A7AFF}a:hover{color:#0066D6}
+button{font:inherit;cursor:pointer}
+button:active{transform:scale(.98)}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+</helmet>
+<div layer-name="Phone" style="width:390px;height:1240px;box-sizing:border-box;background:linear-gradient(180deg,#F5F5F8,#EEEEF3);display:flex;flex-direction:column;gap:14px;padding:60px 16px 32px;font-size:15px;line-height:1.45">
+
+  <div layer-name="Top" style="display:flex;align-items:center;gap:8px;padding:0 2px">
+    <div aria-hidden="true" style="width:26px;height:26px;border-radius:8px;background:linear-gradient(160deg,#4DA3FF,{{accent}});display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5 8 3l5 9.5"></path><path d="M5.5 9.5h5"></path></svg></div>
+    <div style="font-weight:700;font-size:15px">PayrollPilot</div>
+    <div style="flex:1 1 8px"></div>
+    <div style="display:flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:999px;background:#FFF4E5;color:#9A4D00;font-size:11.5px;font-weight:600"><span aria-hidden="true" style="width:5px;height:5px;border-radius:50%;background:#D97A00"></span>Test mode</div>
+    <div style="display:flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 6px;border-radius:999px;background:#FFFFFF;box-shadow:0 0 0 1px rgba(0,0,0,.05);font-size:11.5px;font-weight:600;color:#3A3A3C"><span aria-hidden="true" style="width:13px;height:13px;border-radius:3px;background:#F45D48;color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center">G</span>not prepared</div>
+  </div>
+
+  <div layer-name="Hero" style="background:#FFFFFF;border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -24px rgba(20,20,40,.25),0 0 0 1px rgba(0,0,0,.03);padding:20px 20px 18px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden">
+    <div aria-hidden="true" style="position:absolute;right:-70px;top:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(31,138,59,.12),rgba(31,138,59,0) 65%)"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;flex:1 1 0;min-width:0;position:relative">
+      <div style="font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73">Sep 28 – Oct 11 · payday Fri</div>
+      <div style="font-size:12.5px;font-weight:600;color:#6E6E73">Total payroll draft</div>
+      <div style="font-size:36px;font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums">$7,570<span style="font-size:20px;color:#8E8E93;font-weight:600">.00</span></div>
+      <div style="font-size:13.5px;color:#3A3A3C;padding-top:2px">Wages verified for all 4. 2 items left out until you decide.</div>
+    </div>
+    <div style="position:relative;width:76px;height:76px;flex-shrink:0">
+      <svg aria-hidden="true" width="76" height="76" viewBox="0 0 112 112" style="transform:rotate(-90deg)"><circle cx="56" cy="56" r="48" fill="none" stroke="#ECECF1" stroke-width="11"></circle><circle cx="56" cy="56" r="48" fill="none" stroke="#1F8A3B" stroke-width="11" stroke-linecap="round" stroke-dasharray="302" stroke-dashoffset="0"></circle></svg>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="width:30px;height:30px;border-radius:50%;background:#1F8A3B;display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5 7-8"></path></svg></span></div>
+    </div>
+  </div>
+
+  <div layer-name="Summary" style="background:linear-gradient(180deg,#F3FBF5 0%,#FFFFFF 34%);border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -24px rgba(31,138,59,.35),0 0 0 1.5px rgba(31,138,59,.30);padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div aria-hidden="true" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(160deg,#4DA3FF,{{accent}});display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5 8 3l5 9.5"></path><path d="M5.5 9.5h5"></path></svg></div>
+      <div style="display:flex;flex-direction:column"><div style="font-size:16px;font-weight:700;letter-spacing:-.01em">Pilot has a draft for you</div><div style="font-size:12.5px;color:#6E6E73">Draft 3 · workbook matches</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:8px">
+      <div style="background:#FFFFFF;border-radius:14px;padding:10px 11px;display:flex;flex-direction:column;gap:2px;box-shadow:0 0 0 1px rgba(0,0,0,.05)"><div style="font-size:11px;color:#6E6E73">Wages</div><div style="font-size:16px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums">$7,480</div><div style="font-size:11px;color:#1F8A3B;font-weight:600">4 of 4</div></div>
+      <div style="background:#FFFFFF;border-radius:14px;padding:10px 11px;display:flex;flex-direction:column;gap:2px;box-shadow:0 0 0 1px rgba(0,0,0,.05)"><div style="font-size:11px;color:#6E6E73">Comm. &amp; tips</div><div style="font-size:16px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums">$90</div><div style="font-size:11px;color:#9A4D00;font-weight:600">1 waiting</div></div>
+      <div style="background:#FFFFFF;border-radius:14px;padding:10px 11px;display:flex;flex-direction:column;gap:2px;box-shadow:0 0 0 1px rgba(0,0,0,.05)"><div style="font-size:11px;color:#6E6E73">Manager pool</div><div style="font-size:16px;font-weight:700;letter-spacing:-.02em;color:#8E8E93">—</div><div style="font-size:11px;color:#9A4D00;font-weight:600">decide</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73;padding:0 0 4px 2px">Verified</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;color:#3A3A3C">A</span><div style="flex:1 1 0;font-size:14px">Worker A <span style="color:#6E6E73">· 84h</span></div><div style="font-size:14px;font-weight:600;font-variant-numeric:tabular-nums">$1,848.00</div></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;color:#3A3A3C">B</span><div style="flex:1 1 0;font-size:14px">Worker B <span style="color:#6E6E73">· 82h</span></div><div style="font-size:14px;font-weight:600;font-variant-numeric:tabular-nums">$2,296.00</div></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;color:#3A3A3C">C</span><div style="flex:1 1 0;font-size:14px">Worker C <span style="color:#6E6E73">· 77h 48m</span></div><div style="font-size:14px;font-weight:600;font-variant-numeric:tabular-nums">$1,712.00</div></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 2px"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;color:#3A3A3C">D</span><div style="flex:1 1 0;font-size:14px">Worker D <span style="color:#6E6E73">· 74h 54m</span></div><div style="font-size:14px;font-weight:600;font-variant-numeric:tabular-nums">$1,624.00</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6E6E73;padding:0 0 4px 2px">Left out until you decide</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid rgba(0,0,0,.05)"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#FFF4E5;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:6px;height:6px;border-radius:50%;background:#D97A00"></span></span><div style="flex:1 1 0;font-size:14px">Job 02 commission</div><button type="button" style="height:30px;padding:0 12px;border-radius:999px;border:0;background:#1C1C1E;color:#fff;font-size:12.5px;font-weight:600">Decide</button></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 2px"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#FFF4E5;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:6px;height:6px;border-radius:50%;background:#D97A00"></span></span><div style="flex:1 1 0;font-size:14px">Manager pool</div><button type="button" style="height:30px;padding:0 12px;border-radius:999px;border:0;background:#1C1C1E;color:#fff;font-size:12.5px;font-weight:600">Decide</button></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:1px solid rgba(0,0,0,.06)">
+      <button type="button" style="height:50px;border-radius:999px;border:0;background:{{accent}};color:#fff;font-size:16px;font-weight:600;box-shadow:0 8px 20px -8px rgba(10,122,255,.8)">Approve this draft</button>
+      <button type="button" style="height:46px;border-radius:999px;border:0;background:#FFFFFF;box-shadow:0 0 0 1px rgba(0,0,0,.08);color:#1C1C1E;font-size:15px;font-weight:600">Download workbook</button>
+      <div style="font-size:12px;color:#8E8E93;text-align:center">Locks the numbers. Gusto stays "not prepared" until you submit.</div>
+    </div>
+  </div>
+
+  <div style="font-size:11.5px;color:#8E8E93;text-align:center;padding:0 8px">Test mode · Synthetic data · Nothing is submitted to Gusto.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#0A7AFF","section":"Theme"},"$preview":{"width":390,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#0A7AFF' };
+  }
+}
+</script>
+</body>
+</html>
