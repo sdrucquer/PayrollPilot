@@ -7,9 +7,10 @@
   "boards": {
     "Main.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1420, "title": "Home · approval pending (interactive)", "expand": "fill", "is_interactive": true},
     "Ready.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 1480, "title": "Home · payroll ready for review (interactive)", "expand": "fill", "is_interactive": true},
-    "Phone.dc.html": {"x": 2720, "y": 0, "w": 390, "h": 1180, "title": "Phone · approval pending"}
+    "Phone.dc.html": {"x": 2720, "y": 0, "w": 390, "h": 1180, "title": "Phone · approval pending"},
+    "Idle.dc.html": {"x": 0, "y": 1600, "w": 1280, "h": 1180, "title": "Home · between payrolls", "expand": "fill"}
   },
-  "order": ["Main.dc.html", "Ready.dc.html", "Phone.dc.html"],
+  "order": ["Main.dc.html", "Ready.dc.html", "Phone.dc.html", "Idle.dc.html"],
   "notes": {
     "t1": {"x": 0, "y": -300, "text": "PayrollPilot · one screen for the owner", "kind": "title1", "maxW": 3110}
   },
