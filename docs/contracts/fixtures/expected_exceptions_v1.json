@@ -1,0 +1,292 @@
+{
+  "_comment": "Exceptions run_audit must produce for cycle_synthetic_v1.json. Compare set-wise on (category, entity_refs); ids are deterministic (sha of category + entity refs). Titles are informative; stage_impact and intended_respondent_role are binding.",
+  "cycle_id": "cyc_synth_v1",
+  "contract_version": "1",
+  "expected_count": 15,
+  "exceptions": [
+    {
+      "id": "exc_20054a0d67",
+      "category": "missing_job",
+      "entity_refs": {
+        "worker_id": "wkr_03",
+        "time_entry_ids": [
+          "te_0022"
+        ],
+        "job_ids": [],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "none",
+        "stage2_costs": "job_costing"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Shift on 2026-09-29 (2h14m) has no job assigned",
+      "note": "T01: 134 minutes; missing job alone does not invalidate work"
+    },
+    {
+      "id": "exc_3c90fa0e74",
+      "category": "long_shift",
+      "entity_refs": {
+        "worker_id": "wkr_04",
+        "time_entry_ids": [
+          "te_0029"
+        ],
+        "job_ids": [],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "blocks_worker",
+        "stage2_costs": "none"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Shift on 2026-09-30 is 9h20m (over 8h review threshold)",
+      "note": "T03: review only; never trimmed"
+    },
+    {
+      "id": "exc_56598c0c4f",
+      "category": "open_timer",
+      "entity_refs": {
+        "worker_id": "wkr_02",
+        "time_entry_ids": [
+          "te_0021"
+        ],
+        "job_ids": [],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "blocks_worker",
+        "stage2_costs": "job_costing"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Timer on 2026-10-09 still open; duration unknown"
+    },
+    {
+      "id": "exc_4cd900abf0",
+      "category": "overlap",
+      "entity_refs": {
+        "worker_id": "wkr_03",
+        "time_entry_ids": [
+          "te_0026",
+          "te_0027"
+        ],
+        "job_ids": [],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "blocks_worker",
+        "stage2_costs": "job_costing"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Two entries on 2026-10-07 overlap by 60 minutes"
+    },
+    {
+      "id": "exc_098d5893a2",
+      "category": "duplicate_time",
+      "entity_refs": {
+        "worker_id": "wkr_02",
+        "time_entry_ids": [
+          "te_0017",
+          "te_0018"
+        ],
+        "job_ids": [],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "blocks_worker",
+        "stage2_costs": "job_costing"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Identical entries on 2026-10-06 (possible duplicate)"
+    },
+    {
+      "id": "exc_e498eb6990",
+      "category": "unassigned_time",
+      "entity_refs": {
+        "worker_id": "wkr_01",
+        "time_entry_ids": [
+          "te_0033"
+        ],
+        "job_ids": [],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "none",
+        "stage2_costs": "none"
+      },
+      "intended_respondent_role": "owner",
+      "title": "Unapproved entry dated 2026-09-26 is outside the cycle; excluded, prior payment unknown",
+      "note": "T27: not swept into this cycle; not assumed unpaid"
+    },
+    {
+      "id": "exc_802ac6361d",
+      "category": "schedule_mismatch",
+      "entity_refs": {
+        "worker_id": "wkr_04",
+        "time_entry_ids": [
+          "te_0031"
+        ],
+        "job_ids": [],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "blocks_worker",
+        "stage2_costs": "none"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Logged 480m vs scheduled 360m on 2026-10-08",
+      "note": "T03: actual work is not replaced by schedule"
+    },
+    {
+      "id": "exc_93d1ad0169",
+      "category": "identity",
+      "entity_refs": {
+        "worker_id": "wkr_04",
+        "time_entry_ids": [],
+        "job_ids": [],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "blocks_worker",
+        "stage2_costs": "none"
+      },
+      "intended_respondent_role": "owner",
+      "title": "Worker D has duplicate profiles; identity must be reconciled before merging hours",
+      "note": "T04"
+    },
+    {
+      "id": "exc_fea97c8640",
+      "category": "rate_unconfirmed",
+      "entity_refs": {
+        "worker_id": "wkr_03",
+        "time_entry_ids": [],
+        "job_ids": [],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "blocks_worker",
+        "stage2_costs": "none"
+      },
+      "intended_respondent_role": "owner",
+      "title": "Worker C rate and payment route unconfirmed",
+      "note": "T01"
+    },
+    {
+      "id": "exc_611be6d68e",
+      "category": "already_paid_allocation",
+      "entity_refs": {
+        "worker_id": "wkr_02",
+        "time_entry_ids": [
+          "te_0014"
+        ],
+        "job_ids": [
+          "job_01",
+          "job_02"
+        ],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "none",
+        "stage2_costs": "job_costing"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Already-paid shift on 2026-10-01 is on Job 01 but scheduled on Job 02",
+      "note": "T02: allocation only; no new wages"
+    },
+    {
+      "id": "exc_2c344f9c27",
+      "category": "unmatched_cost",
+      "entity_refs": {
+        "worker_id": null,
+        "time_entry_ids": [],
+        "job_ids": [],
+        "cost_ids": [
+          "cost_04"
+        ]
+      },
+      "stage_impact": {
+        "stage1_wages": "none",
+        "stage2_costs": "job_costing"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Hardware store purchase (2026-10-07) has no job or category",
+      "note": "T07"
+    },
+    {
+      "id": "exc_b178c840ca",
+      "category": "cost_conflict",
+      "entity_refs": {
+        "worker_id": null,
+        "time_entry_ids": [],
+        "job_ids": [],
+        "cost_ids": [
+          "cost_05"
+        ]
+      },
+      "stage_impact": {
+        "stage1_wages": "none",
+        "stage2_costs": "job_costing"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Fuel cost: receipt and Jobber entry amounts differ",
+      "note": "T08/T23: counted once, amount unknown until resolved"
+    },
+    {
+      "id": "exc_d06fba51f7",
+      "category": "offsite_link",
+      "entity_refs": {
+        "worker_id": null,
+        "time_entry_ids": [],
+        "job_ids": [
+          "job_03"
+        ],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "none",
+        "stage2_costs": "job_costing"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Job 03 (off-site disposal) has no parent job link",
+      "note": "T06/T15"
+    },
+    {
+      "id": "exc_4afa02c5e6",
+      "category": "quote_attribution",
+      "entity_refs": {
+        "worker_id": null,
+        "time_entry_ids": [],
+        "job_ids": [
+          "job_01"
+        ],
+        "cost_ids": []
+      },
+      "stage_impact": {
+        "stage1_wages": "none",
+        "stage2_costs": "commission"
+      },
+      "intended_respondent_role": "ops_lead",
+      "title": "Job 01 quoter is only the salesperson field; confirm actual quoter(s)",
+      "note": "T25"
+    },
+    {
+      "id": "exc_f6fead68cd",
+      "category": "coverage_gap",
+      "entity_refs": {
+        "worker_id": null,
+        "time_entry_ids": [],
+        "job_ids": [],
+        "cost_ids": [],
+        "coverage": [
+          "quickbooks:expenses"
+        ]
+      },
+      "stage_impact": {
+        "stage1_wages": "none",
+        "stage2_costs": "job_costing"
+      },
+      "intended_respondent_role": "owner",
+      "title": "quickbooks/expenses coverage incomplete (permission): pending bank-feed items not visible",
+      "note": "T13"
+    }
+  ]
+}
