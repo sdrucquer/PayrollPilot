@@ -42,3 +42,15 @@ Human prerequisites (ask the owner in your first message, then proceed with spik
 - Verify: `backend/.venv/bin/pytest -q backend/tests/test_c05_routes.py`; live G1 run with D's UI.
 
 ## Status log
+
+```
+LANE C status @ 12:45
+Done: C-03 (acceptance: write in process 1, fresh process 2 recall changed next_action, approval_created false, --no-memory control stays insufficient_evidence)
+In progress: C-01 bridge built, live round trip blocked on Photon credentials
+Changed files: bridge/*, backend/payrollpilot/memory/*, backend/tests/test_c03_memory.py, INTEGRATION-FINDINGS.md
+Tests run: cd bridge && bun test -> 9 pass, 0 fail; backend/.venv/bin/python -m pytest -q backend/tests/test_c03_memory.py -> 7 passed
+Evidence: INTEGRATION-FINDINGS Cognee row (pids 15644 write, 17143 recall, 17251 control)
+Blockers: Photon phone + project credentials in bridge/.env; PP_TEST_RECIPIENT; OPENROUTER_API_KEY for C-04
+Next: C-02 Band product handoff
+Handoff requested: A adds app.include_router(routes_comms.router) and cognee/fastembed/python-dotenv to backend deps
+```
