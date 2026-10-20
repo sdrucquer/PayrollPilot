@@ -261,7 +261,8 @@ def _letters(i: int) -> str:
 
 
 def to_snapshot(output: dict[str, Any], *, start: str, end: str, run_id: str, captured_at: str,
-                tz: str = _NEW_YORK, company_label: str = "Pilot Co") -> dict[str, Any]:
+                tz: str = _NEW_YORK, company_label: str = "Pilot Co", payday: str | None = None,
+                existing_run_status: str = "unknown") -> dict[str, Any]:
     """Pure: agent output -> CONTRACTS snapshot envelope. Real names stay in
     private ``source_name``/``source_title`` fields; display labels are de-identified."""
     from ..permissions import content_hash
@@ -342,8 +343,8 @@ def to_snapshot(output: dict[str, Any], *, start: str, end: str, run_id: str, ca
                          "incomplete_reason": "not_attempted", "captured_at": captured_at, "snapshot_id": snap_id,
                          "method": "browser_use"})
     cycle = {"id": cycle_id, "contract_version": "1", "policy_version": None, "company_label": company_label,
-             "company_ref": None, "period_start": start, "period_end": end, "payday": None, "business_tz": tz,
-             "workweeks": _workweeks(start, end), "existing_run_status": "unknown", "coverage": coverage,
+             "company_ref": None, "period_start": start, "period_end": end, "payday": payday, "business_tz": tz,
+             "workweeks": _workweeks(start, end), "existing_run_status": existing_run_status, "coverage": coverage,
              "stage1": {"state": "not_started"}, "stage2": {"state": "not_started"}, "destination": "not_prepared",
              "provenance": "real"}
     return {"_comment": "PRIVATE real Jobber read via Browser Use. Never commit. Display labels de-identified; "
@@ -371,7 +372,7 @@ def snapshot_path(start: str, end: str) -> Path:
 
 
 def read_period(start: str, end: str, *, max_cost_usd: float = 5.0, poll_s: float = 10.0,
-                timeout_s: float = 1800.0) -> dict[str, Any]:
+                timeout_s: float = 2280.0) -> dict[str, Any]:
     import time
     from datetime import datetime
 
@@ -387,6 +388,7 @@ def read_period(start: str, end: str, *, max_cost_usd: float = 5.0, poll_s: floa
         "browserSettings": {"profileId": state["profile_id"]}, "maxCostUsd": max_cost_usd,
     })
     run_id = run["id"]
+    print(f"run created {run_id} status {run.get('status')}", file=sys.stderr, flush=True)
     state.setdefault("runs", []).append({"run_id": run_id, "start": start, "end": end})
     _save_state(state)
     t0 = time.time()
@@ -397,11 +399,16 @@ def read_period(start: str, end: str, *, max_cost_usd: float = 5.0, poll_s: floa
             raise BrowserUseError(f"run {run_id} timed out after {int(timeout_s)}s; cancelled")
         time.sleep(poll_s)
         status = _call("GET", f"/runs/{run_id}/status")["status"]
+        print(f"[{int(time.time() - t0)}s] run {run_id} {status}", file=sys.stderr, flush=True)
     full = _call("GET", f"/runs/{run_id}")
     if status != "completed" or not isinstance(full.get("output"), dict):
         raise BrowserUseError(f"run {run_id} ended {status}: {(full.get('error') or '')[:200]}")
     captured = datetime.now().astimezone().isoformat(timespec="seconds")
-    snap = to_snapshot(full["output"], start=start, end=end, run_id=run_id, captured_at=captured)
+    # Owner-confirmed from the Gusto Pay page (lead relay, 1:11 PM): payday and run status.
+    snap = to_snapshot(full["output"], start=start, end=end, run_id=run_id, captured_at=captured,
+                       tz=os.environ.get("PP_BUSINESS_TZ") or _NEW_YORK,
+                       payday=os.environ.get("PP_PAYDAY") or None,
+                       existing_run_status=os.environ.get("PP_EXISTING_RUN_STATUS") or "unknown")
     path = snapshot_path(start, end)
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.is_file():
@@ -431,6 +438,7 @@ def main(argv: list[str] | None = None) -> int:
     rd.add_argument("--end", required=True)
     rd.add_argument("--dry-run", action="store_true")
     rd.add_argument("--max-cost-usd", type=float, default=5.0)
+    rd.add_argument("--timeout-s", type=float, default=2280.0)
     args = ap.parse_args(argv)
     try:
         if args.cmd == "check":
@@ -451,7 +459,7 @@ def main(argv: list[str] | None = None) -> int:
                        "output_schema_keys": list(OUTPUT_SCHEMA["properties"]), "would_write": str(snapshot_path(args.start, args.end)),
                        "profile_id": _load_state().get("profile_id"), "max_cost_usd": args.max_cost_usd}
             else:
-                out = read_period(args.start, args.end, max_cost_usd=args.max_cost_usd)
+                out = read_period(args.start, args.end, max_cost_usd=args.max_cost_usd, timeout_s=args.timeout_s)
         else:
             out = stop()
     except BrowserUseError as exc:
