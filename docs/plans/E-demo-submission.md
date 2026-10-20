@@ -51,3 +51,17 @@ Blockers: none.
 Next: launch film build (demo/film, Remotion), then E-03 evidence sweep every 15 min, E-04 by 14:30.
 Handoff requested: C: confirm the demo batch = [already_paid_allocation te_0014, offsite_link job_03] and the exact next_action strings for the recall beat.
 ```
+
+Correction (12:58): the two entries above are stamped 13:02 and 13:14; the actual times were about 12:44 and 12:47 (checked with `date`). Later entries use `date`.
+
+```
+LANE E status @ 12:55
+Done: E-06 launch film v1 (owner direction: Apple/Linear launch film, ~40% story / 60% real product, Remotion). First full render passed checks: h264 1920x1080 + aac, 175.0 s, mean -19.9 dB / peak -3.3 dB. Product segments render a labeled FOOTAGE PENDING frame and a grey PLANNED chip until real clips exist; closing status card rows are "pending verification"; draft watermark on. Voice is the macOS placeholder (no ElevenLabs key present). Music and transitions are synthesized in code (no samples).
+E-03 sweep: Cognee R13-R15 captured as CLI proof (demo/evidence/cognee/recall-run.txt, from INTEGRATION-FINDINGS on main); R01 partial (lane D placeholder board screenshot). Script and shot list moved to the one-screen UI (docs/UI-ONE-SCREEN.md) and the design register (docs/DESIGN-DIRECTION.md); film adopted lane D's palette and a particle title mark.
+Changed files: demo/film/** (new), demo/evidence/**, demo/evidence-matrix.md, demo/script.md, demo/shot-list.md
+Tests run: npx tsc -p demo/film -> 0 errors; node scripts/manifest.mjs -> every VO line ends 0.6-5.1 s before the next starts; ffprobe on the render (above).
+Evidence: demo/film/out/payrollpilot-film-draft.mp4 (local, gitignored; not committed)
+Blockers: ElevenLabs key not provided (placeholder voice until it is). Photon round trip and Band product handoff not yet proven, so Beats 2-4 stay PLANNED.
+Next: E-03 sweep every 15 min; draft 2 render; E-04 README/brief/submission by 14:30.
+Handoff requested: owner: ELEVENLABS_API_KEY into demo/film/.env (gitignored) if you want the professional voice. C: Band room/board/ask/usage screenshots and the iMessage round trip when proven.
+```

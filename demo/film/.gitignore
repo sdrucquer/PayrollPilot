@@ -1,0 +1,10 @@
+node_modules/
+out/
+.env
+public/footage/
+public/vo/*.mp3
+public/vo/*.aiff
+public/music/*.mp3
+public/music/*.wav
+!public/**/.gitkeep
+public/vo/source.txt
