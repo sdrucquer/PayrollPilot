@@ -9,3 +9,5 @@ public/music/*.wav
 !public/**/.gitkeep
 public/vo/source.txt
 !public/stills/*.jpg
+public/a/
+public/sound/*.wav

@@ -1,0 +1,313 @@
+{
+  "total": 155,
+  "timeline": [
+    {
+      "id": "01",
+      "from": 0,
+      "dur": 13,
+      "voAt": 0.4,
+      "text": "Running payroll shouldn't mean chasing down your whole team. Missing hours. Unassigned expenses. Numbers that don't add up."
+    },
+    {
+      "id": "02",
+      "from": 13,
+      "dur": 8,
+      "voAt": 1.6,
+      "text": "Meet PayrollPilot. Your AI payroll team."
+    },
+    {
+      "id": "03",
+      "from": 21,
+      "dur": 8,
+      "voAt": 0.5,
+      "text": "PayrollPilot pulls your pay period from Jobber, QuickBooks and Gusto."
+    },
+    {
+      "id": "04",
+      "from": 29,
+      "dur": 10,
+      "voAt": 0.5,
+      "text": "It audits every record, finds what's missing, and works out who actually knows the answer."
+    },
+    {
+      "id": "05",
+      "from": 39,
+      "dur": 9,
+      "voAt": 0.5,
+      "text": "Audit hands the case to Resolution, which drafts one grouped question for the Ops lead."
+    },
+    {
+      "id": "06",
+      "from": 48,
+      "dur": 9,
+      "voAt": 0.5,
+      "text": "You approve the exact text: a human decision, made in a shared room in Band."
+    },
+    {
+      "id": "07",
+      "from": 57,
+      "dur": 8,
+      "voAt": 0.5,
+      "text": "A real iMessage goes out. In test mode, only to the owner's own phone."
+    },
+    {
+      "id": "08",
+      "from": 65,
+      "dur": 8,
+      "voAt": 0.5,
+      "text": "A vague yes isn't an answer. It's flagged as ambiguous, and one clear follow-up goes out."
+    },
+    {
+      "id": "09",
+      "from": 73,
+      "dur": 5,
+      "voAt": 0.5,
+      "text": "Then the answer comes back clear."
+    },
+    {
+      "id": "10",
+      "from": 78,
+      "dur": 10,
+      "voAt": 0.5,
+      "text": "It proposes the fix. Wages stay the same. Two hundred dollars of job cost moves from Job 01 to Job 02."
+    },
+    {
+      "id": "11",
+      "from": 88,
+      "dur": 8,
+      "voAt": 0.5,
+      "text": "After Approve and Apply, Payroll Preparation recalculates, and only the affected line changes."
+    },
+    {
+      "id": "12",
+      "from": 96,
+      "dur": 9,
+      "voAt": 0.5,
+      "text": "Under the hood, three agents, Audit, Resolution and Payroll Preparation, hand off in one shared room in Band."
+    },
+    {
+      "id": "13",
+      "from": 105,
+      "dur": 12,
+      "voAt": 0.5,
+      "text": "Every case moves across the work board from to-do to done, and Band shows the team's sessions, tokens and estimated cost."
+    },
+    {
+      "id": "15",
+      "from": 117,
+      "dur": 17,
+      "voAt": 0.5,
+      "text": "And it remembers the business. The confirmed answer is written to Cognee. On memory recall after a restart, it no longer asks the Ops lead. It proposes the allocation to Job 02, and creates no approval."
+    },
+    {
+      "id": "16",
+      "from": 134,
+      "dur": 11,
+      "voAt": 0.5,
+      "text": "You get one recap: wages and each payout, shown separately. You confirm the draft. Submitting stays with you."
+    },
+    {
+      "id": "17",
+      "from": 145,
+      "dur": 10,
+      "voAt": 0.5,
+      "text": "From missing information to payroll-ready. With you in control."
+    }
+  ],
+  "vo": {
+    "10": {
+      "file": "vo/kokoro/10.mp3",
+      "dur": 8.52,
+      "source": "kokoro"
+    },
+    "11": {
+      "file": "vo/kokoro/11.mp3",
+      "dur": 6.216,
+      "source": "kokoro"
+    },
+    "12": {
+      "file": "vo/kokoro/12.mp3",
+      "dur": 6.984,
+      "source": "kokoro"
+    },
+    "13": {
+      "file": "vo/kokoro/13.mp3",
+      "dur": 7.464,
+      "source": "kokoro"
+    },
+    "14": {
+      "file": "vo/kokoro/14.mp3",
+      "dur": 5.736,
+      "source": "kokoro"
+    },
+    "15": {
+      "file": "vo/kokoro/15.mp3",
+      "dur": 13.872,
+      "source": "kokoro"
+    },
+    "16": {
+      "file": "vo/kokoro/16.mp3",
+      "dur": 6.6,
+      "source": "kokoro"
+    },
+    "17": {
+      "file": "vo/kokoro/17.mp3",
+      "dur": 3.744,
+      "source": "kokoro"
+    },
+    "01": {
+      "file": "vo/kokoro/01.mp3",
+      "dur": 7.44,
+      "source": "kokoro"
+    },
+    "02": {
+      "file": "vo/kokoro/02.mp3",
+      "dur": 2.952,
+      "source": "kokoro"
+    },
+    "03": {
+      "file": "vo/kokoro/03.mp3",
+      "dur": 4.152,
+      "source": "kokoro"
+    },
+    "04": {
+      "file": "vo/kokoro/04.mp3",
+      "dur": 5.16,
+      "source": "kokoro"
+    },
+    "05": {
+      "file": "vo/kokoro/05.mp3",
+      "dur": 5.232,
+      "source": "kokoro"
+    },
+    "06": {
+      "file": "vo/kokoro/06.mp3",
+      "dur": 4.608,
+      "source": "kokoro"
+    },
+    "07": {
+      "file": "vo/kokoro/07.mp3",
+      "dur": 4.752,
+      "source": "kokoro"
+    },
+    "08": {
+      "file": "vo/kokoro/08.mp3",
+      "dur": 5.592,
+      "source": "kokoro"
+    },
+    "09": {
+      "file": "vo/kokoro/09.mp3",
+      "dur": 1.776,
+      "source": "kokoro"
+    }
+  },
+  "files": {
+    "mock-home-phone.png": {
+      "kind": "image",
+      "dur": 0,
+      "w": 780,
+      "h": 3000
+    },
+    "mock-home.png": {
+      "kind": "image",
+      "dur": 0,
+      "w": 2560,
+      "h": 3000
+    },
+    "mock-idle-phone.png": {
+      "kind": "image",
+      "dur": 0,
+      "w": 780,
+      "h": 3000
+    },
+    "mock-idle.png": {
+      "kind": "image",
+      "dur": 0,
+      "w": 2560,
+      "h": 3000
+    },
+    "mock-ready-phone.png": {
+      "kind": "image",
+      "dur": 0,
+      "w": 780,
+      "h": 3000
+    },
+    "mock-ready.png": {
+      "kind": "image",
+      "dur": 0,
+      "w": 2560,
+      "h": 3000
+    }
+  },
+  "clips": {
+    "01-home-in-progress.mp4": {
+      "kind": "video",
+      "dur": 14.36,
+      "w": 1920,
+      "h": 1080
+    },
+    "01-home-in-progress.webm": {
+      "kind": "video",
+      "dur": 14.36,
+      "w": 1920,
+      "h": 1080
+    },
+    "02-approve-and-send.mp4": {
+      "kind": "video",
+      "dur": 40.32,
+      "w": 1920,
+      "h": 1080
+    },
+    "02-approve-and-send.webm": {
+      "kind": "video",
+      "dur": 40.32,
+      "w": 1920,
+      "h": 1080
+    },
+    "07-ready-summary.mp4": {
+      "kind": "video",
+      "dur": 15.76,
+      "w": 1920,
+      "h": 1080
+    },
+    "07-ready-summary.webm": {
+      "kind": "video",
+      "dur": 15.76,
+      "w": 1920,
+      "h": 1080
+    },
+    "08-band-room.png": {
+      "kind": "image",
+      "dur": 0,
+      "w": 2940,
+      "h": 1912
+    },
+    "09-band-board.png": {
+      "kind": "image",
+      "dur": 0,
+      "w": 2940,
+      "h": 1912
+    },
+    "10-cognee-recall.txt": {
+      "kind": "text",
+      "text": "REAL POST /api/memory/recall-check, 2026-10-20 Pacific. Synthetic/de-identified case data. No new approval created.\n{\n  \"hits\": [\n    {\n      \"text\": \"PP-RESOLUTION res_demo02 | company Pilot Co | cycle cyc_synth | exception exc_d06fba51f7 | fact: job job_03 is off-site work (off-site child of job_02); costs on job_03 belong to job_02 | confirmed by owner_test_phone reply msg_in_d2 on 2026-10-20 | evidence fixture:job_03.\",\n      \"refs\": {\n        \"resolution_ids\": [\n          \"res_demo02\"\n        ],\n        \"cycle_ids\": [\n          \"cyc_synth\"\n        ],\n        \"job_ids\": [\n          \"job_03\",\n          \"job_02\"\n        ],\n        \"inbound_ids\": [\n          \"msg_in_d2\"\n        ],\n        \"offsite_parent_job_ids\": [\n          \"job_02\"\n        ]\n      },\n      \"source\": \"cognee\"\n    },\n    {\n      \"text\": \"PP-RESOLUTION res_d7e3b72dae39 | company Pilot Co | cycle cyc_synth_v1 | exception exc_d06fba51f7 | fact: job job_03 is off-site work (off-site child of job_02); costs on job_03 belong to job_02 | confirmed by owner_test_phone reply msg_in_8a53d8cec7144dcf on 2026-10-20 | evidence fixture:jobber_job_03.\",\n      \"refs\": {\n        \"resolution_ids\": [\n          \"res_d7e3b72dae39\"\n        ],\n        \"job_ids\": [\n          \"job_03\",\n          \"job_02\"\n        ],\n        \"inbound_ids\": [\n          \"msg_in_8a53d8cec7144dcf\"\n        ],\n        \"offsite_parent_job_ids\": [\n          \"job_02\"\n        ]\n      },\n      \"source\": \"cognee\"\n    },\n    {\n      \"text\": \"PP-RESOLUTION res_01 | company Pilot Co | cycle cyc_synth01 | exception exc_0001 | fact: time entry te_0001 belongs to job job_02 (off-site child of job_01); work at the off-site disposal location is billed to job_02 | confirmed by owner_test_phone reply msg_in_01 on 2026-10-20 | evidence fixture:te_0001.\",\n      \"refs\": {\n        \"resolution_ids\": [\n          \"res_01\"\n        ],\n        \"cycle_ids\": [\n          \"cyc_synth01\"\n        ],\n        \"time_entry_ids\": [\n          \"te_0001\"\n        ],\n        \"job_ids\": [\n          \"job_02\",\n          \"job_01\"\n        ],\n        \"inbound_ids\": [\n          \"msg_in_01\"\n        ],\n        \"offsite_parent_job_ids\": [\n          \"job_01\"\n        ]\n      },\n      \"source\": \"cognee\"\n    },\n    {\n      \"text\": \"PP-RESOLUTION res_1c1543ec450e | company Pilot Co | cycle cyc_synth_v1 | exception exc_611be6d68e | fact: time entry te_0014 belongs to job job_02 | confirmed by owner_test_phone reply msg_in_9c07b802c2c68914 on 2026-10-20 | evidence fixture:jobber_te_0014,fixture:gusto_offcycle_run_0.\",\n      \"refs\": {\n        \"resolution_ids\": [\n          \"res_1c1543ec450e\"\n        ],\n        \"time_entry_ids\": [\n          \"te_0014\"\n        ],\n        \"job_ids\": [\n          \"job_02\"\n        ],\n        \"inbound_ids\": [\n          \"msg_in_9c07b802c2c68914\"\n        ]\n      },\n      \"source\": \"cognee\"\n    }\n  ],\n  \"applied\": true,\n  \"next_action_before\": \"ask ops lead which job\",\n  \"next_action_after\": \"propose allocation to job_02 pending owner approval\",\n  \"memory_adapter\": \"cognee\",\n  \"approval_created\": false,\n  \"rejected\": [\n    {\n      \"reason\": \"unknown_resolution_ids:res_demo02\",\n      \"text\": \"PP-RESOLUTION res_demo02 | company Pilot Co | cycle cyc_synth | exception exc_d06fba51f7 | fact: job job_03 is off-site work (off-site child of job_02); costs on job_03 belong to job_02 | confirmed by\"\n    }\n  ]\n}\n"
+    },
+    "11-band-cost.png": {
+      "kind": "image",
+      "dur": 0,
+      "w": 2940,
+      "h": 1912
+    },
+    "11-band-usage.txt": {
+      "kind": "text",
+      "text": "REAL Band CLI usage agents --since 2026-10-20 --until 2026-10-20. Unattributed coding-agent usage; DOES NOT PROVE product-agent attribution.\nEstimated at list prices — not a bill.\nAGENT                     SESSIONS         TOKENS   ESTIMATE  LAST ACTIVITY\n(unattributed)                   2      256746924    $327.76  2026-10-20T17:53:43.923Z\n  token categories (non-additive): reasoning=54400\nTOTAL                            2      256746924    $327.76\n  token categories (non-additive): reasoning=54400\n"
+    },
+    "12-band-chat-handoff.png": {
+      "kind": "image",
+      "dur": 0,
+      "w": 2940,
+      "h": 1912
+    }
+  },
+  "voSource": "kokoro"
+}

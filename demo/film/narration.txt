@@ -1,0 +1,21 @@
+# PayrollPilot demo narration. One line per segment: id | target window | text
+# Owner recording: record each line as its own file, demo/film/public/vo/owner/<id>.m4a (or .wav/.mp3).
+# The film stretches each segment to fit the recorded line, so exact timing is not required.
+# Final cue times are printed by `node scripts/assets.mjs` and written to src/generated/demo.json.
+01 | 0:00-0:13 | Running payroll shouldn't mean chasing down your whole team. Missing hours. Unassigned expenses. Numbers that don't add up.
+02 | 0:13-0:21 | Meet PayrollPilot. Your AI payroll team.
+03 | 0:21-0:29 | PayrollPilot pulls your pay period from Jobber, QuickBooks and Gusto.
+04 | 0:29-0:39 | It audits every record, finds what's missing, and works out who actually knows the answer.
+05 | 0:39-0:48 | Audit hands the case to Resolution, which drafts one grouped question for the Ops lead.
+06 | 0:48-0:57 | You approve the exact text: a human decision, made in a shared room in Band.
+07 | 0:57-1:05 | A real iMessage goes out. In test mode, only to the owner's own phone.
+08 | 1:05-1:14 | A vague yes isn't an answer. It's flagged as ambiguous, and one clear follow-up goes out.
+09 | 1:14-1:19 | Then the answer comes back clear.
+10 | 1:19-1:30 | It proposes the fix. Wages stay the same. Two hundred dollars of job cost moves from Job 01 to Job 02.
+11 | 1:30-1:38 | After Approve and Apply, Payroll Preparation recalculates, and only the affected line changes.
+12 | 1:38-1:47 | Under the hood, three agents, Audit, Resolution and Payroll Preparation, hand off in one shared room in Band.
+13 | 1:47-1:59 | Every case moves across the work board from to-do to done, and Band shows the team's sessions, tokens and estimated cost.
+14 | 1:59-2:05 | PayrollPilot itself was built by a Claude Code and Codex team, coordinated in Band.
+15 | 2:05-2:22 | And it remembers the business. The confirmed answer is written to Cognee. On memory recall after a restart, it no longer asks the Ops lead. It proposes the allocation to Job 02, and creates no approval.
+16 | 2:22-2:33 | You get one recap: wages and each payout, shown separately. You confirm the draft. Submitting stays with you.
+17 | 2:33-2:43 | From missing information to payroll-ready. With you in control.
