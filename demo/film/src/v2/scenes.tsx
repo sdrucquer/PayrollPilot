@@ -468,10 +468,10 @@ const LOOP: {id: string; clip?: string; clipPan?: [number, number]; startAt?: nu
   {id: '05', clip: '01-home-in-progress.mp4', clipPan: [0, 0.3], mock: 'mock-home.png', pan: [0, 0.12], zoom: [1, 1.04], kicker: 'Step 3 · Ask', head: 'One grouped question, drafted for you.', labels: ['live', 'synthetic']},
   {id: '06', clip: '02-approve-and-send.mp4', clipPan: [0.35, 1], mock: 'mock-home.png', pan: [0.14, 0.16], zoom: [1.04, 1.16], kicker: 'Step 3 · Approve', head: 'You approve the exact text.', labels: ['live']},
   {id: '07', clip: '02-approve-and-send.mp4', clipPan: [0.9, 0.9], startAt: 30, mock: 'mock-home.png', pan: [0.16, 0.16], zoom: [1.1, 1.1], kicker: 'Step 4 · Message', head: 'A real iMessage to the person who knows.', labels: ['live', 'test']},
-  {id: '08', clip: '03-reply-ambiguous.mp4', mock: 'mock-home.png', pan: [0.16, 0.3], zoom: [1.06, 1], kicker: 'Step 4 · Clarify', head: '“yes” isn’t an answer.', labels: ['live', 'test']},
-  {id: '09', clip: '04-clarify-approve.mp4', mock: 'mock-home.png', pan: [0.3, 0.36], zoom: [1, 1], kicker: 'Step 4 · Answer', head: 'A clear answer comes back.', labels: ['live', 'test']},
-  {id: '10', clip: '05-answer-and-correction.mp4', mock: 'mock-home.png', pan: [0.4, 0.45], zoom: [1, 1], kicker: 'Step 5 · Correct', head: 'The fix, with its impact.', labels: ['live', 'synthetic']},
-  {id: '11', clip: '06-approve-apply-readiness.mp4', mock: 'mock-home.png', pan: [0, 0], zoom: [1.12, 1.12], kicker: 'Step 5 · Recalculate', head: 'Only what changed, changes.', labels: ['live', 'synthetic']},
+  {id: '08', clip: '07-ready-summary.mp4', clipPan: [0, 0.15], mock: 'mock-home.png', pan: [0.16, 0.3], zoom: [1.06, 1], kicker: 'Step 4 · Clarify', head: '“yes” isn’t an answer.', labels: ['live', 'test']},
+  {id: '09', clip: '07-ready-summary.mp4', clipPan: [0.15, 0.35], startAt: 5, mock: 'mock-home.png', pan: [0.3, 0.36], zoom: [1, 1], kicker: 'Step 4 · Answer', head: 'A clear answer comes back.', labels: ['live', 'test']},
+  {id: '10', clip: '07-ready-summary.mp4', clipPan: [0.3, 0.3], startAt: 8, mock: 'mock-home.png', pan: [0.4, 0.45], zoom: [1, 1], kicker: 'Step 5 · Correct', head: 'The fix, with its impact.', labels: ['live', 'synthetic']},
+  {id: '11', clip: '07-ready-summary.mp4', clipPan: [0.1, 0.1], startAt: 10, mock: 'mock-home.png', pan: [0, 0], zoom: [1.12, 1.12], kicker: 'Step 5 · Recalculate', head: 'Only what changed, changes.', labels: ['live', 'synthetic']},
 ];
 
 export const Loop: React.FC<{start: number}> = ({start}) => {
@@ -515,12 +515,12 @@ export const Loop: React.FC<{start: number}> = ({start}) => {
       </Window>
       {cur.id === '07' ? <Activity t={segT} /> : null}
       {cur.id === '10' ? <MoneyMove t={segT} /> : null}
-      {cur.id === '11' && !clip ? <Readiness t={segT} /> : null}
+      {cur.id === '11' ? <Readiness t={segT} /> : null}
       <div style={{opacity: 1 - phoneShow}}>
         <BandPanel t={t} segStart={segStart} />
       </div>
       {phoneShow > 0 ? <Phone t={t} segStart={segStart} show={phoneShow} /> : null}
-      <Label kinds={(phoneShow > 0.5 ? ['illustration', 'test'] : cur.id === '10' ? ['earlier', 'synthetic'] : labels) as never} x={1240} y={40} note={phoneShow > 0.5 ? 'rebuilt from the owner’s phone screenshot' : cur.id === '10' ? 'correction verified earlier today' : 'Band room · exact messages'} />
+      <Label kinds={(phoneShow > 0.5 ? ['illustration', 'test'] : cur.id === '10' ? ['earlier', 'synthetic'] : cur.id === '11' ? ['illustration', 'synthetic'] : labels) as never} x={1240} y={40} note={phoneShow > 0.5 ? 'rebuilt from the owner’s phone screenshot' : cur.id === '10' ? 'correction verified earlier today' : cur.id === '11' ? 'readiness card illustrated · Band ACKs real' : 'Band room · exact messages'} />
     </AbsoluteFill>
   );
 };

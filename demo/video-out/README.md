@@ -22,9 +22,9 @@ Every segment carries an on-screen label. Data is synthetic (Pilot Co, Worker A�
 | 0:39–1:38 (right panel) | Band room messages | **Exact text** from the native Band room capture (`12-band-chat-handoff.png`, 1:16–2:07 PM), re-typeset; owner's name replaced with "Owner" | Real (exact messages) |
 | 0:57–1:05 | iMessage sent; activity rows | Activity rows from today's event log (approval 1:32:23 PM, Photon send 1:32:24 PM, provider id prefix `spc-msg-b022a2ba`, test reply 1:32:55 PM) | Real · Test reply |
 | 0:57–1:19 (phone) | iMessage thread | **Rebuilt** from the owner's phone screenshot with the exact message text; one personal name masked | Illustration · Test reply |
-| 1:05–1:19 (app window) | App while the reply is handled | Design mockup `design/home.html` (no real clip of this step) | Design mockup |
-| 1:19–1:30 | Correction: $200 Job 01 → Job 02, wages $0.00 | Values from the earlier verified correction `corr_a647520203` (applied earlier today) | Recorded earlier today · Synthetic data |
-| 1:30–1:38 | Readiness after apply | Design mockup + illustrated readiness card; Band `[correction.applied]` and pp-payroll ACK messages are real (2:07 PM) | Design mockup |
+| 1:05–1:38 (app window) | App while the reply is handled | **Real app recording** `07-ready-summary.mp4` (actual state after the send: "Pilot is working on it", waiting on the Ops lead) | Real |
+| 1:18–1:28 | Correction card: $200 Job 01 → Job 02, wages $0.00 | Values from the earlier verified correction `corr_a647520203` (applied earlier today, on an earlier case than the batch sent in clip 02) | Recorded earlier today · Synthetic data |
+| 1:28–1:36 | Readiness card after apply | Illustrated card over the real app; Band `[correction.applied]` and pp-payroll ACK messages are real (2:07 PM) | Illustration |
 | 1:38–1:47 | Band product room | **Native Band Desktop screenshot**, name and username covered, menu bar and dock cropped | Real |
 | 1:47–1:53 | Band work board | **Native Band screenshot** (state at 2:31 PM: 2 Done, 11 In progress); still image, not filmed motion | Real |
 | 1:53–1:57 | Band usage and estimated cost | **Native Band screenshot**; usage is build-team sessions, **unattributed**, not product-agent cost | Real |
