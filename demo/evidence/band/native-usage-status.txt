@@ -1,0 +1,15 @@
+Native Band visibility status — October 20, 2026; Lane E read-only checks.
+Commands use the installed ~/.local/bin/band CLI and date range 2026-10-20 inclusive.
+
+usage agents --since 2026-10-20 --until 2026-10-20 --json -> exit 0; one row, peerName (unattributed); no rows for pp-audit/pp-resolution/pp-payroll.
+usage sessions --agent pp-audit --since 2026-10-20 --until 2026-10-20 --json -> exit 0; sessions=[], agents=[].
+usage sessions --agent pp-resolution --since 2026-10-20 --until 2026-10-20 --json -> exit 0; sessions=[], agents=[].
+usage sessions --agent pp-payroll --since 2026-10-20 --until 2026-10-20 --json -> exit 0; sessions=[], agents=[].
+
+CLI help describes coding-agent/ccusage-backed catalog-estimated USD equivalents, not provider billing. Raw usage is outside the public repository. No machine-wide amounts, unrelated agents, private paths or provider sessions published.
+
+Interpretation: mandatory native per-agent sessions/tokens/cost evidence is MISSING in these selectors. Empty attribution is not zero real activity/cost. App OpenRouter usage does not satisfy the Band Desktop cost view requirement.
+
+Lane C corroboration (reported to E, not rerun by E): generic pp-audit host session exists, but provider, provider_session_id and agent_session_id are null. Room has four shared-board tasks and initially no room plan; C is attaching a truthful plan and recording actual board/handoff/decision references. Plan completion is pending that reference. No new native cost proof reported.
+
+Capture checklist: demo/mandatory-band-capture.md. No state changes, service restarts, Band messages or screen recording by E.

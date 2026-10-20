@@ -1,3 +1,5 @@
+> Mandatory brief update: use demo/mandatory-band-capture.md. e3 must show native Band Desktop per-agent sessions/tokens/estimated cost; app OpenRouter events cannot substitute. R19 is a REQUIRED GAP until valid attribution/view is verified. Preserve the real team/room/plan/board/@handoff/human-decision mapping.
+
 > Current direction: FROZEN light identity in design/DESIGN.md and design/home.html. Product shots must come from the running app, Band, and Cognee views. No mockup or old fixture screenshot may stand in for a recording. All 14 unique clips remain pending. Owner records 2:45–3:15 Pacific. Label earlier takes PLAYBACK, data SYNTHETIC, owner answers TEST REPLY; REAL describes a verified integration.
 
 # Shot list (v4, 2026-10-20 1:17 PM)
@@ -28,7 +30,7 @@ Capture: QuickTime "Record Selected Portion" of the browser window at 1440x900 (
 | `m7-cognee.mov` | 1:21-1:32 (11 s) | Separate recall view + app | Earlier cross-process proof labeled PLAYBACK, or a fresh recall process; leave backend :8000 and bridge :3001 running; later Job 03 disposal cost; activity log `memory.recalled` -> `memory.applied`; next action before/after strings | REAL · Cognee | C |
 | `m8-review.mov` | 1:32-1:40 (8 s) | App | Stage 1 expansion after the correction (per-worker table, dashes for unknown); destination internal draft; Gusto not prepared | REAL · synthetic data | B, D |
 | `e2-band.mov` | 1:51-2:03 (12 s) | Band Desktop | Room members (three agents + owner); board task pending -> in progress -> completed; `[decision.requested]` and the owner's `approve <batch_id>` reply | REAL · Band Desktop | C, owner |
-| `e3-usage-recall.mov` | 2:03-2:15 (12 s) | App or terminal | Activity log with tokens/cost per agent call (OpenRouter usage events); recall check with approval_created false; memory-off control still asks | REAL | C, D |
+| `e3-usage-recall.mov` | 2:03–2:15 (12 s) | Band Desktop | REQUIRED: actual participating agents’ native sessions, tokens, estimated cost; agent/session/work mapping readable. Missing/unattributed remains a gap. App usage events cannot substitute. Update film route/title/narration only after native view verified. | REAL only when verified; otherwise PLANNED / REQUIRED GAP | C validates, owner captures |
 | `c1-readiness.mov` | 2:15-2:25 (10 s) | App | Stage 1 wages and each Stage 2 item with its first blocker; Export workbook toast (draft version, verified totals, original not updated); "Gusto: not prepared" | REAL workbook · synthetic data | B, D |
 
 Fallback clips (labeled, never presented as the app): terminal recording of `python -m payrollpilot.memory.demo_recall` (PLAYBACK · Cognee CLI · earlier verified run) for `m7-cognee.mov`; terminal recording of `python -m payrollpilot.band.demo_handoff` + `band room messages` (REAL · Band CLI) for `m2`/`e2`.

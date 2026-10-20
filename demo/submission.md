@@ -66,6 +66,9 @@ The final gate currently refuses missing clips, pending closing statuses and pla
 - [ ] Organizer field list / eligibility / any required declarations checked in the actual form.
 - [ ] Final video contains real running-product footage, accurate labels and verified claims.
 - [ ] Band and Cognee statements match the evidence actually shown.
+- [ ] Mandatory Band Desktop native per-agent sessions/tokens/estimated-cost view captured for the actual participating team; app usage is not a substitute. Current R19 REQUIRED GAP.
 - [ ] Video URL pasted; signed-out playback and audio verified.
 - [ ] Repository visibility / access verified signed out.
 - [ ] Owner submitted; receipt saved privately.
+
+Mandatory track capture checklist: [Band and Cognee proof](mandatory-band-capture.md). The brief requires rooms, moving board, lead plan, direct @handoffs, a human Band decision, native per-agent sessions/tokens/estimated-cost visibility, and behavior-changing Cognee recall across agents/sessions. Do not submit the current draft as satisfying these missing captures.
