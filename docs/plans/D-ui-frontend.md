@@ -89,3 +89,13 @@ Evidence: web/screenshots/d05-idle-preview-1280.png and d05-idle-preview-phone.p
 Blockers: current backend does not emit idle_home or operate a payroll scheduler; production / therefore keeps its approval view. Preview controls cannot change schedules or download a nonexistent workbook.
 Next: lead review/merge the focused D-05 PR. Backend lifecycle/scheduler work remains outside this web-only scope.
 ```
+
+```
+LANE D status @ 14:15
+Done: D-06 compatible frontend Band preflight for new draft/clarification and unapproved message-send paths. Each case is read from the existing API; only persisted owner_agent=resolution skips a handoff. Otherwise POST existing /exceptions/{id}/handoff must succeed and a re-read must confirm persisted Resolution ownership. Failure stops before draft or approval/send and is displayed. Grouped cases run sequentially/dedupe IDs. Existing approved/sent batches and owner approvals bypass this new preflight unchanged. Home and Details approval paths covered; no correction-approval policy change.
+Changed files: web/src/{api.ts,band-preflight.ts,screens/Home.tsx,screens/Thread.tsx}; web/scripts/check-band-{preflight.ts,browser.mjs}; own Status log.
+Tests run: API-mode production build clean; contracts22/22; check-band-preflight.ts passed (ownership, sequential failure, no false 200 success, missing draft, approved/sent preservation); mocked browser passed (handoff503 prevents draft, retry skips persisted success, send preflight503 creates no approval/send, successful handoff->approval->send ordering). Original live frontend production build also clean. GET-only live :5173 verification reports preflight export present, 4 cards, zero browser errors, zero non-GET requests.
+Runtime adoption: narrow HMR patch applied to original PayrollPilot-d/web api.ts, Home.tsx, Thread.tsx and new band-preflight.ts, preserving the prior version-fetch/discovery patches and existing unsupported Edit state. No owner approvals clicked and no API/bridge restart. C/lead/capture chat receive adoption scope.
+Limit: frontend preflight only. It uses existing endpoint behavior and persisted ownership; it does not deploy C-08's stronger backend guard, decision-post persistence or fresh Band reachability checks for already-owned cases. Direct API clients still need C-08 backend adoption. Text approvals remain unavailable on the current live backend.
+Next: lead review/merge D-06; C owns backend guard adoption.
+```

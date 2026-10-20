@@ -1,6 +1,7 @@
 // The only module that knows whether data comes from fixtures (plus sim.ts) or the live /api.
 import bundle from './fixtures/bundle'
 import { sim } from './sim'
+import { ensureResolutionHandoffs, preflightNewMessage, type BandPreflightIO } from './band-preflight'
 import type {
   Approval, Health, InboundMessage, LocalCorrection, MessageBatch, ParsedReply, PayrollCycle, PayrollException,
   PPEvent, ReadinessResponse, Resolution, Worker, WorkbookArtifact,
@@ -78,6 +79,16 @@ function normalize(d: Detail, events: PPEvent[]): Thread {
   return { exception, batches, inbound, parsed, resolution: resolution ?? null, correction: correction ?? null, approvals: approvals ?? [], blockedInboundIds }
 }
 
+const bandPreflightIO: BandPreflightIO = {
+  getCase: (id) => http<Detail>(`/exceptions/${id}`),
+  handoff: (id) => post(`/exceptions/${id}/handoff`, {}),
+  getBatch: async (batch) => {
+    if (!batch.exception_ids.length) return undefined
+    const detail = await http<Detail>(`/exceptions/${batch.exception_ids[0]}`)
+    return normalize(detail, []).batches.find((b) => b.id === batch.id)
+  },
+}
+
 export const api = {
   mode: DATA_MODE,
 
@@ -110,7 +121,14 @@ export const api = {
   },
 
   // Actions (CONTRACTS section 5).
-  draft: (exception_ids: string[]): Promise<MessageBatch> => (FX ? sim.draft(exception_ids) : post('/messages/draft', { exception_ids })),
+  draft: async (exception_ids: string[]): Promise<MessageBatch> => {
+    if (FX) return sim.draft(exception_ids)
+    await ensureResolutionHandoffs(exception_ids, bandPreflightIO)
+    return post('/messages/draft', { exception_ids })
+  },
+  preflightMessageSend: async (batch: MessageBatch): Promise<void> => {
+    if (!FX) await preflightNewMessage(batch, bandPreflightIO)
+  },
   editDraft: async (batchId: string, text: string, targetVersion: string): Promise<void> => {
     if (FX) return sim.editDraft(batchId, text)
     await post(`/messages/${batchId}/edit`, { text, target_version: targetVersion })
@@ -122,8 +140,11 @@ export const api = {
   approve: (body: { kind: Approval['kind']; target_id: string; target_version: string; scope_text: string }): Promise<Approval> =>
     FX ? ok(() => sim.approve(body)) : post('/approvals', body),
   send: (batchId: string): Promise<MessageBatch> => (FX ? ok(() => sim.send(batchId)) : post(`/messages/${batchId}/send`, {})),
-  clarify: (exceptionId: string): Promise<MessageBatch> =>
-    FX ? sim.draft([exceptionId], true) : post(`/exceptions/${exceptionId}/clarify`, {}),
+  clarify: async (exceptionId: string): Promise<MessageBatch> => {
+    if (FX) return sim.draft([exceptionId], true)
+    await ensureResolutionHandoffs([exceptionId], bandPreflightIO)
+    return post(`/exceptions/${exceptionId}/clarify`, {})
+  },
   proposeCorrection: (resolution_id: string, kind: LocalCorrection['kind'], after: Record<string, unknown>): Promise<LocalCorrection> =>
     FX ? ok(() => sim.proposeCorrection(resolution_id, kind, after)) : post('/corrections', { resolution_id, kind, after }),
   applyCorrection: (id: string): Promise<unknown> => (FX ? ok(() => sim.applyCorrection(id)) : post(`/corrections/${id}/apply`, {})),
