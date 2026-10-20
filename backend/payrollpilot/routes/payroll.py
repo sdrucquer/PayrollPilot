@@ -13,7 +13,7 @@ from ..contracts import CorrectionRequest
 from ..coordinator import is_stopped
 from ..db import now_iso
 from ..events import emit, new_id
-from ..settings import load_private_policies
+from ..settings import REPO_ROOT, load_private_policies  # noqa: F401  REPO_ROOT kept: lane F tests monkeypatch it
 
 router = APIRouter()
 

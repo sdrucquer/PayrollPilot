@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from . import core_bridge, cycles, kinds
+from . import coordinator, core_bridge, cycles, kinds
 from .approvals import invalidate_for_target, source_versions_for_correction
 from .db import Database, now_iso
 from .events import emit, new_id
@@ -137,10 +137,19 @@ def apply(db: Database, correction_id: str, policies: dict[str, Any] | None = No
                "calculation_impact": corr.get("calculation_impact")})
 
     audit = cycles.run_cycle_audit(db, cycle_id)
+    # Exceptions the corrected view no longer detects AND that reference a record
+    # this correction touched are resolved by it (before readiness is recomputed).
+    redetected = {e["id"] for e in audit["exceptions"]}
+    resolved_ids = []
+    for exc in cycles.list_exceptions(db, cycle_id):
+        if exc["id"] in redetected or exc.get("state") == "resolved":
+            continue
+        if coordinator.resolve_by_applied_correction(db, exc["id"], applied):
+            resolved_ids.append(exc["id"])
     after_ready = _readiness_snapshot(db, cycle_id, policies)
     emit(db, type="recalc.completed", actor="payroll", cycle_id=cycle_id,
          summary="Re-audited corrected view" + ("" if after_ready is not None else "; readiness not computed (core not merged)"),
-         refs={"correction_id": correction_id, "exception_count": len(audit["exceptions"]),
+         refs={"correction_id": correction_id, "exception_count": len(audit["exceptions"]), "resolved_exception_ids": resolved_ids,
                "readiness": "core" if after_ready is not None else "missing"})
     readiness_changes = None
     if after_ready is not None:
@@ -155,7 +164,8 @@ def apply(db: Database, correction_id: str, policies: dict[str, Any] | None = No
                  summary=f"Readiness changed for {ch['scope']} after correction {correction_id}",
                  refs={"correction_id": correction_id, "scope": ch["scope"],
                        "before_state": (ch["before"] or {}).get("state"), "after_state": (ch["after"] or {}).get("state")})
-    return {"correction": applied, "readiness_changes": readiness_changes, "exceptions": audit["exceptions"]}
+    return {"correction": applied, "readiness_changes": readiness_changes, "exceptions": audit["exceptions"],
+            "resolved_exception_ids": resolved_ids}
 
 
 def invalidate_for_source_change(db: Database, cycle_id: str, changed_entry_ids: list[str]) -> list[str]:

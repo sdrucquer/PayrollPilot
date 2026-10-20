@@ -259,9 +259,21 @@ def run_cycle_audit(db: Database, cycle_id: str) -> dict[str, Any]:
             if f in exc and merged.get(f) != exc[f]:
                 merged[f] = exc[f]
                 changed = True
+        # CONTRACTS: resolved -> detected (reopen) on SOURCE CHANGE: a resolved case whose
+        # detection content changed. A case resolved by reply but still detected unchanged
+        # (e.g. a long shift confirmed legitimate) stays resolved.
+        reopened = merged.get("state") == "resolved" and changed
+        if reopened:
+            merged["state"] = "detected"
+            merged.pop("resolved_by_correction_id", None)
+            changed = True
         if changed:
             merged["updated_at"] = now
             db.put_record(kinds.EXCEPTION, merged)
+        if reopened:
+            emit(db, type="exception.state_changed", actor="audit", cycle_id=cycle_id,
+                 summary=f"{exc['id']}: resolved -> detected (detected again)",
+                 refs={"exception_id": exc["id"], "from": "resolved", "to": "detected"})
 
     current_ids = {e["id"] for e in prepared}
     all_for_cycle = list_exceptions(db, cycle_id)

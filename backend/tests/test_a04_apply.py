@@ -205,6 +205,16 @@ def test_t02_end_to_end_wages_unchanged_job_costing_changed(settings, tmp_path):
         assert after_ready["stage1"]["scope"] == want["stage1"]["scope"]
     types = [e["type"] for e in c.get("/api/events", params={"cycle_id": "cyc_synth_v1"}).json()]
     assert {"correction.proposed", "approval.granted", "correction.applied", "recalc.completed"} <= set(types)
+    # The fixed exception is resolved (lane F repro) and only its blocker clears from the quote card.
+    excs = {e["id"]: e for e in c.get("/api/cycles/cyc_synth_v1/exceptions").json()}
+    apa = [e for e in excs.values() if e["category"] == "already_paid_allocation"]
+    assert apa and all(e["state"] == "resolved" for e in apa)
+    assert set(out.json()["resolved_exception_ids"]) == {e["id"] for e in apa}
+    q = lambda body: {b["code"] for i in body["items"] if i["id"] == "ci_quote_job_01" for b in i["readiness"]["blockers"]}
+    assert q(after_ready) == q(before_ready) - {f"exception:{e['id']}" for e in apa}
+    assert q(after_ready) < q(before_ready)
+    # Unrelated open cases stay open
+    assert sum(1 for e in excs.values() if e["state"] == "resolved") == len(apa)
 
 
 @pytest.mark.skipif(core_bridge.build_packet is None or core_bridge.build_workbook is None or not SYNTH.exists(),
@@ -224,3 +234,49 @@ def test_packet_and_workbook_routes_with_real_core(settings, tmp_path):
     assert Path(art["path"]).is_file() and str(tmp_path) in art["path"]  # written under the private dir, not the repo
     types = [e["type"] for e in c.get("/api/events", params={"cycle_id": "cyc_synth_v1"}).json()]
     assert "workbook.generated" in types and "workbook.verified" in types
+
+
+def test_resolved_case_reopens_only_on_source_change(env):
+    from payrollpilot.coordinator import resolve_by_applied_correction
+
+    c, fx = env
+    db = c.app.state.pp.db
+    corr = {"id": "corr_x", "state": "applied", "approval_id": "appr_x",
+            "before": {"time_entry_id": "te_0003"}, "after": {"time_entry_id": "te_0003"}}
+    assert resolve_by_applied_correction(db, "exc_ls_te_0003", corr)["state"] == "resolved"
+    # unchanged re-detection: stays resolved
+    c.post("/api/cycles/cyc_mini_v1/audit")
+    assert db.get_record(kinds.EXCEPTION, "exc_ls_te_0003")["state"] == "resolved"
+    # source change alters the detection content -> reopened
+    snap = json.loads((fx / FIX.name).read_text())
+    te = next(t for t in snap["time_entries"] if t["id"] == "te_0003")
+    te["duration_minutes"], te["version_hash"] = 600, "sha256:mini3-edited"
+    (fx / FIX.name).write_text(json.dumps(snap))
+    monkey_rules = core_bridge._run_audit
+
+    def rules(snapshot):
+        out = monkey_rules(snapshot)
+        for e in out:
+            if e["id"] == "exc_ls_te_0003":
+                e["observed"] = f"{te['duration_minutes']} min"
+        return out
+
+    core_bridge._run_audit = rules
+    try:
+        c.post("/api/cycles/cyc_mini_v1/load".replace("/cyc_mini_v1", ""), json={"source": "fixture", "name": "cycle_mini_v1"})
+        c.post("/api/cycles/cyc_mini_v1/audit")
+    finally:
+        core_bridge._run_audit = monkey_rules
+    assert db.get_record(kinds.EXCEPTION, "exc_ls_te_0003")["state"] == "detected"
+
+
+def test_resolve_by_correction_refuses_unrelated_or_unapplied(env):
+    from payrollpilot.coordinator import resolve_by_applied_correction
+
+    c, _ = env
+    db = c.app.state.pp.db
+    unrelated = {"id": "corr_y", "state": "applied", "approval_id": "a", "before": {"time_entry_id": "te_0001"}, "after": {"time_entry_id": "te_0001"}}
+    assert resolve_by_applied_correction(db, "exc_mj_te_0002", unrelated) is None
+    unapplied = dict(unrelated, state="approved", before={"time_entry_id": "te_0002"}, after={"time_entry_id": "te_0002"})
+    assert resolve_by_applied_correction(db, "exc_mj_te_0002", unapplied) is None
+    assert db.get_record(kinds.EXCEPTION, "exc_mj_te_0002")["state"] == "detected"

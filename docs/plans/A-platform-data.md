@@ -100,3 +100,14 @@ Blockers: none for A-04 once lane B PR #15 merges. A-03 still needs BROWSER_USE_
 Next: A-03 when unblocked; else A-05 owner-export importers
 Handoff requested: lead merges this, then lane B PR #15; after both, packet/workbook test runs unskipped. D: POST /api/corrections returns target_version + blockers; workbook path is private, do not render it.
 ```
+
+```
+LANE A status @ 13:10
+Done: A-04 fix for lane F's G1 blocker (acceptance checks passed: after the approved T02 correction is applied, the already_paid_allocation exception on te_0014 is resolved (new version + exception.state_changed with correction_id/approval_id) before readiness is recomputed; ci_quote_job_01 loses exactly that blocker; no other case is resolved; Stage 1 unchanged)
+Scope: only exceptions that (a) reference a record the applied correction touched and (b) the corrected-view audit no longer detects are resolved (coordinator.resolve_by_applied_correction). Not every non-redetected exception: that would close cases that vanished for other reasons. Reopen rule added per CONTRACTS: resolved -> detected only when the detection content changes (source change); a case resolved by reply but still detected unchanged stays resolved.
+Changed files: backend/payrollpilot/{coordinator,corrections,cycles}.py, backend/payrollpilot/routes/payroll.py (REPO_ROOT name kept importable: lane F's fixture monkeypatches it), backend/tests/test_a04_apply.py
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> 69 passed, 0 failed. Lane F's tests/test_f_safety.py (from ../PayrollPilot-f, not committed here) as-is: 15 passed, 5 skipped, 1 failed = the strict xfail now passing (expected signal); with the xfail marker removed: 16 passed, 5 skipped.
+Blockers: none. A-03 still needs BROWSER_USE_API_KEY + cycle dates in backend/.env.
+Next: A-03 when unblocked, else A-05
+Handoff requested: F removes the xfail marker on test_t02_apply_clears_the_fixed_exception_from_readiness after this merges.
+```
