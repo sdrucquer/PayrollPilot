@@ -67,3 +67,11 @@ export async function checkSend(
   if ((await sha256Hex(body.text)) !== body.text_hash) return { ok: false, status: 409, error: "text_hash_mismatch" };
   return { ok: true };
 }
+
+/** Provider space ids embed the handle (e.g. "any;-;<phone>"). Mask every phone/email inside before it leaves the bridge. */
+export function maskSpaceId(spaceId: string | undefined | null): string | null {
+  if (!spaceId) return null;
+  return spaceId
+    .replace(/\+?\d[\d\s().-]{6,}\d/g, (m) => `***${m.slice(-2)}`)
+    .replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, (m) => `***${m.slice(-2)}`);
+}
