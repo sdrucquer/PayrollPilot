@@ -9,6 +9,8 @@ backend/data
 **/.venv*
 .venv-lead
 **/node_modules
-demo
+demo/film
+demo/evidence/private
+demo/video-out/payrollpilot-demo-voice-only.mp4
 .git
 **/__pycache__

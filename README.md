@@ -1,45 +1,68 @@
 # PayrollPilot
 
-**From missing information to payroll-ready. With you in control.**
+**Your AI payroll team. From missing information to payroll-ready—with you in control.**
 
-PayrollPilot prepares payroll for one home-service business. It detects time and cost exceptions with source evidence, groups questions for owner-approved messaging, interprets replies, proposes local corrections, and recalculates wages and job costs after approval. It shows readiness separately for employee wages and each quote commission, tips, and manager-pool item, then exports a 12-ledger review workbook. [Product scope](docs/PRODUCT-STATEMENT.md).
+Payroll is rarely blocked by arithmetic. It is blocked by the person who knows which job a shift belonged to, the unexplained expense, and the answer buried in a text thread. PayrollPilot turns that chase into a coordinated workflow: **find the exception → ask the right person → remember the answer → propose the correction → get owner approval → prepare the review.**
 
-PayrollPilot never submits payroll, creates a Gusto draft, or writes to Jobber, Gusto, or QuickBooks. Missing inputs remain named blockers. The destination stays **Gusto: not prepared**.
+[**Watch the 2:35 demo**](https://github.com/sdrucquer/PayrollPilot/blob/main/demo/video-out/payrollpilot-demo.mp4) · [**Try the interactive preview**](https://vercel-stage-delta.vercel.app) · [Architecture](ARCHITECTURE.md) · [Evidence ledger](INTEGRATION-FINDINGS.md)
 
-## Demo evidence and labels
+The hosted preview is explicitly labeled **synthetic, browser-local simulation; no texts leave the app**. The film combines real local integration captures with clearly labeled illustrations and earlier evidence. [Exactly what is real in each scene](demo/video-out/README.md).
 
-The current 2:32 light-identity film is a **draft**, with placeholder voice and 14 missing product clips. Product slots say **PLANNED / FOOTAGE PENDING**. The owner records the real running app, Band, and Cognee views; static design mockups and fixture screenshots cannot substitute for that footage. Nothing has been submitted.
+## A team that closes the loop
 
-| Element | What viewers may infer |
-|---|---|
-| Pay-period records | **SYNTHETIC**, de-identified Pilot Co / Worker A–D; seeded issues labeled separately. Film uses the fixture; partial real-read evidence is described below. |
-| Real integration | **REAL** only when backed by the linked evidence; a running UI alone does not prove a provider round trip. |
-| Owner answering as Ops lead | **TEST REPLY**, including replies sent through a real provider. Simulated fixture replies cannot prove iMessage. |
-| Earlier recorded take | **PLAYBACK**, with data and reply provenance retained. |
-| Story / architecture scenes | **ILLUSTRATION**, distinct from product footage. |
+Three product agents share one case, one plan and a Band room. They have different tools and permissions; a deterministic coordinator owns state and approvals.
 
-The [evidence matrix](demo/evidence-matrix.md) tracks capture status, including pending items. [Film instructions](demo/film/README.md), [shot list](demo/shot-list.md), [reply script](demo/reply-script.md), and [redaction checklist](demo/redaction-checklist.md) guide the owner’s recording.
-
-## Integration status
-
-This is an evidence snapshot from `origin/main` at `bcb5251` (live findings introduced at `27b40ae`) and existing sanitized Lane C artifacts, not a claim that the final film shows these results. [INTEGRATION-FINDINGS.md](INTEGRATION-FINDINGS.md) remains the source ledger; its dated notes supersede earlier table entries.
-
-| Integration | Reported proof and remaining gap | Evidence |
+| Agent | Owns | Handoff |
 |---|---|---|
-| Band | Handoff and board tested at 12:47; owner room `approve <batch_id>` produced version-bound approval at 1:32. `band ask` unsupported for generic peers; product usage comes from app events. Desktop footage pending. | [R03–R05 / R19](demo/evidence-matrix.md), [latest live report](demo/evidence/logs/live-flow-main27b.txt) |
-| Cognee | Scoped fact written and recalled by a fresh process; recall changed the proposed next action without creating approval. Local CHUNKS search / GLiNER; no graph-completion claim. In-app footage pending. | [R13–R15](demo/evidence-matrix.md), [cross-process proof](demo/evidence/cognee/recall-run.txt) |
-| Photon iMessage | Real allowlisted round trip 1:12–1:14; 1:32 owner-approved batch, correlated TEST REPLY and live parsing. Final phone/app footage pending. | [R07–R09](demo/evidence-matrix.md), [main report](demo/evidence/logs/live-flow-main27b.txt) |
-| OpenRouter | Main reports live strict-schema parse at 1:09 and 1:32, with usage recorded; vague/injected replies handled by deterministic guards. Final usage clip pending. | [main report](demo/evidence/logs/live-flow-main27b.txt), R10 / R19 |
-| Browser Use / Jobber | Real read, **partial payroll coverage**: 58 entries with verified source IDs, source total and approval states; 10 worker profiles, 12 actual jobs. All 58 are unapproved in Jobber. Per-entry URLs are not exposed; rates/payroll/payments/expenses remain unread. Film stays synthetic. | [R21](demo/evidence-matrix.md), [coverage report](demo/evidence/logs/live-flow-main27b.txt) |
-| Gusto draft / source writes / submission | Unavailable; no executor. | [scope boundaries](docs/PRODUCT-STATEMENT.md) |
+| **Audit — `pp-audit`** | Finds missing jobs, long/overlapping/duplicate time and cost exceptions; attaches evidence and stage impact. | Directly @mentions Resolution and opens a board item. |
+| **Resolution — `pp-resolution`** | Claims the case, drafts grouped questions, interprets replies and proposes corrections. | Brings an exact message decision to the owner in Band; hands the applied result to Payroll Preparation. |
+| **Payroll Preparation — `pp-payroll`** | Recalculates wages and job costs, checks scoped readiness and prepares the review workbook. | Acknowledges the result; the owner gets the review and remaining blockers. |
 
-## Architecture and local run
+Development used Claude Code and Codex sessions in separate lanes, reviewed PRs and lead integration. These coding sessions are distinct from the three product agents; a combined coding-harness Band view was not captured.
 
-The hackathon stack is already running under lane C. Leave backend :8000 and bridge :3001 running; the startup commands below are for a fresh checkout, not the recording session.
+### The demonstrated payoff
 
-Three product agents propose actions with different permissions: Audit finds issues, Resolution asks and interprets, and Payroll Preparation computes and reports. A deterministic coordinator owns state and approvals in SQLite. FastAPI serves the React/Vite app; the Bun bridge connects messaging, with Band and Cognee adapters. [Architecture](ARCHITECTURE.md), [contracts](docs/contracts/CONTRACTS.md), [public brief](docs/PRODUCT-BRIEF.md).
+In the verified local case, the owner approved moving a shift from Job 01 to Job 02. **Employee wages changed by $0; job labor cost moved by $200.** PayrollPilot preserved that distinction, recalculated readiness and generated a verified review packet plus a **13-sheet workbook with 12 ledgers**. This correction was applied earlier today; the film labels it accordingly.
 
-Requirements: Python 3.13+, Node 22, Bun, and macOS for the local messaging setup. From the repository root:
+A confirmed off-site job relationship was written to **Cognee Open Source**. A later recall changed the next action from **“ask the Ops lead which job”** to **“propose allocation to Job 02, pending owner approval.”** Recall created **no approval**. The system remembers a fact without turning memory into permission.
+
+## Built for the judging criteria
+
+| Criterion | What PayrollPilot demonstrates | Proof |
+|---|---|---|
+| **Band Desktop — 25%** | Three agents in a shared room, a posted plan, claimed work items, direct @handoffs, owner room approval and Payroll ACK. Current main requires Band coordination for new drafts/sends; deletion/failure tests block effects. | [Room/handoff](demo/film/clips/12-band-chat-handoff.png), [board](demo/film/clips/09-band-board.png), [plan](backend/payrollpilot/band/PRODUCT-ROOM-PLAN.md), [required-Band tests](backend/tests/test_c08_band_required.py) |
+| **Cognee — 25%** | A fact written during the workflow survives a fresh process and changes the proposed next action, without approving anything. | [Cross-process proof](demo/evidence/cognee/recall-run.txt), [real recall response](demo/film/clips/10-cognee-recall.txt) |
+| **Startup viability — 20%** | A concrete buyer: the owner of a home-service business who reconciles hours, job costs and missing answers before payroll. One review replaces scattered follow-ups. | [Product statement](docs/PRODUCT-STATEMENT.md), [public brief](docs/PRODUCT-BRIEF.md) |
+| **Technical execution/demo — 20%** | Real approved iMessage send/reply, strict-schema interpretation, version-bound approvals, deterministic calculations, verified workbook export and a working labeled web preview. Latest lead suites: **144 core + 150 backend tests passed**. | [Rehearsal observation](tests/integration/REHEARSAL.md), [send capture](demo/film/clips/02-approve-and-send.mp4), [integration ledger](INTEGRATION-FINDINGS.md) |
+| **Innovation — 10%** | Business memory changes the next question; wages and job allocation remain independent; agents propose while the owner controls effects. | [Core](core/payrollpilot_core), [memory](backend/payrollpilot/memory), [approval boundaries](backend/payrollpilot/permissions.py) |
+
+**Evidence limits that matter to judging:** the native Band cost screenshot is real but **unattributed**; it does not establish per-product-agent costs. The board is a captured state, not filmed motion. Fresh ambiguous-reply/apply footage and the combined development-agent Band view are unavailable. These remain gaps in the mandatory demonstration, not claimed completions. [Full evidence matrix](demo/evidence-matrix.md).
+
+**Bonus integrations:** Flexprice and Snyk are not claimed. A possible business model is a per-company subscription with metered extra processing; billing is a proposal, not an implemented feature.
+
+## Real integrations, measurable boundaries
+
+| Integration | Verified capability |
+|---|---|
+| **Band Desktop** | Product-room messages, direct handoffs, board ownership, owner approval and receiving-agent acknowledgements. Native room, board and usage screenshots captured. |
+| **Cognee Open Source** | Working write/recall with a behavior change across a fresh process. CHUNKS retrieval; no graph-completion claim. |
+| **Photon iMessage** | Real messages to the owner's allowlisted test phone, correlated replies and live parsing. Owner answers are labeled **TEST REPLY**. |
+| **OpenRouter** | Model-assisted drafting/parsing with schemas, usage tracking and deterministic guards around effects. |
+| **Browser Use / Jobber** | Read-only extraction: **58 entries, 58 verified source IDs, source total 58, 10 worker profiles, 12 actual jobs**. All 58 source approval states are unapproved. Per-entry URLs were not exposed. Rates, payroll, payments and expenses remain unread; this is partial payroll coverage. Private snapshots are excluded from the repository and hosted preview. |
+
+The app shows readiness **separately for wages, quote commission, tips and manager pool**, with named blockers. Missing rates, identity matches and policy stay unresolved. PayrollPilot does **not** submit payroll, create a Gusto draft or write to source systems. The destination remains **Gusto: not prepared**.
+
+## Why an owner can trust the workflow
+
+- **Exact approval:** sends and corrections bind to the reviewed content/version. Changed content needs a new approval.
+- **Bounded delivery:** only the allowlisted test recipient can receive a message; outbound and inbound deduplication prevent duplicate effects.
+- **Deterministic money:** integer cents/minutes, Decimal arithmetic, no invented rates or policy; unknown stays unknown.
+- **Evidence before action:** replies, source pages and recalled facts are data. None can grant permission or bypass the coordinator.
+- **Visible provenance:** synthetic records, seeded issues, test replies, real captures and illustrations stay distinguishable.
+
+## Run it locally
+
+Python 3.13+, Node 22+, Bun, and macOS for the local messaging setup. For a **fresh checkout**:
 
 ```bash
 cp .env.example backend/.env
@@ -49,22 +72,21 @@ npm ci --prefix web
 scripts/dev.sh
 ```
 
-The script creates the backend virtual environment and installs backend/core packages, then starts backend `:8000`, bridge `:3001`, and web `:5173`. Configure local env files before enabling providers. Relevant names: `OPENROUTER_API_KEY`, `PP_MODEL`, `PP_MODEL_CHEAP`; Cognee `LLM_*` / `EMBEDDING_*`; Photon `SPECTRUM_PROJECT_ID`, `SPECTRUM_PROJECT_SECRET`; shared `PP_BRIDGE_TOKEN` and `PP_TEST_RECIPIENT`; `PP_BAND_ENABLED` / `PP_BAND_ROOM`. Use `.env.example` and `bridge/.env.example` for the full list. Never commit values. Optional Browser Use credentials do not establish a real-read proof.
+The script installs backend/core packages and starts FastAPI `:8000`, the bridge `:3001` and React/Vite `:5173`. Configure providers through the example env files; never commit values. `/api/comms/health` is authoritative for active messaging/Band/Cognee modes; the older `/api/health` adapter registry can disagree. **Leave the existing recording stack running.**
+
+For the browser-only synthetic preview:
 
 ```bash
-curl -fsS http://127.0.0.1:8000/api/comms/health
-curl -fsS http://127.0.0.1:8000/api/health
-scripts/smoke.sh
+cd web
+npm run dev:fixture
 ```
 
-Inspect `/api/comms/health` for active adapters and UI provenance. The older `/api/health` registry can disagree; lane C interprets discrepancies. Leave backend :8000 and bridge :3001 running; lane C controls case preparation. Fixture mode and fake adapters are development aids. These are operator instructions; Lane E did not run or validate the application in this documentation pass.
+[Vercel services configuration](docs/VERCEL.md): public `web`, internal `backend`, imported `core` library. The hosted preview does not connect to the local messaging stack; full durable cloud hosting is separate work.
 
-## Control boundaries
+## Team and submission
 
-The owner approves the exact message and recipient, then separately approves proposed corrections. Changed content requires a new approval. Only the allowlisted test recipient can receive messages. Unknown money or time stays unknown; missing policy never becomes a guessed default. Replies and recalled facts cannot grant permission. Readiness stays scoped to wages and each compensation item.
+**Shanin Drucquer** · built with Claude Code and Codex.
 
-## Submission and team
+[Submission copy](demo/submission.md) · [Final film and provenance](demo/video-out/README.md) · [Contracts](docs/contracts/CONTRACTS.md).
 
-[Copy-ready submission and upload runbook](demo/submission.md). Feature freeze **2:45 PM Pacific**, owner recording **2:45–3:15**, upload **by 3:15**, deadline **3:30 PM**, October 20, 2026.
-
-**Shanin Drucquer**
+Hackathon freeze tag: `v0.1-hackathon`. Post-freeze fixes and submission assets are on main. Nothing submits payroll on the owner's behalf.

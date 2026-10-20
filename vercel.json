@@ -9,7 +9,7 @@
     "web": {
       "root": "web",
       "framework": "vite",
-      "buildCommand": "VITE_DATA_MODE=fixture npm run build",
+      "buildCommand": "mkdir -p public && cp ../demo/video-out/payrollpilot-demo.mp4 public/demo.mp4 && VITE_DATA_MODE=fixture npm run build",
       "rewrites": [
         { "source": "/(.*)", "destination": "/index.html" }
       ]

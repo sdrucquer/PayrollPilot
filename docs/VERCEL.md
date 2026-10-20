@@ -12,6 +12,9 @@ and no texts leave this app. This preview does not demonstrate live messaging,
 Band Desktop, Cognee, or real source ingestion. Those remain in the local
 integration environment and the separately labeled demo video.
 
+The web build copies the reviewed `demo/video-out/payrollpilot-demo.mp4` to
+`/demo.mp4` for direct playback. Only that final file is included from `demo/`.
+
 Deploy from a sanitized checkout without environment files or private data:
 `vercel deploy -y`. For a local services test on unused ports, use
 `vercel dev -L`; do not replace the running recording stack.
