@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # F-03 integrated rehearsal (lane F) against the RUNNING stack: backend :8000, bridge :3001, web :5173.
 #
-#   scripts/f_smoke.sh                 # dry run: everything except the real send and the reply wait
+#   scripts/f_smoke.sh --observe       # GET-only: inspect the existing owner-gated loop, no effects
+#   scripts/f_smoke.sh                 # MUTATING isolated rehearsal, except send/reply wait
 #   scripts/f_smoke.sh --send          # also sends ONE real iMessage to the allowlisted test handle and
 #                                      #   waits for the owner's reply (REPLY_WAIT seconds, default 240)
 #   scripts/f_smoke.sh --send --out tests/integration/REHEARSAL.md   # append a markdown transcript
@@ -15,10 +16,11 @@ WEB=${WEB:-http://127.0.0.1:5173}
 FIXTURE=${FIXTURE:-cycle_synthetic_v1}
 CYC=${CYC:-cyc_synth_v1}
 REPLY_WAIT=${REPLY_WAIT:-240}
-SEND=0; OUT=""
+SEND=0; OBSERVE=0; OUT=""
 while [ $# -gt 0 ]; do
-  case "$1" in --send) SEND=1;; --out) OUT="$2"; shift;; *) echo "unknown arg $1"; exit 2;; esac; shift
+  case "$1" in --send) SEND=1;; --observe) OBSERVE=1;; --out) OUT="$2"; shift;; *) echo "unknown arg $1"; exit 2;; esac; shift
 done
+[ "$OBSERVE" = 1 ] && [ "$SEND" = 1 ] && { echo "--observe cannot be combined with --send"; exit 2; }
 command -v jq >/dev/null || { echo "jq required"; exit 2; }
 
 fails=0; n=0; rows=()
@@ -27,6 +29,7 @@ TMP=$(mktemp -d); trap 'rm -rf "$TMP"' EXIT
 # call METHOD PATH [JSON]  -> sets CODE and writes body to $TMP/body
 call() {
   local m="$1" p="$2" d="${3:-}" url
+  [ "$OBSERVE" = 1 ] && [ "$m" != GET ] && { echo "observation refuses non-GET request" >&2; exit 2; }
   case "$p" in http*) url="$p";; *) url="$BASE$p";; esac
   : > "$TMP/body"
   if [ -n "$d" ]; then
@@ -50,7 +53,73 @@ expect() { # NAME WANT_CODE DETAIL
   if [ "$CODE" = "$2" ]; then step "$1" PASS "$3"; else step "$1" FAIL "$3 :: $(head -c 300 "$TMP/body" | tr '\n' ' ')"; fi
 }
 
-echo "PayrollPilot rehearsal $(date '+%Y-%m-%d %H:%M %Z')  send=$SEND  backend=$BASE"
+finish() {
+  echo "RESULT: $((n-fails))/$n steps not failed; $fails FAIL"
+  if [ -n "$OUT" ]; then
+    {
+      printf '\n## Rehearsal %s (send=%s, observe=%s)\n\n' "$(TZ=America/Los_Angeles date '+%Y-%m-%d %H:%M %Z')" "$SEND" "$OBSERVE"
+      [ "$OBSERVE" = 1 ] && printf 'GET-only observation of existing evidence; no new send, reply, approval, correction, workbook or recall was performed. Missing required evidence fails; skipped actions are not proofs.\n\n'
+      printf '| # | step | result | http | detail |\n|---|---|---|---|---|\n'
+      printf '%s\n' "${rows[@]}"
+      printf '\nResult: %d FAIL of %d steps.\n' "$fails" "$n"
+    } >> "$OUT"
+    echo "transcript appended to $OUT"
+  fi
+  exit "$fails"
+}
+
+echo "PayrollPilot rehearsal $(TZ=America/Los_Angeles date '+%Y-%m-%d %H:%M %Z') send=$SEND observe=$OBSERVE"
+
+if [ "$OBSERVE" = 1 ]; then
+  # Never echo response bodies, summaries, contacts, amounts or free text. Provider modes
+  # and evidence counts are allowlisted. This path does not create owner approvals.
+  observed() {
+    if [ "$CODE" = 200 ] && [ "$2" = true ]; then step "$1" PASS "$3"; else step "$1" FAIL "$3"; fi
+  }
+  call GET /api/health
+  observed "backend health" "$(j '.ok == true')" "existing process; no restart"
+  call GET /api/comms/health
+  observed "active real comms" "$(j '.messaging == "bridge" and .memory == "cognee" and .band == "band_cli" and .llm_key_present == true and .band_room_configured == true')" "requires bridge, Cognee, Band CLI and configured model/room"
+  call GET "$BRIDGE/health"
+  observed "bridge health" "$(j '.ok == true and .mode == "real"')" "requires real bridge"
+  call GET "$WEB/"
+  observed "web served" true "HTTP availability only; API-mode UI must be checked separately"
+  call GET "/api/cycles/$CYC"
+  observed "existing cycle" "$(j --arg id "$CYC" '.id == $id')" "existing cycle; not reloaded or audited"
+  call GET "/api/cycles/$CYC/exceptions"
+  observed "exception evidence" "$(j 'type == "array" and length > 0 and any(.[]; (.evidence | length) > 0)')" "evidence present; no private record text printed"
+  call GET "/api/cycles/$CYC/readiness"
+  observed "readiness available" "$(j '(.stage1.state | type) == "string" and (.items | type) == "array"')" "readiness reported; blocked items remain blocked"
+  call GET "/api/cycles/$CYC/packet"
+  observed "review packet" "$(j '.draft_version != null and .destination == "internal_draft"')" "internal draft only; nothing submitted"
+  call GET "/api/events?cycle_id=$CYC&limit=5000"
+  if [ "$CODE" = 200 ] && [ "$(j 'type == "array"')" = true ]; then cp "$TMP/body" "$TMP/events"; else echo '[]' > "$TMP/events"; fi
+  observed "event trail" "$(j 'type == "array" and length > 0')" "current cycle audit trail"
+  recorded() {
+    local count
+    count=$(jq --arg type "$2" '[.[] | select(.type == $type)] | length' "$TMP/events")
+    observed "$1" "$([ "$count" -gt 0 ] && echo true || echo false)" "recorded $2 count=$count; no new action performed"
+  }
+  recorded "Band handoff evidence" handoff.accepted
+  # Correlate a real bridge send to its received and parsed reply, rather than counting
+  # unrelated fake/test sends as a live round trip.
+  chain=$(jq '[.[] | select(.type == "message.sent" and .refs.messaging_mode == "bridge") | .refs.batch_id] as $sent | [.[] | select(.type == "message.received" and (.refs.batch_id as $b | $sent | index($b))) | .refs.inbound_id] as $inbound | any(.[]; .type == "reply.parsed" and (.refs.inbound_id as $i | $inbound | index($i)))' "$TMP/events")
+  observed "recorded live round trip" "$chain" "requires correlated bridge send, inbound and parsed reply"
+  recorded "owner approval log" approval.granted
+  recorded "correction applied" correction.applied
+  recorded "readiness change log" readiness.changed
+  recorded "Cognee write log" memory.written
+  recalled=$(jq 'any(.[]; .type == "memory.recalled" and .refs.memory_adapter == "cognee")' "$TMP/events")
+  observed "Cognee recall log" "$recalled" "requires recorded Cognee adapter; HTTP 200 alone is insufficient"
+  applied=$(jq 'any(.[]; .type == "memory.applied" and .refs.proposed.job_id == "job_02" and (.refs.proposed.based_on_resolution_ids | length) > 0)' "$TMP/events")
+  observed "memory action change log" "$applied" "requires recorded proposal to job_02 with resolution refs; full before/after proof belongs in C ledger"
+  verified=$(jq '[.[] | select(.type == "workbook.generated") | .refs.workbook_id] as $built | any(.[]; .type == "workbook.verified" and (.refs.workbook_id as $w | $built | index($w)))' "$TMP/events")
+  observed "workbook verification log" "$verified" "requires matching generated/verified artifact; no workbook generated now"
+  CODE=-
+  step "new effects" SKIP "owner alone approves; send/apply/export/recall not invoked"
+  step "exact T15 comparison" SKIP "use C's captured response before/after and approval_created=false; event counts alone do not establish every T15 condition"
+  finish
+fi
 
 # ---- processes
 call GET /api/health
@@ -145,13 +214,4 @@ call GET "/api/events?cycle_id=$CYC"
 step "event trail" "$( [ "$CODE" = 200 ] && echo PASS || echo FAIL)" \
   "sent=$(j '[.[]|select(.type=="message.sent")]|length') blocked=$(j '[.[]|select(.type=="blocked.unauthorized_instruction")]|length') types=$(j '[.[].type]|unique|length')"
 
-echo "RESULT: $((n-fails))/$n steps not failed; $fails FAIL"
-if [ -n "$OUT" ]; then
-  {
-    printf '\n## Rehearsal %s (send=%s)\n\n| # | step | result | http | detail |\n|---|---|---|---|---|\n' "$(date '+%Y-%m-%d %H:%M %Z')" "$SEND"
-    printf '%s\n' "${rows[@]}"
-    printf '\nResult: %d FAIL of %d steps.\n' "$fails" "$n"
-  } >> "$OUT"
-  echo "transcript appended to $OUT"
-fi
-exit "$fails"
+finish
