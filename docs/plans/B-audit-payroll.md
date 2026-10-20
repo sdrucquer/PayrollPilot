@@ -83,3 +83,14 @@ Blockers: none. Open decision: weeks over 40h raise policy_missing:O02_overtime 
 Next: B-04 packet + workbook
 Handoff requested: A calls propose_correction(kind, before, after, view) -> LocalCorrection with calculation_impact, blockers and target_version; apply_corrections(snapshot, corrections) mirrors corrected_snapshot
 ```
+
+```
+LANE B status @ 12:55
+Done: B-04 (acceptance checks passed: T28 all 12 ledgers plus Sources present; workbook reopened and Review totals plus draft version equal the packet; tampered total fails verification; pending tabs (Overhead, Quotes & marketing, Tips, Manual payments, Carry-forward) have header plus 'status: pending — <blocker>' row; original_updated false with the provisional note; no real names, @ or phone numbers; FR-22 packet has period, display-name identities, earnings, calc_v1, evidence, scoped readiness, workbook_ref placeholder; unknown totals stay unknown, never 0)
+Changed files: core/payrollpilot_core/{packet,workbook}.py, core/tests/test_workbook.py, data/fixtures/review_workbook_synthetic_v1.xlsx, data/fixtures/review_workbook_synthetic_v1_review.png
+Tests run: core/.venv/bin/pytest -q -> 106 passed (test_workbook: 7)
+Evidence: data/fixtures/review_workbook_synthetic_v1.xlsx (draft_c8074d1db110, verified) and its Review-sheet screenshot data/fixtures/review_workbook_synthetic_v1_review.png (macOS Quick Look render) for lane E
+Blockers: none. Sheet named 'Quotes & marketing' because Excel forbids '/' in sheet names.
+Next: none in plan; available for fixes and integration
+Handoff requested: A calls build_packet(snapshot=view, exceptions=excs, corrections=corrs, policies=private_or_None, now=ts) then build_workbook(packet, path) -> WorkbookArtifact; the legacy positional form works but reports receipts, costs and jobs as not supplied. E uses the screenshot.
+```
