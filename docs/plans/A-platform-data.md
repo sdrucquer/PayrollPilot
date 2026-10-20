@@ -111,3 +111,34 @@ Blockers: none. A-03 still needs BROWSER_USE_API_KEY + cycle dates in backend/.e
 Next: A-03 when unblocked, else A-05
 Handoff requested: F removes the xfail marker on test_t02_apply_clears_the_fixed_exception_from_readiness after this merges.
 ```
+
+```
+LANE A status @ 13:14
+Done: A-03 prep (acceptance so far: key verified with one GET /profiles -> 200; profile payrollpilot-jobber-readonly created; plain login browser session opened on it (no agent), live link in data/private/browser_use/login_link.txt (gitignored, 0600), session timeout 13:42 PT; read command built: read-only task prompt, JSON-schema structured output, de-identified snapshot -> data/private/snapshots/jobber_<start>_<end>.json, coverage complete only when all pages viewed and counts match, unknown durations null, second read dedupes by Jobber id, private snapshot loads + audits through the routes)
+NOT done: the real read. Waiting on (1) owner Jobber login in the live browser, (2) owner-confirmed pay-period dates. Timebox 45 min starts when dates arrive.
+Changed files: backend/payrollpilot/adapters/browser_use.py, backend/tests/test_a03_browser_use.py, docs/plans/A-platform-data.md
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> 74 passed, 0 failed (A-03: 5 passed, no network)
+Evidence: profile c3993dee-fbab-4ab8-b294-04179dcbdf29, login session 3b7b9253-7bd4-45a1-9c79-e30399926ffd; dry run prints task + schema, no API call
+Blockers: owner login + dates
+Next: on "logged in": stop session (saves cookies), confirm jobber cookie domain; on dates: read, load via POST /api/cycles/load {source: private_snapshot}
+Handoff requested: lead relays the owner's "logged in" and the dates
+```
+
+```
+LANE A status @ 13:25
+Done: A-03 real read (acceptance: snapshot has captured_at, Jobber links where shown, counts, coverage labeled incomplete with reason; second read dedupes by source id (tested); loads + audits through the routes). Run 2020b2d5-b77e-482e-9027-5d9ae471b94b completed in 392 s, cost $0.63, read-only Day view per date 2026-10-05..2026-10-18.
+Coverage (no private rows): time_entries 58 (wk1 21, wk2 37), workers 10, jobs 13; all 14 days viewed; complete=false, incomplete_reason null, detail "source shows no total to verify the count; approval state and entry ids not shown in Day view". rates/payroll_runs/payments/expenses: not_attempted. Cycle: payday 2026-10-26, existing_run_status none, tz America/New_York (proposed), provenance real, display names de-identified (Worker A.., Job 01..).
+Audit of the real snapshot: 52 exceptions (rate_unconfirmed 10, identity 10, offsite_link 13, missing_job 8, coverage_gap 7, overlap 4), all provenance real with evidence. Readiness: stage1 blocked, 0 of 10 workers review-ready (no rates read); manager_pool blocked.
+Known gaps: (1) approval state and Jobber entry ids not visible in Day view -> approved_in_source null, ids are content hashes; (2) the agent noted two Jobber profiles share one display name (one deactivated) but listed the name once, so that worker is not auto-flagged duplicate_profiles; (3) offsite_link fires on all 13 jobs because payments/invoices were not read (coverage artifact; lane B rule).
+Changed files: backend/payrollpilot/adapters/browser_use.py (coverage reason, duplicate-name identity, rebuild cmd), backend/tests/test_a03_browser_use.py
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> 2 failed, 103 passed, 1 warning
+Evidence: data/private/snapshots/jobber_2026-10-05_2026-10-18.json (private, not committed); run id above
+Blockers: none
+Next: A-05 owner-export rates if the owner supplies them (would unblock Stage 1 for workers with verified rates)
+Handoff requested: B: suppress or downgrade offsite_link when payments coverage is not complete (coverage_gap already reports it). E: label this "real Jobber read, partial coverage". Owner: confirm which of the same-named profiles worked this period.
+```
+
+```
+LANE A status @ 13:27 (test correction to the 13:25 block)
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> 104 passed, 1 failed. The failure is tests/test_f_safety.py::test_t02_apply_clears_the_fixed_exception_from_readiness = XPASS(strict): lane F's strict xfail now passes because the A-04 G1 fix (#27) merged. Lane F should remove the marker. The other 13:25 failure was my stale test (comms routes now present on main); fixed.
+```

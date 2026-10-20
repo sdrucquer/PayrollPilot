@@ -161,9 +161,6 @@ def test_t02_allocation_correction_leaves_wages_unchanged(env):
 
 
 @needs_core
-@pytest.mark.xfail(strict=True, reason="A-04 bug: after apply, run_cycle_audit stores only re-detected exceptions; "
-                                       "the fixed already_paid_allocation exception stays 'detected', so readiness "
-                                       "still blocks on it (over-blocks, never falsely ready). Flip when fixed.")
 def test_t02_apply_clears_the_fixed_exception_from_readiness(env):
     c, _, _ = env
     before = c.get(f"/api/cycles/{CYC}/readiness").json()
