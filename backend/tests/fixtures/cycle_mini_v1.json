@@ -1,0 +1,191 @@
+{
+ "_comment": "Lane A mini fixture (3 time entries). Synthetic, de-identified. Used until lane B's cycle_synthetic_v1.json is on main.",
+ "snapshot_id": "snap_mini_v1",
+ "captured_at": "2026-10-12T09:00:00-04:00",
+ "provenance": "synthetic",
+ "cycle": {
+  "id": "cyc_mini_v1",
+  "contract_version": "1",
+  "policy_version": "pol_placeholder",
+  "company_label": "Pilot Co",
+  "company_ref": null,
+  "period_start": "2026-09-28",
+  "period_end": "2026-10-11",
+  "payday": null,
+  "business_tz": "America/New_York",
+  "workweeks": [
+   {
+    "start": "2026-09-28",
+    "end": "2026-10-04"
+   },
+   {
+    "start": "2026-10-05",
+    "end": "2026-10-11"
+   }
+  ],
+  "existing_run_status": "unknown",
+  "coverage": [
+   {
+    "system": "fixture",
+    "dataset": "time_entries",
+    "range_start": "2026-09-28",
+    "range_end": "2026-10-11",
+    "filters": {},
+    "record_count": 3,
+    "complete": true,
+    "incomplete_reason": null,
+    "captured_at": "2026-10-12T09:00:00-04:00",
+    "snapshot_id": "snap_mini_v1",
+    "method": "fixture"
+   },
+   {
+    "system": "fixture",
+    "dataset": "jobs",
+    "range_start": "2026-09-28",
+    "range_end": "2026-10-11",
+    "filters": {},
+    "record_count": 1,
+    "complete": false,
+    "incomplete_reason": "not_attempted",
+    "captured_at": "2026-10-12T09:00:00-04:00",
+    "snapshot_id": "snap_mini_v1",
+    "method": "fixture"
+   }
+  ],
+  "stage1": {
+   "state": "not_started",
+   "scope_note": null,
+   "unresolved_count": null,
+   "dollars_affected_cents": null
+  },
+  "stage2": {
+   "state": "not_started",
+   "scope_note": null,
+   "unresolved_count": null,
+   "dollars_affected_cents": null
+  },
+  "destination": "not_prepared",
+  "provenance": "synthetic"
+ },
+ "workers": [
+  {
+   "id": "wkr_01",
+   "display_name": "Worker A",
+   "jobber_ref": {
+    "system": "fixture",
+    "record_id": "jobber_user_1",
+    "url": null,
+    "captured_at": "2026-10-12T09:00:00-04:00",
+    "snapshot_id": "snap_mini_v1"
+   },
+   "gusto_ref": null,
+   "identity_status": "verified",
+   "rates": [
+    {
+     "effective_from": "2026-01-01",
+     "effective_to": null,
+     "rate_cents_per_hour": 2200,
+     "category": "hourly",
+     "evidence": null,
+     "status": "unconfirmed"
+    }
+   ],
+   "payment_route": "gusto",
+   "provenance": "synthetic"
+  }
+ ],
+ "jobs": [
+  {
+   "id": "job_01",
+   "display_name": "Job 01 (lawn install)",
+   "parent_job_id": null,
+   "status": "complete",
+   "adjusted_invoice_cents": null,
+   "final_payment_verified": null,
+   "quoter_candidates": [],
+   "source_ref": {
+    "system": "fixture",
+    "record_id": "jobber_job_1",
+    "url": null,
+    "captured_at": "2026-10-12T09:00:00-04:00",
+    "snapshot_id": "snap_mini_v1"
+   },
+   "provenance": "synthetic"
+  }
+ ],
+ "time_entries": [
+  {
+   "id": "te_0001",
+   "worker_id": "wkr_01",
+   "job_id": "job_01",
+   "date": "2026-09-29",
+   "start": "2026-09-29T07:00:00-04:00",
+   "end": "2026-09-29T15:00:00-04:00",
+   "duration_minutes": 480,
+   "approved_in_source": true,
+   "open_timer": false,
+   "scheduled_minutes": 480,
+   "paid_status": "unpaid",
+   "paid_ref": null,
+   "source_ref": {
+    "system": "fixture",
+    "record_id": "jobber_te_1",
+    "url": null,
+    "captured_at": "2026-10-12T09:00:00-04:00",
+    "snapshot_id": "snap_mini_v1"
+   },
+   "version_hash": "sha256:mini1",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "te_0002",
+   "worker_id": "wkr_01",
+   "job_id": null,
+   "date": "2026-09-30",
+   "start": "2026-09-30T08:00:00-04:00",
+   "end": "2026-09-30T10:14:00-04:00",
+   "duration_minutes": 134,
+   "approved_in_source": true,
+   "open_timer": false,
+   "scheduled_minutes": null,
+   "paid_status": "unpaid",
+   "paid_ref": null,
+   "source_ref": {
+    "system": "fixture",
+    "record_id": "jobber_te_2",
+    "url": null,
+    "captured_at": "2026-10-12T09:00:00-04:00",
+    "snapshot_id": "snap_mini_v1"
+   },
+   "version_hash": "sha256:mini2",
+   "provenance": "seeded_issue"
+  },
+  {
+   "id": "te_0003",
+   "worker_id": "wkr_01",
+   "job_id": "job_01",
+   "date": "2026-10-01",
+   "start": "2026-10-01T07:00:00-04:00",
+   "end": "2026-10-01T16:20:00-04:00",
+   "duration_minutes": 560,
+   "approved_in_source": true,
+   "open_timer": false,
+   "scheduled_minutes": 480,
+   "paid_status": "unpaid",
+   "paid_ref": null,
+   "source_ref": {
+    "system": "fixture",
+    "record_id": "jobber_te_3",
+    "url": null,
+    "captured_at": "2026-10-12T09:00:00-04:00",
+    "snapshot_id": "snap_mini_v1"
+   },
+   "version_hash": "sha256:mini3",
+   "provenance": "seeded_issue"
+  }
+ ],
+ "receipts": [],
+ "costs": [],
+ "obligations": [],
+ "policies": {}
+}

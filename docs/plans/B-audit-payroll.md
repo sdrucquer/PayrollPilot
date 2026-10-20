@@ -39,3 +39,25 @@ Mission: pure, tested Python for everything that touches money, time, readiness,
 - `corrections.py`: `propose_correction(kind, before, after, snapshot) -> LocalCorrection` with `calculation_impact` computed by re-running calc on a corrected view (pure). T02: wages delta 0, job labor delta != 0. T20: a time confirmation reconciles the whole affected workweek, not new hours × rate; if prior payroll for that week is unknown -> blocker `prior_recognition_unknown`.
 
 ## Status log
+
+```
+LANE B status @ 12:40
+Done: B-01 (acceptance checks passed: T01 "2h14" -> 134; T05 weekly totals per fixed workweek, never averaged; invalid durations raise; null stays null)
+Changed files: core/pyproject.toml, core/payrollpilot_core/{__init__,ids,money,time}.py, core/tests/test_{time,money}.py, core/tools/build_fixtures.py, docs/contracts/fixtures/*.json (5)
+Tests run: core/.venv/bin/pytest -q tests/test_time.py tests/test_money.py -> 35 passed
+Evidence: fixtures pushed 12:39 (fd57ea2); all 5 parse with python3 -I json.load
+Blockers: none. Lead decision requested: bless fixture extensions TimeEntry.scheduled_job_id, snapshot.policies, snapshot.obligations, Exception.entity_refs.coverage
+Next: B-02 audit, B-03 calc/readiness
+Handoff requested: A, D, F consume docs/contracts/fixtures/*.json (cycle id cyc_synth_v1)
+```
+
+```
+LANE B status @ 12:43
+Done: B-02 (acceptance checks passed: output equals expected_exceptions_v1 set-wise and by id/stage_impact/respondent; identical ids on rerun; no trimming or assumed breaks (input unchanged); T02 allocation-only with stage1 none; T03 long shift flagged; T07 shared cost reconciles, mismatch -> cost_conflict; T13 coverage gap; T23 bank+Jobber same cost counted once; T27 out-of-cycle entries excluded and reported, both boundaries)
+Changed files: core/payrollpilot_core/audit.py, core/tests/test_audit.py
+Tests run: core/.venv/bin/pytest -q tests/test_audit.py -> 16 passed; full core suite -> 51 passed
+Evidence: run_audit(cycle_synthetic_v1) -> 15 exceptions with stable ids exc_<10hex>
+Blockers: none. Open decision: out-of-cycle entries (T27) use category unassigned_time (no dedicated category in CONTRACTS); respondent owner.
+Next: B-03 calc + readiness
+Handoff requested: A wires POST /api/cycles/{id}/audit -> payrollpilot_core.audit.run_audit(snapshot, now=None); F runs expected-exceptions contract test
+```

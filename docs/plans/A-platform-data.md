@@ -44,3 +44,27 @@ Mission: a running FastAPI backend that loads a cycle (fixture or private snapsh
 
 ## Status log
 (append status blocks here, format in shared context section 7)
+
+```
+LANE A status @ 12:40
+Done: A-01 (acceptance checks passed: records+events reload after restart, both in pytest and a live uvicorn stop/start; check_recipient("+10000000000") raises PermissionDenied; assert_not_gated("source_write") raises NotImplementedError; /api/health returns ok, contract_version "1", integrations all unverified/blocked)
+Changed files: backend/pyproject.toml, backend/.gitignore, backend/payrollpilot/{__init__,app,settings,state,db,events,contracts,permissions,coordinator,core_bridge}.py, backend/payrollpilot/routes/{__init__,health}.py, backend/payrollpilot/adapters/{__init__,messaging,memory,band}.py, backend/tests/{conftest,test_a01_persistence,test_a01_permissions}.py, scripts/{dev,smoke}.sh
+Tests run: cd backend && .venv/bin/pytest -q tests/test_a01_persistence.py tests/test_a01_permissions.py -> 16 passed, 0 failed (1 starlette deprecation warning)
+Evidence: live uvicorn :8000 health JSON; worker + cycle.created event reread after process restart
+Blockers: none. Band setup check: all OK (CLI v0.4.16, Claude Code integration v0.5.33, session reachable).
+Next: A-02
+Handoff requested: C, D build against /api/health and backend/payrollpilot/contracts.py. contracts.py is lead-owned after this PR.
+```
+
+```
+LANE A status @ 12:45
+Done: A-02 routes (acceptance checks passed with lane A mini fixture: load shows coverage rows, stage states not_started, destination not_prepared; same-snapshot reload dedupes; exceptions carry evidence + provenance, unknown dollars stay null; events show cycle.created, snapshot.captured, audit.completed, exception.detected; approvals bind to current target version and supersede older ones; source_write/payroll_draft approvals return 501 gated; run/stop blocks audit and keeps approvals; state survives restart). Lane B's real cycle_synthetic_v1.json (from origin/lane/b-core, temp dir, not committed) loads: 7 coverage rows, not_started, not_prepared.
+NOT done: "audit on the synthetic fixture yields expected_exceptions_v1.json" — blocked on B-02 (payrollpilot_core.audit not pushed). Test test_audit_matches_expected_exceptions is written and skips until fixture + core are present; /api/health shows audit: "stub" meanwhile.
+Changed files: backend/payrollpilot/{kinds,cycles,approvals}.py, backend/payrollpilot/routes/{cycles,ops}.py, backend/payrollpilot/{app,routes/health}.py, backend/tests/test_a02_routes.py, backend/tests/fixtures/cycle_mini_v1.json
+Tests run: cd backend && .venv/bin/pytest -q tests/ -> 27 passed, 2 skipped (lane B fixture/core not on branch), 0 failed
+Evidence: live uvicorn :8000 + scripts/smoke.sh on cycle_synthetic_v1 and cycle_mini_v1 -> 200s, events [cycle.created, snapshot.captured, audit.completed]; audit after /api/run/stop -> 409 run_stopped
+Blockers: B-02 for the expected-exceptions check. A-03: no backend/.env, so no BROWSER_USE_API_KEY and no confirmed cycle dates.
+Next: A-04 route shells (501 until B-03/B-04), then A-03 when the owner supplies the key and dates.
+Handoff requested: B: push core/payrollpilot_core/audit.py (run_audit(snapshot) -> list[dict]) and fixtures to main; then `backend/.venv/bin/pip install -e core` makes health show audit: "core". C: record kinds in backend/payrollpilot/kinds.py (message_batch, inbound, resolution); coordinator.transition_exception owns state changes. D: routes per CONTRACTS section 5; filters stage=stage1|stage2, category, state are server-side.
+Correction: the A-01 block above originally said 12:58; the actual time was about 12:40.
+```
