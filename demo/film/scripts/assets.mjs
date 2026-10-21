@@ -79,11 +79,14 @@ for (const {id} of lines) {
 }
 
 // Minimum seconds per segment; voice + pad stretches it. `needs` drops a segment when its clip is absent.
+// Mins are floors for fixed in-scene animations only (Pull 5.5 s, Audit 7.8 s, approve clip at <=4x 7.5 s,
+// Memory 11.5 s, Close card 7 s); otherwise each scene ends ~0.6 s after its line, so narration never
+// leaves long silent stretches (2026-10-21: the 2:35 cut was ~40% silence).
 const PLAN = [
-  {id: '01', min: 13}, {id: '02', min: 8}, {id: '03', min: 8}, {id: '04', min: 10},
-  {id: '05', min: 9}, {id: '06', min: 9}, {id: '07', min: 8}, {id: '08', min: 8}, {id: '09', min: 5},
-  {id: '10', min: 10}, {id: '11', min: 8}, {id: '12', min: 9}, {id: '13', min: 12},
-  {id: '14', min: 6, needs: '13-band-dev-team.png'}, {id: '15', min: 17}, {id: '16', min: 11}, {id: '17', min: 10},
+  {id: '01', min: 9}, {id: '02', min: 6}, {id: '03', min: 5.5}, {id: '04', min: 7.8},
+  {id: '05', min: 0}, {id: '06', min: 7.5}, {id: '07', min: 0}, {id: '08', min: 0}, {id: '09', min: 3.5},
+  {id: '10', min: 0}, {id: '11', min: 0}, {id: '12', min: 0}, {id: '13', min: 0},
+  {id: '14', min: 5, needs: '13-band-dev-team.png'}, {id: '15', min: 11.5}, {id: '16', min: 0}, {id: '17', min: 7},
 ];
 const LEAD = {'01': 0.4, '02': 1.6};
 let t = 0;
@@ -92,7 +95,7 @@ for (const p of PLAN) {
   if (p.needs && !clips[p.needs]) continue;
   const lead = LEAD[p.id] ?? 0.5;
   const v = vo[p.id]?.dur ?? 0;
-  const dur = Math.max(p.min, lead + v + 0.8);
+  const dur = Math.max(p.min, lead + v + 0.6);
   timeline.push({id: p.id, from: +t.toFixed(3), dur: +dur.toFixed(3), voAt: lead, text: lines.find((l) => l.id === p.id)?.text ?? ''});
   t += dur;
 }

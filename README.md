@@ -4,7 +4,7 @@
 
 Payroll is rarely blocked by arithmetic. It is blocked by the person who knows which job a shift belonged to, the unexplained expense, and the answer buried in a text thread. PayrollPilot turns that chase into a coordinated workflow: **find the exception → ask the right person → remember the answer → propose the correction → get owner approval → prepare the review.**
 
-[**Watch the 2:35 demo**](https://github.com/sdrucquer/PayrollPilot/blob/main/demo/video-out/payrollpilot-demo.mp4) · [**Try the interactive preview**](https://vercel-stage-delta.vercel.app) · [Architecture](ARCHITECTURE.md) · [Evidence ledger](INTEGRATION-FINDINGS.md)
+[**Watch the 2:01 demo**](https://github.com/sdrucquer/PayrollPilot/blob/main/demo/video-out/payrollpilot-demo.mp4) · [**Try the interactive preview**](https://vercel-stage-delta.vercel.app) · [Architecture](ARCHITECTURE.md) · [Evidence ledger](INTEGRATION-FINDINGS.md)
 
 The hosted preview is explicitly labeled **synthetic, browser-local simulation; no texts leave the app**. The film combines real local integration captures with clearly labeled illustrations and earlier evidence. [Exactly what is real in each scene](demo/video-out/README.md).
 
